@@ -7,12 +7,12 @@ export default function TempDataFetcher() {
         fetch("http://127.0.0.1:8000/api/test/users", {
             method: "GET",
         })
-        .then(response => response.json())
-        .then(data => {
-            setData(data);
-            console.log(data);
-        })
-        .catch(error => console.log(error));
+            .then(response => response.json())
+            .then(data => {
+                setData(data);
+                console.log(data);
+            })
+            .catch(error => console.log(error));
     }, []);
 
     const printData = () => {
@@ -29,8 +29,8 @@ export default function TempDataFetcher() {
 
     return (
         <div>
-            <h2>TempDataFetcher</h2>
-            {printData()}
-        </div>
+            <h1 className="text-3xl font-bold underline">
+                Hello world!
+            </h1>        </div>
     );
 };
