@@ -5,10 +5,13 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    colors: {
-      'green-noQ': '#005d57',
+
+    extend: {
+      colors: {
+
+        'green-noQ': '#005d57',
+      },
     },
-    extend: {},
   },
   plugins: [],
 }
