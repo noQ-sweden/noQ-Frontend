@@ -18,13 +18,11 @@ export default function Navbar({ setLoginState }) {
 
   return (
     <>
-      <nav className="font-sans flex flex-col text-center sm:flex-row sm:text-left sm:justify-between py-4 px-6 bg-white shadow sm:items-baseline w-full ">
-        <div className="mb-2 sm:mb-0 lg: flex justify-center">
-          <a href="/">
-            <img src="noQicon.bmp" style={{ width: "100px" }} alt="logo" />
-          </a>
+      <nav className="font-sans flex flex-col items-center text-center border-b-2 border-green-noQ sm:flex-row sm:text-left sm:justify-between pb-4 px-6 bg-white shadow sm:items-baseline">
+        <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center">
+          Stockholm
         </div>
-        <div className="flex lg: justify-center">
+        <div className="flex lg:justify-center">
           <Language
             onClick={toggleLanguageDropdown}
             isDropdownOpen={isLanguageDropdownOpen}
