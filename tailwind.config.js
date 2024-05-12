@@ -1,17 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-
     extend: {
       colors: {
-
-        'green-noQ': '#005d57',
+        "background-white": "#F7F7F7",
+        white: "#FDFDFD",
+        grey: "#AFAFAF",
+        "green-noQ": "#255B57",
+        "grey-noQ": "#f7f6f4",
       },
     },
   },
   plugins: [],
-}
+};
