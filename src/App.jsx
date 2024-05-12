@@ -11,19 +11,20 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Header setLoginState={setLoginState} />
         <div className="flex">
           <Sidebar />
-          <Routes>
-            <Route
-              path="/"
-              element={<FrontPageView loginState={loginState} />}
-            ></Route>
-            <Route path="/hej" element={<div>inte hej hej</div>}>
-              {" "}
-            </Route>
-            <Route path="*" element={<div>error</div>}></Route>
-          </Routes>
+          <div style={{ flex: 1 }}>
+            <Header setLoginState={setLoginState} />
+            <Routes>
+              <Route
+                path="/"
+                element={<FrontPageView loginState={loginState} />}></Route>
+              <Route path="/hej" element={<div>inte hej hej</div>}>
+                {" "}
+              </Route>
+              <Route path="*" element={<div>error</div>}></Route>
+            </Routes>
+          </div>
         </div>
       </BrowserRouter>
     </>
