@@ -3,11 +3,11 @@
 ![noQ](https://noq.nu/wp-content/uploads/2024/04/Logotyp_PNG-300x169.png)
 
 
-# Prerequisites for Running the Project
+### Prerequisites for Running the Project
 
 **Node.js**: Ensure that you have Node.js installed. You can download and install it from [the official Node.js website](https://nodejs.org/).
 
-# Set up developer environment
+### Set up developer environment
 
 To get started with the development environment, follow these steps:
       clone repo to local machine
