@@ -12,8 +12,9 @@
 To get started with the development environment, follow these steps:
 
 with terminal open root of repo, Type these commands 
-npm install 
-npm run dev
+
+      npm install
+      npm run dev
 
 
 This will install the necessary dependencies and start the development server. 
