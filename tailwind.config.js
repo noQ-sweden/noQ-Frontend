@@ -11,6 +11,7 @@ export default {
         "grey-noQ": "#f7f6f4",
       },
     },
+    variants: { backgroundColor: ["responsive", "hover", "focus", "active"] },
   },
   plugins: [],
 };

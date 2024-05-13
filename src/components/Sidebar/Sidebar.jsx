@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaCog,
   FaChartPie,
@@ -7,53 +7,58 @@ import {
   FaUser,
   FaBell,
 } from "react-icons/fa";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
 
 export default function Sidebar() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   const liStyle =
-    "hover:bg-gray-300 py-5 border-b-4 border-green-noQ hover:text-green-noQ";
-  const liTextStyle = "flex gap-4 pl-16";
+    "py-5 border-green-noQ hover:bg-gray-300 hover:text-green-noQ transition-colors duration-200";
+  const liTextStyle = "flex gap-4 pl-10";
+  const liTextStyleClosed = "flex gap-4 px-5";
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const sidebarItems = [
+    { icon: FaChartPie, label: "Överblick" },
+    { icon: FaCalendarAlt, label: "Kalender" },
+    { icon: FaBell, label: "Förfrågan" },
+    { icon: FaUser, label: "Gäster" },
+    { icon: FaReceipt, label: "Fakturering" },
+    { icon: FaCog, label: "Inställningar" },
+  ];
+
   return (
-    <>
-      <div className="flex-col flex-grow text-white shadow-xl flex min-w-80 max-w-80 h-screen bg-green-noQ  m-0 ">
-        <ul className="bg-green-noQ mt-6 text-xl">
-          <div className="flex my-6 pl-16">
-            <a href="/">
-              <img src="noQicon.bmp" style={{ width: "120px" }} alt="logo" />
-            </a>
-          </div>
-          <li className={liStyle}>
-            <span className={liTextStyle}>
-              <FaChartPie size="25" /> Överblick
-            </span>
-          </li>
-          <li className={liStyle}>
-            <span className={liTextStyle}>
-              <FaCalendarAlt size="25" /> Kalender
-            </span>
-          </li>
-          <li className={liStyle}>
-            <span className={liTextStyle}>
-              <FaBell size="25" /> Förfrågan
-            </span>
-          </li>
-          <li className={liStyle}>
-            <span className={liTextStyle}>
-              <FaUser size="25" /> Gäster
-            </span>
-          </li>
-          <li className={liStyle}>
-            <span className={liTextStyle}>
-              <FaReceipt size="25" /> Fakturering
-            </span>
-          </li>
-          <li className={liStyle}>
-            <span className={liTextStyle}>
-              <FaCog size="25" /> Inställningar
-            </span>
-          </li>
-        </ul>
-      </div>
-    </>
+    <div
+      className={`flex flex-col text-white h-screen bg-green-noQ m-0 ${
+        !isSidebarOpen ? "w-25" : "w-64"
+      }`}>
+      <ul className={`bg-green-noQ text-xl ${isSidebarOpen ? "" : "w-full"}`}>
+        <div className="flex justify-between flex-row items-start my-6 px-5 pr-3">
+          <a className={` ${isSidebarOpen ? "pl-5 w-24" : "hidden"}`} href="/">
+            <img src="noQicon.bmp" alt="logo" />
+          </a>
+          <button onClick={toggleSidebar}>
+            {isSidebarOpen ? (
+              <GiCancel size="25" />
+            ) : (
+              <GiHamburgerMenu size="25" />
+            )}
+          </button>
+        </div>
+        <div>
+          {sidebarItems.map(({ icon: Icon, label }) => (
+            <li className={liStyle} key={label}>
+              <span className={isSidebarOpen ? liTextStyle : liTextStyleClosed}>
+                <Icon size="25" />
+                {isSidebarOpen && label}
+              </span>
+            </li>
+          ))}
+        </div>
+      </ul>
+    </div>
   );
 }
