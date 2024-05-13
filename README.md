@@ -10,15 +10,11 @@
 ### Set up developer environment
 
 To get started with the development environment, follow these steps:
-      clone repo to local machine
-      
-      with terminal open root of repo
-      
-      Type these commands
-      
-      npm install
-      
-      npm run dev
+
+with terminal open root of repo, Type these commands 
+npm install 
+npm run dev
+
 
 This will install the necessary dependencies and start the development server. 
 You can access the client at http://localhost:5173/.
