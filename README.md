@@ -1,6 +1,6 @@
+![noQ](https://noq.nu/wp-content/uploads/2024/04/Logotyp_PNG-300x169.png)
 
 # noQ Frontend (Vite & React)
-![noQ](https://noq.nu/wp-content/uploads/2024/04/Logotyp_PNG-300x169.png)
 
 
 ### Prerequisites for Running the Project
