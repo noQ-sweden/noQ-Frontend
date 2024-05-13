@@ -7,7 +7,7 @@
 
 **Node.js**: Ensure that you have Node.js installed. You can download and install it from [the official Node.js website](https://nodejs.org/).
 
-### Set up developer environment
+# Set up developer environment
 
 To get started with the development environment, follow these steps:
       clone repo to local machine
