@@ -8,6 +8,8 @@ import {
   availableProductsHandler,
 } from "./FrontPageDataFetcher";
 import Main from "../Main/Main";
+import Panel from "../Panel";
+import Card from "../Card";
 
 const HostelData = ({ loginState }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,34 +24,32 @@ const HostelData = ({ loginState }) => {
 
     if (loginState === true) {
       const dispatcher = async () => {
-        const data = [
+        const dataHandlers = [
+          activeRequestsHandler,
+          arrivalsHandler,
+          departuresHandler,
+          currentGuestsHandler,
+          availableProductsHandler,
+        ];
+        const stateSetters = [
           setActiveRequests,
           setArrivals,
           setDepartures,
           setCurrentGuests,
           setAvailableProducts,
         ];
-        try {
-          const activeRequestsData = activeRequestsHandler();
-          const arrivalsData = arrivalsHandler();
-          const departuresData = departuresHandler();
-          const currentGuestsData = currentGuestsHandler();
-          const availableProductsData = availableProductsHandler();
 
-          Promise.allSettled([
-            activeRequestsData,
-            arrivalsData,
-            departuresData,
-            currentGuestsData,
-            availableProductsData,
-          ]).then((values) => {
-            for (let i = 0; i < values.length; i++) {
-              if (values[i].value.status === 200) {
-                data[i](values[i].value.data);
-              }
+        try {
+          const dataPromises = dataHandlers.map((handler) => handler());
+          const results = await Promise.allSettled(dataPromises);
+
+          results.forEach((result, index) => {
+            if (result.status === "fulfilled" && result.value.status === 200) {
+              stateSetters[index](result.value.data);
             }
-            console.log(values);
           });
+
+          console.log(results);
         } catch (error) {
           console.error(error.message);
         }
@@ -59,60 +59,152 @@ const HostelData = ({ loginState }) => {
     }
   }, [loginState]);
 
-  console.log(activeRequests);
-  console.log(arrivals);
-  console.log(departures);
-  console.log(currentGuests);
-  console.log(availableProducts);
   return (
-    <>
-      <Main>
-        {isLoggedIn ? (
-          <>
-            <h1 className="text-4xl">Hostel Data</h1>
-            <section className="flex flex-col gap-5 mt-10">
-              <div className="text-xl">
-                <span>Active requests: </span>
-                <span>
-                  {activeRequests === null
-                    ? "Data unavailable"
-                    : activeRequests}
-                </span>
-              </div>
-              <div className="text-xl">
-                <span>{"Today's arrivals:"} </span>
-                <span>{arrivals === null ? "Data unavailable" : arrivals}</span>
-              </div>
-              <div className="text-xl">
-                <span>{"Today's departures:"} </span>
-                <span>
-                  {departures === null ? "Data unavailable" : departures}
-                </span>
-              </div>
-              <div className="text-xl">
-                <span>Currently living: </span>
-                <span>
-                  {currentGuests === null ? "Data unavailable" : currentGuests}
-                </span>
-              </div>
-              <div className="text-xl">
-                <span>Available products: </span>
-                <span>
-                  {availableProducts === null ||
-                  Object.keys(availableProducts).length === 0
-                    ? "Data unavailable"
-                    : availableProducts}
-                </span>
-              </div>
-            </section>
-          </>
-        ) : (
-          <>
-            <h1 className="text-4xl">Hostel Data</h1>
-          </>
-        )}
-      </Main>
-    </>
+    <Main>
+      <div className="flex flex-col">
+        <div>
+          <h1 className="text-2xl mb-1">Överblick</h1>
+        </div>
+        <div className="container ">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="w-full">
+              <Panel title="Guests">
+                <div className="flex flex-wrap gap-4">
+                  <Card
+                    title="Incoming"
+                    content={
+                      arrivals === null
+                        ? "Data unavailable"
+                        : JSON.stringify(arrivals)
+                    }
+                  />
+                  <Card
+                    title="Leaving"
+                    content={
+                      departures === null
+                        ? "Data unavailable"
+                        : JSON.stringify(departures)
+                    }
+                  />
+                  <Card
+                    title="Living now"
+                    content={
+                      currentGuests === null
+                        ? "Data unavailable"
+                        : JSON.stringify(currentGuests)
+                    }
+                  />
+                </div>
+              </Panel>
+              <Panel title="Empty Rooms">
+                <div className="flex flex-wrap gap-4">
+                  <Card
+                    title="Free single rooms"
+                    content={
+                      availableProducts === null ||
+                      availableProducts.singleRooms === undefined
+                        ? "Data unavailable"
+                        : availableProducts.singleRooms
+                    }
+                  />
+                  <Card
+                    title="Free double rooms"
+                    content={
+                      availableProducts === null ||
+                      availableProducts.doubleRooms === undefined
+                        ? "Data unavailable"
+                        : availableProducts.doubleRooms
+                    }
+                  />
+                  <Card
+                    title="Free sleeping multiple rooms"
+                    content={
+                      availableProducts === null ||
+                      availableProducts.multipleRooms === undefined
+                        ? "Data unavailable"
+                        : availableProducts.multipleRooms
+                    }
+                  />
+                </div>
+              </Panel>
+              <Panel title="Schema">
+                <div className="bg-gray-100 p-4 rounded-md h-32 w-full">
+                  Schema content goes here
+                </div>
+              </Panel>
+            </div>
+            <div className="w-full">
+              <Panel title="Incoming Requests">
+                <ul>
+                  {activeRequests === null ? (
+                    <li>Data unavailable</li>
+                  ) : (
+                    activeRequests.map((request, index) => (
+                      <li key={index} className="mb-2">
+                        <p>Name: {request.name}</p>
+                        <p>Date: {request.date}</p>
+                        <p>Status: {request.status}</p>
+                      </li>
+                    ))
+                  )}
+                </ul>
+              </Panel>
+              <Panel title="Hostel Status">
+                <div className="flex flex-wrap gap-4">
+                  <Card
+                    title="Total sleep places"
+                    content={
+                      availableProducts === null ||
+                      availableProducts.totalPlaces === undefined
+                        ? "Data unavailable"
+                        : availableProducts.totalPlaces
+                    }
+                  />
+                  <Card
+                    title="Booked single room places"
+                    content={
+                      availableProducts === null ||
+                      availableProducts.bookedSingleRooms === undefined
+                        ? "Data unavailable"
+                        : availableProducts.bookedSingleRooms
+                    }
+                  />
+                  <Card
+                    title="Booked double room places"
+                    content={
+                      availableProducts === null ||
+                      availableProducts.bookedDoubleRooms === undefined
+                        ? "Data unavailable"
+                        : availableProducts.bookedDoubleRooms
+                    }
+                  />
+                  <Card
+                    title="Booked multiple room places"
+                    content={
+                      availableProducts === null ||
+                      availableProducts.bookedMultipleRooms === undefined
+                        ? "Data unavailable"
+                        : availableProducts.bookedMultipleRooms
+                    }
+                  />
+                </div>
+              </Panel>
+              <Panel title="Calendar">
+                <div className="grid grid-cols-7 gap-2">
+                  {[...Array(30).keys()].map((day) => (
+                    <div
+                      key={day}
+                      className="bg-gray-100 p-2 rounded-md text-center">
+                      {day + 1}
+                    </div>
+                  ))}
+                </div>
+              </Panel>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Main>
   );
 };
 
