@@ -1,21 +1,64 @@
-import React from 'react'
+import React, { useState } from "react";
+import {
+  FaCog,
+  FaChartPie,
+  FaCalendarAlt,
+  FaReceipt,
+  FaUser,
+  FaBell,
+} from "react-icons/fa";
+import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
 
 export default function Sidebar() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  const liStyle =
+    "py-5 border-green-noQ hover:bg-gray-300 hover:text-green-noQ transition-colors duration-200";
+  const liTextStyle = "flex gap-4 pl-10";
+  const liTextStyleClosed = "flex gap-4 px-5";
 
-  const liStyle = 'hover:bg-gray-300  py-2 border-b-4 border-green-noQ 	';
-  const liTextStyle = 'px-4';
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const sidebarItems = [
+    { icon: FaChartPie, label: "Överblick" },
+    { icon: FaCalendarAlt, label: "Kalender" },
+    { icon: FaBell, label: "Förfrågan" },
+    { icon: FaUser, label: "Gäster" },
+    { icon: FaReceipt, label: "Fakturering" },
+    { icon: FaCog, label: "Inställningar" },
+  ];
+
   return (
-
-    <div className='shadow-xl w-1/5 h-dvh m-0'>
-
-    <ul className='bg-gray-100 text-2xl	'>
-        <li className={liStyle}><span className={liTextStyle}>Boka boende</span></li>
-        <li className={liStyle}><span className={liTextStyle}>Mina bokningar</span></li>
-        <li className={liStyle}><span className={liTextStyle}>Mina Meddelanden</span></li>
-    </ul>
-
-
+    <div
+      className={`flex flex-col text-white h-screen bg-green-noQ m-0 ${
+        !isSidebarOpen ? "w-25" : "w-64"
+      }`}>
+      <ul className={`bg-green-noQ text-xl ${isSidebarOpen ? "" : "w-full"}`}>
+        <div className="flex justify-between flex-row items-start my-6 px-5 pr-3">
+          <a className={` ${isSidebarOpen ? "pl-5 w-24" : "hidden"}`} href="/">
+            <img src="noQicon.bmp" alt="logo" />
+          </a>
+          <button onClick={toggleSidebar}>
+            {isSidebarOpen ? (
+              <GiCancel size="25" />
+            ) : (
+              <GiHamburgerMenu size="25" />
+            )}
+          </button>
+        </div>
+        <div>
+          {sidebarItems.map(({ icon: Icon, label }) => (
+            <li className={liStyle} key={label}>
+              <span className={isSidebarOpen ? liTextStyle : liTextStyleClosed}>
+                <Icon size="25" />
+                {isSidebarOpen && label}
+              </span>
+            </li>
+          ))}
+        </div>
+      </ul>
     </div>
-  )
+  );
 }
