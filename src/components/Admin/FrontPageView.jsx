@@ -1,17 +1,18 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
-import {
-  activeRequestsHandler,
-  arrivalsHandler,
-  departuresHandler,
-  currentGuestsHandler,
-  availableProductsHandler,
-} from "./FrontPageDataFetcher";
 import Main from "../Main/Main";
 import Panel from "../Panel";
 import Card from "../Card";
 
 const HostelData = ({ loginState }) => {
+  const mockData = {
+    incomingQuestions: 10,
+    leavingPeople: 6,
+    livingPeople: 25,
+    singleRooms: { used: 5, total: 10 },
+    doubleRooms: { used: 4, total: 8 },
+    sleepingRooms: { used: 8, total: 20 },
+  };
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeRequests, setActiveRequests] = useState(null);
   const [arrivals, setArrivals] = useState(null);
@@ -23,39 +24,15 @@ const HostelData = ({ loginState }) => {
     setIsLoggedIn(loginState);
 
     if (loginState === true) {
-      const dispatcher = async () => {
-        const dataHandlers = [
-          activeRequestsHandler,
-          arrivalsHandler,
-          departuresHandler,
-          currentGuestsHandler,
-          availableProductsHandler,
-        ];
-        const stateSetters = [
-          setActiveRequests,
-          setArrivals,
-          setDepartures,
-          setCurrentGuests,
-          setAvailableProducts,
-        ];
-
-        try {
-          const dataPromises = dataHandlers.map((handler) => handler());
-          const results = await Promise.allSettled(dataPromises);
-
-          results.forEach((result, index) => {
-            if (result.status === "fulfilled" && result.value.status === 200) {
-              stateSetters[index](result.value.data);
-            }
-          });
-
-          console.log(results);
-        } catch (error) {
-          console.error(error.message);
-        }
-      };
-
-      dispatcher();
+      // Use the mock data directly for demonstration
+      setActiveRequests(mockData.incomingQuestions);
+      setDepartures(mockData.leavingPeople);
+      setCurrentGuests(mockData.livingPeople);
+      setAvailableProducts({
+        singleRooms: mockData.singleRooms,
+        doubleRooms: mockData.doubleRooms,
+        sleepingRooms: mockData.sleepingRooms,
+      });
     }
   }, [loginState]);
 
@@ -73,17 +50,15 @@ const HostelData = ({ loginState }) => {
                   <Card
                     title="Incoming"
                     content={
-                      arrivals === null
+                      activeRequests === null
                         ? "Data unavailable"
-                        : JSON.stringify(arrivals)
+                        : activeRequests
                     }
                   />
                   <Card
                     title="Leaving"
                     content={
-                      departures === null
-                        ? "Data unavailable"
-                        : JSON.stringify(departures)
+                      departures === null ? "Data unavailable" : departures
                     }
                   />
                   <Card
@@ -91,7 +66,7 @@ const HostelData = ({ loginState }) => {
                     content={
                       currentGuests === null
                         ? "Data unavailable"
-                        : JSON.stringify(currentGuests)
+                        : currentGuests
                     }
                   />
                 </div>
@@ -104,7 +79,7 @@ const HostelData = ({ loginState }) => {
                       availableProducts === null ||
                       availableProducts.singleRooms === undefined
                         ? "Data unavailable"
-                        : availableProducts.singleRooms
+                        : `${availableProducts.singleRooms.used}/${availableProducts.singleRooms.total}`
                     }
                   />
                   <Card
@@ -113,16 +88,16 @@ const HostelData = ({ loginState }) => {
                       availableProducts === null ||
                       availableProducts.doubleRooms === undefined
                         ? "Data unavailable"
-                        : availableProducts.doubleRooms
+                        : `${availableProducts.doubleRooms.used}/${availableProducts.doubleRooms.total}`
                     }
                   />
                   <Card
                     title="Free sleeping multiple rooms"
                     content={
                       availableProducts === null ||
-                      availableProducts.multipleRooms === undefined
+                      availableProducts.sleepingRooms === undefined
                         ? "Data unavailable"
-                        : availableProducts.multipleRooms
+                        : `${availableProducts.sleepingRooms.used}/${availableProducts.sleepingRooms.total}`
                     }
                   />
                 </div>
@@ -139,13 +114,9 @@ const HostelData = ({ loginState }) => {
                   {activeRequests === null ? (
                     <li>Data unavailable</li>
                   ) : (
-                    activeRequests.map((request, index) => (
-                      <li key={index} className="mb-2">
-                        <p>Name: {request.name}</p>
-                        <p>Date: {request.date}</p>
-                        <p>Status: {request.status}</p>
-                      </li>
-                    ))
+                    <li className="mb-2">
+                      <p>Number of incoming questions: {activeRequests}</p>
+                    </li>
                   )}
                 </ul>
               </Panel>
@@ -154,37 +125,35 @@ const HostelData = ({ loginState }) => {
                   <Card
                     title="Total sleep places"
                     content={
-                      availableProducts === null ||
-                      availableProducts.totalPlaces === undefined
+                      availableProducts === null
                         ? "Data unavailable"
-                        : availableProducts.totalPlaces
+                        : availableProducts.singleRooms.total +
+                          availableProducts.doubleRooms.total +
+                          availableProducts.sleepingRooms.total
                     }
                   />
                   <Card
                     title="Booked single room places"
                     content={
-                      availableProducts === null ||
-                      availableProducts.bookedSingleRooms === undefined
+                      availableProducts === null
                         ? "Data unavailable"
-                        : availableProducts.bookedSingleRooms
+                        : availableProducts.singleRooms.used
                     }
                   />
                   <Card
                     title="Booked double room places"
                     content={
-                      availableProducts === null ||
-                      availableProducts.bookedDoubleRooms === undefined
+                      availableProducts === null
                         ? "Data unavailable"
-                        : availableProducts.bookedDoubleRooms
+                        : availableProducts.doubleRooms.used
                     }
                   />
                   <Card
                     title="Booked multiple room places"
                     content={
-                      availableProducts === null ||
-                      availableProducts.bookedMultipleRooms === undefined
+                      availableProducts === null
                         ? "Data unavailable"
-                        : availableProducts.bookedMultipleRooms
+                        : availableProducts.sleepingRooms.used
                     }
                   />
                 </div>

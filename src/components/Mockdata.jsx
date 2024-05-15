@@ -9,6 +9,16 @@ import Booking from "./Booking";
 import Available from "./Available";
 
 const App = () => {
+  // mock Data for front page
+  const mockData = {
+    incomingQuestions: 10,
+    leavingPeople: 6,
+    livingPeople: 25,
+    singleRooms: { used: 5, total: 10 },
+    doubleRooms: { used: 4, total: 8 },
+    sleepingRooms: { used: 8, total: 20 },
+  };
+
   // Mock data for Host component
   const hostData = {
     user: "JohnDoe",
