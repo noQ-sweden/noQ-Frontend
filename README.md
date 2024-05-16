@@ -1,3 +1,5 @@
+![React](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=fff) ![TailwinCSS](https://img.shields.io/badge/tailwindcss-0F172A?&logo=tailwindcss&logoColor=fff) ![Static Badge](https://img.shields.io/badge/Build-In_Progress-yellow?logo=github)
+
 ![noQ](https://noq.nu/wp-content/uploads/2024/04/Logotyp_PNG-300x169.png)
 
 # noQ Frontend (Vite & React)
@@ -23,7 +25,12 @@ You can access the client at http://localhost:5173/.
 ### Troubleshooting
 
 
+## Contributors
+<a href="https://github.com/noQ-sweden/noQ-Frontend/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=noQ-sweden/noQ-Frontend" />
+</a>
 
+Made with [contrib.rocks](https://contrib.rocks).
 
 
 
