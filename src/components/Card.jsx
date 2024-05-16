@@ -1,15 +1,15 @@
 import React from "react";
 
-const Card = ({ title, content, color }) => {
+const Card = ({ title, content, textColor, unit }) => {
   return (
-    <div className={`p-4 rounded-lg border border-gray-300 bg-white shadow-md`}>
-      <div className="flex justify-between items-center mb-4">
-        <span className="text-lg font-semibold">{content}</span>
+    <div className="border border-#000000 rounded-lg text-center justify-between flex flex-col items-center">
+      <div className="py-2">
+        <div className="text-4xl font-medium" style={{ color: textColor }}>
+          {content}
+        </div>
+        <div className="pt-2 text-xs">{unit}</div>
       </div>
-      <div
-        className={`border-t border-gray-300 mt-4 pt-4 text-center text-${color}-500 font-semibold`}>
-        {title}
-      </div>
+      <div className="text-sm min-w-32 mt-2 border-t-2 px-4 py-2 ">{title}</div>
     </div>
   );
 };

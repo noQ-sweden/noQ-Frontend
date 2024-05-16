@@ -20,6 +20,9 @@ export default {
         "Request-ButtonBorder-red": "#DC2A2A",
 
       },
+      spacing: {
+        card: "1rem",
+      },
     },
     variants: { backgroundColor: ["responsive", "hover", "focus", "active"] },
   },
