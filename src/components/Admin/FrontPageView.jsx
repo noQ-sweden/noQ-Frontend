@@ -13,12 +13,22 @@ const HostelData = ({ loginState }) => {
     sleepingRooms: { used: 8, total: 20 },
   };
 
+  const schedule = {
+    Gruppmöte: "10.00",
+    Städning: "12.00",
+    Utcheckning: "13.00",
+    Fika: "15.00",
+    Fakturering: "15.30",
+    "Kul uppgift med längre text": "17.00",
+  };
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeRequests, setActiveRequests] = useState(null);
   const [arrivals, setArrivals] = useState(null);
   const [departures, setDepartures] = useState(null);
   const [currentGuests, setCurrentGuests] = useState(null);
   const [availableProducts, setAvailableProducts] = useState(null);
+  const [completedTasks, setCompletedTasks] = useState({});
 
   useEffect(() => {
     setIsLoggedIn(loginState);
@@ -36,19 +46,28 @@ const HostelData = ({ loginState }) => {
     }
   }, [loginState]);
 
+  const handleCheckboxChange = (task) => {
+    setCompletedTasks((prev) => ({
+      ...prev,
+      [task]: !prev[task],
+    }));
+  };
+
   return (
     <Main>
       <div className="flex flex-col">
         <div>
           <h1 className="text-2xl mb-1">Överblick</h1>
         </div>
-        <div className="container ">
+        <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="w-full">
               <Panel title="Guests">
-                <div className="flex flex-wrap gap-4">
+                <div className="flex grow flex-wrap gap-4">
                   <Card
-                    title="Incoming"
+                    title="Ankomster"
+                    unit="Personer"
+                    textColor="#E45F5F"
                     content={
                       activeRequests === null
                         ? "Data unavailable"
@@ -56,13 +75,17 @@ const HostelData = ({ loginState }) => {
                     }
                   />
                   <Card
-                    title="Leaving"
+                    title="Avgångar"
+                    unit="Personer"
+                    textColor="#1EA5DF"
                     content={
                       departures === null ? "Data unavailable" : departures
                     }
                   />
                   <Card
-                    title="Living now"
+                    title="Bör nu"
+                    unit="Personer"
+                    textColor="#4CAA4A"
                     content={
                       currentGuests === null
                         ? "Data unavailable"
@@ -74,7 +97,8 @@ const HostelData = ({ loginState }) => {
               <Panel title="Empty Rooms">
                 <div className="flex flex-wrap gap-4">
                   <Card
-                    title="Free single rooms"
+                    title="Lediga singelrum"
+                    unit="Rum"
                     content={
                       availableProducts === null ||
                       availableProducts.singleRooms === undefined
@@ -83,7 +107,8 @@ const HostelData = ({ loginState }) => {
                     }
                   />
                   <Card
-                    title="Free double rooms"
+                    title="Lediga dubbelrum"
+                    unit="Rum"
                     content={
                       availableProducts === null ||
                       availableProducts.doubleRooms === undefined
@@ -92,7 +117,8 @@ const HostelData = ({ loginState }) => {
                     }
                   />
                   <Card
-                    title="Free sleeping multiple rooms"
+                    title="Lediga sovsal"
+                    unit="Sovsal"
                     content={
                       availableProducts === null ||
                       availableProducts.sleepingRooms === undefined
@@ -103,13 +129,42 @@ const HostelData = ({ loginState }) => {
                 </div>
               </Panel>
               <Panel title="Schema">
-                <div className="bg-gray-100 p-4 rounded-md h-32 w-full">
-                  Schema content goes here
+                <div className="bg-white p-4 rounded-md w-full">
+                  <ul>
+                    {Object.entries(schedule).map(([event, time]) => (
+                      <li
+                        key={event}
+                        className="mb-2 flex items-center justify-between">
+                        <div className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={!!completedTasks[event]}
+                            onChange={() => handleCheckboxChange(event)}
+                            className="mr-2 h-5 w-5 checked accent-green-noQ "
+                            style={{
+                              color: "#255B57",
+                              borderColor: "#255B57",
+                              backgroundColor: completedTasks[event]
+                                ? "#255B57"
+                                : "transparent",
+                            }}
+                          />
+                          <span
+                            className={`${
+                              completedTasks[event] ? "line-through" : ""
+                            }`}>
+                            <strong>{event}</strong>
+                          </span>
+                        </div>
+                        <span>{time}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </Panel>
             </div>
             <div className="w-full">
-              <Panel title="Incoming Requests">
+              <Panel title="Förfrågningar">
                 <ul>
                   {activeRequests === null ? (
                     <li>Data unavailable</li>
@@ -120,42 +175,41 @@ const HostelData = ({ loginState }) => {
                   )}
                 </ul>
               </Panel>
-              <Panel title="Hostel Status">
-                <div className="flex flex-wrap gap-4">
-                  <Card
-                    title="Total sleep places"
-                    content={
-                      availableProducts === null
-                        ? "Data unavailable"
-                        : availableProducts.singleRooms.total +
+              <Panel title="Härbarget status">
+                <div>
+                  <div></div>
+                  <div className="flex flex-col gap-4">
+                    <h2>
+                      Total sovplatser: [
+                      {availableProducts
+                        ? availableProducts.singleRooms.total +
                           availableProducts.doubleRooms.total +
                           availableProducts.sleepingRooms.total
-                    }
-                  />
-                  <Card
-                    title="Booked single room places"
-                    content={
-                      availableProducts === null
-                        ? "Data unavailable"
-                        : availableProducts.singleRooms.used
-                    }
-                  />
-                  <Card
-                    title="Booked double room places"
-                    content={
-                      availableProducts === null
-                        ? "Data unavailable"
-                        : availableProducts.doubleRooms.used
-                    }
-                  />
-                  <Card
-                    title="Booked multiple room places"
-                    content={
-                      availableProducts === null
-                        ? "Data unavailable"
-                        : availableProducts.sleepingRooms.used
-                    }
-                  />
+                        : "Data unavailable"}
+                      ]
+                    </h2>
+                    <h2>
+                      Bokad singelrum: [
+                      {availableProducts
+                        ? availableProducts.singleRooms.used
+                        : "Data unavailable"}
+                      ]
+                    </h2>
+                    <h2>
+                      Booked double room places: [
+                      {availableProducts
+                        ? availableProducts.doubleRooms.used
+                        : "Data unavailable"}
+                      ]
+                    </h2>
+                    <h2>
+                      Booked multiple room places: [
+                      {availableProducts
+                        ? availableProducts.sleepingRooms.used
+                        : "Data unavailable"}
+                      ]
+                    </h2>
+                  </div>
                 </div>
               </Panel>
               <Panel title="Calendar">

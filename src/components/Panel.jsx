@@ -1,12 +1,15 @@
 import React from "react";
 
-const Panel = ({ title, children }) => (
-  <div className="border border-gray-300 rounded-md mb-4">
-    <div className="border-b border-gray-300 bg-white p-4 rounded-t-md">
-      <h2 className="text-xl ">{title}</h2>
+const Panel = ({ title, children }) => {
+  return (
+    <div className="bg-white flex flex-col shadow-md rounded-lg py-2  my-4">
+      {" "}
+      <div>
+        <h2 className="text-xl font-semibold pl-4 mb-2">{title}</h2>
+      </div>
+      <div className=" max-w-full p-2 border-t  ">{children}</div>
     </div>
-    <div className="bg-white p-4 rounded-b-md">{children}</div>
-  </div>
-);
+  );
+};
 
 export default Panel;

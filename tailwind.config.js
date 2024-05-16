@@ -10,6 +10,9 @@ export default {
         "green-noQ": "#255B57",
         "grey-noQ": "#f7f6f4",
       },
+      spacing: {
+        card: "1rem",
+      },
     },
     variants: { backgroundColor: ["responsive", "hover", "focus", "active"] },
   },
