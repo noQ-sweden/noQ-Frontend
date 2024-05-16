@@ -5,7 +5,7 @@ import FrontPageView from "./components/Admin/FrontPageView";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Main from "./components/Main/Main";
-
+import RequestPageView from "./components/RequestsPage/RequestPageView";
 function App() {
   const [loginState, setLoginState] = useState(false);
   return (
@@ -19,10 +19,12 @@ function App() {
               <Route
                 path="/"
                 element={<FrontPageView loginState={loginState} />}></Route>
-              <Route path="/hej" element={<div>inte hej hej</div>}>
-                {" "}
+              <Route
+                path="/requests"
+                element={<RequestPageView/>}>
               </Route>
-              <Route path="*" element={<div>error</div>}></Route>
+
+              <Route path="*" element={"404 cannot find page"}></Route>
             </Routes>
           </div>
         </div>

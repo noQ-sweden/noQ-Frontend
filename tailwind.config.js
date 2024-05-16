@@ -8,7 +8,17 @@ export default {
         white: "#FDFDFD",
         grey: "#AFAFAF",
         "green-noQ": "#255B57",
-        "grey-noQ": "#f7f6f4",
+        "grey-noQ": "#F7F7F7",
+
+        "Request-ButtonText-Green": "#255B57",
+        "Request-ButtonColor-Green": "#255B57",
+        "Request-ButtonBorder-Green": "#255B57",
+
+
+        "Request-ButtonText-red": "#DC2A2A",
+        "Request-ButtonColor-red": "#DC2A2A",
+        "Request-ButtonBorder-red": "#DC2A2A",
+
       },
     },
     variants: { backgroundColor: ["responsive", "hover", "focus", "active"] },
