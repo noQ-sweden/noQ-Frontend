@@ -2,7 +2,7 @@ import React from "react";
 
 const Card = ({ title, content, textColor, unit }) => {
   return (
-    <div className="border border-#000000 rounded-lg text-center justify-between flex flex-col items-center">
+    <div className="border-2 border-#000000 rounded-lg text-center justify-between flex flex-col items-center">
       <div className="py-2">
         <div className="text-4xl font-medium" style={{ color: textColor }}>
           {content}

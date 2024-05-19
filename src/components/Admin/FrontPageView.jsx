@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { React, Fragment, useState, useEffect } from "react";
 import Main from "../Main/Main";
-import Panel from "../Panel";
-import Card from "../Card";
+import Panel from "../Common/Panel";
+import Card from "../Common/Card";
+import Calendar from "../Common/Calendar";
 
 const HostelData = ({ loginState }) => {
   const mockData = {
@@ -12,6 +13,36 @@ const HostelData = ({ loginState }) => {
     doubleRooms: { used: 4, total: 8 },
     sleepingRooms: { used: 8, total: 20 },
   };
+
+  const mockRequests = [
+    {
+      id: 1,
+      host: "Jane Smith",
+      roomType: "sovsal",
+      roomLeft: 5,
+      startDate: "2024-06-01",
+      endDate: "2024-06-05",
+      status: "confirmed",
+    },
+    {
+      id: 2,
+      host: "John Johnson",
+      roomType: "enkel",
+      roomLeft: 5,
+      startDate: "2024-06-10",
+      endDate: "2024-06-15",
+      status: "confirmed",
+    },
+    {
+      id: 3,
+      host: "Emma Brown",
+      roomType: "sovsal",
+      roomLeft: 5,
+      startDate: "2024-07-01",
+      endDate: "2024-07-10",
+      status: "pending",
+    },
+  ];
 
   const schedule = {
     Gruppmöte: "10.00",
@@ -55,7 +86,7 @@ const HostelData = ({ loginState }) => {
 
   return (
     <Main>
-      <div className="flex flex-col">
+      <div className="flex flex-col py-5">
         <div>
           <h1 className="text-2xl mb-1">Överblick</h1>
         </div>
@@ -129,7 +160,7 @@ const HostelData = ({ loginState }) => {
                 </div>
               </Panel>
               <Panel title="Schema">
-                <div className="bg-white p-4 rounded-md w-full">
+                <div className="bg-white px-2 rounded-md w-full">
                   <ul>
                     {Object.entries(schedule).map(([event, time]) => (
                       <li
@@ -140,7 +171,7 @@ const HostelData = ({ loginState }) => {
                             type="checkbox"
                             checked={!!completedTasks[event]}
                             onChange={() => handleCheckboxChange(event)}
-                            className="mr-2 h-5 w-5 checked accent-green-noQ "
+                            className="mr-2 h-5 w-5 checked accent-green-noQ"
                             style={{
                               color: "#255B57",
                               borderColor: "#255B57",
@@ -165,64 +196,59 @@ const HostelData = ({ loginState }) => {
             </div>
             <div className="w-full">
               <Panel title="Förfrågningar">
-                <ul>
-                  {activeRequests === null ? (
-                    <li>Data unavailable</li>
-                  ) : (
-                    <li className="mb-2">
-                      <p>Number of incoming questions: {activeRequests}</p>
-                    </li>
-                  )}
-                </ul>
+                <div className="flex flex-col">
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="font-bold">Namn</div>
+                    <div className="font-bold">Inkommen</div>
+                    <div className="font-bold">Status</div>
+                    {mockRequests.map((request) => (
+                      <Fragment key={request.id}>
+                        <div>{request.host}</div>
+                        <div>{request.startDate}</div>
+                        <div>{request.status}</div>
+                      </Fragment>
+                    ))}
+                  </div>
+                </div>
               </Panel>
               <Panel title="Härbarget status">
                 <div>
                   <div></div>
                   <div className="flex flex-col gap-4">
                     <h2>
-                      Total sovplatser: [
+                      Total sovplatser: [{" "}
                       {availableProducts
                         ? availableProducts.singleRooms.total +
                           availableProducts.doubleRooms.total +
                           availableProducts.sleepingRooms.total
-                        : "Data unavailable"}
+                        : "Data unavailable"}{" "}
                       ]
                     </h2>
                     <h2>
-                      Bokad singelrum: [
+                      Bokad singelrum: [{" "}
                       {availableProducts
                         ? availableProducts.singleRooms.used
-                        : "Data unavailable"}
+                        : "Data unavailable"}{" "}
                       ]
                     </h2>
                     <h2>
-                      Booked double room places: [
+                      Booked double room places: [{" "}
                       {availableProducts
                         ? availableProducts.doubleRooms.used
-                        : "Data unavailable"}
+                        : "Data unavailable"}{" "}
                       ]
                     </h2>
                     <h2>
-                      Booked multiple room places: [
+                      Booked dormitory places: [{" "}
                       {availableProducts
                         ? availableProducts.sleepingRooms.used
-                        : "Data unavailable"}
+                        : "Data unavailable"}{" "}
                       ]
                     </h2>
                   </div>
                 </div>
               </Panel>
-              <Panel title="Calendar">
-                <div className="grid grid-cols-7 gap-2">
-                  {[...Array(30).keys()].map((day) => (
-                    <div
-                      key={day}
-                      className="bg-gray-100 p-2 rounded-md text-center">
-                      {day + 1}
-                    </div>
-                  ))}
-                </div>
-              </Panel>
+              <Calendar />
             </div>
           </div>
         </div>
