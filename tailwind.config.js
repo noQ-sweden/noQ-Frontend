@@ -23,6 +23,9 @@ export default {
       spacing: {
         card: "1rem",
       },
+      spacing: {
+        card: "1rem",
+      },
     },
     variants: { backgroundColor: ["responsive", "hover", "focus", "active"] },
   },
