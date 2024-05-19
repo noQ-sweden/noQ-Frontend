@@ -1,4 +1,5 @@
-![React](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=fff) ![TailwinCSS](https://img.shields.io/badge/tailwindcss-0F172A?&logo=tailwindcss&logoColor=fff) ![Static Badge](https://img.shields.io/badge/Build-In_Progress-yellow?logo=github)
+![React](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=fff) ![TailwinCSS](https://img.shields.io/badge/tailwindcss-0F172A?style=for-the-badge&logo=tailwindcss&logoColor=fff) ![Static Badge](https://img.shields.io/badge/Build-In_Progress-yellow?style=for-the-badge&logo=github) 
+
 
 ![noQ](https://noq.nu/wp-content/uploads/2024/04/Logotyp_PNG-300x169.png)
 
