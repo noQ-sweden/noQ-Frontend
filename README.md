@@ -1,10 +1,8 @@
 ![React](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=fff) ![TailwinCSS](https://img.shields.io/badge/tailwindcss-0F172A?style=for-the-badge&logo=tailwindcss&logoColor=fff) ![Static Badge](https://img.shields.io/badge/Build-In_Progress-yellow?style=for-the-badge&logo=github) 
 
-[Frontend wiki](https://github.com/noQ-sweden/noQ-Frontend/wiki)
 ![noQ](https://noq.nu/wp-content/uploads/2024/04/Logotyp_PNG-300x169.png)
 
 # noQ Frontend (Vite & React)
-
 
 ### Prerequisites for Running the Project
 
@@ -22,6 +20,9 @@ with terminal open root of repo, Type these commands
 
 This will install the necessary dependencies and start the development server. 
 You can access the client at http://localhost:5173/.
+
+## Wiki
+[Frontend wiki](https://github.com/noQ-sweden/noQ-Frontend/wiki)
 
 ### Troubleshooting
 
