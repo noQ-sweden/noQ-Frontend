@@ -14,11 +14,12 @@ export default {
         "Request-ButtonColor-Green": "#255B57",
         "Request-ButtonBorder-Green": "#255B57",
 
-
         "Request-ButtonText-red": "#DC2A2A",
         "Request-ButtonColor-red": "#DC2A2A",
         "Request-ButtonBorder-red": "#DC2A2A",
-
+      },
+      spacing: {
+        card: "1rem",
       },
     },
     variants: { backgroundColor: ["responsive", "hover", "focus", "active"] },

@@ -22,7 +22,7 @@ export default function Sidebar() {
   };
 
   const sidebarItems = [
-    { icon: FaChartPie, label: "Överblick" },
+    { icon: FaChartPie, label: "Överblick", sideBarLink: "/" },
     { icon: FaCalendarAlt, label: "Kalender" },
     { icon: FaBell, label: "Förfrågan", sideBarLink: "/requests" },
     { icon: FaUser, label: "Gäster" },
@@ -32,8 +32,9 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`flex flex-col text-white h-screen bg-green-noQ m-0 ${!isSidebarOpen ? "w-25" : "w-64"
-        }`}>
+      className={`flex flex-col text-white min-h-screen bg-green-noQ m-0 select-none ${
+        !isSidebarOpen ? "w-25" : "w-64"
+      }`}>
       <ul className={`bg-green-noQ text-xl ${isSidebarOpen ? "" : "w-full"}`}>
         <div className="flex justify-between flex-row items-start my-6 px-5 pr-3">
           <a className={` ${isSidebarOpen ? "pl-5 w-24" : "hidden"}`} href="/">
@@ -50,8 +51,9 @@ export default function Sidebar() {
         <div>
           {sidebarItems.map(({ icon: Icon, label, sideBarLink }) => (
             <a href={sideBarLink} key={label}>
-              <li className={liStyle} >
-                <span className={isSidebarOpen ? liTextStyle : liTextStyleClosed}>
+              <li className={liStyle}>
+                <span
+                  className={isSidebarOpen ? liTextStyle : liTextStyleClosed}>
                   <Icon size="25" />
                   {isSidebarOpen && label}
                 </span>

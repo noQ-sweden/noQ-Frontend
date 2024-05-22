@@ -19,10 +19,7 @@ function App() {
               <Route
                 path="/"
                 element={<FrontPageView loginState={loginState} />}></Route>
-              <Route
-                path="/requests"
-                element={<RequestPageView/>}>
-              </Route>
+              <Route path="/requests" element={<RequestPageView />}></Route>
 
               <Route path="*" element={"404 cannot find page"}></Route>
             </Routes>
