@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ViewerGroup } from "../../enums"
 
-export default function User({ isDropdownOpen, onClick, setLoginState }) {
+export default function User({ isDropdownOpen, onClick, setLoginState, setViewerState }) {
   const [loginSuccessful, setLoginSuccessful] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [admin, setAdmin] = useState({});
@@ -17,7 +18,8 @@ export default function User({ isDropdownOpen, onClick, setLoginState }) {
     // Mock login function
     const response = {
       status: 200,
-      data: { email: "ngustafsson@example.net" },
+      data: {login_status: "True", message: "Login Successful", groups: ["Host"]},
+//      data: { email: "ngustafsson@example.net" },
     };
 
     if (response.status === 200) {
@@ -25,6 +27,7 @@ export default function User({ isDropdownOpen, onClick, setLoginState }) {
       setIsUserLoggedIn(true);
       setLoginState(true);
       setAdmin(response.data);
+      setViewerState(response.data.groups[0]);
     }
   };
 
@@ -32,6 +35,7 @@ export default function User({ isDropdownOpen, onClick, setLoginState }) {
     setIsUserLoggedIn(false);
     setLoginState(false);
     setAdmin({});
+    setViewerState(ViewerGroup.Unauthorized);
   };
 
   return (
@@ -56,7 +60,7 @@ export default function User({ isDropdownOpen, onClick, setLoginState }) {
           {isUserLoggedIn ? (
             <div>
               <p className="px-4 py-2 text-sm text-gray-700">
-                Welcome, {admin.email}
+                Welcome, {admin.groups[0]}
               </p>
               <button
                 onClick={handleLogout}

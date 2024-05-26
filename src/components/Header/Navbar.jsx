@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import User from "./User";
 import Language from "./Language";
 
-export default function Navbar({ setLoginState }) {
+export default function Navbar({setLoginState, setViewerState}) {
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
@@ -32,6 +32,7 @@ export default function Navbar({ setLoginState }) {
             onClick={toggleUserDropdown}
             isDropdownOpen={isUserDropdownOpen}
             setLoginState={setLoginState}
+            setViewerState={setViewerState}
           />
         </div>
       </nav>
