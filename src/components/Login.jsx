@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "./AxiosNoqApi";
 import { ViewerGroup } from "../enums";
 
 export default function Login({setLoginState, setViewerState}) {
 
   function UserLogin(username, password) {
-    axios.post ('http://127.0.0.1:8000/api/login/', {
+    axios.post ('api/login/', {
       email: username,
       password: password
     })
@@ -16,6 +16,9 @@ export default function Login({setLoginState, setViewerState}) {
       } else {
         console.log("Login failed, invalid credentials.")
       }
+    })
+    .catch((error) => {
+      console.log("Error while login.", error);
     });
   }
 
@@ -30,6 +33,9 @@ export default function Login({setLoginState, setViewerState}) {
         <br/>
         <br/>
         <button onClick={() => UserLogin("user.host@test.nu", "P4ssw0rd_for_Te5t+User")}>Host Login</button>
+        <br/>
+        <br/>
+        <button onClick={() => UserLogin("unauthorized.user@test.nu", "P4ssw0rd_for_Te5t+User")}>Unauthorized Login</button>
       </div>
     </div>
   )
