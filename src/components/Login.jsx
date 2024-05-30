@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "./AxiosNoqApi";
+import axios from "../api/AxiosNoqApi";
 
 export default function Login({setLoginState, setViewerState}) {
 

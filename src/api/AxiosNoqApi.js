@@ -1,4 +1,6 @@
 import axios from 'axios';
+//import AxiosMockAdapter from 'axios-mock-adapter';
+import { axiosMockNoqApi } from './mockApi/mockApi';
 
 const axiosNoqApi = axios.create({
     baseURL: "http://localhost:8000",
@@ -8,4 +10,4 @@ const axiosNoqApi = axios.create({
       withCredentials: true,
 });
 
-export default axiosNoqApi;
+export default import.meta.env.NOQ_IS_MOCK_API === 'true' ? axiosMockNoqApi : axiosNoqApi;
