@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "../api/AxiosNoqApi";
 import noQicon from "./../../public/noQiconNoBg.svg"
 
-export default function LoginPage({setLoginState, setViewerState}) {
+export default function LoginPage({loginHandler}) {
   const userRef = useRef();
   const errorRef = useRef();
   const navigate = useNavigate();
@@ -29,8 +29,7 @@ export default function LoginPage({setLoginState, setViewerState}) {
     })
     .then ((response) => {
       if (response.status === 200 && response.data.login_status === true) {
-        setLoginState(true);
-        setViewerState(response.data.groups[0]);
+        loginHandler(true, response.data.groups[0], username);
       } else {
         console.log("Login failed, invalid credentials.")
         setErrorMessage('Autentisering misslyckades.');
@@ -57,13 +56,23 @@ export default function LoginPage({setLoginState, setViewerState}) {
       <div className="bg-white rounded px-8 pt-6 pb-8 mb-4">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col items-center">
-             <h1 className="mb-8 text-2xl font-bold text-green-noQ tracking-normal" >Välkommen till noQ</h1>
+             <h1 className="mb-8 text-2xl font-bold text-green-noQ tracking-normal">Välkommen till noQ</h1>
           </div>
           <div className="mb-6">
             <label className="block text-gray-700 text-base font-semibold mb-2" htmlFor="username">
               E-post
               <input
-                className="appearance-none border rounded w-full py-2 px-3 bg-slate-100 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="
+                  appearance-none
+                  border rounded
+                  w-full
+                  py-2
+                  px-3
+                  bg-slate-100
+                  text-gray-700
+                  leading-tight
+                  focus:outline-none
+                  focus:shadow-outline"
                 type="text"
                 id="username"
                 ref={userRef}
@@ -78,7 +87,17 @@ export default function LoginPage({setLoginState, setViewerState}) {
             <label className="block text-gray-700 text-base font-semibold mb-2" htmlFor="password">
               Lösenord
               <input
-                className="appearance-none border rounded w-full py-2 px-3 bg-slate-100 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="
+                  appearance-none
+                  border rounded
+                  w-full
+                  py-2
+                  px-3
+                  bg-slate-100
+                  text-gray-700
+                  leading-tight
+                  focus:outline-none
+                  focus:shadow-outline"
                 type="password"
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}
@@ -104,7 +123,17 @@ export default function LoginPage({setLoginState, setViewerState}) {
           <div className="flex flex-col items-center mt-10">
             <button
               type="submit"
-              className="bg-green-600 hover:bg-green-700 text-white font-bold w-44 py-2 px-4 rounded focus:outline-none focus:shadow-outline">Logga in
+              className="
+                bg-green-600
+                hover:bg-green-700
+                text-white
+                font-bold
+                w-44
+                py-2
+                px-4
+                rounded
+                focus:outline-none
+                focus:shadow-outline">Logga in
             </button>
           </div>
           <div className="flex flex-col items-center mt-10">
@@ -115,7 +144,18 @@ export default function LoginPage({setLoginState, setViewerState}) {
               <button
                 type="button"
                 onClick={navigateToRegister}
-                className="bg-gray-200 hover:bg-gray-300 border-slate-800 text-gray-500 font-bold w-44 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                className="
+                  bg-gray-200
+                  hover:bg-gray-300
+                  border-slate-800
+                  text-gray-500
+                  font-bold
+                  w-44
+                  py-2
+                  px-4
+                  rounded
+                  focus:outline-none
+                  focus:shadow-outline">
                 Skapa konto
               </button>
             </div>

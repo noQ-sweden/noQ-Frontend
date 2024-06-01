@@ -1,47 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
-import { ViewerGroup } from "../../enums"
+import { VisitorGroup } from "../../enums"
+import { VisitorContext } from "../../App"
 
-export default function User({ isDropdownOpen, onClick, setLoginState, setViewerState }) {
-  const [loginSuccessful, setLoginSuccessful] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [admin, setAdmin] = useState({});
-
-  const client = axios.create({
-    headers: {
-      "Content-type": "application/json",
-    },
-    withCredentials: true,
-  });
-
-  const mockLogin = async () => {
-    // Mock login function
-    const response = {
-      status: 200,
-      data: {login_status: "True", message: "Login Successful", groups: ["Host"]},
-//      data: { email: "ngustafsson@example.net" },
-    };
-
-    if (response.status === 200) {
-      setLoginSuccessful(true);
-      setIsUserLoggedIn(true);
-      setLoginState(true);
-      setAdmin(response.data);
-      setViewerState(response.data.groups[0]);
-    }
-  };
+export default function User({ isDropdownOpen, onClick }) {
+  const { visitorGroupState, visitorId, loginHandler } = useContext(VisitorContext);
 
   const handleLogout = () => {
-    setIsUserLoggedIn(false);
-    setLoginState(false);
-    setAdmin({});
-    setViewerState(ViewerGroup.Unauthorized);
+    loginHandler(false, VisitorGroup.Unauthorized, "");
   };
 
   return (
     <div className="relative">
       <button onClick={onClick} className="flex items-center">
-        <span>User</span>
+        <span>{visitorGroupState}</span>
         <svg
           className="ml-1 w-4 h-4"
           fill="none"
@@ -57,10 +29,9 @@ export default function User({ isDropdownOpen, onClick, setLoginState, setViewer
       </button>
       {isDropdownOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg py-1 z-10">
-          {isUserLoggedIn ? (
             <div>
               <p className="px-4 py-2 text-sm text-gray-700">
-                Welcome, {admin.groups[0]}
+                Welcome, {visitorId}
               </p>
               <button
                 onClick={handleLogout}
@@ -68,13 +39,6 @@ export default function User({ isDropdownOpen, onClick, setLoginState, setViewer
                 Logout
               </button>
             </div>
-          ) : (
-            <button
-              onClick={mockLogin}
-              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-              Login
-            </button>
-          )}
         </div>
       )}
     </div>

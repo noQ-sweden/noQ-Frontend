@@ -1,11 +1,9 @@
 import React from "react";
 import Navbar from "./Navbar";
-export default function Header({ setLoginState, setViewerState }) {
+export default function Header() {
   return (
     <div>
-      <Navbar
-        setLoginState={setLoginState}
-        setViewerState={setViewerState} />
+      <Navbar />
     </div>
   );
 }
