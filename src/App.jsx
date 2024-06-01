@@ -15,18 +15,15 @@ function UserDashboard() {
 export const VisitorContext = createContext();
 
 function App() {
-  const [loginState, setLoginState] = useState(false);
-  const [visitorGroupState, setVisitorGroupState] = useState(VisitorGroup.Unauthorized);
-  const [visitorId, setVisitorIdState] = useState("");
+    const [loginState, setLoginState] = useState(false);
+    const [visitorGroupState, setVisitorGroupState] = useState(VisitorGroup.Unauthorized);
+    const [visitorId, setVisitorIdState] = useState("");
 
-
-
-  const loginHandler = (loginState, visitorGroupState, visitorId ) => {
-    setLoginState(loginState);
-    setVisitorGroupState(visitorGroupState);
-    setVisitorIdState(visitorId);
-  }
-
+    const loginHandler = (loginState, visitorGroupState, visitorId ) => {
+        setLoginState(loginState);
+        setVisitorGroupState(visitorGroupState);
+        setVisitorIdState(visitorId);
+    }
 
     return (
         <>
