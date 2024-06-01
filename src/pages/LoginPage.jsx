@@ -2,6 +2,11 @@ import React, {useRef, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/AxiosNoqApi";
 import noQicon from "./../../public/noQiconNoBg.svg"
+import PropTypes from 'prop-types';
+
+LoginPage.propTypes = {
+  loginHandler: PropTypes.func,
+};
 
 export default function LoginPage({loginHandler}) {
   const userRef = useRef();

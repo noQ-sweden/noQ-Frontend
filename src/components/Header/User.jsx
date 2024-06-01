@@ -2,6 +2,12 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { VisitorGroup } from "../../enums"
 import { VisitorContext } from "../../App"
+import PropTypes from 'prop-types';
+
+User.propTypes = {
+  isDropdownOpen: PropTypes.bool,
+  onClick: PropTypes.func,
+};
 
 export default function User({ isDropdownOpen, onClick }) {
   const { visitorGroupState, visitorId, loginHandler } = useContext(VisitorContext);
