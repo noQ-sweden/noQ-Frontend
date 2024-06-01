@@ -9,7 +9,7 @@ export const axiosMockNoqApi = axios.create({
 });
 
 const noqMockApi =
-    new AxiosMockAdapter(axiosMockNoqApi, { delayResponse: 100, onNoMatch: "throwException" });
+    new AxiosMockAdapter(axiosMockNoqApi, { delayResponse: 0, onNoMatch: "throwException" });
 
 noqMockApi.onPost('api/login/').reply((config) => {
     const data = JSON.parse(config.data);
@@ -29,6 +29,6 @@ noqMockApi.onPost('api/login/').reply((config) => {
         login.login_status = false;
         login.message = "Login Failed";
         login.groups = null;
-        return [401, login];
+        return [200, login];
     }
 });

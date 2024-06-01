@@ -2,7 +2,8 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
-import Login from "./components/Login"
+import LoginPage from "./pages/LoginPage"
+import RegistrationPage from "./pages/RegistrationPage"
 import RequestPageView from "./components/RequestsPage/RequestPageView";
 import HostelData from "./components/Admin/FrontPageView";
 
@@ -49,15 +50,20 @@ function App() {
                     <div>
                         <Routes>
                             <Route
-                                path="/"
+                                path="/register/"
                                 element={
-                                    <Login
+                                    <RegistrationPage />
+                                }>
+                            </Route>
+                            <Route
+                                path="*"
+                                element={
+                                    <LoginPage
                                         setLoginState={setLoginState}
                                         setViewerState={setViewerState}
                                     />
-                                }
-                            ></Route>
-                            <Route path="*" element={"404 cannot find page"}></Route>
+                                }>
+                            </Route>
                         </Routes>
                     </div>
                 )}

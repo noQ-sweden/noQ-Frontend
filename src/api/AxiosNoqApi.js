@@ -1,5 +1,4 @@
 import axios from 'axios';
-//import AxiosMockAdapter from 'axios-mock-adapter';
 import { axiosMockNoqApi } from './mockApi/mockApi';
 
 const axiosNoqApi = axios.create({
