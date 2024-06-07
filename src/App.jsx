@@ -1,81 +1,44 @@
-import { useState, createContext } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./components/Header/Header";
-import Sidebar from "./components/Sidebar/Sidebar";
-import LoginPage from "./pages/LoginPage"
-import RegistrationPage from "./pages/RegistrationPage"
+import { createContext } from "react";
+import { Routes, Route } from "react-router-dom";
+import RequireLogin from "./components/RequireLogin";
+import useLogin from "./hooks/useLogin";
+import FrontPageView from "./components/Admin/FrontPageView";
+import Layout from "./components/Layouts/Layout";
+import LoginPage from "./pages/LoginPage";
+import HostPage from "./pages/HostPage";
+import UserPage from "./pages/UserPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import ErrorPage from "./pages/ErrorPage";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
 import RequestPageView from "./components/RequestsPage/RequestPageView";
-import HostelData from "./components/Admin/FrontPageView";
-import { VisitorGroup} from "./enums"
-
-function UserDashboard() {
-    return <div>UserDashboard</div>;
-}
 
 export const VisitorContext = createContext();
 
 function App() {
-    const [loginState, setLoginState] = useState(false);
-    const [visitorGroupState, setVisitorGroupState] = useState(VisitorGroup.Unauthorized);
-    const [visitorId, setVisitorIdState] = useState("");
-
-    const loginHandler = (loginState, visitorGroupState, visitorId ) => {
-        setLoginState(loginState);
-        setVisitorGroupState(visitorGroupState);
-        setVisitorIdState(visitorId);
-    }
+    const { login } = useLogin();
 
     return (
-        <>
-            <BrowserRouter>
-                {loginState ? (
-                    <VisitorContext.Provider value={{loginState, visitorGroupState, visitorId, loginHandler}}>
-                        <div className="flex">
-                            <Sidebar />
-                            <div style={{ flex: 1 }}>
-                                <Header />
-                                <Routes>
-                                    <Route
-                                        path="/"
-                                        element={
-                                            visitorGroupState === "host" ? (
-                                                <HostelData />
-                                            ) : (
-                                                <UserDashboard />
-                                            )
-                                        }
-                                    ></Route>
-                                    <Route
-                                        path="/requests"
-                                        element={<RequestPageView />}
-                                    ></Route>
-                                    <Route path="*" element={"404 cannot find page"}></Route>
-                                </Routes>
-                            </div>
-                        </div>
-                    </VisitorContext.Provider>
-                ) : (
-                    <div>
-                        <Routes>
-                            <Route
-                                path="/register/"
-                                element={
-                                    <RegistrationPage />
-                                }>
-                            </Route>
-                            <Route
-                                path="*"
-                                element={
-                                    <LoginPage
-                                        loginHandler={loginHandler}
-                                    />
-                                }>
-                            </Route>
-                        </Routes>
-                    </div>
-                )}
-            </BrowserRouter>
-        </>
+        <Routes>
+            <Route path="/" element={<Layout login={login} />}>
+                {/* Public pages */}
+                <Route path="login" element={<LoginPage />} />
+                <Route path="register" element={<RegistrationPage />} />
+                <Route path="unauthorized" element={<UnauthorizedPage />} />
+
+                {/* User pages */}
+                <Route element={<RequireLogin allowedGroups={["user"]}/>}>
+                    <Route path="/user" element={<UserPage />} />
+                </Route>
+                {/* Host pages */}
+                <Route element={<RequireLogin allowedGroups={["host"]}/>}>
+                    <Route path="/host" element={<HostPage />} />
+                    <Route path="/admin" element={<FrontPageView />} />
+                    <Route path="/host/requests" element={<RequestPageView />} />
+                </Route>
+                {/* Invalid path */}
+                <Route path="*" element={<ErrorPage />} />
+            </Route>
+        </Routes>
     );
 }
 

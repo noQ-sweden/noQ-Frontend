@@ -1,17 +1,20 @@
-import React, {useRef, useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "../api/AxiosNoqApi";
-import noQicon from "./../../public/noQiconNoBg.svg"
+import React, {useRef, useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "./../api/AxiosNoqApi";
 import PropTypes from 'prop-types';
+import useLogin from "./../hooks/useLogin";
 
 LoginPage.propTypes = {
   loginHandler: PropTypes.func,
 };
 
-export default function LoginPage({loginHandler}) {
+export default function LoginPage() {
+  const { setLogin } = useLogin();
   const userRef = useRef();
   const errorRef = useRef();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -34,7 +37,12 @@ export default function LoginPage({loginHandler}) {
     })
     .then ((response) => {
       if (response.status === 200 && response.data.login_status === true) {
-        loginHandler(true, response.data.groups[0], username);
+        const usergroups = response?.data?.groups;
+        console.log(usergroups);
+        setLogin({ username, usergroups });
+        setUsername('');
+        setPassword('');
+        navigate(from, { replace: true });
       } else {
         console.log("Login failed, invalid credentials.")
         setErrorMessage('Autentisering misslyckades.');
@@ -46,14 +54,10 @@ export default function LoginPage({loginHandler}) {
       console.log("Error while login.", error);
     });
     setPassword('');
-    
   }
 
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-14 mt-6">
-        <img src={noQicon} alt="noQ Logo" width="115" />
-      </div>
       <div className="mb-12 text-red-600 text-xl font-semibold">
         <p ref={errorRef} className=
           {errorMessage ? "errorMessage" : "offScreen"}>{errorMessage}</p>
@@ -61,7 +65,7 @@ export default function LoginPage({loginHandler}) {
       <div className="bg-white rounded px-8 pt-6 pb-8 mb-4">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col items-center">
-             <h1 className="mb-8 text-2xl font-bold text-green-noQ tracking-normal">Välkommen till noQ</h1>
+            <h1 className="mb-8 text-2xl font-bold text-green-noQ tracking-normal">Välkommen till noQ</h1>
           </div>
           <div className="mb-6">
             <label className="block text-gray-700 text-base font-semibold mb-2" htmlFor="username">
@@ -118,7 +122,7 @@ export default function LoginPage({loginHandler}) {
           // to be added when this functionality is in place
           <div className="mb-4 flex flex-row items-center">
             <div>
-              <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" className="size-3.5" />
+              <input type="checkbox" />
             </div>
             <div>
               <p className="text-sm mx-2">Håll mig inloggad</p>
@@ -138,7 +142,8 @@ export default function LoginPage({loginHandler}) {
                 px-4
                 rounded
                 focus:outline-none
-                focus:shadow-outline">Logga in
+                focus:shadow-outline"
+              id="login-button">Logga in
             </button>
           </div>
           <div className="flex flex-col items-center mt-10">
@@ -160,7 +165,8 @@ export default function LoginPage({loginHandler}) {
                   px-4
                   rounded
                   focus:outline-none
-                  focus:shadow-outline">
+                  focus:shadow-outline"
+                id="register-button">
                 Skapa konto
               </button>
             </div>

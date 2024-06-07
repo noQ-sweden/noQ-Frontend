@@ -20,9 +20,9 @@ noqMockApi.onPost('api/login/').reply((config) => {
         groups: ["user"],
     };
 
-    if (data.email == 'user.user@test.nu') {
+    if (data.email == 'user.user@test.nu' && data.password == 'P4ssw0rd_for_Te5t+User') {
         return [200, login];
-    } else if (data.email == 'user.host@test.nu') {
+    } else if (data.email == 'user.host@test.nu' && data.password == 'P4ssw0rd_for_Te5t+User') {
         login.groups = ["host"];
         return [200, login];
     } else {

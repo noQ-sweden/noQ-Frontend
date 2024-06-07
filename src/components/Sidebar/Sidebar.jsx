@@ -8,7 +8,6 @@ import {
   FaBell,
 } from "react-icons/fa";
 import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
-import { VisitorGroup } from "../../enums";
 
 export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -25,7 +24,7 @@ export default function Sidebar() {
   const sidebarItems = [
     { icon: FaChartPie, label: "Överblick", sideBarLink: "/" },
     { icon: FaCalendarAlt, label: "Kalender" },
-    { icon: FaBell, label: "Förfrågan", sideBarLink: "/requests" },
+    { icon: FaBell, label: "Förfrågan", sideBarLink: "host/requests" },
     { icon: FaUser, label: "Gäster" },
     { icon: FaReceipt, label: "Fakturering" },
     { icon: FaCog, label: "Inställningar" },
