@@ -42,7 +42,8 @@ export default function LoginPage() {
         setLogin({ username, usergroups });
         setUsername('');
         setPassword('');
-        navigate(from, { replace: true });
+        const returnUrl = (from === "/") ? "/" + usergroups[0] : from;
+        navigate(returnUrl, { replace: true });
       } else {
         console.log("Login failed, invalid credentials.")
         setErrorMessage('Autentisering misslyckades.');

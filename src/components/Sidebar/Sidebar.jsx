@@ -7,9 +7,11 @@ import {
   FaUser,
   FaBell,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const liStyle =
@@ -22,7 +24,7 @@ export default function Sidebar() {
   };
 
   const sidebarItems = [
-    { icon: FaChartPie, label: "Överblick", sideBarLink: "/" },
+    { icon: FaChartPie, label: "Överblick", sideBarLink: "host" },
     { icon: FaCalendarAlt, label: "Kalender" },
     { icon: FaBell, label: "Förfrågan", sideBarLink: "host/requests" },
     { icon: FaUser, label: "Gäster" },
@@ -50,15 +52,15 @@ export default function Sidebar() {
         </div>
         <div>
           {sidebarItems.map(({ icon: Icon, label, sideBarLink }) => (
-            <a href={sideBarLink} key={label}>
-              <li className={liStyle}>
+            <div onClick={() => navigate(sideBarLink, { replace: true })} key={label}>
+              <li className={liStyle} >
                 <span
                   className={isSidebarOpen ? liTextStyle : liTextStyleClosed}>
                   <Icon size="25" />
                   {isSidebarOpen && label}
                 </span>
               </li>
-            </a>
+            </div>
           ))}
         </div>
       </ul>
