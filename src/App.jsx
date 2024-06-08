@@ -1,7 +1,6 @@
 import { createContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import RequireLogin from "./components/RequireLogin";
-import useLogin from "./hooks/useLogin";
 import FrontPageView from "./components/Admin/FrontPageView";
 import Layout from "./components/Layouts/Layout";
 import LoginPage from "./pages/LoginPage";
@@ -15,12 +14,12 @@ import RequestPageView from "./components/RequestsPage/RequestPageView";
 export const VisitorContext = createContext();
 
 function App() {
-    const { login } = useLogin();
 
     return (
         <Routes>
-            <Route path="/" element={<Layout login={login} />}>
+            <Route path="/" element={<Layout />}>
                 {/* Public pages */}
+                <Route path="/" element={<LoginPage />} />
                 <Route path="login" element={<LoginPage />} />
                 <Route path="register" element={<RegistrationPage />} />
                 <Route path="unauthorized" element={<UnauthorizedPage />} />

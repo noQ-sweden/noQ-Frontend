@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
+import noQicon from "./../../assets/images/noQiconWhite.svg"
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function Sidebar() {
   };
 
   const sidebarItems = [
-    { icon: FaChartPie, label: "Överblick", sideBarLink: "host" },
+    { icon: FaChartPie, label: "Överblick", sideBarLink: "admin" },
     { icon: FaCalendarAlt, label: "Kalender" },
     { icon: FaBell, label: "Förfrågan", sideBarLink: "host/requests" },
     { icon: FaUser, label: "Gäster" },
@@ -40,7 +41,7 @@ export default function Sidebar() {
       <ul className={`bg-green-noQ text-xl ${isSidebarOpen ? "" : "w-full"}`}>
         <div className="flex justify-between flex-row items-start my-6 px-5 pr-3">
           <a className={` ${isSidebarOpen ? "pl-5 w-24" : "hidden"}`} href="/">
-            <img src="noQicon.bmp" alt="logo" />
+            <img src={noQicon} alt="noQ Logo" />
           </a>
           <button onClick={toggleSidebar}>
             {isSidebarOpen ? (

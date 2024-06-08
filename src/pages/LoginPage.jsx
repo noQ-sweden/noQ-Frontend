@@ -38,14 +38,12 @@ export default function LoginPage() {
     .then ((response) => {
       if (response.status === 200 && response.data.login_status === true) {
         const usergroups = response?.data?.groups;
-        console.log(usergroups);
         setLogin({ username, usergroups });
         setUsername('');
         setPassword('');
         const returnUrl = (from === "/") ? "/" + usergroups[0] : from;
         navigate(returnUrl, { replace: true });
       } else {
-        console.log("Login failed, invalid credentials.")
         setErrorMessage('Autentisering misslyckades.');
         setUsername('');
         setPassword('');    

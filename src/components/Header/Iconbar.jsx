@@ -1,4 +1,4 @@
-import noQicon from "./../../../public/noQiconNoBg.svg"
+import noQicon from "./../../assets/images/noQiconNoQGreen.svg";
 
 export default function Iconbar() {
     return (
