@@ -4,7 +4,8 @@ import Panel from "../Common/Panel";
 import Card from "../Common/Card";
 import Calendar from "../Common/Calendar";
 
-const HostelData = ({ loginState }) => {
+const HostelData = () => {
+  const loginState = true;
   const mockData = {
     incomingQuestions: 10,
     leavingPeople: 6,

@@ -1,6 +1,13 @@
-import React from 'react'
+import React from 'react';
+import languageIcon from './../../assets/images/language.png';
+import PropTypes from 'prop-types';
 
-export default function Launguage({ isDropdownOpen, onClick }) {
+Language.propTypes = {
+  isDropdownOpen: PropTypes.any,
+  onClick: PropTypes.any,
+};
+
+export default function Language({ isDropdownOpen, onClick }) {
   return (
     <>
       <span className="hidden md:block">Välj språk</span>
@@ -10,7 +17,7 @@ export default function Launguage({ isDropdownOpen, onClick }) {
           className="block h-8 w-8 rounded-full overflow-hidden focus:outline-none focus:border-white"
           onClick={onClick}
         >
-          <img src="language.png" className="h-8 w-8 object-cover" alt="user" />
+          <img src={languageIcon} className="h-8 w-8 object-cover" alt="user" />
         </button>
         {isDropdownOpen && (
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl overflow-hidden">

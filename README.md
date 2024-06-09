@@ -21,6 +21,22 @@ with terminal open root of repo, Type these commands
 This will install the necessary dependencies and start the development server. 
 You can access the client at http://localhost:5173/.
 
+### Static test users for login
+Will be adding one for Handläggare eventually.
+````
+User:
+email: user.user@test.nu 
+Password: P4ssw0rd_for_Te5t+User
+
+Host:
+email: user.host@test.nu
+Password: P4ssw0rd_for_Te5t+User
+````
+### Running the project with mock api
+Instead of running the command npm run dev you should use following command:
+
+      npm run dev -- --mode mockapi
+
 ## Wiki
 [Frontend wiki](https://github.com/noQ-sweden/noQ-Frontend/wiki)
 

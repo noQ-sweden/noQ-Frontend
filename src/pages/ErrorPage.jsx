@@ -1,10 +1,11 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 export default function ErrorPage() {
-  return (
-
-
-    <div>404 Error no page found
-    </div>
-  )
+    return (
+        <div>
+            <p>Sidan finns inte.</p>
+            <p><NavLink to="/">Gå till huvudsidan</NavLink></p>
+        </div>
+    )
 }
