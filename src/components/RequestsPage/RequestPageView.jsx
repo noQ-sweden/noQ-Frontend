@@ -1,11 +1,10 @@
-import axios from 'axios';
 import { useState, useEffect, React } from 'react';
 import RequestList from './RequestList';
 import AssignPage from './AssignPage';
 
 export default function RequestPageView() {
-    const [requests, setRequests] = useState([]);
-    const [avalibleRooms, setAvalibleRooms] = useState([]);
+    //const [requests, setRequests] = useState([]);
+    const [availableRooms, setavailableRooms] = useState([]);
     const [recommendedRooms, setRecommendedRooms] = useState([]);
 
 
@@ -28,12 +27,13 @@ export default function RequestPageView() {
             { "roomNumber": 5, "roomType": "familj", "roomLeft": 5, "floor": 0, "name": "John doe" }
         ]
 
-        setRequests(mockRequests);
         const roomToRemove = 1
-        setAvalibleRooms(mockRooms.filter(room => room.roomNumber !== roomToRemove));
+        setavailableRooms(mockRooms.filter(room => room.roomNumber !== roomToRemove));
 
         const recommendedRooms = mockRooms.filter(room => room.roomNumber === 1);
         setRecommendedRooms(recommendedRooms);
+
+        //setRequests(fetchPendingRequests());
 
     }, []);
 
@@ -42,10 +42,10 @@ export default function RequestPageView() {
         <div className='p-4'>
             <h2 className='text-2xl mb-4'>{!showPopup ? 'Förfrågningar' : 'Tilldela rum'}</h2>
             {showPopup && (
-                <AssignPage avalibleRooms={avalibleRooms} recommendedRooms={recommendedRooms} setShowPopup={setShowPopup} setShowTable={setShowTable} />
+                <AssignPage availableRooms={availableRooms} recommendedRooms={recommendedRooms} setShowPopup={setShowPopup} setShowTable={setShowTable} />
             )}
             {showTable && (
-                <RequestList requests={requests} setShowPopup={setShowPopup} setShowTable={setShowTable} />
+                <RequestList setShowPopup={setShowPopup} setShowTable={setShowTable} />
 
             )}
         </div>
