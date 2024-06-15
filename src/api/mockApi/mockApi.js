@@ -86,7 +86,7 @@ const pendingBookings = [
         status: {
             description: "pending"
         },
-        start_date: "2024-08-21",
+        start_date: "2024-07-21",
         product: {
             id: 25,
             name: "room",
@@ -133,7 +133,7 @@ const pendingBookings = [
         status: {
             description: "pending"
         },
-        start_date: "2024-07-21",
+        start_date: "2024-08-01",
         product: {
             id: 45,
             name: "room",

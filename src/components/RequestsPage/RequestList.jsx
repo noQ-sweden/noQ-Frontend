@@ -2,13 +2,11 @@ import axios from "./../../api/AxiosNoqApi";
 import React, { useState, useEffect } from 'react';
 import { BsChatRightText } from "react-icons/bs";
 
-export default function RequestList({ setShowPopup, setShowTable }) {
+export default function RequestList() {
 
     const [requests, setRequests] = useState([]);
 
     const handleAssignOnClick = (id) => {
-        setShowPopup(true);
-        setShowTable(false);
         console.log(id);
     }
 
@@ -69,8 +67,10 @@ export default function RequestList({ setShowPopup, setShowTable }) {
     const getGender = (gender) => {
         if (gender === 'K') {
             return "Kvinna";
-        } else {
+        } else if (gender === 'M') {
             return "Man";
+        } else {
+            return "Annan"
         }
     }
 
