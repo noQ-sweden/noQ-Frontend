@@ -12,13 +12,18 @@ export default function RequestList({ setShowPopup, setShowTable, requests: prop
     }
 
     const handleRejectOnClick = (id) => {
-        const mockRequests = requests.filter(request => request.id !== id);
-        setRequests(mockRequests);
+        // Filter out the request with the given id
+        const updatedRequests = requests.filter(request => request.id !== id);
+        // Update the state with the filtered requests
+        setRequests(updatedRequests);
         console.log(id);
     }
 
+    // Update the requests state when propRequests change
     useEffect(() => {
-        setRequests(propRequests);
+        if (Array.isArray(propRequests)) {
+            setRequests(propRequests);
+        }
     }, [propRequests]);
 
     return (
