@@ -53,7 +53,7 @@ export default function Sidebar() {
         </div>
         <div>
           {sidebarItems.map(({ icon: Icon, label, sideBarLink }) => (
-            <div onClick={() => navigate(sideBarLink, { replace: true })} key={label}>
+            <div onClick={() => navigate(sideBarLink, { replace: false })} key={label}>
               <li className={liStyle} >
                 <span
                   className={isSidebarOpen ? liTextStyle : liTextStyleClosed}>
