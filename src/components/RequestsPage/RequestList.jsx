@@ -68,7 +68,7 @@ export default function RequestList() {
     const getStatus = (status) => {
         if (status === 'accepted') {
             return "Tilldelat";
-        } else if (status === 'rejected') {
+        } else if (status === 'declined') {
             return "Nekad";
         } else {
             return ""

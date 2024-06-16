@@ -74,7 +74,7 @@ noqMockApi.onPatch(urlDecline).reply((config) => {
 
     const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
     if (idx > -1) {
-        bookings[idx].status.description = "rejected";
+        bookings[idx].status.description = "declined";
         return [200, JSON.stringify(bookings[idx])];
     } else {
         return [200, []];
