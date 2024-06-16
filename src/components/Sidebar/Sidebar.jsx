@@ -7,10 +7,12 @@ import {
   FaUser,
   FaBell,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
-import { VisitorGroup } from "../../enums";
+import noQicon from "./../../assets/images/noQiconWhite.svg"
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const liStyle =
@@ -23,9 +25,9 @@ export default function Sidebar() {
   };
 
   const sidebarItems = [
-    { icon: FaChartPie, label: "Överblick", sideBarLink: "/" },
+    { icon: FaChartPie, label: "Överblick", sideBarLink: "admin" },
     { icon: FaCalendarAlt, label: "Kalender" },
-    { icon: FaBell, label: "Förfrågan", sideBarLink: "/requests" },
+    { icon: FaBell, label: "Förfrågan", sideBarLink: "host/requests" },
     { icon: FaUser, label: "Gäster" },
     { icon: FaReceipt, label: "Fakturering" },
     { icon: FaCog, label: "Inställningar" },
@@ -39,7 +41,7 @@ export default function Sidebar() {
       <ul className={`bg-green-noQ text-xl ${isSidebarOpen ? "" : "w-full"}`}>
         <div className="flex justify-between flex-row items-start my-6 px-5 pr-3">
           <a className={` ${isSidebarOpen ? "pl-5 w-24" : "hidden"}`} href="/">
-            <img src="noQicon.bmp" alt="logo" />
+            <img src={noQicon} alt="noQ Logo" />
           </a>
           <button onClick={toggleSidebar}>
             {isSidebarOpen ? (
@@ -51,15 +53,15 @@ export default function Sidebar() {
         </div>
         <div>
           {sidebarItems.map(({ icon: Icon, label, sideBarLink }) => (
-            <a href={sideBarLink} key={label}>
-              <li className={liStyle}>
+            <div onClick={() => navigate(sideBarLink, { replace: false })} key={label}>
+              <li className={liStyle} >
                 <span
                   className={isSidebarOpen ? liTextStyle : liTextStyleClosed}>
                   <Icon size="25" />
                   {isSidebarOpen && label}
                 </span>
               </li>
-            </a>
+            </div>
           ))}
         </div>
       </ul>
