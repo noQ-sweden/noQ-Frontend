@@ -13,7 +13,7 @@ export default function Layout() {
     const viewerGroup = (login?.usergroups instanceof Array) ? login?.usergroups[0] : null;
 
     return (
-        <div className="App">
+        <div className="App h-full bg-background-white">
             <main>
                 <div className="flex">
                     {/*Show sidebar only if viewer is host*/}
