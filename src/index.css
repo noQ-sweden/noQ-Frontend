@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  background-color: #f7f7f7;
+  background-color: 'background-white';
   @apply min-h-screen;
+  font-family: inter
 }
