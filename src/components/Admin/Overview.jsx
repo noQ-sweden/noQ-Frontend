@@ -40,11 +40,14 @@ export default function Overview() {
     const imageStyle = "mb-4"
 
     return (
-        <div className="flex flex-col items-left bg-white rounded-lg p-5">
-        <div className=" text-black text-xl font-semibold text-left mb-3">
+        <div className="flex flex-col items-left bg-white rounded-lg">
+        <div className=" text-black text-xl font-semibold text-left ml-4 mt-2 mb-2">
             Överblick
         </div>
-        <div className="columns-4 gap-5">
+        <div>
+            <hr/>
+        </div>
+        <div className="columns-4 gap-5 ml-4 mr-4 mb-4 mt-4">
             <div className={boxStyle}>
                 <img src={checkedInIcon} alt="Checked In Icon" width={imageWidth} className={imageStyle} />
                 <p className="text-lg font-semibold">{counts.checkedIn}</p>
