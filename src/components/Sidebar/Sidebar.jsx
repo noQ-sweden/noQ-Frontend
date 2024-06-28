@@ -5,7 +5,7 @@ import {
   FaCalendarAlt,
   FaReceipt,
   FaUser,
-  FaBell,
+  FaBell, FaRandom,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu, GiCancel } from "react-icons/gi";
@@ -28,6 +28,7 @@ export default function Sidebar() {
     { icon: FaChartPie, label: "Överblick", sideBarLink: "admin" },
     { icon: FaCalendarAlt, label: "Kalender" },
     { icon: FaBell, label: "Förfrågan", sideBarLink: "host/requests" },
+    { icon: FaRandom, label: "Mina Rum", sideBarLink: "host/products" },
     { icon: FaUser, label: "Gäster" },
     { icon: FaReceipt, label: "Fakturering" },
     { icon: FaCog, label: "Inställningar" },
