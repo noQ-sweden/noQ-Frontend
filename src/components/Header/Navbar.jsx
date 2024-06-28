@@ -1,39 +1,34 @@
 import React, { useState } from "react";
 import User from "./User";
 import Language from "./Language";
+import { FaEnvelope, FaBell, FaCaretDown, FaQuestionCircle } from "react-icons/fa";
 
 export default function Navbar() {
-  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-
-  const toggleLanguageDropdown = () => {
-    setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
-    setIsUserDropdownOpen(false);
-  };
 
   const toggleUserDropdown = () => {
     setIsUserDropdownOpen(!isUserDropdownOpen);
-    setIsLanguageDropdownOpen(false);
   };
 
   return (
-    <>
-      <nav className="font-sans flex flex-col items-center text-center border-b-2 border-green-noQ sm:flex-row sm:text-left sm:justify-between pb-4 px-6 bg-white shadow sm:items-baseline">
-        <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center">
-          Välkommen
+    <nav className="flex items-center justify-between p-4 bg-white shadow-md">
+      <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold">Stockholm HÃ¤rbarget</div>
+      <div className="flex items-center space-x-10"> {/* Adjusted space-x value */}
+        <div className="relative">
+          <FaEnvelope className="text-2xl" />
+          <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
         </div>
-        <div className="flex lg:justify-center">
-          <Language
-            onClick={toggleLanguageDropdown}
-            isDropdownOpen={isLanguageDropdownOpen}
-            className="mr-2"
-          />
-          <User
-            onClick={toggleUserDropdown}
-            isDropdownOpen={isUserDropdownOpen}
-          />
+        <div className="relative">
+          <FaBell className="text-2xl" />
+          <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">1</span>
         </div>
-      </nav>
-    </>
+        <div className="relative flex items-center space-x-2 cursor-pointer" onClick={toggleUserDropdown}>
+          <div className="bg-green-noQ text-white rounded-full w-8 h-8 flex items-center justify-center">AN</div>
+          <div className="text-sm">Ana@gmail.com</div>
+          <FaCaretDown />
+        </div>
+        <FaQuestionCircle className="text-2xl text-green-noQ ml-4" /> {/* Added ml-4 margin class */}
+      </div>
+    </nav>
   );
 }
