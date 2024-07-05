@@ -29,11 +29,11 @@ function App() {
                     <Route path="user" element={<UserPage />} />
                 </Route>
                 {/* Host pages */}
-                    <Route element={<RequireLogin allowedGroups={["host"]}/>}>
-                        <Route path="host" element={<HostPage />} />
-                        <Route path="admin" element={<FrontPageView />} />
-                        <Route path="host/requests" element={<RequestPageView />} />
-                    </Route>
+                <Route element={<RequireLogin allowedGroups={["host"]}/>}>
+                    <Route path="host" element={<HostPage />} />
+                    <Route path="admin" element={<FrontPageView />} />
+                    <Route path="host/requests" element={<RequestPageView />} />
+                </Route>
                 {/* Invalid path */}
                 <Route path="*" element={<ErrorPage />} />
             </Route>
