@@ -43,7 +43,7 @@ export default function RequestListCompact({requests}) {
                     focus:outline-none
                     focus:shadow-outline"
                     onClick={() => navigate("/host/requests")}>
-                    Hantera förfrågor
+                    Hantera förfrågningar
                 </button>
             </div>
         </div>
