@@ -81,6 +81,7 @@ export default function RequestList({compact}) {
 
     return (
         <div className="grid grid-cols-1 gap-2">
+            <h2 className='text-2xl mb-4'>Förfrågningar</h2>
             { requests.map(request => (
                 <div key={request.id} className='
                     grid
