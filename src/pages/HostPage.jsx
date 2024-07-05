@@ -27,16 +27,22 @@ export default function HostPage() {
 
     return (
         <>
-            <div className="flex flex-col" id="HostPage">
-                <div className="pl-4 flex flex-row gap-5">
-                    <Overview className="max-w-64" />
-                    <UserInfo className="max-w-36" />
+            <div className="grid grid-cols-2" id="HostPage">
+                <div className="pl-3 flex flex-row gap-4">
+                    <div className="flex flex-col">
+                        <Overview />
+                        <RoomStatus />
+                    </div>
                 </div>
-                <div className="pl-4 flex flex-row gap-5">
-                    <RoomStatus className="max-w-64 h-auto" />
-                    <Panel title="Förfrågningar">
-                        <RequestList className="max-w-36 h-auto" />
-                    </Panel>
+                <div className="pl-3 pr-3 flex flex-row gap-4">
+                    <div className="flex flex-col">
+                        <UserInfo />
+                        <Panel title="Förfrågningar">
+                            <RequestList
+                                compact={true}
+                            />
+                        </Panel>
+                    </div>
                 </div>
             </div>
         </>

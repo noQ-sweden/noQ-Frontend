@@ -44,13 +44,13 @@ export default function Overview() {
                     title="Incheckade"
                     unit="Personer"
                     content={counts.free}
-                    icon={freePlacesIcon}
+                    icon={checkedInIcon}
                 />
                 <Card
                     title="Lediga platser"
                     unit="Platser"
                     content={counts.checkedIn}
-                    icon={checkedInIcon}
+                    icon={freePlacesIcon}
                 />
                 <Card
                     title="Förfrågningar"

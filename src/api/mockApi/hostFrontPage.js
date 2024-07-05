@@ -17,7 +17,8 @@ function addDays(date, days) {
 }
 
 function getRandomInt(max) {
-    return Math.floor(Math.random() * (max + 1));
+    let value = Math.floor(Math.random() * (max + 1));
+    return value
 }
 
 export function generateAvailablePlaces(nr_of_days) {
@@ -65,11 +66,13 @@ export function generateAvailablePlaces(nr_of_days) {
         var bookings = []
         var id_a = 0;
         for (const product in products) {
+            const nr_of_places = products[product].total_places
+            let nr_of_available_places = getRandomInt(nr_of_places);
             var availableProducts = {
                 'id': id_a,
                 'available_date': dateAvailable,
-                'product': product,
-                'places_left': getRandomInt(product.total_places) 
+                'product': products[product],
+                'places_left': nr_of_available_places
             }
             bookings.push(availableProducts)
             id_a += 1;

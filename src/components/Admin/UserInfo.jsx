@@ -25,7 +25,7 @@ export default function UserInfo() {
     }
 
     return (
-        <div className="flex flex-row items-start">
+        <div className="flex flex-row items-start pt-4">
             <div className={boxStyle}>
                 <img src={mailIcon} alt="Mail Icon" width={imageWidth} />
             </div>
