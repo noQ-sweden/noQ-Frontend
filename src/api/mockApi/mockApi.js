@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { bookings } from './bookings'
+import { host, generateAvailablePlaces } from './hostFrontPage'
 import { countBookings } from './countBookings'
 import AxiosMockAdapter from 'axios-mock-adapter';
 
@@ -106,4 +107,22 @@ noqMockApi.onGet(bookingsUrl).reply(() => {
 noqMockApi.onGet("api/host/count_bookings").reply(() =>  {
     console.log("mockApi called")
     return [200, countBookings];
+});
+
+/*
+    Below APIs are related to the host front page.
+*/
+
+noqMockApi.onGet("api/host").reply(() => {
+    return [200, JSON.stringify(host)];
+});
+
+const availableUrl = "api/host/available";
+const urlAvailablePerDay = new RegExp(`${availableUrl}/\\d+`);
+noqMockApi.onGet(urlAvailablePerDay).reply((config) => {
+    const nr_of_days = config.url.substring(
+        config.url.indexOf("e/") + 2
+    );
+    const available = generateAvailablePlaces(parseInt(nr_of_days))
+    return [200, JSON.stringify(available)];
 });

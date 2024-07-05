@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from "react";
-import axios from "./../../api/AxiosNoqApi";
+import axios from "../../api/AxiosNoqApi";
 import checkedInIcon from "./../../assets/images/checkedInIcon.svg";
 import freePlacesIcon from "./../../assets/images/freePlacesIcon.svg";
 import requestsIcon from "./../../assets/images/requestsIcon.svg";
@@ -7,27 +7,14 @@ import checkingOutIcon from "./../../assets/images/checkingOutIcon.svg";
 import Panel from "../Common/Panel";
 import Card from "../Common/Card";
 
-export default function Overview() {
-    const initialCounts = {checkedIn: 0, free: 0, pending: 0, checkingOut: 0};
-    const [counts, setCounts] =
-        useState(initialCounts);
-    
+export default function RoomStatus() {
+
     useEffect( () => {
-        axios.get ('api/host/count_bookings')
+        // /api/host/available/{nr_of_days}
+        axios.get ('/api/host/available/1')
         .then ((response) => {
         if (response.status === 200) {
-            let freeCount = 0;
-            const products = response?.data?.available_products;
-            for (let product in products) {
-                freeCount += parseInt(products[product]);
-            }
-            const counts = {
-                checkedIn: response?.data?.current_guests_count,
-                free: freeCount,
-                pending: response?.data?.pending_count,
-                checkingOut: response?.data?.departures_count
-            };
-            setCounts(counts);
+            console.log(response.data);
         } else {
             console.log('Error while fetching overview data.');
         }
@@ -38,31 +25,27 @@ export default function Overview() {
     }, []);
 
     return (
-        <Panel title="Överblick">
+        <Panel title="Lediga Rum">
             <div className="columns-4 gap-5">
                 <Card
                     title="Incheckade"
                     unit="Personer"
-                    content={counts.free}
-                    icon={freePlacesIcon}
+                    content="4"
                 />
                 <Card
                     title="Lediga platser"
                     unit="Platser"
-                    content={counts.checkedIn}
-                    icon={checkedInIcon}
+                    content="3"
                 />
                 <Card
                     title="Förfrågningar"
                     unit="Platser"
-                    content={counts.pending}
-                    icon={requestsIcon}
+                    content="4"
                 />
                 <Card
                     title="Utcheckning"
                     unit="Personer"
-                    content={counts.checkingOut}
-                    icon={checkingOutIcon}
+                    content="5"
                 />
             </div>
         </Panel>
