@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import RoomPagesListItem from '../components/RoomPage/RoomPagesListItem'
 
 const RoomPage = () => {
     const [rooms, setRooms] = useState([]);
@@ -69,9 +70,16 @@ const RoomPage = () => {
     };
 
     return (
-        <div>
-            <h1>Rooms</h1>
+        <div className={`px-8 py-6`}>
+            <h1 className={`font-inter text-4xl font-bold leading-tight`}>Redigera härbärge</h1>
             <ul>
+                <RoomPagesListItem itemTitle='Allmän information'/>
+                <RoomPagesListItem itemTitle='Typ av sovplats'/>
+                <RoomPagesListItem itemTitle='Sovplatser'/>
+                <RoomPagesListItem itemTitle='Tjänster'/>
+                <RoomPagesListItem itemTitle='Övrig information'/>
+            </ul>
+            {/* <ul>
                 {Array.isArray(rooms) && rooms.map(room => (
                     <li key={room.id}>
                         {room.name} - {room.description} - {room.total_places}
@@ -90,7 +98,7 @@ const RoomPage = () => {
                 <input type="text" name="type" value={editingRoom ? editingRoom.type : newRoom.type} onChange={handleInputChange} placeholder="Type" />
                 <input type="text" name="requirements" value={editingRoom ? editingRoom.requirements : newRoom.requirements} onChange={handleInputChange} placeholder="Requirements" />
                 <button type="submit">{editingRoom ? "Update Room" : "Add Room"}</button>
-            </form>
+            </form> */}
         </div>
     );
 };
