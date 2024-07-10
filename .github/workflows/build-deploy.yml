@@ -48,7 +48,7 @@ jobs:
 
       - name: Debugging Environment Variables
         run: |
-          echo "REPO_LIGHTSAIL_STATIC_IP_ADDRESS=${{ secrets.LIGHTSAIL_IP_ADDRESS }}"
+          echo "LIGHTSAIL_IP_ADDRESS=${{ secrets.LIGHTSAIL_IP_ADDRESS }}"
           echo "LIGHTSAIL_USERNAME=${{ secrets.LIGHTSAIL_USERNAME }}"
           echo "LIGHTSAIL_SSH_PRIVATE_KEY=${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}"
 
