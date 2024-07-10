@@ -33,7 +33,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
 
+      
+     
     steps:
+      - name: Check ssh key
+        run: echo "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}"
+          
       - name: Checkout code
         uses: actions/checkout@v4
 
