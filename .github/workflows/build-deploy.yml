@@ -79,7 +79,10 @@ jobs:
           key: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo apt-get install -y zip unzip
-            unzip -q -o /home/${{ secrets.LIGHTSAIL_USERNAME }}/deployment.zip -d /home/${{ secrets.LIGHTSAIL_USERNAME }}/${{ secrets.LIGHTSAIL_ROOT_DIR }}
-            rm /home/${{ secrets.LIGHTSAIL_USERNAME }}/deployment.zip
+            sudo apt-get update
+            sudo apt-get install -y zip unzip  # Installera unzip om det inte redan är installerat
+      
+            # use NOPASSWD to run specific commands without password
+            sudo sh -c 'unzip -q -o /home/${{ secrets.LIGHTSAIL_USERNAME }}/deployment.zip -d /home/${{ secrets.LIGHTSAIL_USERNAME }}/${{ secrets.LIGHTSAIL_ROOT_DIR }}'
+            sudo rm /home/${{ secrets.LIGHTSAIL_USERNAME }}/deployment.zip
             sudo systemctl restart nginx
