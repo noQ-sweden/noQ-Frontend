@@ -123,13 +123,15 @@ noqMockApi.onGet('api/host').reply(() => {
 });
 
 // mock for rooms/products
-const productsUrl = /api\/hosts\/\d+\/products/;
-const productUrl = /api\/products\/\d+/;
+// const productsUrl = /\/hosts\/\d+\/products/;
 
-noqMockApi.onGet(productsUrl).reply((config) => {
-    const hostId = parseInt(config.url.match(/api\/hosts\/(\d+)\/products/)[1]);
-    const hostProducts = products.filter(product => product.host.id === hostId);
-    return [200, hostProducts];
+noqMockApi.onGet('api/products').reply(200, products);
+
+const productUrl = /api\/products\/(\d+)/;
+noqMockApi.onGet(productUrl).reply((config) => {
+    const productId = parseInt(config.url.match(/api\/products\/(\d+)/)[1]);
+    const product = products.find(p => p.id === productId);
+    return product ? [200, product] : [404];
 });
 
 noqMockApi.onPost('api/products').reply((config) => {
