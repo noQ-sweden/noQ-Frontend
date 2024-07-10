@@ -46,8 +46,14 @@ jobs:
           name: frontend-build-artifact
           path: ./dist
 
+      - name: Debugging Environment Variables
+        run: |
+          echo "REPO_LIGHTSAIL_STATIC_IP_ADDRESS=${{ secrets.REPO_LIGHTSAIL_STATIC_IP_ADDRESS }}"
+          echo "LIGHTSAIL_USERNAME=${{ secrets.LIGHTSAIL_USERNAME }}"
+          echo "LIGHTSAIL_SSH_PRIVATE_KEY=${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}"
+
       - name: Copy build artifact to Lightsail
-        uses: appleboy/scp-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REPO_LIGHTSAIL_STATIC_IP_ADDRESS }}
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
@@ -56,7 +62,7 @@ jobs:
           target: "/home/${{ secrets.LIGHTSAIL_USERNAME }}/app"
 
       - name: Deploy to Lightsail
-        uses: appleboy/scp-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REPO_LIGHTSAIL_STATIC_IP_ADDRESSS }}
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
