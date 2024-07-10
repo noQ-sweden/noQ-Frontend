@@ -56,7 +56,7 @@ jobs:
           target: "/home/${{ secrets.LIGHTSAIL_USERNAME }}/app"
 
       - name: Deploy to Lightsail
-        uses: appleboy/ssh-action@master
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.REPO_LIGHTSAIL_STATIC_IP_ADDRESSS }}
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
