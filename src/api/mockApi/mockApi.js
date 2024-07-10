@@ -105,13 +105,15 @@ noqMockApi.onGet(bookingsUrl).reply(() => {
 
 
 // mock for rooms/products
-const productsUrl = /\/hosts\/\d+\/products/;
-const productUrl = /\/products\/\d+/;
+// const productsUrl = /\/hosts\/\d+\/products/;
 
-noqMockApi.onGet(productsUrl).reply((config) => {
-    const hostId = parseInt(config.url.match(/\/hosts\/(\d+)\/products/)[1]);
-    const hostProducts = products.filter(product => product.host.id === hostId);
-    return [200, hostProducts];
+noqMockApi.onGet('/products').reply(200, products);
+
+const productUrl = /\/products\/(\d+)/;
+noqMockApi.onGet(productUrl).reply((config) => {
+    const productId = parseInt(config.url.match(/\/products\/(\d+)/)[1]);
+    const product = products.find(p => p.id === productId);
+    return product ? [200, product] : [404];
 });
 
 noqMockApi.onPost('/products').reply((config) => {
