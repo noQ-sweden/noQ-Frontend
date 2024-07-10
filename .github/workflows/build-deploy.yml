@@ -46,12 +46,6 @@ jobs:
           name: frontend-build-artifact
           path: ./dist
 
-      - name: Debugging Environment Variables
-        run: |
-          echo "LIGHTSAIL_IP_ADDRESS=${{ secrets.LIGHTSAIL_IP_ADDRESS }}"
-          echo "LIGHTSAIL_USERNAME=${{ secrets.LIGHTSAIL_USERNAME }}"
-          echo "LIGHTSAIL_SSH_PRIVATE_KEY=${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}"
-
       - name: Deploy to Lightsail
         uses: appleboy/ssh-action@master
         with:
