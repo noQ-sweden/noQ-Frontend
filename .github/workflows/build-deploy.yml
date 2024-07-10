@@ -49,7 +49,7 @@ jobs:
       - name: Copy build artifact to Lightsail
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.LIGHTSAIL_IP_ADDRESS }}
+          host: "51.21.97.243"
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
           key: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
           source: "./dist"
