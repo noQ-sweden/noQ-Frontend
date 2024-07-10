@@ -34,18 +34,7 @@ jobs:
     needs: build
 
     steps:
-      - name: Test SSH connectivity with telnet
-        run: telnet ${{ secrets.LIGHTSAIL_IP_ADDRESS }} 22
-        continue-on-error: true
-
-      - name: Test SSH connectivity with nc
-        run: nc -zv ${{ secrets.LIGHTSAIL_IP_ADDRESS }} 22
-        continue-on-error: true
-
-      - name: Test HTTP connectivity with curl
-        run: curl -I ${{ secrets.LIGHTSAIL_IP_ADDRESS }}
-        continue-on-error: true
-          
+        
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -70,19 +59,7 @@ jobs:
           port: 22
           source: deployment.zip
           target: "/home/${{ secrets.LIGHTSAIL_USERNAME }}"
-
-      - name: Connect to AWS Lightsail, extract file and delete the file
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.LIGHTSAIL_IP_ADDRESS }}
-          username: ${{ secrets.LIGHTSAIL_USERNAME }}
-          key: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            sudo apt-get update
-            sudo apt-get install -y zip unzip  # Installera unzip om det inte redan är installerat
       
-            # use NOPASSWD to run specific commands without password
-            sudo sh -c 'unzip -q -o /home/${{ secrets.LIGHTSAIL_USERNAME }}/deployment.zip -d /home/${{ secrets.LIGHTSAIL_USERNAME }}/${{ secrets.LIGHTSAIL_ROOT_DIR }}'
-            sudo rm /home/${{ secrets.LIGHTSAIL_USERNAME }}/deployment.zip
-            sudo systemctl restart nginx
+      # handle prject with sudo commands using appleboy/ssh-action@v0.1.7 
+      # sudo like, unpack and install zip and restart nginx
+      
