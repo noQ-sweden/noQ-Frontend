@@ -54,7 +54,7 @@ jobs:
         with:
           host: ${{ secrets.LIGHTSAIL_IP_ADDRESS }}
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
-          password: ${{ LIGHTSAIL_USER_PASSWORD }}
+          password: ${{ secrets.LIGHTSAIL_USER_PASSWORD }}
           key: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
           port: 22
           source: deployment.zip
@@ -65,7 +65,7 @@ jobs:
         with:
           host: ${{ secrets.LIGHTSAIL_IP_ADDRESS }}
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
-          password: ${{ LIGHTSAIL_USER_PASSWORD }}
+          password: ${{ secrets.LIGHTSAIL_USER_PASSWORD }}
           key: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
           port: 22
           script: |
@@ -79,5 +79,5 @@ jobs:
           echo "LIGHTSAIL_IP_ADDRESS=${{ secrets.LIGHTSAIL_IP_ADDRESS }}"
           echo "LIGHTSAIL_USERNAME=${{ secrets.LIGHTSAIL_USERNAME }}"
           echo "LIGHTSAIL_SSH_PRIVATE_KEY=${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}"
-          echo "LIGHTSAIL_USER_PASSWORD=${{ LIGHTSAIL_USER_PASSWORD }}"
+          echo "LIGHTSAIL_USER_PASSWORD=${{ secrets.LIGHTSAIL_USER_PASSWORD }}"
 
