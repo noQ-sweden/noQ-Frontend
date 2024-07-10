@@ -36,15 +36,19 @@ jobs:
     steps:
       - name: Test SSH connectivity with telnet
         run: telnet ${{ secrets.LIGHTSAIL_IP_ADDRESS }} 22
+        continue-on-error: true
 
       - name: Test SSH connectivity with nc
         run: nc -zv ${{ secrets.LIGHTSAIL_IP_ADDRESS }} 22
+        continue-on-error: true
 
       - name: Test HTTP connectivity with curl
         run: curl -I ${{ secrets.LIGHTSAIL_IP_ADDRESS }}
+        continue-on-error: true
 
       - name: Test HTTPS connectivity with curl
         run: curl -I https://${{ secrets.LIGHTSAIL_IP_ADDRESS }}
+        continue-on-error: true
           
       - name: Checkout code
         uses: actions/checkout@v4
