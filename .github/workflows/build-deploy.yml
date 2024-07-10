@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '14'  # Uppdatera till den korrekta Node.js-versionen
 
       - name: Install dependencies
         run: npm ci
@@ -44,10 +44,6 @@ jobs:
 
       - name: Test HTTP connectivity with curl
         run: curl -I ${{ secrets.LIGHTSAIL_IP_ADDRESS }}
-        continue-on-error: true
-
-      - name: Test HTTPS connectivity with curl
-        run: curl -I https://${{ secrets.LIGHTSAIL_IP_ADDRESS }}
         continue-on-error: true
           
       - name: Checkout code
@@ -80,11 +76,10 @@ jobs:
         with:
           host: ${{ secrets.LIGHTSAIL_IP_ADDRESS }}
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
-          password: ${{ secrets.LIGHTSAIL_USER_PASSWORD }}
+          key: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
           port: 22
           script: |
             sudo apt-get install -y zip unzip
             unzip -q -o /home/${{ secrets.LIGHTSAIL_USERNAME }}/deployment.zip -d /home/${{ secrets.LIGHTSAIL_USERNAME }}/${{ secrets.LIGHTSAIL_ROOT_DIR }}
             rm /home/${{ secrets.LIGHTSAIL_USERNAME }}/deployment.zip
             sudo systemctl restart nginx
-
