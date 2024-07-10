@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { bookings } from './bookings'
 import AxiosMockAdapter from 'axios-mock-adapter';
+import {products} from "./products.js";
 
 export const axiosMockNoqApi = axios.create({
   headers: {
@@ -100,4 +101,43 @@ noqMockApi.onPatch(urlPending).reply((config) => {
 
 noqMockApi.onGet(bookingsUrl).reply(() => {
     return [200, bookings];
+});
+
+
+// mock for rooms/products
+const productsUrl = /\/hosts\/\d+\/products/;
+const productUrl = /\/products\/\d+/;
+
+noqMockApi.onGet(productsUrl).reply((config) => {
+    const hostId = parseInt(config.url.match(/\/hosts\/(\d+)\/products/)[1]);
+    const hostProducts = products.filter(product => product.host.id === hostId);
+    return [200, hostProducts];
+});
+
+noqMockApi.onPost('/products').reply((config) => {
+    const newProduct = JSON.parse(config.data);
+    newProduct.id = products.length + 1;
+    products.push(newProduct);
+    return [200, newProduct];
+});
+
+noqMockApi.onPut(productUrl).reply((config) => {
+    const productId = parseInt(config.url.match(/\/products\/(\d+)/)[1]);
+    const updatedProduct = JSON.parse(config.data);
+    const index = products.findIndex(product => product.id === productId);
+    if (index !== -1) {
+        products[index] = updatedProduct;
+        return [200, updatedProduct];
+    }
+    return [404];
+});
+
+noqMockApi.onDelete(productUrl).reply((config) => {
+    const productId = parseInt(config.url.match(/\/products\/(\d+)/)[1]);
+    const index = products.findIndex(product => product.id === productId);
+    if (index !== -1) {
+        products.splice(index, 1);
+        return [200];
+    }
+    return [404];
 });
