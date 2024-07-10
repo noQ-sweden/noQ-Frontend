@@ -59,23 +59,20 @@ jobs:
           source: deployment.zip
           target: "/home/${{ secrets.LIGHTSAIL_USERNAME }}"
 
+      - name: Verify SSH connection to Lightsail
+        run: |
+          ssh -i ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }} ${{ secrets.LIGHTSAIL_USERNAME }}@${{ secrets.LIGHTSAIL_IP_ADDRESS }} "echo 'SSH connection successful'"
+      
       - name: Connect to AWS Lightsail, extract file and delete the file
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.LIGHTSAIL_IP_ADDRESS }}
           username: ${{ secrets.LIGHTSAIL_USERNAME }}
-          key: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
+          password: ${{ secrets.LIGHTSAIL_USER_PASSWORD }}
           port: 22
           script: |
             sudo apt-get install -y zip unzip
             unzip -q -o /home/${{ secrets.LIGHTSAIL_USERNAME }}/deployment.zip -d /home/${{ secrets.LIGHTSAIL_USERNAME }}/${{ secrets.LIGHTSAIL_ROOT_DIR }}
             rm /home/${{ secrets.LIGHTSAIL_USERNAME }}/deployment.zip
             sudo systemctl restart nginx
-
-      - name: Debugging Environment Variables
-        run: |
-          echo "LIGHTSAIL_IP_ADDRESS=${{ secrets.LIGHTSAIL_IP_ADDRESS }}"
-          echo "LIGHTSAIL_USERNAME=${{ secrets.LIGHTSAIL_USERNAME }}"
-          echo "LIGHTSAIL_SSH_PRIVATE_KEY=${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}"
-          echo "LIGHTSAIL_USER_PASSWORD=${{ secrets.LIGHTSAIL_USER_PASSWORD }}"
 
