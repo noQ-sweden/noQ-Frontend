@@ -1,11 +1,11 @@
 name: Deploy To Lightsail
 
 on:
-  workflow_dispatch:
-    inputs:
-      service-name:
-        description: "noq Lightsail service"
-        required: true
+  workflow_run:
+    workflows: ["Build Pipeline"]
+    types:
+      - completed
+
 
 jobs:
   deploy:
