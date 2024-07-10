@@ -8,6 +8,7 @@ import {
   FaSignOutAlt,
   FaUser,
   FaRandom,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import noQicon from "./../../assets/images/noQiconNoQGreen.svg";
