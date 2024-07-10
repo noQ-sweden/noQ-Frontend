@@ -46,17 +46,21 @@ jobs:
           name: frontend-build-artifact
           path: ./dist
 
-      - name: Deploy to Lightsail
-        uses: appleboy/ssh-action@master
+      - name: Connect to AWS Lightsail, extract file and delete the file
+        uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.LIGHTSAIL_IP_ADDRESS }}
-          username: ${{ secrets.LIGHTSAIL_USERNAME }}
-          key: ${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}
+          host: ${{ secrets.LIGTHSAIL_IP_ADDRESS }}
+          username: ${{ secrets.LIGTHSAIL_USERNAME }}
+          key: ${{ secrets.LIGTHSAIL_SSH_PRIVATE_KEY }}
+          password: ""
           passphrase: ""
           port: 22
           script: |
-            cd /home/${{ secrets.LIGHTSAIL_USERNAME }}/app
-            sudo cp -r ./dist/* ./
+            sudo apt-get install zip unzip
+            unzip -q -o /home/${{ secrets.LIGTHSAIL_USERNAME }}/${{ env.DEPLOY_PACKAGE_NAME_FILE }} -d /home/${{ secrets.LIGTHSAIL_USERNAME }}/${{ secrets.LIGTHSAIL_ROOT_DIR }}
+            rm /home/${{ secrets.LIGTHSAIL_USERNAME }}/${{ env.DEPLOY_PACKAGE_NAME_FILE }}
+            sudo systemctl restart nginx
+
 
 
 
