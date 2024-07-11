@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from './../api/AxiosNoqApi';
 import RoomPagesListItem from '../components/RoomPage/RoomPagesListItem';
+import FlikaAllmänInformation from '../components/RoomPage/FlikaAllmänInformation'
+
 
 const RoomPage = () => {
     const [rooms, setRooms] = useState([]);
@@ -88,9 +90,13 @@ const RoomPage = () => {
         <div className="px-8 py-6">
             <h1 className="font-inter text-4xl font-bold leading-tight">Redigera härbärge</h1>
             <ul>
-                <RoomPagesListItem itemTitle="Allmän information" />
+                <RoomPagesListItem itemTitle="Allmän information">
+                 <FlikaAllmänInformation/>
+                </RoomPagesListItem>
                 <RoomPagesListItem itemTitle="Typ av sovplats" />
-                <RoomPagesListItem itemTitle="Sovplatser" onClick={toggleSovplatserSection} /> {/* Pass onClick handler */}
+                <RoomPagesListItem itemTitle="Sovplatser" 
+                // onClick={toggleSovplatserSection} 
+                /> {/* Pass onClick handler */}
                 <RoomPagesListItem itemTitle="Tjänster" />
                 <RoomPagesListItem itemTitle="Övrig information" />
             </ul>
@@ -117,7 +123,7 @@ const RoomPage = () => {
                         <button type="submit">{editingRoom ? "Update Room" : "Add Room"}</button>
                     </form>
                 </div>
-            )}
+            )}    
         </div>
     );
 };
