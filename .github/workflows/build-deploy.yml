@@ -3,7 +3,10 @@ name: Build and Deploy Pipeline
 on:
   push:
     branches:
-      - stage
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
