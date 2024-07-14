@@ -107,7 +107,7 @@ noqMockApi.onGet(bookingsUrl).reply(() => {
 // mock for rooms/products
 // const productsUrl = /\/hosts\/\d+\/products/;
 
-noqMockApi.onGet('/products').reply(200, products);
+noqMockApi.onGet('api/products').reply(200, products);
 
 const productUrl = /\/products\/(\d+)/;
 noqMockApi.onGet(productUrl).reply((config) => {
@@ -116,7 +116,7 @@ noqMockApi.onGet(productUrl).reply((config) => {
     return product ? [200, product] : [404];
 });
 
-noqMockApi.onPost('/products').reply((config) => {
+noqMockApi.onPost('api/products').reply((config) => {
     const newProduct = JSON.parse(config.data);
     newProduct.id = products.length + 1;
     products.push(newProduct);

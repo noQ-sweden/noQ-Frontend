@@ -29,6 +29,7 @@ export default function Sidebar() {
     { icon: FaCalendarAlt, label: "Kalender" },
     { icon: FaBell, label: "Förfrågan", sideBarLink: "host/requests" },
     { icon: FaRandom, label: "Mina Rum", sideBarLink: "host/products" },
+    { icon: FaRandom, label: "Härberget" },
     { icon: FaUser, label: "Gäster" },
     { icon: FaReceipt, label: "Fakturering" },
     { icon: FaCog, label: "Inställningar" },

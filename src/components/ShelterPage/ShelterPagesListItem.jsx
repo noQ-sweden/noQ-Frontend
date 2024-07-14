@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import ArrowButton from './ArrowButton';
+import ArrowButton from './ArrowButton.jsx';
 
-const RoomPagesListItem = ({ itemTitle, children }) => {
+const ShelterPagesListItem = ({ itemTitle, children }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleArrowButton = () => {
@@ -33,9 +33,9 @@ const RoomPagesListItem = ({ itemTitle, children }) => {
     );
 };
 
-RoomPagesListItem.propTypes = {
+ShelterPagesListItem.propTypes = {
     itemTitle: PropTypes.string.isRequired,
     children: PropTypes.node,
 };
 
-export default RoomPagesListItem;
+export default ShelterPagesListItem;
