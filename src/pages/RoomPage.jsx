@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from './../api/AxiosNoqApi';
-import RoomPagesListItem from '../components/RoomPage/RoomPagesListItem';
-import FlikaAllmänInformation from '../components/RoomPage/FlikaAllmänInformation'
-
 
 const RoomPage = () => {
     const [rooms, setRooms] = useState([]);
@@ -15,7 +12,6 @@ const RoomPage = () => {
         requirements: ''
     });
     const [editingRoom, setEditingRoom] = useState(null);
-    const [isSovplatserOpen, setIsSovplatserOpen] = useState(false); // State for section visibility
 
     useEffect(() => {
         fetchRooms();
@@ -23,7 +19,7 @@ const RoomPage = () => {
 
     const fetchRooms = async () => {
         try {
-            const response = await axios.get('/products');
+            const response = await axios.get('api/products');
             setRooms(response.data);
         } catch (error) {
             console.error("There was an error fetching the rooms!", error);
@@ -42,7 +38,7 @@ const RoomPage = () => {
     const handleCreateRoom = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/products', newRoom);
+            await axios.post('api/products', newRoom);
             await fetchRooms();
             setNewRoom({ name: '', description: '', total_places: 0, host_id: '', type: '', requirements: '' });
         } catch (error) {
@@ -62,7 +58,7 @@ const RoomPage = () => {
     const handleUpdateRoom = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`/products/${editingRoom.id}`, editingRoom);
+            await axios.put(`api/products/${editingRoom.id}`, editingRoom);
             await fetchRooms();
             setEditingRoom(null);
         } catch (error) {
@@ -72,35 +68,17 @@ const RoomPage = () => {
 
     const handleDeleteRoom = async (roomId) => {
         try {
-            await axios.delete(`/products/${roomId}`);
+            await axios.delete(`api/products/${roomId}`);
             await fetchRooms();
         } catch (error) {
             console.error("There was an error deleting the room!", error);
         }
     };
 
-    const toggleSovplatserSection = async () => {
-        setIsSovplatserOpen(!isSovplatserOpen);
-        if (!isSovplatserOpen) {
-            await fetchRooms(); // Fetch rooms when opening the section
-        }
-    };
 
     return (
         <div className="px-8 py-6">
-            <h1 className="font-inter text-4xl font-bold leading-tight">Redigera härbärge</h1>
-            <ul>
-                <RoomPagesListItem itemTitle="Allmän information">
-                 <FlikaAllmänInformation/>
-                </RoomPagesListItem>
-                <RoomPagesListItem itemTitle="Typ av sovplats" />
-                <RoomPagesListItem itemTitle="Sovplatser" 
-                // onClick={toggleSovplatserSection} 
-                /> {/* Pass onClick handler */}
-                <RoomPagesListItem itemTitle="Tjänster" />
-                <RoomPagesListItem itemTitle="Övrig information" />
-            </ul>
-            {isSovplatserOpen && (
+            <h1 className="font-inter text-4xl font-bold leading-tight">Redigera Sovplatser</h1>
                 <div>
                     <h2>Rooms</h2>
                     <ul>
@@ -123,7 +101,7 @@ const RoomPage = () => {
                         <button type="submit">{editingRoom ? "Update Room" : "Add Room"}</button>
                     </form>
                 </div>
-            )}    
+
         </div>
     );
 };

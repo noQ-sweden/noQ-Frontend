@@ -1,5 +1,5 @@
 
-const FlikaAllmänInformation = () =>{
+const TabGeneralInfo = () =>{
     return(<>
     <div className="ml-[39px] mt-[22px]">
      <h3>Härbärgets namn</h3>
@@ -8,4 +8,4 @@ const FlikaAllmänInformation = () =>{
     </>)
 }
 
-export default FlikaAllmänInformation;
+export default TabGeneralInfo;
