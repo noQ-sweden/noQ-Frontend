@@ -58,7 +58,7 @@ const RoomPage = () => {
     const handleUpdateRoom = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`api/hosts/products/${editingRoom.id}`, editingRoom);
+            await axios.put(`/products/${editingRoom.id}/edit/`, editingRoom);
             await fetchRooms();
             setEditingRoom(null);
         } catch (error) {
