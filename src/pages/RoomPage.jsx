@@ -19,7 +19,7 @@ const RoomPage = () => {
 
     const fetchRooms = async () => {
         try {
-            const response = await axios.get('api/products');
+            const response = await axios.get('api/host/products');
             setRooms(response.data);
         } catch (error) {
             console.error("There was an error fetching the rooms!", error);
@@ -38,7 +38,7 @@ const RoomPage = () => {
     const handleCreateRoom = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('api/products', newRoom);
+            await axios.post('api/host/products', newRoom);
             await fetchRooms();
             setNewRoom({ name: '', description: '', total_places: 0, host_id: '', type: '', requirements: '' });
         } catch (error) {
@@ -48,7 +48,7 @@ const RoomPage = () => {
 
     const handleEditRoom = async (roomId) => {
         try {
-            const response = await axios.get(`/products/${roomId}`);
+            const response = await axios.get(`api/host/products/${roomId}`);
             setEditingRoom(response.data);
         } catch (error) {
             console.error("There was an error fetching the room details!", error);
@@ -58,7 +58,7 @@ const RoomPage = () => {
     const handleUpdateRoom = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`api/products/${editingRoom.id}`, editingRoom);
+            await axios.put(`api/hosts/products/${editingRoom.id}`, editingRoom);
             await fetchRooms();
             setEditingRoom(null);
         } catch (error) {
@@ -68,7 +68,7 @@ const RoomPage = () => {
 
     const handleDeleteRoom = async (roomId) => {
         try {
-            await axios.delete(`api/products/${roomId}`);
+            await axios.delete(`api/host/products/${roomId}`);
             await fetchRooms();
         } catch (error) {
             console.error("There was an error deleting the room!", error);
