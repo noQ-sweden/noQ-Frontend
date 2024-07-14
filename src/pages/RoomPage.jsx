@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from './../api/AxiosNoqApi';
+
+
 
 const RoomPage = () => {
     const [rooms, setRooms] = useState([]);
@@ -74,7 +76,6 @@ const RoomPage = () => {
             console.error("There was an error deleting the room!", error);
         }
     };
-
 
     return (
         <div className="px-8 py-6">
