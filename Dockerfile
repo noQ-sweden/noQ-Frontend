@@ -1,4 +1,4 @@
-FROM node:22-alpine as frontend
+FROM node:22-alpine
 
 WORKDIR /frontend
 
@@ -7,10 +7,10 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-RUN adduser --disabled-password --no-create-home app && \
-    mkdir -p /vol/web/frontend && \
-    chown -R app:app /vol/web/frontend && \
-    chmod -R 755 /vol/web/frontend && \
-    cp -rf dist/* /vol/web/frontend
+RUN adduser --disabled-password --no-create-home app
+RUN mkdir -p /frontend-files/build
+RUN chown -R app:app /frontend-files/build
+RUN chmod -R 755 /frontend-files/build
+RUN cp -rf dist/* /frontend-files/build
 
 USER app
