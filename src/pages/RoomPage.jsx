@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState } from 'react';
 import axios from './../api/AxiosNoqApi';
 
 
@@ -60,7 +60,7 @@ const RoomPage = () => {
     const handleUpdateRoom = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`/products/${editingRoom.id}/edit/`, editingRoom);
+            await axios.put(`/api/host/products/${editingRoom.id}/edit`, editingRoom);
             await fetchRooms();
             setEditingRoom(null);
         } catch (error) {
