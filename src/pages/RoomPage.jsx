@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from './../api/AxiosNoqApi';
 
+import RedigeraRumTable from '../components/RoomPage/RedigeraRumTable'
+
 
 
 const RoomPage = () => {
@@ -79,7 +81,7 @@ const RoomPage = () => {
 
     return (
         <div className="px-8 py-6">
-            <h1 className="font-inter text-4xl font-bold leading-tight">Redigera Sovplatser</h1>
+            {/* <h1 className="font-inter text-4xl font-bold leading-tight">Redigera Sovplatser</h1>
                 <div>
                     <h2>Rooms</h2>
                     <ul>
@@ -101,7 +103,9 @@ const RoomPage = () => {
                         <input type="text" name="requirements" value={editingRoom ? editingRoom.requirements : newRoom.requirements} onChange={handleInputChange} placeholder="Requirements" />
                         <button type="submit">{editingRoom ? "Update Room" : "Add Room"}</button>
                     </form>
-                </div>
+                </div> */}
+
+                <RedigeraRumTable></RedigeraRumTable>
 
         </div>
     );
