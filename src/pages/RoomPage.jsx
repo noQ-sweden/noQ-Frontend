@@ -1,7 +1,7 @@
 import React, {useEffect, useState } from 'react';
 import axios from './../api/AxiosNoqApi';
 
-import RedigeraRumTable from '../components/RoomPage/RedigeraRumTable'
+import EditRoomTable from '../components/RoomPage/EditRoomTable'
 
 
 
@@ -105,7 +105,7 @@ const RoomPage = () => {
                     </form>
                 </div> */}
 
-                <RedigeraRumTable></RedigeraRumTable>
+                <EditRoomTable></EditRoomTable>
 
         </div>
     );
