@@ -32,18 +32,30 @@ const EditRoomTable = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    const newRow = { name, description, beds: parseInt(beds), type, requirements };
+
+    const totalPlaces = Number.isNaN(parseInt(beds)) ? 0 : parseInt(beds);
+
+    const newRow = {
+      name,
+      description,
+      total_places: totalPlaces,
+      type,
+      requirements: requirements || ""
+    };
+
+    console.log("Sending payload:", newRow);
+
     try {
       if (editIndex !== null) {
         const roomId = rows[editIndex].id;
         await axios.put(`/api/host/products/${roomId}/edit`, newRow);
       } else {
-        await axios.post('api/host/products', newRow);
+        await axios.post('/api/host/products', newRow);
       }
       fetchRooms();
       clearForm();
     } catch (error) {
-      console.error("There was an error saving the room!", error);
+      console.error("There was an error saving the room!", error.response?.data || error.message);
     }
   };
 
@@ -70,7 +82,7 @@ const EditRoomTable = () => {
     const roomId = rows[index].id;
     try {
       await axios.delete(`api/host/products/${roomId}`);
-      fetchRooms();
+      await fetchRooms();
     } catch (error) {
       console.error("There was an error deleting the room!", error);
     }
