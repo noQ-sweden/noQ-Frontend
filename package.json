@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:dev": "dotenv -e .env.dev -- vite --mode development",
+    "dev:prod": "dotenv -e .env.prod -- vite --mode production",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"

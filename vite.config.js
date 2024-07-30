@@ -1,10 +1,16 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-export default defineConfig({
-  plugins: [react()],
-  envPrefix: 'NOQ',
-  define:{
-    'process.env.NOQ_IS_MOCK_API':JSON.stringify(process.env.NOQ_IS_MOCK_API)
-  }
+export default defineConfig(({ mode }) => {
+  console.log(`Current mode: ${mode}`);
+
+  return {
+    plugins: [react()],
+    envPrefix: "NOQ_",
+    define: {
+      "process.env.NOQ_IS_MOCK_API": JSON.stringify(
+        process.env.NOQ_IS_MOCK_API
+      ),
+    },
+  };
 });
