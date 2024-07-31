@@ -3,9 +3,10 @@ FROM node:22-alpine
 WORKDIR /frontend
 
 COPY package.json .
-RUN npm install
+COPY package-lock.json .
+RUN npm ci
 COPY . .
-RUN npm run build -- --mode production
+RUN npm run build
 
 RUN adduser --disabled-password --no-create-home app
 RUN mkdir -p /frontend-files/build
