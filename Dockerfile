@@ -5,7 +5,7 @@ WORKDIR /frontend
 COPY package.json .
 RUN npm install
 COPY . .
-RUN npm run build
+RUN npm run build -- --mode production
 
 RUN adduser --disabled-password --no-create-home app
 RUN mkdir -p /frontend-files/build
