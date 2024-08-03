@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import useLogin from "./../../hooks/useLogin";
 import axios from './../../api/AxiosNoqApi';
-import User from "./User";
-import Language from "./Language";
 import { FaRegEnvelope, FaBell, FaCaretDown, FaQuestionCircle } from "react-icons/fa";
 
 export default function Navbar() {
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
     const { login } = useLogin();
     const [hostInfo, setHostInfo] = useState(null);
-    const [nrOfMessages, setNrOfMessages] = useState(0);
-    const [nrOfAlerts, setNrOfAlert] = useState(0);
+    //TODO: Functionality for messages and alerts is not in place yet.
+    //      Displaying 0 messages and alerts for now.
+    const [nrOfMessages, /*setNrOfMessages*/] = useState(0);
+    const [nrOfAlerts, /*setNrOfAlert*/] = useState(0);
 
     const toggleUserDropdown = () => {
         setIsUserDropdownOpen(!isUserDropdownOpen);
