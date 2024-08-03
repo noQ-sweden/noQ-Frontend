@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   FaChartPie,
   FaCog,
-  FaCalendarAlt,
   FaReceipt,
-  FaUser,
   FaBell,
   FaUserAlt,
   FaSignOutAlt,

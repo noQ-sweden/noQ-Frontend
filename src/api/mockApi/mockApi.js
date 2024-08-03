@@ -97,3 +97,22 @@ noqMockApi.onPatch(urlPending).reply((config) => {
         return [200, []];
     }
 });
+
+/*
+    Below APIs are relate to host information
+*/
+noqMockApi.onGet('api/host').reply(() => {
+    const hostInfo =
+    {
+        region: {
+          id: 5,
+          name: "Övriga landet"
+        },
+        id: 1,
+        name: "Bostället",
+        street: "Skolgatan 0",
+        postcode: "70362",
+        city: "Örebro"
+    }
+    return [200, JSON.stringify(hostInfo)];
+});
