@@ -3,12 +3,14 @@ import useLogin from "./../../hooks/useLogin";
 import axios from './../../api/AxiosNoqApi';
 import User from "./User";
 import Language from "./Language";
-import { FaEnvelope, FaBell, FaCaretDown, FaQuestionCircle } from "react-icons/fa";
+import { FaRegEnvelope, FaBell, FaCaretDown, FaQuestionCircle } from "react-icons/fa";
 
 export default function Navbar() {
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
     const { login } = useLogin();
     const [hostInfo, setHostInfo] = useState(null);
+    const [nrOfMessages, setNrOfMessages] = useState(0);
+    const [nrOfAlerts, setNrOfAlert] = useState(0);
 
     const toggleUserDropdown = () => {
         setIsUserDropdownOpen(!isUserDropdownOpen);
@@ -41,12 +43,12 @@ export default function Navbar() {
             <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold">{hostInfo?.name}</div>
             <div className="flex items-center space-x-10"> {/* Adjusted space-x value */}
                 <div className="relative">
-                    <FaEnvelope className="text-2xl" />
-                    <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                    <FaRegEnvelope className="size-6 fill-almost-black" />
+                    <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">{nrOfMessages}</span>
                 </div>
                 <div className="relative">
-                    <FaBell className="text-2xl" />
-                    <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">1</span>
+                    <FaBell className="size-6 fill-almost-black" />
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">{nrOfAlerts}</span>
                 </div>
                 <div className="relative flex items-center space-x-2 cursor-pointer" onClick={toggleUserDropdown}>
                     <div className="bg-green-noQ text-white rounded-full w-8 h-8 flex items-center justify-center">{getInitials(login?.username)}</div>
