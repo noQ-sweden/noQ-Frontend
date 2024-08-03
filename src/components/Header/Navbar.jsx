@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import useLogin from "./../../hooks/useLogin";
+import { useNavigate } from "react-router-dom";
 import axios from './../../api/AxiosNoqApi';
-import { FaRegEnvelope, FaBell, FaCaretDown, FaQuestionCircle } from "react-icons/fa";
+import { FaRegEnvelope, FaBell, FaCaretDown, FaCaretUp, FaQuestionCircle, FaSignOutAlt } from "react-icons/fa";
 
 export default function Navbar() {
+    const navigate = useNavigate();
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
     const { login } = useLogin();
     const [hostInfo, setHostInfo] = useState(null);
@@ -14,6 +16,15 @@ export default function Navbar() {
 
     const toggleUserDropdown = () => {
         setIsUserDropdownOpen(!isUserDropdownOpen);
+    };
+
+    const handleLogout = () => {
+      // Clear user session data here (localStorage, cookies, etc.)
+      localStorage.clear(); // Example: clearing all localStorage items
+      // Redirect to the starting page
+      navigate("/", { replace: true });
+      // Reload the page to reset the application state
+      window.location.reload();
     };
 
     const fetchHostInfo = async() => {
@@ -50,12 +61,48 @@ export default function Navbar() {
                     <FaBell className="size-6 fill-almost-black" />
                     <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">{nrOfAlerts}</span>
                 </div>
-                <div className="relative flex items-center space-x-2 cursor-pointer" onClick={toggleUserDropdown}>
+
+                <div className="relative flex items-center space-x-2">
                     <div className="bg-green-noQ text-white rounded-full w-8 h-8 flex items-center justify-center">{getInitials(login?.username)}</div>
+                    {isUserDropdownOpen && (
+                      <div className="
+                          absolute
+                          right-0
+                          top-10
+                          z-10
+                          w-48
+                          bg-white
+                          shadow-lg">
+                          <div>
+                              <button
+                                  onClick={handleLogout}
+                                  className="
+                                      w-full
+                                      text-left
+                                      px-4
+                                      py-2
+                                      text-sm
+                                      text-gray-700
+                                      hover:bg-gray-100">
+                                  <span className="flex gap-4 pl-1 pr-1 text-l">
+                                      <FaSignOutAlt className="mt-1" />
+                                      <span>Logout</span>
+                                  </span>
+                              </button>
+                          </div>
+                      </div>
+                    )}
                     <div className="text-sm">{login?.username}</div>
-                    <FaCaretDown />
+                    <div className="pr-1 pl-1">
+                        {isUserDropdownOpen ?
+                            ( <FaCaretUp onClick={toggleUserDropdown} /> )
+                            :
+                            ( <FaCaretDown onClick={toggleUserDropdown} /> )
+                        }
+                    </div>
                 </div>
-                <FaQuestionCircle className="text-2xl text-green-noQ ml-4" /> {/* Added ml-4 margin class */}
+                <FaQuestionCircle className="text-2xl text-green-noQ ml-4" />
+
             </div>
         </nav>
     );
