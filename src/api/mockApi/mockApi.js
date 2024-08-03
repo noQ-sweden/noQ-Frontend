@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { bookings } from './bookings'
-import { countBookings } from './countBookings'
 import AxiosMockAdapter from 'axios-mock-adapter';
 
 export const axiosMockNoqApi = axios.create({
@@ -101,11 +100,6 @@ noqMockApi.onPatch(urlPending).reply((config) => {
 
 noqMockApi.onGet(bookingsUrl).reply(() => {
     return [200, bookings];
-});
-
-noqMockApi.onGet("api/host/count_bookings").reply(() =>  {
-    console.log("mockApi called")
-    return [200, countBookings];
 });
 
 /*
