@@ -41,6 +41,8 @@ export default function LoginPage() {
         setLogin({ username, usergroups });
         setUsername('');
         setPassword('');
+        console.log("host?" + localStorage.getItem('hostid'))
+
         const returnUrl = (from === "/") ? "/" + usergroups[0] : from;
         navigate(returnUrl, { replace: true });
       } else {
