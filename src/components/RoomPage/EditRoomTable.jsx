@@ -38,14 +38,22 @@ const EditRoomTable = () => {
     const totalPlaces = Number.isNaN(parseInt(beds)) ? 0 : parseInt(beds);
 
 
+    const user = JSON.parse(localStorage.getItem('user'));
+    const host_id = user?.host_id;
+
+    if (!host_id) {
+      console.error('Host ID not found. User not a host?.');
+      return;
+    }
+
     const newRow = {
       id,
       name,
       description,
       total_places: totalPlaces,
-      host_id,
       type,
-      requirements: requirements || ""
+      requirements: requirements || "",
+      host: { id: host_id }
     };
 
     console.log("Sending payload:", newRow);
