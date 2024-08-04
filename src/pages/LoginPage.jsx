@@ -31,31 +31,51 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios.post ('api/login/', {
-      email: username,
-      password: password
-    })
-    .then ((response) => {
-      if (response.status === 200 && response.data.login_status === true) {
-        const usergroups = response?.data?.groups;
-        setLogin({ username, usergroups });
+    try {
+      const response = await axios.post('/api/login/', {
+        email: username,
+        password: password
+      });
+      console.log("API Response:", response.data);
+
+      if (response.status === 200 && response.data.login_status) {
+        const { groups, host_id } = response.data;
+        setLogin({ username, groups });
+
+
+
+
+        localStorage.setItem('user', JSON.stringify({
+          username,
+          groups,
+          host_id
+        }));
+
+        console.log("id from storage???? :" + localStorage.getItem('user'))
+
         setUsername('');
         setPassword('');
-        console.log("host?" + localStorage.getItem('hostid'))
 
-        const returnUrl = (from === "/") ? "/" + usergroups[0] : from;
-        navigate(returnUrl, { replace: true });
+        let redirectPath;
+        if (groups.includes("host")) {
+          redirectPath = "/host";
+        } else if (groups.includes("user")) {
+          redirectPath = "/user";
+        } else {
+          redirectPath = "/";
+        }
+
+        navigate(redirectPath, { replace: true });
       } else {
-        setErrorMessage('Autentisering misslyckades.');
+        setErrorMessage(response.data.message || 'Authentication failed.');
         setUsername('');
-        setPassword('');    
+        setPassword('');
       }
-    })
-    .catch((error) => {
-      console.log("Error while login.", error);
-    });
-    setPassword('');
-  }
+    } catch (error) {
+      setErrorMessage('An error occurred while logging in.');
+      console.error("Error during login:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center">
