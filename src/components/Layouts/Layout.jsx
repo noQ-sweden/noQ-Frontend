@@ -10,7 +10,7 @@ Layout.propTypes = {
 
 export default function Layout() {
     const { login } = useLogin();
-    const viewerGroup = (login?.groups instanceof Array) ? login?.groups[0] : null;
+    const viewerGroup = (login?.usergroups instanceof Array) ? login?.usergroups[0] : null;
 
 
     return (

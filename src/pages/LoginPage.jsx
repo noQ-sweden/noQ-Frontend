@@ -31,51 +31,32 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post('/api/login/', {
-        email: username,
-        password: password
-      });
-      console.log("API Response:", response.data);
-
-      if (response.status === 200 && response.data.login_status) {
-        const { groups, host_id } = response.data;
-        setLogin({ username, groups });
-
-
-
-
-        localStorage.setItem('user', JSON.stringify({
-          username,
-          groups,
-          host_id
-        }));
-
-        console.log("id from storage???? :" + localStorage.getItem('user'))
+    axios.post ('api/login/', {
+      email: username,
+      password: password
+    })
+    .then ((response) => {
+      if (response.status === 200 && response.data.login_status === true) {
+        const usergroups = response?.data?.groups;
+        const host_id = response?.data?.host_id;
+        setLogin({ username, usergroups, host_id });
 
         setUsername('');
         setPassword('');
 
-        let redirectPath;
-        if (groups.includes("host")) {
-          redirectPath = "/host";
-        } else if (groups.includes("user")) {
-          redirectPath = "/user";
-        } else {
-          redirectPath = "/";
-        }
-
-        navigate(redirectPath, { replace: true });
+        const returnUrl = (from === "/") ? "/" + usergroups[0] : from;
+        navigate(returnUrl, { replace: true });
       } else {
-        setErrorMessage(response.data.message || 'Authentication failed.');
+        setErrorMessage('Autentisering misslyckades.');
         setUsername('');
         setPassword('');
       }
-    } catch (error) {
-      setErrorMessage('An error occurred while logging in.');
-      console.error("Error during login:", error);
-    }
-  };
+    })
+    .catch((error) => {
+      console.log("Error while login.", error);
+    });
+    setPassword('');
+  }
 
   return (
     <div className="flex flex-col items-center">

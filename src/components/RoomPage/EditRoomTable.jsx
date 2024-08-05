@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import EditIcon from './EditIcon'; 
 import BinIcon from './BinIcon';
 import axios from "../../api/AxiosNoqApi.js";
+import useLogin from "../../hooks/useLogin";
 
 const EditRoomTable = () => {
-  const [id, setId] = useState('');
+  const { login } = useLogin();
+  const [id, setId] = useState(0);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [host_id, setHostId] = useState('');
@@ -16,6 +18,7 @@ const EditRoomTable = () => {
 
 
   useEffect(() => {
+    setHostId(login.host_id);
     fetchRooms();
   }, []);
 
@@ -37,23 +40,14 @@ const EditRoomTable = () => {
 
     const totalPlaces = Number.isNaN(parseInt(beds)) ? 0 : parseInt(beds);
 
-
-    const user = JSON.parse(localStorage.getItem('user'));
-    const host_id = user?.host_id;
-
-    if (!host_id) {
-      console.error('Host ID not found. User not a host?.');
-      return;
-    }
-
     const newRow = {
       id,
       name,
       description,
       total_places: totalPlaces,
+      host_id,
       type,
-      requirements: requirements || "",
-      host: { id: host_id }
+      requirements: requirements || ""
     };
 
     console.log("Sending payload:", newRow);
@@ -73,9 +67,10 @@ const EditRoomTable = () => {
   };
 
   const clearForm = () => {
+    setId(0);
     setName('');
     setDescription('');
-    setHostId('');
+    setHostId(login.host_id);
     setBeds(null);
     setType('');
     setRequirements('');
