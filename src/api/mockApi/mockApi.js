@@ -125,16 +125,16 @@ noqMockApi.onGet('api/host').reply(() => {
 // mock for rooms/products
 // const productsUrl = /\/hosts\/\d+\/products/;
 
-noqMockApi.onGet('api/products').reply(200, products);
+noqMockApi.onGet('api/host/products').reply(200, products);
 
-const productUrl = /api\/products\/(\d+)/;
+const productUrl = /api\/host\/products\/(\d+)/;
 noqMockApi.onGet(productUrl).reply((config) => {
-    const productId = parseInt(config.url.match(/api\/products\/(\d+)/)[1]);
+    const productId = parseInt(config.url.match(/api\/host\/products\/(\d+)/)[1]);
     const product = products.find(p => p.id === productId);
     return product ? [200, product] : [404];
 });
 
-noqMockApi.onPost('api/products').reply((config) => {
+noqMockApi.onPost('api/host/products').reply((config) => {
     const newProduct = JSON.parse(config.data);
     newProduct.id = products.length + 1;
     products.push(newProduct);
@@ -142,7 +142,7 @@ noqMockApi.onPost('api/products').reply((config) => {
 });
 
 noqMockApi.onPut(productUrl).reply((config) => {
-    const productId = parseInt(config.url.match(/api\/products\/(\d+)/)[1]);
+    const productId = parseInt(config.url.match(/api\/host\/products\/(\d+)/)[1]);
     const updatedProduct = JSON.parse(config.data);
     const index = products.findIndex(product => product.id === productId);
     if (index !== -1) {
@@ -153,7 +153,7 @@ noqMockApi.onPut(productUrl).reply((config) => {
 });
 
 noqMockApi.onDelete(productUrl).reply((config) => {
-    const productId = parseInt(config.url.match(/api\/products\/(\d+)/)[1]);
+    const productId = parseInt(config.url.match(/api\/host\/products\/(\d+)/)[1]);
     const index = products.findIndex(product => product.id === productId);
     if (index !== -1) {
         products.splice(index, 1);
