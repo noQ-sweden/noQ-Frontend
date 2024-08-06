@@ -10,6 +10,7 @@ export default {
         "background-white": "#F7F7F7", // used as UI background
         white: "#FDFDFD", // used as white
         grey: "#AFAFAF", // used for navigation for non active elements
+        "almost-black": "#2D2D2D",
         "green-noQ": "#255B57", // used as contrast in navigation
         "green-noQ-comp": "#f7f6f4", //Complementary color to green-noQ
 
