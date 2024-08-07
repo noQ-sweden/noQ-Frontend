@@ -12,5 +12,8 @@ export default defineConfig(({ mode }) => {
         process.env.NOQ_IS_MOCK_API
       ),
     },
+    server: {
+      host: "0.0.0.0",
+    },
   };
 });
