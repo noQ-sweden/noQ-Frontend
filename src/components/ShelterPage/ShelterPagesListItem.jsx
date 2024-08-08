@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import ArrowButton from './ArrowButton.jsx';
+import {FaArrowDown} from "react-icons/fa6";
 
 const ShelterPagesListItem = ({ itemTitle, children }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +25,7 @@ const ShelterPagesListItem = ({ itemTitle, children }) => {
             )}
                   <div className="flex justify-end">
                 <button onClick={handleArrowButton} className={`focus:outline-none`}>
-                    <ArrowButton isOpen={isOpen} />
+                    <FaArrowDown isOpen={isOpen} />
                 </button>
                   </div>
                 </div>

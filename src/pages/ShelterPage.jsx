@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-// import axios from './../api/AxiosNoqApi';
+import React from 'react';
 import ShelterPagesListItem from '../components/ShelterPage/ShelterPagesListItem.jsx';
 import TabGeneralInfo from '../components/ShelterPage/TabGeneralInfo.jsx'
 
@@ -14,9 +13,7 @@ const ShelterPage = () => {
                  <TabGeneralInfo/>
                 </ShelterPagesListItem>
                 <ShelterPagesListItem itemTitle="Typ av sovplats" />
-                <ShelterPagesListItem itemTitle="Sovplatser"
-                // onClick={toggleSovplatserSection}
-                /> {/* Pass onClick handler */}
+                <ShelterPagesListItem itemTitle="Sovplatser"/>
                 <ShelterPagesListItem itemTitle="Tjänster" />
                 <ShelterPagesListItem itemTitle="Övrig information" />
             </ul>

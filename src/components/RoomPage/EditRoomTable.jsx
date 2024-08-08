@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import EditIcon from './EditIcon'; 
-import BinIcon from './BinIcon';
 import axios from "../../api/AxiosNoqApi.js";
 import useLogin from "../../hooks/useLogin";
+import {FaTrash} from "react-icons/fa";
+import {FaPencil} from "react-icons/fa6";
 
 const EditRoomTable = () => {
   const { login } = useLogin();
@@ -22,9 +22,9 @@ const EditRoomTable = () => {
     fetchRooms();
   }, []);
 
-  const fetchRooms = async () => {
+  const fetchRooms = async (hostId) => {
     try {
-      const response = await axios.get('api/host/products');
+      const response = await axios.get(`api/host/hosts/${hostId}/products`);
       setRows(response.data);
     } catch (error) {
       console.error("There was an error fetching the rooms!", error);
@@ -128,10 +128,10 @@ const EditRoomTable = () => {
                       <td className={`px-4 py-2 text-center ${borderClass}`} style={{ verticalAlign: 'middle' }}>
                         <div className="flex items-center justify-center space-x-2">
                           <button onClick={() => handleEdit(index)} className="flex items-center justify-center text-white rounded hover:bg-gray-200 w-[74px] h-[36px] p-0">
-                            <EditIcon className="w-full h-full" />
+                            < FaPencil className="w-full h-full" />
                           </button>
                           <button onClick={() => handleDelete(index)} className="flex items-center justify-center text-white rounded hover:bg-gray-200 w-[36px] h-[36px] p-0">
-                            <BinIcon className="w-full h-full" />
+                            <FaTrash className="w-full h-full" />
                           </button>
                         </div>
                       </td>
