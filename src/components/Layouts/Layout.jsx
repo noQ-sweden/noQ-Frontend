@@ -14,7 +14,7 @@ export default function Layout() {
 
 
     return (
-        <div className="App">
+        <div className="App bg-background-white">
             <main>
                 <div className="flex">
                     {/*Show sidebar only if viewer is host*/}

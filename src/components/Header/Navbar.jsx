@@ -1,39 +1,111 @@
-import React, { useState } from "react";
-import User from "./User";
-import Language from "./Language";
+import React, { useState, useEffect } from "react";
+import useLogin from "./../../hooks/useLogin";
+import { useNavigate } from "react-router-dom";
+import axios from './../../api/AxiosNoqApi';
+import { FaRegEnvelope, FaBell, FaCaretDown, FaCaretUp, FaQuestionCircle, FaSignOutAlt } from "react-icons/fa";
 
 export default function Navbar() {
-  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useLogin();
+  const [hostInfo, setHostInfo] = useState(null);
+  //TODO: Functionality for messages and alerts is not in place yet.
+  //      Displaying 0 messages and alerts for now.
+	const [nrOfMessages, /*setNrOfMessages*/] = useState(0);
+  const [nrOfAlerts, /*setNrOfAlert*/] = useState(0);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
-  const toggleLanguageDropdown = () => {
-    setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
-    setIsUserDropdownOpen(false);
+  const toggleUserDropdown = () => {
+      setIsUserDropdownOpen(!isUserDropdownOpen);
   };
 
-  const toggleUserDropdown = () => {
-    setIsUserDropdownOpen(!isUserDropdownOpen);
-    setIsLanguageDropdownOpen(false);
+  const handleLogout = () => {
+      // Clear user session data here (localStorage, cookies, etc.)
+      localStorage.clear();
+      // Redirect to the starting page
+      navigate("/", { replace: true });
+      // Reload the page to reset the application state
+      window.location.reload();
   };
+
+  const fetchHostInfo = async() => {
+      axios.get('api/host')
+          .then (function (response) {
+              if (response.status == 200) {
+                  setHostInfo(response?.data);
+              }
+          })
+          .catch((error) => {
+            console.log("Error while fetching host information.", error);
+          });
+  }
+
+  const getInitials = (username) => {
+      const names = username.split('.');
+      let initials = "";
+      return initials.concat(names[0][0], names[1][0]).toUpperCase();
+  }
+
+  useEffect(() => {
+      fetchHostInfo();
+  }, []);
 
   return (
     <>
-      <nav className="font-sans flex flex-col items-center text-center border-b-2 border-green-noQ sm:flex-row sm:text-left sm:justify-between pb-4 px-6 bg-white shadow sm:items-baseline">
-        <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center">
-          Välkommen
-        </div>
-        <div className="flex lg:justify-center">
-          <Language
-            onClick={toggleLanguageDropdown}
-            isDropdownOpen={isLanguageDropdownOpen}
-            className="mr-2"
-          />
-          <User
-            onClick={toggleUserDropdown}
-            isDropdownOpen={isUserDropdownOpen}
-          />
-        </div>
-      </nav>
+        <nav className="flex items-center justify-between p-4 bg-white">
+            <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold">{hostInfo?.name}</div>
+            <div className="flex items-center space-x-10"> {/* Adjusted space-x value */}
+                <div className="relative">
+                    <FaRegEnvelope className="size-6 fill-almost-black" />
+                    <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">{nrOfMessages}</span>
+                </div>
+                <div className="relative">
+                    <FaBell className="size-6 fill-almost-black" />
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">{nrOfAlerts}</span>
+                </div>
+
+                <div className="relative flex items-center space-x-2">
+                    <div className="bg-green-noQ text-white rounded-full w-8 h-8 flex items-center justify-center">{getInitials(login?.username)}</div>
+                    {isUserDropdownOpen && (
+                      <div className="
+                          absolute
+                          right-0
+                          top-10
+                          z-10
+                          w-48
+                          bg-white
+                          shadow-lg">
+                          <div>
+                              <button
+                                  onClick={handleLogout}
+                                  className="
+                                      w-full
+                                      text-left
+                                      px-4
+                                      py-2
+                                      text-sm
+                                      text-gray-700
+                                      hover:bg-gray-100">
+                                  <span className="flex gap-4 pl-1 pr-1 text-l">
+                                      <FaSignOutAlt className="mt-1" />
+                                      <span>Logout</span>
+                                  </span>
+                              </button>
+                          </div>
+                      </div>
+                    )}
+                    <div className="text-sm">{login?.username}</div>
+                    <div className="pr-1 pl-1">
+                        {isUserDropdownOpen ?
+                            ( <FaCaretUp onClick={toggleUserDropdown} /> )
+                            :
+                            ( <FaCaretDown onClick={toggleUserDropdown} /> )
+                        }
+                    </div>
+                </div>
+                <FaQuestionCircle className="text-2xl text-green-noQ ml-4" />
+
+            </div>
+        </nav>
     </>
   );
 }
