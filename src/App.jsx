@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import RequireLogin from "./components/RequireLogin";
+
 import FrontPageView from "./components/Admin/FrontPageView";
 import Layout from "./components/Layouts/Layout";
 import LoginPage from "./pages/LoginPage";
@@ -10,6 +11,7 @@ import RegistrationPage from "./pages/RegistrationPage";
 import ErrorPage from "./pages/ErrorPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import RequestPageView from "./components/RequestsPage/RequestPageView";
+import RoomPage from "./pages/RoomPage";
 
 export const VisitorContext = createContext();
 
@@ -33,6 +35,7 @@ function App() {
                     <Route path="host" element={<HostPage />} />
                     <Route path="admin" element={<FrontPageView />} />
                     <Route path="host/requests" element={<RequestPageView />} />
+                    <Route path="host/products" element={<RoomPage />} />
                 </Route>
                 {/* Invalid path */}
                 <Route path="*" element={<ErrorPage />} />

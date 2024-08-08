@@ -12,6 +12,7 @@ export default function Layout() {
     const { login } = useLogin();
     const viewerGroup = (login?.usergroups instanceof Array) ? login?.usergroups[0] : null;
 
+
     return (
         <div className="App bg-background-white">
             <main>
