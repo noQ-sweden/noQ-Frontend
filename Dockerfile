@@ -6,12 +6,5 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm ci
 COPY . .
-RUN npm run build
 
-RUN adduser --disabled-password --no-create-home app
-RUN mkdir -p /frontend-files/build
-RUN chown -R app:app /frontend-files/build
-RUN chmod -R 755 /frontend-files/build
-RUN cp -rf dist/* /frontend-files/build
-
-USER app
+CMD ["npm", "run", "build"]
