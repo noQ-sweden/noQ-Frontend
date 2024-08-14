@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
 import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
-import axios from './../../api/AxiosNoqApi';
 import { FaRegEnvelope, FaBell, FaCaretDown, FaCaretUp, FaQuestionCircle, FaSignOutAlt } from "react-icons/fa";
 
 export default function Navbar() {
