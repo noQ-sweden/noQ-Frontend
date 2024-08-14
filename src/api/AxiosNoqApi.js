@@ -2,7 +2,7 @@ import axios from 'axios';
 import { axiosMockNoqApi } from './mockApi/mockApi';
 
 const axiosNoqApi = axios.create({
-    baseURL: "http://localhost:8000",
+    baseURL: import.meta.env.NOQ_BASE_URL,
     headers: {
         "Content-type": "application/json",
       },
