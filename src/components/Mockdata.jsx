@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import Host from "./Host";
 import UserDetails from "./UserDetails";
 import Product from "./Product";
@@ -9,16 +9,6 @@ import Booking from "./Booking";
 import Available from "./Available";
 
 const App = () => {
-  // mock Data for front page
-  const mockData = {
-    incomingQuestions: 10,
-    leavingPeople: 6,
-    livingPeople: 25,
-    singleRooms: { used: 5, total: 10 },
-    doubleRooms: { used: 4, total: 8 },
-    sleepingRooms: { used: 8, total: 20 },
-  };
-
   // Mock data for Host component
   const hostData = {
     user: "JohnDoe",
@@ -103,4 +93,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(<App />);
+export default App;

@@ -1,7 +1,15 @@
 import React from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import PropTypes from "prop-types";
 
 const Panel = ({ title, children, onPrevMonth, onNextMonth }) => {
+  Panel.propTypes = {
+    title: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    onPrevMonth: PropTypes.func.isRequired,
+    onNextMonth: PropTypes.func.isRequired,
+  };
+
   return (
     <div className="border-2 border-#000000 bg-white flex flex-col shadow-md rounded-lg p-2 my-4">
       <div className="flex justify-around items-center">

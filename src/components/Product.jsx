@@ -1,7 +1,16 @@
 import React from 'react';
-import Host from './Host'; // Import Host component
+import Host from './Host';
+import PropTypes from "prop-types";
 
 const Product = ({ name, description, totalPlaces, host, type }) => {
+    Product.propTypes = {
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        totalPlaces: PropTypes.number.isRequired,
+        host: PropTypes.object.isRequired,
+        type: PropTypes.string.isRequired,
+    };
+
     return (
         <div>
             <h2>Product Details</h2>

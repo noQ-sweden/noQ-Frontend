@@ -38,15 +38,18 @@ export default function LoginPage() {
     .then ((response) => {
       if (response.status === 200 && response.data.login_status === true) {
         const usergroups = response?.data?.groups;
-        setLogin({ username, usergroups });
+        const host = response?.data?.host;
+        setLogin({ username, usergroups, host });
+
         setUsername('');
         setPassword('');
+
         const returnUrl = (from === "/") ? "/" + usergroups[0] : from;
         navigate(returnUrl, { replace: true });
       } else {
         setErrorMessage('Autentisering misslyckades.');
         setUsername('');
-        setPassword('');    
+        setPassword('');
       }
     })
     .catch((error) => {
