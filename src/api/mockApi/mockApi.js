@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { bookings } from './bookings'
 import AxiosMockAdapter from 'axios-mock-adapter';
+import {products} from "./products.js";
 
 export const axiosMockNoqApi = axios.create({
   headers: {
@@ -8,6 +9,19 @@ export const axiosMockNoqApi = axios.create({
     },
   withCredentials: true,
 });
+
+const hostInfo =
+{
+    region: {
+      id: 5,
+      name: "Övriga landet"
+    },
+    id: 1,
+    name: "Bostället",
+    street: "Skolgatan 0",
+    postcode: "70362",
+    city: "Örebro"
+}
 
 const noqMockApi =
     new AxiosMockAdapter(axiosMockNoqApi, { delayResponse: 0, onNoMatch: "throwException" });
@@ -25,11 +39,13 @@ noqMockApi.onPost('api/login/').reply((config) => {
         return [200, JSON.stringify(login)];
     } else if (data.email == 'user.host@test.nu' && data.password == 'P4ssw0rd_for_Te5t+User') {
         login.groups = ["host"];
+        login.host = hostInfo;
         return [200, JSON.stringify(login)];
     } else {
         login.login_status = false;
         login.message = "Login Failed";
         login.groups = null;
+        login.host = null;
         return [200, JSON.stringify(login)];
     }
 });
@@ -106,17 +122,51 @@ noqMockApi.onGet(bookingsUrl).reply(() => {
     Below APIs are relate to host information
 */
 noqMockApi.onGet('api/host').reply(() => {
-    const hostInfo =
-    {
-        region: {
-          id: 5,
-          name: "Övriga landet"
-        },
-        id: 1,
-        name: "Bostället",
-        street: "Skolgatan 0",
-        postcode: "70362",
-        city: "Örebro"
-    }
     return [200, JSON.stringify(hostInfo)];
+});
+
+// mock for rooms/products
+// const productsUrl = /\/hosts\/\d+\/products/;
+
+noqMockApi.onGet('api/host/products').reply(200, products);
+//api/host/hosts/1/products
+const hostProductsUrl = /api\/host\/hosts\/(\d+)\/products/;
+noqMockApi.onGet(hostProductsUrl).reply((config) => {
+    const hostId = parseInt(config.url.match(/api\/host\/hosts\/(\d+)\/products/)[1]);
+    const productList = products.filter(p => p.host.id === hostId);
+    return productList ? [200, productList] : [404];
+});
+
+const productUrl = /api\/host\/products\/(\d+)/;
+noqMockApi.onGet(productUrl).reply((config) => {
+    const productId = parseInt(config.url.match(/api\/host\/products\/(\d+)/)[1]);
+    const product = products.find(p => p.id === productId);
+    return product ? [200, product] : [404];
+});
+
+noqMockApi.onPost('api/host/products').reply((config) => {
+    let newProduct  = JSON.parse(config.data);
+    products.push(newProduct);
+    return [200, newProduct];
+});
+
+noqMockApi.onPut(productUrl).reply((config) => {
+    const productId = parseInt(config.url.match(/api\/host\/products\/(\d+)/)[1]);
+    const updatedProduct = JSON.parse(config.data);
+    const index = products.findIndex(product => product.id === productId);
+    if (index !== -1) {
+        products[index] = updatedProduct;
+        return [200, updatedProduct];
+    }
+    return [404];
+});
+
+noqMockApi.onDelete(productUrl).reply((config) => {
+    const productId = parseInt(config.url.match(/api\/host\/products\/(\d+)/)[1]);
+    const index = products.findIndex(product => product.id === productId);
+    if (index !== -1) {
+        products.splice(index, 1);
+        return [200];
+    }
+    return [404];
 });

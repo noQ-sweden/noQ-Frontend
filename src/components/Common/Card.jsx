@@ -1,6 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Card = ({ title, content, textColor, unit }) => {
+  Card.propTypes = {
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    textColor: PropTypes.string.isRequired,
+    unit: PropTypes.string.isRequired,
+  };
+
   return (
     <div className="border-2 border-#000000 rounded-lg text-center justify-between flex flex-col items-center">
       <div className="py-2">

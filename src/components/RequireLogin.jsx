@@ -2,8 +2,9 @@ import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 import PropTypes from 'prop-types';
 
+
 RequireLogin.propTypes = {
-  allowedGroups: PropTypes.any,
+    allowedGroups: PropTypes.any,
 };
 
 export default function RequireLogin({ allowedGroups }) {

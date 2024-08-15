@@ -1,6 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const UserDetails = ({ user, firstName, lastName, gender, street, postcode, city, country, phone, email, unokod, dayOfBirth, personnrLastnr, region, lastEdit }) => {
+    UserDetails.propTypes = {
+        user: PropTypes.object.isRequired,
+        firstName: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired,
+        gender: PropTypes.string.isRequired,
+        street: PropTypes.string.isRequired,
+        postcode: PropTypes.string.isRequired,
+        city: PropTypes.string.isRequired,
+        country: PropTypes.string.isRequired,
+        phone: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        unokod: PropTypes.string.isRequired,
+        dayOfBirth: PropTypes.string.isRequired,
+        personnrLastnr: PropTypes.string.isRequired,
+        region: PropTypes.string.isRequired,
+        lastEdit: PropTypes.string.isRequired,
+    };
+
     return (
         <div>
             <h2>User Details</h2>

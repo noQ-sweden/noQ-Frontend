@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import PropTypes from "prop-types";
 
 export default function AssignPage({ recommendedRooms: props, avalibleRooms: props2 , setShowPopup, setShowTable}) {
-    const [room, setRoom] = useState({});
-    const [recommendedRooms, setRecommendedRooms] = useState(props);
-    const [avalibleRooms, setAvalibleRooms] = useState(props2);
+    AssignPage.propTypes = {
+        recommendedRooms: PropTypes.array.isRequired,
+        avalibleRooms: PropTypes.array.isRequired,
+        setShowPopup: PropTypes.func.isRequired,
+        setShowTable: PropTypes.func.isRequired,
+    };
+
+    //const [room, setRoom] = useState({});
+    const [recommendedRooms, /*setRecommendedRooms*/] = useState(props);
+    const [avalibleRooms, /*setAvalibleRooms*/] = useState(props2);
 
     const handlePopupClose = () => {
         setShowPopup(false);
         setShowTable(true)
     }
- 
 
     return (<div className="p-10 ">
         <div className=' w-full p-4 bg-white shadow-xl rounded-lg '>

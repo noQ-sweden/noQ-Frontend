@@ -1,19 +1,25 @@
-import { React, Fragment, useState, useEffect } from "react";
+import { React, Fragment, useState, useEffect, useMemo } from "react";
 import Main from "../Main/Main";
 import Panel from "../Common/Panel";
 import Card from "../Common/Card";
 import Calendar from "../Common/Calendar";
 
 const HostelData = () => {
-  const loginState = true;
-  const mockData = {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [activeRequests, setActiveRequests] = useState(null);
+  const [departures, setDepartures] = useState(null);
+  const [currentGuests, setCurrentGuests] = useState(null);
+  const [availableProducts, setAvailableProducts] = useState(null);
+  const [completedTasks, setCompletedTasks] = useState({});
+
+  const mockData = useMemo( () => ({
     incomingQuestions: 10,
     leavingPeople: 6,
     livingPeople: 25,
     singleRooms: { used: 5, total: 10 },
     doubleRooms: { used: 4, total: 8 },
     sleepingRooms: { used: 8, total: 20 },
-  };
+  }), []);
 
   const mockRequests = [
     {
@@ -54,18 +60,10 @@ const HostelData = () => {
     "Kul uppgift med längre text": "17.00",
   };
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [activeRequests, setActiveRequests] = useState(null);
-  const [arrivals, setArrivals] = useState(null);
-  const [departures, setDepartures] = useState(null);
-  const [currentGuests, setCurrentGuests] = useState(null);
-  const [availableProducts, setAvailableProducts] = useState(null);
-  const [completedTasks, setCompletedTasks] = useState({});
-
   useEffect(() => {
-    setIsLoggedIn(loginState);
+    setIsLoggedIn(true);
 
-    if (loginState === true) {
+    if (isLoggedIn) {
       // Use the mock data directly for demonstration
       setActiveRequests(mockData.incomingQuestions);
       setDepartures(mockData.leavingPeople);
@@ -76,7 +74,7 @@ const HostelData = () => {
         sleepingRooms: mockData.sleepingRooms,
       });
     }
-  }, [loginState]);
+  }, [isLoggedIn, mockData]);
 
   const handleCheckboxChange = (task) => {
     setCompletedTasks((prev) => ({

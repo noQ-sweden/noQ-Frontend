@@ -6,6 +6,9 @@ import {
   FaUserAlt,
   FaBell,
   FaSignOutAlt,
+  FaUser,
+  FaRandom,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import noQicon from "./../../assets/images/noQiconNoQGreen.svg";
@@ -29,6 +32,10 @@ export default function Sidebar() {
   const sidebarItemsTop = [
     { icon: FaChartPie, label: "Överblick", sideBarLink: "admin" },
     { icon: FaBell, label: "Förfrågningar", sideBarLink: "host/requests" },
+    { icon: FaCalendarAlt, label: "Kalender" },
+    { icon: FaRandom, label: "Mina Rum", sideBarLink: "host/products" },
+    { icon: FaRandom, label: "Härberget" },
+    { icon: FaUser, label: "Gäster" },
     { icon: FaReceipt, label: "Fakturering" },
   ];
 

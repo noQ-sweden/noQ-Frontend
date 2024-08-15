@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
-import axios from './../../api/AxiosNoqApi';
 import { FaRegEnvelope, FaBell, FaCaretDown, FaCaretUp, FaQuestionCircle, FaSignOutAlt } from "react-icons/fa";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const { login } = useLogin();
-  const [hostInfo, setHostInfo] = useState(null);
   //TODO: Functionality for messages and alerts is not in place yet.
   //      Displaying 0 messages and alerts for now.
 	const [nrOfMessages, /*setNrOfMessages*/] = useState(0);
@@ -27,32 +25,16 @@ export default function Navbar() {
       window.location.reload();
   };
 
-  const fetchHostInfo = async() => {
-      axios.get('api/host')
-          .then (function (response) {
-              if (response.status == 200) {
-                  setHostInfo(response?.data);
-              }
-          })
-          .catch((error) => {
-            console.log("Error while fetching host information.", error);
-          });
-  }
-
   const getInitials = (username) => {
       const names = username.split('.');
       let initials = "";
       return initials.concat(names[0][0], names[1][0]).toUpperCase();
   }
 
-  useEffect(() => {
-      fetchHostInfo();
-  }, []);
-
   return (
     <>
         <nav className="flex items-center justify-between p-4 bg-white">
-            <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold">{hostInfo?.name}</div>
+            <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold">{login.host.name}</div>
             <div className="flex items-center space-x-10"> {/* Adjusted space-x value */}
                 <div className="relative">
                     <FaRegEnvelope className="size-6 fill-almost-black" />

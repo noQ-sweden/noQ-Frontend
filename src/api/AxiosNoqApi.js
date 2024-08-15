@@ -5,6 +5,7 @@ const axiosNoqApi = axios.create({
     baseURL: import.meta.env.NOQ_BASE_URL,
     headers: {
         "Content-type": "application/json",
+
       },
       withCredentials: true,
 });
