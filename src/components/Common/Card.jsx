@@ -1,23 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Card = ({ title, content, textColor, unit }) => {
+const Card = ({ title, content, textColor, unit, icon }) => {
   Card.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     textColor: PropTypes.string.isRequired,
     unit: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
   };
 
+  const imageWidth = 40;
+  const boxStyle = "bg-background-white rounded-lg border border-overview-border p-4"
+  const imageStyle = "mb-4"
+
   return (
-    <div className="border-2 border-#000000 rounded-lg text-center justify-between flex flex-col items-center">
-      <div className="py-2">
-        <div className="text-4xl font-medium" style={{ color: textColor }}>
-          {content}
-        </div>
-        <div className="pt-2 text-xs">{unit}</div>
-      </div>
-      <div className="text-sm min-w-32 mt-2 border-t-2 px-4 py-2 ">{title}</div>
+    <div className={boxStyle}>
+      {icon ? <img src={icon} alt={title + " icon"} width={imageWidth} className={imageStyle} /> : <div /> }
+      
+      <p className="text-lg font-semibold">{content}</p>
+      <p className="text-sm">{title}</p>
     </div>
   );
 };

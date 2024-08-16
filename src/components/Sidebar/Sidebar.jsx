@@ -30,7 +30,7 @@ export default function Sidebar() {
   };
 
   const sidebarItemsTop = [
-    { icon: FaChartPie, label: "Överblick", sideBarLink: "admin" },
+    { icon: FaChartPie, label: "Överblick", sideBarLink: "host" },
     { icon: FaBell, label: "Förfrågningar", sideBarLink: "host/requests" },
     { icon: FaCalendarAlt, label: "Kalender" },
     { icon: FaRandom, label: "Mina Rum", sideBarLink: "host/products" },
