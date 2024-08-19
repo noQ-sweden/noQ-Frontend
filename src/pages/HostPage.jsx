@@ -29,15 +29,15 @@ export default function HostPage() {
 
     return (
         <>
-            <div className="grid grid-cols-2" id="HostPage">
-                <div className="pl-3 flex flex-row gap-4">
+            <div className="grid p-3 grid-cols-5 justify-items-start gap-4" id="HostPage">
+                <div className="pl-3 flex flex-row gap-4 col-span-3">
                     <div className="flex flex-col">
                         <Overview />
                         <RoomStatus />
                         <WeeklyRoomStatus />
                     </div>
                 </div>
-                <div className="pl-3 pr-3 flex flex-row gap-4">
+                <div className="pl-3 pr-3 flex flex-row gap-4 col-span-2 justify-start">
                     <div className="flex flex-col">
                         <Panel title="Förfrågningar">
                             <RequestList
