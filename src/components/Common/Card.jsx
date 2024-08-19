@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Card = ({ title, content, textColor, unit, icon }) => {
+const Card = ({ title, content, icon }) => {
   Card.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,

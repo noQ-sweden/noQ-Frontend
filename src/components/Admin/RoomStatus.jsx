@@ -12,9 +12,6 @@ export default function RoomStatus() {
         axios.get ('/api/host/available/1')
         .then ((response) => {
         if (response.status === 200) {
-            console.log(response.data);
-            console.log(response.data.available_dates);
-            console.log(response.data['available_dates']);
             setAvailableDates(response.data.available_dates)
         } else {
             console.log('Error while fetching overview data.');
@@ -27,13 +24,12 @@ export default function RoomStatus() {
 
     return (
         <Panel title="Lediga platser idag">
-            { Object.keys(availableDates).map((key, index) => (
+            { Object.keys(availableDates).map((key) => (
                 <div key={key} className="flex flex-row gap-5">
                     { availableDates[key].map((availability) => (
                         <div key={availability.id} >
                             <Card
                                 title={availability.product.description}
-                                unit="Places"
                                 content={
                                     availability.places_left + " / "
                                     + availability.product.total_places}

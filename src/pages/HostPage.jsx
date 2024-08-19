@@ -18,7 +18,6 @@ export default function HostPage() {
         .then ((response) => {
         if (response.status === 200 && response.data != "Host not found") {
             setHost(response?.data);
-            console.log(response.data);
         } else {
             console.log('Error while fetching host data.');
         }

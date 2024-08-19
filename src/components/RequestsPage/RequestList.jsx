@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from './../../api/AxiosNoqApi';
 import { getDayNumber, getMonth, getGender, getStatus } from './../../utility/utilityFunctions';
 import RequestListCompact from './RequestListCompact'
+import PropTypes from "prop-types";
 
 export default function RequestList({compact}) {
+    RequestList.propTypes = {
+        compact: PropTypes.bool.isRequired
+    };
 
     const [requests, setRequests] = useState([]);
     const [undoRequests, setUndoRequests] = useState([]);

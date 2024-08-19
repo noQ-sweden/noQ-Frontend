@@ -1,8 +1,6 @@
 import React, {useState, useEffect } from "react";
 import axios from "../../api/AxiosNoqApi";
-import freePlacesIcon from "./../../assets/images/freePlacesIcon.svg";
 import Panel from "../Common/Panel";
-import Card from "../Common/Card";
 
 export default function WeeklyRoomStatus() {
     const [availableDates, setAvailableDates] = useState({})

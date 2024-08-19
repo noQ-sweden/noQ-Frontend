@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { getDayNumber, getMonth, getGender, getStatus } from '../../utility/utilityFunctions';
+import React from 'react';
+import { getDayNumber, getMonth, getStatus } from '../../utility/utilityFunctions';
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-export default function RequestListCompact({requests}) { 
+export default function RequestListCompact({requests}) {
+    RequestListCompact.propTypes = {
+        requests: PropTypes.any.isRequired
+    };
     const navigate = useNavigate()
 
     return (

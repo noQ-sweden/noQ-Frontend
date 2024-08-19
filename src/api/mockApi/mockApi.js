@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { bookings } from './bookings'
-import { host, generateAvailablePlaces } from './hostFrontPage'
+import { generateAvailablePlaces } from './hostFrontPage'
 import { countBookings } from './countBookings'
 import AxiosMockAdapter from 'axios-mock-adapter';
 import {products} from "./products.js";

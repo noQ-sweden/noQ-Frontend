@@ -1,8 +1,6 @@
 import { createContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import RequireLogin from "./components/RequireLogin";
-
-import FrontPageView from "./components/Admin/FrontPageView";
 import Layout from "./components/Layouts/Layout";
 import LoginPage from "./pages/LoginPage";
 import CaseworkerPage from "./pages/CaseworkerPage";

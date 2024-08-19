@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from './../../api/AxiosNoqApi';
 import Panel from "../Common/Panel";
 
 export default function OutgoingGuests() {
 
+    const [outgoingBookings, setOutgoingBookings] = useState([])
+
+    useEffect( () => {
+        axios.get ('/api/host/bookings/outgoing')
+        .then ( (response) => {
+            if (response.status === 200) {
+                setOutgoingBookings(response?.data)
+            }
+        })
+        .catch((error) => {
+            console.log("Error while fetching incoming bookings data.", error);
+        });
+    }, []);
+
     const handleCheckOut = () => {
-        //TODO
+        console.log("Handle Check Out pressed.")
     }
 
     return (
@@ -19,46 +34,34 @@ export default function OutgoingGuests() {
                             </tr>
                         </thead>
                         <tbody className='border-b-2'>
-                            <tr>
-                                <td className='tracking-tight'>Test User 3</td>
-                                <td className='p-2 tracking-tight text-center'>
-                                    <button className="
-                                        bg-green-600
-                                        hover:bg-green-700
-                                        text-white
-                                        font-semibold
-                                        text-m
-                                        align-middle
-                                        w-32
-                                        h-7
-                                        rounded
-                                        focus:outline-none
-                                        focus:shadow-outline"
-                                        onClick={() => handleCheckOut()}>
-                                        Utcheckning
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className='tracking-tight'>Test User 4</td>
-                                <td className='p-2 tracking-tight text-center'>
-                                    <button className="
-                                        bg-green-600
-                                        hover:bg-green-700
-                                        text-white
-                                        font-semibold
-                                        text-m
-                                        align-middle
-                                        w-32
-                                        h-7
-                                        rounded
-                                        focus:outline-none
-                                        focus:shadow-outline"
-                                        onClick={() => handleCheckOut()}>
-                                        Utcheckning
-                                    </button>
-                                </td>
-                            </tr>
+                            { outgoingBookings.map(booking => (
+                                <tr key={booking.id}>
+                                    <td className='tracking-tight'>{booking.user.first_name} {booking.user.last_name}</td>
+                                    <td className='p-2 tracking-tight text-right'>
+                                        <button className="
+                                            bg-green-600
+                                            hover:bg-green-700
+                                            text-white
+                                            font-semibold
+                                            text-m
+                                            align-middle
+                                            w-32
+                                            h-7
+                                            rounded
+                                            focus:outline-none
+                                            focus:shadow-outline"
+                                            onClick={() => handleCheckOut()}>
+                                            Incheckning
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                            { outgoingBookings.length == 0 && (
+                                <tr>
+                                    <td>Inga gäster ska checka-ut idag.</td>
+                                    <td/>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
