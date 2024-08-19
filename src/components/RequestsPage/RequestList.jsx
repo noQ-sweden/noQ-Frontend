@@ -151,6 +151,9 @@ export default function RequestList({compact}) {
                     </div>
                 </div>
             ))}
+            { requests.length == 0 && (
+                <div>Inga förfrågningar just nu.</div>
+            )}
             { undoRequests.length > 0 &&
                 <h2 className='text-2xl mb-4 mt-8'>Senaste ändringar</h2>
             }

@@ -51,7 +51,7 @@ export default function OutgoingGuests() {
                                             focus:outline-none
                                             focus:shadow-outline"
                                             onClick={() => handleCheckOut()}>
-                                            Incheckning
+                                            Utcheckning
                                         </button>
                                     </td>
                                 </tr>
