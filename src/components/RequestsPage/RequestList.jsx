@@ -1,79 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from './../../api/AxiosNoqApi';
+import { getDayNumber, getMonth, getGender, getStatus } from './../../utility/utilityFunctions';
+import RequestListCompact from './RequestListCompact'
+import PropTypes from "prop-types";
 
-
-export default function RequestList() { 
+export default function RequestList({compact}) {
+    RequestList.propTypes = {
+        compact: PropTypes.bool.isRequired
+    };
 
     const [requests, setRequests] = useState([]);
     const [undoRequests, setUndoRequests] = useState([]);
-
-    const getDayNumber = (date) => {
-        const values = date.split('-');
-        return values[2];
-    }
-
-    const getMonth = (date) => {
-        const values = date.split('-');
-        var month = '';
-        switch(values[1]) {
-            case '01':
-                month="JAN";
-                break;
-            case '02':
-                month="FEB";
-                break;
-            case '03':
-                month="MAR";
-                break;
-            case '04':
-                month="APR";
-                break;
-            case '05':
-                month="MAJ";
-                break;
-            case '06':
-                month="JUN";
-                break;
-            case '07':
-                month="JUL";
-                break;
-            case '08':
-                month="AUG";
-                break;
-            case '09':
-                month="SEP";
-                break;
-            case '10':
-                month="OCT";
-                break;
-            case '11':
-                month="NOV";
-                break;
-            default:
-                month="DEC";
-        }
-        return month;
-    }
-
-    const getGender = (gender) => {
-        if (gender === 'K') {
-            return "Kvinna";
-        } else if (gender === 'M') {
-            return "Man";
-        } else {
-            return "Annan"
-        }
-    }
-
-    const getStatus = (status) => {
-        if (status === 'accepted') {
-            return "Tilldelat";
-        } else if (status === 'declined') {
-            return "Nekad";
-        } else {
-            return ""
-        }
-    }
 
     const handleAssignOnClick = (bookingId) => {
         const url = "api/host/pending/" + bookingId + "/appoint";
@@ -141,6 +78,10 @@ export default function RequestList() {
     useEffect(() => {
         fetchPendingRequests();
     }, []);
+
+    if (compact == true) {
+        return <RequestListCompact requests={requests} />
+    }
 
     return (
         <div className="grid grid-cols-1 gap-2">
@@ -210,6 +151,9 @@ export default function RequestList() {
                     </div>
                 </div>
             ))}
+            { requests.length == 0 && (
+                <div>Inga förfrågningar just nu.</div>
+            )}
             { undoRequests.length > 0 &&
                 <h2 className='text-2xl mb-4 mt-8'>Senaste ändringar</h2>
             }

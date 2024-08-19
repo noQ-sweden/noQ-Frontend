@@ -1,10 +1,9 @@
 import { createContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import RequireLogin from "./components/RequireLogin";
-
-import FrontPageView from "./components/Admin/FrontPageView";
 import Layout from "./components/Layouts/Layout";
 import LoginPage from "./pages/LoginPage";
+import CaseworkerPage from "./pages/CaseworkerPage";
 import HostPage from "./pages/HostPage";
 import UserPage from "./pages/UserPage";
 import RegistrationPage from "./pages/RegistrationPage";
@@ -33,7 +32,7 @@ function App() {
                 {/* Host pages */}
                 <Route element={<RequireLogin allowedGroups={["host"]}/>}>
                     <Route path="host" element={<HostPage />} />
-                    <Route path="admin" element={<FrontPageView />} />
+                    <Route path="admin" element={<CaseworkerPage />} />
                     <Route path="host/requests" element={<RequestPageView />} />
                     <Route path="host/products" element={<RoomPage />} />
                 </Route>
