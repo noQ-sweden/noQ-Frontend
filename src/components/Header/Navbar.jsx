@@ -8,7 +8,7 @@ export default function Navbar() {
   const { login } = useLogin();
   //TODO: Functionality for messages and alerts is not in place yet.
   //      Displaying 0 messages and alerts for now.
-	const [nrOfMessages, /*setNrOfMessages*/] = useState(0);
+  const [nrOfMessages, /*setNrOfMessages*/] = useState(0);
   const [nrOfAlerts, /*setNrOfAlert*/] = useState(0);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
@@ -34,7 +34,7 @@ export default function Navbar() {
   return (
     <>
         <nav className="flex items-center justify-between p-4 bg-white">
-            <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold">{login.host.name}</div>
+            <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold">{login.host != null ? login.host.name : "Välkommen"}</div>
             <div className="flex items-center space-x-10"> {/* Adjusted space-x value */}
                 <div className="relative">
                     <FaRegEnvelope className="size-6 fill-almost-black" />
