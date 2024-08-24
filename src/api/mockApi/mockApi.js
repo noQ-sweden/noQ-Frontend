@@ -43,6 +43,9 @@ noqMockApi.onPost('api/login/').reply((config) => {
         login.groups = ["host"];
         login.host = hostInfo;
         return [200, JSON.stringify(login)];
+    } else if (data.email == 'user.caseworker@test.nu' && data.password == 'P4ssw0rd_for_Te5t+User') {
+        login.groups = ["caseworker"];
+        return [200, JSON.stringify(login)];
     } else {
         login.login_status = false;
         login.message = "Login Failed";
@@ -186,4 +189,8 @@ noqMockApi.onGet(urlAvailablePerDay).reply((config) => {
     );
     const available = generateAvailablePlaces(parseInt(nr_of_days))
     return [200, JSON.stringify(available)];
+});
+
+noqMockApi.onGet("api/caseworker").reply((config) => {
+    return [200, "Caseworker frontpage data comes here..."];
 });
