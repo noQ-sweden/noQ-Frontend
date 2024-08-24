@@ -191,6 +191,6 @@ noqMockApi.onGet(urlAvailablePerDay).reply((config) => {
     return [200, JSON.stringify(available)];
 });
 
-noqMockApi.onGet("api/caseworker").reply((config) => {
+noqMockApi.onGet("api/caseworker").reply(() => {
     return [200, "Caseworker frontpage data comes here..."];
 });
