@@ -22,7 +22,7 @@ This will install the necessary dependencies and start the development server.
 You can access the client at http://localhost:5173/.
 
 ### Static test users for login
-Will be adding one for Handläggare eventually.
+These users shall not be used in production
 ````
 User:
 email: user.user@test.nu 
@@ -30,6 +30,10 @@ Password: P4ssw0rd_for_Te5t+User
 
 Host:
 email: user.host@test.nu
+Password: P4ssw0rd_for_Te5t+User
+
+Caseworker:
+email: user.caseworker@test.nu
 Password: P4ssw0rd_for_Te5t+User
 ````
 ### Running the project with mock api
