@@ -4,7 +4,9 @@ export var bookings = [
         status: {
             description: "pending"
         },
+        booking_time: "2024-06-01T17:11:31.471Z",
         start_date: "2024-06-13",
+        end_date: "2024-06-16",
         product: {
             id: 26,
             name: "woman-only",
@@ -51,7 +53,9 @@ export var bookings = [
         status: {
             description: "pending"
         },
+        booking_time: "2024-07-01T17:11:31.471Z",
         start_date: "2024-07-21",
+        end_date: "2024-07-23",
         product: {
             id: 25,
             name: "room",
@@ -98,7 +102,9 @@ export var bookings = [
         status: {
             description: "pending"
         },
+        booking_time: "2024-07-31T17:11:31.471Z",
         start_date: "2024-08-01",
+        end_date: "2024-08-05",
         product: {
             id: 45,
             name: "room",
@@ -145,7 +151,9 @@ export var bookings = [
         status: {
             description: "pending"
         },
+        booking_time: "2024-08-01T17:11:31.471Z",
         start_date: "2024-08-03",
+        end_date: "2024-08-04",
         product: {
             id: 25,
             name: "room",
@@ -192,7 +200,9 @@ export var bookings = [
         status: {
             description: "pending"
         },
+        booking_time: "2024-08-01T17:11:31.471Z",
         start_date: "2024-08-04",
+        end_date: "2024-08-06",
         product: {
             id: 45,
             name: "room",
@@ -239,7 +249,9 @@ export var bookings = [
         status: {
             description: "pending"
         },
+        booking_time: "2024-08-01T17:11:31.471Z",
         start_date: "2024-08-06",
+        end_date: "2024-08-07",
         product: {
             id: 45,
             name: "room",

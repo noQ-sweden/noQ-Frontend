@@ -56,6 +56,11 @@ export const getDayNumber = (date) => {
     return values[2];
 }
 
+export const getDate = (datetime) => {
+    const date = datetime.split('T')[0];
+    return date;
+}
+
 export const getStatus = (status) => {
     /*
         statuses = [

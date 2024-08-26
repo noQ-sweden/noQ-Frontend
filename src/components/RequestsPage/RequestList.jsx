@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from './../../api/AxiosNoqApi';
-import { getDayNumber, getMonth, getGender, getStatus } from './../../utility/utilityFunctions';
+import { getDate, getDayNumber, getMonth, getGender, getStatus } from './../../utility/utilityFunctions';
 import RequestListCompact from './RequestListCompact'
 import PropTypes from "prop-types";
 
@@ -86,10 +86,36 @@ export default function RequestList({compact}) {
     return (
         <div className="grid grid-cols-1 gap-2">
             <h2 className='text-2xl mb-4'>Förfrågningar</h2>
+            { requests.length != 0 && (
+                <div className='
+                grid
+                grid-cols-[1fr_3fr_2fr_2fr_2fr_2fr_2fr]
+                p-2
+                '>
+                    <div className='grid grid-rows-1 items-center text-left'>
+                        Välj
+                    </div>
+                    <div className='grid grid-rows-1 items-center text-left'>
+                        Gäst
+                    </div>
+                    <div className='grid grid-rows-1 items-center text-center'>
+                        Mottagen
+                    </div>
+                    <div className='grid grid-rows-1 items-center text-left'>
+                        Rumstyp
+                    </div>
+                    <div className='grid grid-rows-1 items-center text-center'>
+                        Incheckning
+                    </div>
+                    <div className='grid grid-rows-1 items-center text-center'>
+                        Utcheckning
+                    </div>                    <div/>
+                </div>
+            )}
             { requests.map(request => (
                 <div key={request.id} className='
                     grid
-                    grid-cols-[10px_150px_2fr_2fr_100px]
+                    grid-cols-[1fr_3fr_2fr_2fr_2fr_2fr_2fr]
                     rounded
                     border-2
                     border-800-green
@@ -98,19 +124,30 @@ export default function RequestList({compact}) {
                     <div className='grid grid-rows-1 items-center text-center'>
                         <input className='size-4' type="checkbox" />
                     </div>
+                    <div className='grid grid-rows-1 gap-1 items-center text-left'>
+                        <div>{request.user.first_name}</div>
+                        <div>{request.user.last_name}</div>
+                    </div>
                     <div className='grid grid-rows-1 items-center text-center'>
                         <div className='leading-3'>
-                            <p className='font-bold text-2xl'>{getDayNumber(request.start_date)}</p>
-                            <p className='text-lg'>{getMonth(request.start_date)}</p>
+                            <p className='font-bold text-2xl'>{getDayNumber(getDate(request.booking_time))}</p>
+                            <p className='text-lg'>{getMonth(getDate(request.booking_time))}</p>
                         </div>
                     </div>
-                    <div className='grid grid-rows-1 gap-1 items-center text-left'>
-                        <div><b>Värd:</b> {request.product.host.name}</div>
-                        <div><b>Rumstyp:</b> {request.product.type}</div>
+                    <div className='grid grid-rows-2 gap-1 items-center text-left'>
+                        <div>{request.product.type}</div>
                     </div>
-                    <div className='grid grid-rows-1 gap-1 items-center text-left'>
-                        <div><b>Unokod:</b> {request.user.unokod}</div>
-                        <div><b>Kön:</b> {getGender(request.user.gender)}</div>
+                    <div className='grid grid-rows-1 items-center text-center'>
+                        <div className='leading-3'>
+                                <p className='font-bold text-2xl'>{getDayNumber(request.start_date)}</p>
+                                <p className='text-lg'>{getMonth(request.start_date)}</p>
+                        </div>
+                    </div>
+                    <div className='grid grid-rows-1 items-center text-center'>
+                        <div className='leading-3'>
+                                <p className='font-bold text-2xl'>{getDayNumber(request.end_date)}</p>
+                                <p className='text-lg'>{getMonth(request.end_date)}</p>
+                        </div>
                     </div>
                     <div className='grid grid-rows-2 gap-2 items-right'>
                         <div>
@@ -160,28 +197,39 @@ export default function RequestList({compact}) {
             { undoRequests.map(undoRequest => (
                 <div key={undoRequest.id} className='
                     grid
-                    grid-cols-[70px_150px_2fr_2fr_100px]
+                    grid-cols-[2fr_2fr_2fr_2fr_2fr_2fr_2fr]
                     rounded
                     border-2
                     border-800-green
                     p-2
                     '>
-                    <div className='grid grid-rows-1 items-center text-left font-bold text-xl text-green-noQ'>
+                    <div className='grid grid-rows-1 items-center text-left font-bold text-l text-green-noQ'>
                         { getStatus(undoRequest.status.description) }
+                    </div>
+                    <div className='grid grid-rows-1 gap-1 items-center text-left'>
+                        <div>{undoRequest.user.first_name}</div>
+                        <div>{undoRequest.user.last_name}</div>
                     </div>
                     <div className='grid grid-rows-1 items-center text-center'>
                         <div className='leading-3'>
-                            <p className='font-bold text-2xl'>{ getDayNumber(undoRequest.start_date) }</p>
-                            <p className='text-lg'>{ getMonth(undoRequest.start_date) }</p>
+                            <p className='font-bold text-2xl'>{getDayNumber(getDate(undoRequest.booking_time))}</p>
+                            <p className='text-lg'>{getMonth(getDate(undoRequest.booking_time))}</p>
                         </div>
                     </div>
-                    <div className='grid grid-rows-1 gap-1 items-center text-left'>
-                        <div><b>Värd:</b> { undoRequest.product.host.name }</div>
-                        <div><b>Rumstyp:</b> { undoRequest.product.type }</div>
+                    <div className='grid grid-rows-2 gap-1 items-center text-left'>
+                        <div>{undoRequest.product.type}</div>
                     </div>
-                    <div className='grid grid-rows-1 gap-1 items-center text-left'>
-                        <div><b>Unokod:</b> { undoRequest.user.unokod }</div>
-                        <div><b>Kön:</b> { getGender(undoRequest.user.gender) }</div>
+                    <div className='grid grid-rows-1 items-center text-center'>
+                        <div className='leading-3'>
+                                <p className='font-bold text-2xl'>{getDayNumber(undoRequest.start_date)}</p>
+                                <p className='text-lg'>{getMonth(undoRequest.start_date)}</p>
+                        </div>
+                    </div>
+                    <div className='grid grid-rows-1 items-center text-center'>
+                        <div className='leading-3'>
+                                <p className='font-bold text-2xl'>{getDayNumber(undoRequest.end_date)}</p>
+                                <p className='text-lg'>{getMonth(undoRequest.end_date)}</p>
+                        </div>
                     </div>
                     <div className='grid grid-rows-1 gap-2 items-right'>
                         <div>
