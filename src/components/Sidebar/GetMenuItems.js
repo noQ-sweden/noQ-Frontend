@@ -24,8 +24,8 @@ export default function GetMenuItems(userGroup) {
     const caseworkerSidebarItemsTop = [
         { icon: FaChartPie, label: "Överblick", sideBarLink: "caseworker" },
         { icon: FaBell, label: "Förfrågningar", sideBarLink: "caseworker/requests" },
-        { icon: FaRandom, label: "Mina Rum", sideBarLink: "caseworker/products" },
-        { icon: FaUser, label: "Gäster" },
+        { icon: FaRandom, label: "Hantera Användare", sideBarLink: "caseworker/users" },
+        { icon: FaUser, label: "Statistik för boenden", sideBarLink: "caseworker/statistics" },
     ];
 
     const userSidebarItemsTop = [
