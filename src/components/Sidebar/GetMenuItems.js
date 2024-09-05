@@ -8,6 +8,7 @@ import {
     FaUser,
     FaRandom,
     FaCalendarAlt,
+    FaChartBar,
   } from "react-icons/fa";
 
 export default function GetMenuItems(userGroup) {
@@ -24,8 +25,8 @@ export default function GetMenuItems(userGroup) {
     const caseworkerSidebarItemsTop = [
         { icon: FaChartPie, label: "Överblick", sideBarLink: "caseworker" },
         { icon: FaBell, label: "Förfrågningar", sideBarLink: "caseworker/requests" },
-        { icon: FaRandom, label: "Hantera Användare", sideBarLink: "caseworker/users" },
-        { icon: FaUser, label: "Statistik för boenden", sideBarLink: "caseworker/statistics" },
+        { icon: FaUser, label: "Användare", sideBarLink: "caseworker/users" },
+        { icon: FaChartBar, label: "Statistik", sideBarLink: "caseworker/statistics" },
     ];
 
     const userSidebarItemsTop = [

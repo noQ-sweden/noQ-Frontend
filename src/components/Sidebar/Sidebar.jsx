@@ -1,14 +1,8 @@
 import React from "react";
 import {
   FaCog,
-  FaChartPie,
-  FaReceipt,
   FaUserAlt,
-  FaBell,
   FaSignOutAlt,
-  FaUser,
-  FaRandom,
-  FaCalendarAlt,
 } from "react-icons/fa";
 import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
