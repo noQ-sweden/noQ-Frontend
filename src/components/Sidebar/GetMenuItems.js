@@ -1,10 +1,7 @@
 import {
-    FaCog,
     FaChartPie,
     FaReceipt,
-    FaUserAlt,
     FaBell,
-    FaSignOutAlt,
     FaUser,
     FaRandom,
     FaCalendarAlt,
