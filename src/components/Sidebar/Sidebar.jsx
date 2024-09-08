@@ -1,20 +1,17 @@
 import React from "react";
 import {
   FaCog,
-  FaChartPie,
-  FaReceipt,
   FaUserAlt,
-  FaBell,
   FaSignOutAlt,
-  FaUser,
-  FaRandom,
-  FaCalendarAlt,
 } from "react-icons/fa";
+import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import noQicon from "./../../assets/images/noQiconNoQGreen.svg";
+import GetMenuItems from "./GetMenuItems";
 
 export default function Sidebar() {
   const navigate = useNavigate();
+  const { login } = useLogin();
 
   const liStyle =
     "py-5 text-gray-500 border-green-noQ hover:bg-green-noQ hover:text-white transition-colors duration-200 rounded-2xl";
@@ -29,15 +26,7 @@ export default function Sidebar() {
     window.location.reload();
   };
 
-  const sidebarItemsTop = [
-    { icon: FaChartPie, label: "Överblick", sideBarLink: "host" },
-    { icon: FaBell, label: "Förfrågningar", sideBarLink: "host/requests" },
-    { icon: FaCalendarAlt, label: "Kalender" },
-    { icon: FaRandom, label: "Mina Rum", sideBarLink: "host/products" },
-    { icon: FaRandom, label: "Härberget" },
-    { icon: FaUser, label: "Gäster" },
-    { icon: FaReceipt, label: "Fakturering" },
-  ];
+  const sidebarItemsTop = GetMenuItems(login.usergroups[0]);
 
   const sidebarItemsBottom = [
     { icon: FaCog, label: "Inställningar" },
