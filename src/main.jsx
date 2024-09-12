@@ -6,6 +6,7 @@ import {
   Route } from "react-router-dom";
 import { LoginProvider } from "./context/LoginProvider";
 import { HostProvider } from "./context/HostProvider";
+import { AccommodationProvider } from "./context/AccommodationProvider";
 import App from "./App.jsx";
 import "./index.css";
 
@@ -16,9 +17,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <BrowserRouter>
             <LoginProvider>
                 <HostProvider>
-                    <Routes>
-                        <Route path="/*" element={<App />} />
-                    </Routes>
+                     <AccommodationProvider>
+                        <Routes>
+                            <Route path="/*" element={<App />} />
+                        </Routes>
+                    </AccommodationProvider>
                 </HostProvider>
             </LoginProvider>
         </BrowserRouter>

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { bookings } from './bookings'
 import { generateAvailablePlaces } from './hostFrontPage'
+import { generateAvailableShelter } from './userSelectAccommodation'; // Import the function
 import { countBookings } from './countBookings'
 import AxiosMockAdapter from 'axios-mock-adapter';
 import {products} from "./products.js";
@@ -190,6 +191,18 @@ noqMockApi.onGet(urlAvailablePerDay).reply((config) => {
     const available = generateAvailablePlaces(parseInt(nr_of_days))
     return [200, JSON.stringify(available)];
 });
+
+
+
+//Diako added this
+const availableSheltersUrl = "api/user/available_shelters";
+const urlAvailableSheltersPerDay = new RegExp(`${availableSheltersUrl}`);
+
+noqMockApi.onGet(urlAvailableSheltersPerDay).reply(() => {
+    const availableShelters = generateAvailableShelter(); // Call the function to get available shelters
+    return [200, JSON.stringify(availableShelters)]; // Return the generated data
+});
+
 
 noqMockApi.onGet("api/caseworker").reply(() => {
     return [200, "Caseworker frontpage data comes here..."];

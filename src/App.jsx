@@ -11,6 +11,7 @@ import ErrorPage from "./pages/ErrorPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import RequestPageView from "./components/RequestsPage/RequestPageView";
 import RoomPage from "./pages/RoomPage";
+import AccommodationDetail from "./components/User/AccommodationDetail";
 
 export const VisitorContext = createContext();
 
@@ -27,7 +28,8 @@ function App() {
 
                 {/* User pages */}
                 <Route element={<RequireLogin allowedGroups={["user"]}/>}>
-                    <Route path="user" element={<UserPage />} />
+                    <Route path="user/" element={<UserPage />} />
+                    <Route path="accommodations/:id" element={<AccommodationDetail />} />
                 </Route>
                 {/* Host pages */}
                 <Route element={<RequireLogin allowedGroups={["host"]}/>}>

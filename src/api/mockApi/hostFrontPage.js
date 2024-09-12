@@ -31,7 +31,8 @@ export function generateAvailablePlaces(nr_of_days) {
         name: "Grimmans Akutboende",
         street: "Parkgatan 48",
         postcode: "",
-        city: "Sundbyberg"
+        city: "Sundbyberg",
+        products: products
     }
     const products = [
         {
