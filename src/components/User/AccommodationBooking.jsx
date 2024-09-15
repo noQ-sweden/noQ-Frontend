@@ -3,11 +3,10 @@ import AccommodationPanel from "./AccommodationPanal";
 import { useParams } from "react-router-dom";
 import { AccommodationContext } from "../../context/AccommodationProvider";
 
-
 export default function AccommodationBooking() {
   const { accommodation } = useContext(AccommodationContext);
   const params = useParams();
-  const [details, setDetails] = useState("");
+  const [details, setDetails] = useState({}); // Initialize as an empty object
 
   useEffect(() => {
     accommodation.map((request) => {
@@ -15,31 +14,27 @@ export default function AccommodationBooking() {
         setDetails(request);
       }
     });
-  }, []);
-
- 
+  }, [accommodation, params.id]);
 
   return (
     <>
-      <div className=" p-3  ">
-        <div className="pl-3 ">
+      <div className="p-3">
+        <div className="pl-3">
           <div className="">
             <AccommodationPanel title="Vajl rum">
-              <div className=" ">
-                <h2 className="text-lg mb-4">{"<  "}Tillbaka</h2>
-                <div id="roomContainer" className='flex mx-24 my-10'>
-                  {details.products.map((room) => (
-                  <div
-                    key={room.name}
-                    className="
-                    rounded 
-                    p-10 m-10
-                    bg-white h-64
-                    ">
-          
-                    <div className="flex flex-col  content-between">
-                      <p>{room.name}</p>
-                      <button className="
+              <div className="">
+                <h2 className="text-lg mb-4">{"< "}Tillbaka</h2>
+                <div id="roomContainer" className="flex mx-24 my-10">
+                  {details.products ? (
+                    details.products.map((room) => (
+                      <div
+                        key={room.id}
+                        className="rounded p-10 m-10 bg-white h-64"
+                      >
+                        <div className="flex flex-col content-between">
+                          <p>{room.name}</p>
+                          <button
+                            className="
                                 bg-green-600
                                 hover:bg-green-700
                                 text-white
@@ -51,18 +46,18 @@ export default function AccommodationBooking() {
                                 rounded
                                 focus:outline-none
                                 focus:shadow-outline"
-                        // onClick={() => handleAssignOnClick(request.id)}
-                      >
-                        Välj
-                      </button>
-                    </div>
-                  </div>
-                  ))}
+                          >
+                            Välj
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>Loading rooms...</p>
+                  )}
                 </div>
                 <div>
-                
-                </div>
-                  <div className=" flex justify-center mx-20">
+                  <div className="flex justify-center mx-20">
                     <button
                       className="
                                 bg-green-600
@@ -76,20 +71,17 @@ export default function AccommodationBooking() {
                                 rounded
                                 focus:outline-none
                                 focus:shadow-outline"
-                      // onClick={() => handleAssignOnClick(request.id)}
                     >
                       Välj
                     </button>
                   </div>
-                  <div className="grid grid-cols-3 justify-end">
-                    
-                  </div>
+                  <div className="grid grid-cols-3 justify-end"></div>
                 </div>
+              </div>
             </AccommodationPanel>
           </div>
-          </div>
         </div>
-
+      </div>
     </>
   );
 }
