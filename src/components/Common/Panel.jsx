@@ -6,12 +6,12 @@ const Panel = ({ title, children, onPrevMonth, onNextMonth }) => {
   Panel.propTypes = {
     title: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
-    onPrevMonth: PropTypes.func.isRequired,
-    onNextMonth: PropTypes.func.isRequired,
+    onPrevMonth: PropTypes.func,
+    onNextMonth: PropTypes.func,
   };
 
   return (
-    <div className=" bg-white flex flex-col rounded-lg my-4 p-3">
+    <div className=" bg-white flex flex-col rounded-lg border-2 border-grey-100 shadow-sm my-4 p-3">
       <div className="flex">
         {onPrevMonth && (
           <button onClick={onPrevMonth} className="px-2 py-1">

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "./../api/AxiosNoqApi";
 import PropTypes from 'prop-types';
 import useLogin from "./../hooks/useLogin";
+import useHeader from "./../hooks/useHeader";
 
 LoginPage.propTypes = {
   loginHandler: PropTypes.func,
@@ -10,6 +11,7 @@ LoginPage.propTypes = {
 
 export default function LoginPage() {
   const { setLogin } = useLogin();
+  const { setHeader } = useHeader();
   const userRef = useRef();
   const errorRef = useRef();
   const navigate = useNavigate();
@@ -40,6 +42,7 @@ export default function LoginPage() {
         const usergroups = response?.data?.groups;
         const host = response?.data?.host;
         setLogin({ username, usergroups, host });
+        setHeader("");
 
         setUsername('');
         setPassword('');
