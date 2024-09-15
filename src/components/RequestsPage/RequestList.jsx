@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from './../../api/AxiosNoqApi';
 import RequestListCompact from './RequestListCompact'
 import BookingRow from './BookingRow'
@@ -129,7 +129,7 @@ export default function RequestList({compact=false, config}) {
         handleAction(url, false, bookingIds);
     }
 
-    const fetchPendingRequests = async () => {
+    const fetchPendingRequests = useCallback(async () => {
         try {
             const response = await axios.get(config.fetchUrl);
             if (response.status === 200) {
@@ -139,11 +139,11 @@ export default function RequestList({compact=false, config}) {
         } catch (error) {
             console.error("Error while fetching pending bookings.", error);
         }
-    }
+    }, [config.fetchUrl]);
 
     useEffect(() => {
         fetchPendingRequests();
-    }, []);
+    }, [fetchPendingRequests]);
 
     if (requests.length === 0) {
         <div>Inga förfrågningar just nu.</div>

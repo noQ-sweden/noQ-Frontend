@@ -1,9 +1,7 @@
 import { React } from 'react';
 import PropTypes from "prop-types";
-import Panel from "./../Common/Panel";
 import RequestList from './RequestList';
 import useHeader from "./../../hooks/useHeader";
-import PageHeader from '../Common/PageHeader';
 
 export default function RequestPageView({userGroup}) {
     const { setHeader } = useHeader();
