@@ -190,7 +190,7 @@ export var bookings = [
     {
         id: 5,
         status: {
-            description: "pending"
+            description: "confirmed"
         },
         start_date: "2024-08-04",
         product: {
@@ -237,7 +237,7 @@ export var bookings = [
     {
         id: 6,
         status: {
-            description: "pending"
+            description: "confirmed"
         },
         start_date: "2024-08-06",
         product: {
