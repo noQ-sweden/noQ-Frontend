@@ -12,40 +12,41 @@ import UnauthorizedPage from "./pages/UnauthorizedPage";
 import RequestPageView from "./components/RequestsPage/RequestPageView";
 import RoomPage from "./pages/RoomPage";
 import AccommodationDetail from "./components/User/AccommodationDetail";
+import AccommodationBooking from "./components/User/AccommodationBooking";
 
 export const VisitorContext = createContext();
 
 function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        {/* Public pages */}
+        <Route path="/" element={<LoginPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegistrationPage />} />
+        <Route path="unauthorized" element={<UnauthorizedPage />} />
 
-    return (
-        <Routes>
-            <Route path="/" element={<Layout />}>
-                {/* Public pages */}
-                <Route path="/" element={<LoginPage />} />
-                <Route path="login" element={<LoginPage />} />
-                <Route path="register" element={<RegistrationPage />} />
-                <Route path="unauthorized" element={<UnauthorizedPage />} />
-
-                {/* User pages */}
-                {/* <Route element={<RequireLogin allowedGroups={["user"]}/>}> */}
-                    <Route path="user/" element={<UserPage />} />
-                    <Route path="accommodations/:id" element={<AccommodationDetail />} />
-                {/* </Route> */}
-                {/* Host pages */}
-                <Route element={<RequireLogin allowedGroups={["host"]}/>}>
-                    <Route path="host" element={<HostPage />} />
-                    <Route path="host/requests" element={<RequestPageView />} />
-                    <Route path="host/products" element={<RoomPage />} />
-                </Route>
-                {/* Host pages */}
-                <Route element={<RequireLogin allowedGroups={["caseworker"]}/>}>
-                    <Route path="caseworker" element={<CaseworkerPage />} />
-                </Route>
-                {/* Invalid path */}
-                <Route path="*" element={<ErrorPage />} />
-            </Route>
-        </Routes>
-    );
+        {/* User pages */}
+        <Route element={<RequireLogin allowedGroups={["user"]} />}>
+          <Route path="user/" element={<UserPage />} />
+          <Route path="accommodations/:id" element={<AccommodationDetail />} />
+          <Route path="accommodations/:id/booking" element={<AccommodationBooking />} />
+        </Route>
+        {/* Host pages */}
+        <Route element={<RequireLogin allowedGroups={["host"]} />}>
+          <Route path="host" element={<HostPage />} />
+          <Route path="host/requests" element={<RequestPageView />} />
+          <Route path="host/products" element={<RoomPage />} />
+        </Route>
+        {/* Host pages */}
+        <Route element={<RequireLogin allowedGroups={["caseworker"]} />}>
+          <Route path="caseworker" element={<CaseworkerPage />} />
+        </Route>
+        {/* Invalid path */}
+        <Route path="*" element={<ErrorPage />} />
+      </Route>
+    </Routes>
+  );
 }
 
 export default App;
