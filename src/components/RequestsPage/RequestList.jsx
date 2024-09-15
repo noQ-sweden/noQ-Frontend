@@ -157,6 +157,10 @@ export default function RequestList({compact=false, config}) {
         return <div>Fetching data ...</div>
     }
 
+    if (requests.length === 0) {
+        return <div>Det finns inga bokningar att hantera.</div>
+    }
+
     return (
         <div className="grid grid-cols-1 gap-2">
             { uniqueHosts.map(hostId => {
