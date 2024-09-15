@@ -68,7 +68,7 @@ const pendingBookingsUrl = "api/host/pending";
 
 noqMockApi.onGet(pendingBookingsUrl).reply(() => {
     var pendingBookings = bookings.filter( function (booking) {
-        return booking.status.description === 'pending';
+        return booking.status.description === 'pending' && booking.product.host.id === 3;
     });
     return [200, JSON.stringify(pendingBookings)];
 });
