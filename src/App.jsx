@@ -27,10 +27,10 @@ function App() {
                 <Route path="unauthorized" element={<UnauthorizedPage />} />
 
                 {/* User pages */}
-                <Route element={<RequireLogin allowedGroups={["user"]}/>}>
+                {/* <Route element={<RequireLogin allowedGroups={["user"]}/>}> */}
                     <Route path="user/" element={<UserPage />} />
                     <Route path="accommodations/:id" element={<AccommodationDetail />} />
-                </Route>
+                {/* </Route> */}
                 {/* Host pages */}
                 <Route element={<RequireLogin allowedGroups={["host"]}/>}>
                     <Route path="host" element={<HostPage />} />

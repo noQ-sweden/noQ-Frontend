@@ -35,20 +35,24 @@ export default function AccommodationList() {
             { accommodation.map(request => (
                 <div key={request.id} className='
                     grid
-                    grid-cols-[10px_150px_4fr_1fr]
+                    grid-cols-[100px_150px_80px_40px]
+                    sm:grid-cols-[10px_150px_3fr_2fr]
                     rounded
                     p-2
                     bg-white
                     '>
                     
-                    <img  src={request.imageSrc} alt="House in front of the road"
-                                className="w-full h-auto col-span-2"/>
+                    <div className=' place-content-center cons-span-1 sm:col-span-2'>
+                        <img  src={request.imageSrc} alt="House in front of the road"
+                                    className="w-24 sm:w-full sm:h-auto  "/>
+                    </div>
+                    
                   
-                    <div className='grid grid-rows-1 justify-center'>
+                    <div className=' grid justify-items-start pl-2'>
                         <div className='leading-3 '>
-                              <p className='text-base grid justify-items-start '>{request.name}</p>
-                              <p className='text-sm grid justify-items-start '>{request.street}</p>
-                              <p className='text-sm grid justify-items-start '>{request.city}</p>
+                              <p className='text-xs sm:text-sm font-bold  '>{request.name}</p>
+                              <p className='text-xs sm:text-sm  '>{request.street}</p>
+                              <p className='text-xs sm:text-sm  '>{request.city}</p>
                         </div>
                     </div>
                     <div className='grid grid-rows-2 gap-1 items-center'>
@@ -74,7 +78,8 @@ export default function AccommodationList() {
                             <p className="
                                 text-gray-500
                                 font-semibold
-                                text-sm
+                                text-xs
+                                sm:text-sm
                                 align-middle
                                
                                 "
