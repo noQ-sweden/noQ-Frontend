@@ -32,12 +32,13 @@ function App() {
                 {/* Host pages */}
                 <Route element={<RequireLogin allowedGroups={["host"]}/>}>
                     <Route path="host" element={<HostPage />} />
-                    <Route path="host/requests" element={<RequestPageView />} />
+                    <Route path="host/requests" element={<RequestPageView userGroup="host"/>} />
                     <Route path="host/products" element={<RoomPage />} />
                 </Route>
                 {/* Host pages */}
                 <Route element={<RequireLogin allowedGroups={["caseworker"]}/>}>
                     <Route path="caseworker" element={<CaseworkerPage />} />
+                    <Route path="caseworker/requests" element={<RequestPageView userGroup="caseworker" />} />
                 </Route>
                 {/* Invalid path */}
                 <Route path="*" element={<ErrorPage />} />
