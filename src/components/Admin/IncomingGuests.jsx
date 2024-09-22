@@ -20,8 +20,6 @@ export default function IncomingGuests() {
     }, []);
 
     const handleCheckIn = (bookingId) => {
-        const currentDate = new Date().toLocaleDateString()
-        const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         axios.patch(`/api/host/bookings/${bookingId}/checkin`)
             .then((res) => {
                 if (res.status === 200) {
@@ -33,13 +31,14 @@ export default function IncomingGuests() {
                                 ...booking, 
                                 status: { 
                                     ...booking.status,
-                                     description:  currentTime 
+                                     description:  "" 
                                     },
                                     user:{
                                         ...booking.user, 
                                         first_name: "",
-                                        last_name: currentDate 
-                                    }
+                                        last_name: "" 
+                                    },
+                                    isChecked: true
 
                                     }: booking
                                     
@@ -59,11 +58,10 @@ export default function IncomingGuests() {
             <div>
                 <div className='text-sm '>
                     <table className='table-fixed'>
-                        {/* <table className='table-fixed w-full'>*/}
                          
                         <thead className='border-b-2'>
                             <tr className='text-left'>
-                                <th className='font-normal tracking-tight w-3/5'>Namn</th>
+                                <th className='font-normal tracking-tight w-full'>Namn</th>
                                 <th className='p-2 font-normal tracking-tight w-1/5'></th>
                             </tr>
                         </thead>
@@ -73,7 +71,8 @@ export default function IncomingGuests() {
                                     <td className='tracking-tight '>{booking.user.first_name} {booking.user.last_name}</td>
                                     <td className='tracking-tight '>{booking.status.description}</td>
                                     <td className='p-2 tracking-tight text-right'>
-                                        <button className="
+                                        {!booking.isChecked &&(
+                                            <button className="
                                             bg-green-600
                                             hover:bg-green-700
                                             text-white
@@ -88,6 +87,7 @@ export default function IncomingGuests() {
                                             onClick={() => handleCheckIn(booking.id)}>
                                             Incheckning
                                         </button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

@@ -130,17 +130,15 @@ const incomingBookingsUrl = "api/host/bookings/incoming";
 
 noqMockApi.onGet(incomingBookingsUrl).reply(() => {
 
-    var pendingBookings = bookings.filter( function (booking) {
+    var confirmedBookings = bookings.filter( function (booking) {
         return booking.status.description === 'confirmed';
     });
-    return [200, JSON.stringify(pendingBookings)];
+    return [200, JSON.stringify(confirmedBookings)];
 });
 
 
-///api/host/bookings/${bookingId}/checkin
 const urlCheckIn = new RegExp(`${bookingsUrl}/\\d+/checkin`);
 noqMockApi.onPatch(urlCheckIn).reply((config) => {
-    //noqMockApi.onPatch(urlPending).reply((config) => {
     const bookingId = config.url.substring(
         config.url.indexOf("s/") + 2,
         config.url.indexOf("/checkin")
