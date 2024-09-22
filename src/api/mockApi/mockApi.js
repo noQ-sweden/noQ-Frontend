@@ -67,17 +67,30 @@ const pendingBookingsUrl = "api/host/pending";
 
 noqMockApi.onGet(pendingBookingsUrl).reply(() => {
     var pendingBookings = bookings.filter( function (booking) {
-        return booking.status.description === 'pending';
+        return booking.status.description === 'pending' && booking.product.host.id === 3;
     });
     return [200, JSON.stringify(pendingBookings)];
 });
 
+noqMockApi.onPatch("api/host/pending/batch/accept").reply((config) => {
+    const bookingIds = JSON.parse(config.data);
+
+    for (const id of bookingIds) {
+        const bookingId = id.booking_id;
+        const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
+        if (idx > -1) {
+            bookings[idx].status.description = "accepted";
+        }
+    }
+
+    return [200, JSON.stringify({'message': 'Bulk update successful'})];
+});
 
 const urlAppoint = new RegExp(`${pendingBookingsUrl}/\\d+/appoint`);
 noqMockApi.onPatch(urlAppoint).reply((config) => {
     const bookingId = config.url.substring(
         config.url.indexOf("g/") + 2,
-        config.url.indexOf("/a")
+        config.url.indexOf("/appoint")
     );
 
     const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
@@ -89,11 +102,11 @@ noqMockApi.onPatch(urlAppoint).reply((config) => {
     }
 });
 
-const urlDecline = new RegExp(`${pendingBookingsUrl}/\\d+/decline`);
+let urlDecline = new RegExp(`${pendingBookingsUrl}/\\d+/decline`);
 noqMockApi.onPatch(urlDecline).reply((config) => {
     const bookingId = config.url.substring(
         config.url.indexOf("g/") + 2,
-        config.url.indexOf("/d")
+        config.url.indexOf("/decline")
     );
 
     const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
@@ -106,11 +119,11 @@ noqMockApi.onPatch(urlDecline).reply((config) => {
 });
 
 const bookingsUrl = "api/host/bookings";
-const urlPending = new RegExp(`${bookingsUrl}/\\d+/setpending`);
+let urlPending = new RegExp(`${bookingsUrl}/\\d+/setpending`);
 noqMockApi.onPatch(urlPending).reply((config) => {
     const bookingId = config.url.substring(
         config.url.indexOf("s/") + 2,
-        config.url.indexOf("/s")
+        config.url.indexOf("/setpending")
     );
 
     const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
@@ -151,6 +164,80 @@ noqMockApi.onPatch(urlCheckIn).reply((config) => {
     } else {
         return [200, []];
     }
+});
+
+/*
+    Booking actions for Caseworker
+*/
+const caseworkerBookingUrl = "api/caseworker/bookings";
+
+noqMockApi.onGet(caseworkerBookingUrl + "/pending").reply(() => {
+    var pendingBookings = bookings.filter( function (booking) {
+        return booking.status.description === 'pending';
+    });
+    return [200, JSON.stringify(pendingBookings)];
+});
+
+const urlAccept = new RegExp(`${caseworkerBookingUrl}/\\d+/accept`);
+noqMockApi.onPatch(urlAccept).reply((config) => {
+    const bookingId = config.url.substring(
+        config.url.indexOf("s/") + 2,
+        config.url.indexOf("/accept")
+    );
+
+    const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
+    if (idx > -1) {
+        bookings[idx].status.description = "accepted";
+        return [200, JSON.stringify(bookings[idx])];
+    } else {
+        return [200, []];
+    }
+});
+
+urlDecline = new RegExp(`${caseworkerBookingUrl}/\\d+/decline`);
+noqMockApi.onPatch(urlDecline).reply((config) => {
+    const bookingId = config.url.substring(
+        config.url.indexOf("s/") + 2,
+        config.url.indexOf("/decline")
+    );
+
+    const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
+    if (idx > -1) {
+        bookings[idx].status.description = "declined";
+        return [200, JSON.stringify(bookings[idx])];
+    } else {
+        return [200, []];
+    }
+});
+
+urlPending = new RegExp(`${caseworkerBookingUrl}/\\d+/setpending`);
+noqMockApi.onPatch(urlPending).reply((config) => {
+    const bookingId = config.url.substring(
+        config.url.indexOf("s/") + 2,
+        config.url.indexOf("/setpending")
+    );
+
+    const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
+    if (idx > -1) {
+        bookings[idx].status.description = "pending";
+        return [200, JSON.stringify(bookings[idx])];
+    } else {
+        return [200, []];
+    }
+});
+
+noqMockApi.onPatch("api/caseworker/bookings/batch/accept").reply((config) => {
+    const bookingIds = JSON.parse(config.data);
+
+    for (const id of bookingIds) {
+        const bookingId = id.booking_id;
+        const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
+        if (idx > -1) {
+            bookings[idx].status.description = "accepted";
+        }
+    }
+
+    return [200, JSON.stringify({'message': 'Bulk update successful'})];
 });
 
 /*

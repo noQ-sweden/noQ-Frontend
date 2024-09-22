@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 export default function RequestListCompact({requests}) {
     RequestListCompact.propTypes = {
-        requests: PropTypes.any.isRequired
+        requests: PropTypes.any
     };
     const navigate = useNavigate()
 

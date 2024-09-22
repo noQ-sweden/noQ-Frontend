@@ -13,11 +13,14 @@
 To get started with the development environment, follow these steps:
 
 with terminal open root of repo, Type these commands 
-
+```
       npm install
+      npm run dev -- --mode mockapi 
+```
+to run without mock api use 
+```
       npm run dev
-
-
+```   
 This will install the necessary dependencies and start the development server. 
 You can access the client at http://localhost:5173/.
 
@@ -36,10 +39,7 @@ Caseworker:
 email: user.caseworker@test.nu
 Password: P4ssw0rd_for_Te5t+User
 ````
-### Running the project with mock api
-Instead of running the command npm run dev you should use following command:
 
-      npm run dev -- --mode mockapi
 
 ## Wiki
 [Frontend wiki](https://github.com/noQ-sweden/noQ-Frontend/wiki)

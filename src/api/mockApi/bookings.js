@@ -4,7 +4,9 @@ export var bookings = [
         status: {
             description: "pending"
         },
+        booking_time:"2024-06-01T09:43:18.476Z",
         start_date: "2024-06-13",
+        end_date: "2024-06-17",
         product: {
             id: 26,
             name: "woman-only",
@@ -51,7 +53,9 @@ export var bookings = [
         status: {
             description: "pending"
         },
+        booking_time:"2024-06-01T09:43:18.476Z",
         start_date: "2024-07-21",
+        end_date: "2024-07-25",
         product: {
             id: 25,
             name: "room",
@@ -98,7 +102,9 @@ export var bookings = [
         status: {
             description: "pending"
         },
+        booking_time:"2024-06-01T09:43:18.476Z",
         start_date: "2024-08-01",
+        end_date: "2024-08-25",
         product: {
             id: 45,
             name: "room",
@@ -145,7 +151,9 @@ export var bookings = [
         status: {
             description: "pending"
         },
+        booking_time:"2024-06-01T09:43:18.476Z",
         start_date: "2024-08-03",
+        end_date: "2024-08-05",
         product: {
             id: 25,
             name: "room",
@@ -192,22 +200,24 @@ export var bookings = [
         status: {
             description: "confirmed"
         },
+        booking_time:"2024-06-01T09:43:18.476Z",
         start_date: "2024-08-04",
+        end_date: "2024-08-20",
         product: {
-            id: 45,
+            id: 1,
             name: "room",
             description: "5-bäddsrum",
             total_places: 5,
             host: {
                 region: {
-                    id: 3,
-                    name: "Stockholm City"
+                    id: 2,
+                    name: "Trelleborg"
                 },
-                id: 3,
-                name: "Grimmans Akutboende",
-                street: "Parkgatan 48",
+                id: 4,
+                name: "Ny Gemenskap",
+                street: "Kyrkgatan 4",
                 postcode: "",
-                city: "Sundbyberg"
+                city: "Trelleborg"
             },
             type: "room"
         },
@@ -239,22 +249,24 @@ export var bookings = [
         status: {
             description: "confirmed"
         },
+        booking_time:"2024-06-01T09:43:18.476Z",
         start_date: "2024-08-06",
+        end_date: "2024-08-12",
         product: {
-            id: 45,
+            id: 1,
             name: "room",
             description: "5-bäddsrum",
             total_places: 5,
             host: {
                 region: {
-                    id: 3,
-                    name: "Stockholm City"
+                    id: 2,
+                    name: "Trelleborg"
                 },
-                id: 3,
-                name: "Grimmans Akutboende",
-                street: "Parkgatan 48",
+                id: 4,
+                name: "Ny Gemenskap",
+                street: "Kyrkgatan 4",
                 postcode: "",
-                city: "Sundbyberg"
+                city: "Trelleborg"
             },
             type: "room"
         },

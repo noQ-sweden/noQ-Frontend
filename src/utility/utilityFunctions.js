@@ -1,4 +1,7 @@
 export const getMonth = (date) => {
+    if (typeof date === 'undefined') {
+        return "NaN";
+    }
     const values = date.split('-');
     var month = '';
     switch(values[1]) {
@@ -52,8 +55,19 @@ export const getGender = (gender) => {
 }
 
 export const getDayNumber = (date) => {
+    if (typeof date === 'undefined') {
+        return "NaN";
+    }
     const values = date.split('-');
     return values[2];
+}
+
+export const getDate = (datetime) => {
+    if (typeof datetime === 'undefined') {
+        return "NaN";
+    }
+    const date = datetime.split('T')[0];
+    return date;
 }
 
 export const getStatus = (status) => {

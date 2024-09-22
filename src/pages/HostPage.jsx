@@ -4,6 +4,7 @@ import Overview from "../components/Admin/Overview";
 import RoomStatus from "../components/Admin/RoomStatus";
 import WeeklyRoomStatus from "../components/Admin/WeeklyRoomStatus";
 import useHost from "./../hooks/useHost";
+import useHeader from "./../hooks/useHeader";
 import OutgoingGuests from "../components/Admin/OutgoingGuests";
 import IncomingGuests from "../components/Admin/IncomingGuests";
 import RequestList from "./../components/RequestsPage/RequestList";
@@ -12,6 +13,8 @@ import Panel from "./../components/Common/Panel";
 
 export default function HostPage() {
     const { setHost } = useHost();
+    const { setHeader } = useHeader();
+    setHeader("Överblick");
 
     useEffect( () => {
         axios.get ('api/host')
