@@ -56,14 +56,13 @@ noqMockApi.onPost('api/login/').reply((config) => {
 });
 
 
+
 /*
     Below APIs are relate to booking. Booking has following possible statuses:
     pending, declined, accepted, checked_in
 */
 
-/*
-    Booking actions for Host
-*/
+
 const pendingBookingsUrl = "api/host/pending";
 
 noqMockApi.onGet(pendingBookingsUrl).reply(() => {
@@ -138,6 +137,33 @@ noqMockApi.onPatch(urlPending).reply((config) => {
 
 noqMockApi.onGet(bookingsUrl).reply(() => {
     return [200, bookings];
+});
+
+const incomingBookingsUrl = "api/host/bookings/incoming";
+
+noqMockApi.onGet(incomingBookingsUrl).reply(() => {
+
+    var confirmedBookings = bookings.filter( function (booking) {
+        return booking.status.description === 'confirmed';
+    });
+    return [200, JSON.stringify(confirmedBookings)];
+});
+
+
+const urlCheckIn = new RegExp(`${bookingsUrl}/\\d+/checkin`);
+noqMockApi.onPatch(urlCheckIn).reply((config) => {
+    const bookingId = config.url.substring(
+        config.url.indexOf("s/") + 2,
+        config.url.indexOf("/checkin")
+    );
+
+    const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
+    if (idx > -1) {
+        bookings[idx].status.description = "checked_in";
+        return [200, JSON.stringify(bookings[idx])];
+    } else {
+        return [200, []];
+    }
 });
 
 /*

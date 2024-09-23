@@ -198,7 +198,7 @@ export var bookings = [
     {
         id: 5,
         status: {
-            description: "pending"
+            description: "confirmed"
         },
         booking_time:"2024-06-01T09:43:18.476Z",
         start_date: "2024-08-04",
@@ -247,7 +247,7 @@ export var bookings = [
     {
         id: 6,
         status: {
-            description: "pending"
+            description: "confirmed"
         },
         booking_time:"2024-06-01T09:43:18.476Z",
         start_date: "2024-08-06",
