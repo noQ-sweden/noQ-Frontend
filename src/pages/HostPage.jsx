@@ -9,6 +9,7 @@ import OutgoingGuests from "../components/Admin/OutgoingGuests";
 import IncomingGuests from "../components/Admin/IncomingGuests";
 import RequestList from "./../components/RequestsPage/RequestList";
 import Panel from "./../components/Common/Panel";
+import { GetBookingConfig } from "./../components/RequestsPage/GetBookingConfig";
 
 
 export default function HostPage() {
@@ -45,6 +46,7 @@ export default function HostPage() {
                         <Panel title="Förfrågningar">
                             <RequestList
                                 compact={true}
+                                config={GetBookingConfig("host")}
                             />
                         </Panel>
                         <IncomingGuests />
