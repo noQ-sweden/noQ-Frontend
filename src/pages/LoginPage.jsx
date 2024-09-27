@@ -1,7 +1,7 @@
-import React, {useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "./../api/AxiosNoqApi";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import useLogin from "./../hooks/useLogin";
 import useHeader from "./../hooks/useHeader";
 
@@ -18,62 +18,75 @@ export default function LoginPage() {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     userRef.current.focus();
-  }, [])
+  }, []);
 
   const navigateToRegister = () => {
     navigate("/register");
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios.post ('api/login/', {
-      email: username,
-      password: password
-    })
-    .then ((response) => {
-      if (response.status === 200 && response.data.login_status === true) {
-        const usergroups = response?.data?.groups;
-        const host = response?.data?.host;
-        setLogin({ username, usergroups, host });
-        setHeader("");
+    axios
+      .post("api/login/", {
+        email: username,
+        password: password,
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.status === 200 && response.data.login_status === true) {
+          const usergroups = response?.data?.groups;
+          const host = response?.data?.host;
+          const first_name = response?.data?.first_name;
+          const last_name = response?.data?.last_name;
+          setLogin({ username, first_name, last_name, usergroups, host });
+          setHeader("");
 
-        setUsername('');
-        setPassword('');
+          setUsername("");
+          setPassword("");
 
-        const returnUrl = (from === "/") ? "/" + usergroups[0] : from;
-        navigate(returnUrl, { replace: true });
-      } else {
-        setErrorMessage('Autentisering misslyckades.');
-        setUsername('');
-        setPassword('');
-      }
-    })
-    .catch((error) => {
-      console.log("Error while login.", error);
-    });
-    setPassword('');
-  }
+          const returnUrl = from === "/" ? "/" + usergroups[0] : from;
+          navigate(returnUrl, { replace: true });
+        } else {
+          setErrorMessage("Autentisering misslyckades.");
+          setUsername("");
+          setPassword("");
+        }
+      })
+      .catch((error) => {
+        console.log("Error while login.", error);
+      });
+    setPassword("");
+  };
 
   return (
     <div className="flex flex-col items-center">
       <div className="mb-12 text-red-600 text-xl font-semibold">
-        <p ref={errorRef} className=
-          {errorMessage ? "errorMessage" : "offScreen"}>{errorMessage}</p>
+        <p
+          ref={errorRef}
+          className={errorMessage ? "errorMessage" : "offScreen"}
+        >
+          {errorMessage}
+        </p>
       </div>
       <div className="bg-white rounded px-8 pt-6 pb-8 mb-4">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col items-center">
-            <h1 className="mb-8 text-2xl font-bold text-green-noQ tracking-normal">Välkommen till noQ</h1>
+            <h1 className="mb-8 text-2xl font-bold text-green-noQ tracking-normal">
+              Välkommen till noQ
+            </h1>
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 text-base font-semibold mb-2" htmlFor="username">
+            <label
+              className="block text-gray-700 text-base font-semibold mb-2"
+              htmlFor="username"
+            >
               E-post
               <input
                 className="
@@ -98,7 +111,10 @@ export default function LoginPage() {
             </label>
           </div>
           <div className="mb-1">
-            <label className="block text-gray-700 text-base font-semibold mb-2" htmlFor="password">
+            <label
+              className="block text-gray-700 text-base font-semibold mb-2"
+              htmlFor="password"
+            >
               Lösenord
               <input
                 className="
@@ -117,6 +133,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 required
+                autoComplete="current-password"
               />
             </label>
           </div>
@@ -148,7 +165,9 @@ export default function LoginPage() {
                 rounded
                 focus:outline-none
                 focus:shadow-outline"
-              id="login-button">Logga in
+              id="login-button"
+            >
+              Logga in
             </button>
           </div>
           <div className="flex flex-col items-center mt-10">
@@ -171,7 +190,8 @@ export default function LoginPage() {
                   rounded
                   focus:outline-none
                   focus:shadow-outline"
-                id="register-button">
+                id="register-button"
+              >
                 Skapa konto
               </button>
             </div>
@@ -179,5 +199,5 @@ export default function LoginPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }
