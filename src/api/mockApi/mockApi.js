@@ -168,12 +168,13 @@ noqMockApi.onPatch(urlCheckIn).reply((config) => {
 
 const outgoingBookingsUrl = "api/host/bookings/outgoing";
 
-// This handles fetching outgoing bookings that are confirmed
+// This handles fetching outgoing bookings that are checked in and leaving today
 noqMockApi.onGet(outgoingBookingsUrl).reply(() => {
-    var confirmedBookings = bookings.filter( function (booking) {
-        return booking.status.description === 'confirmed';
+    var outgoingBookings = bookings.filter(function (booking) {
+        return booking.status.description === 'checked_in' && booking.end_date === new Date().toISOString().split('T')[0];
     });
-    return [200, JSON.stringify(confirmedBookings)];
+    return [200, outgoingBookings];
+
 });
 
 // Regular expression for the checkout URL
@@ -188,7 +189,7 @@ noqMockApi.onPatch(urlCheckOut).reply((config) => {
 
     const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
     if (idx > -1) {
-        bookings[idx].status.description = "checked_out"; // Updating status to 'checked_out'
+        bookings[idx].status.description = "completed"; // Updating status to 'completed'
         return [200, JSON.stringify(bookings[idx])];
     } else {
         return [200, []]; // If no booking found, return an empty array
