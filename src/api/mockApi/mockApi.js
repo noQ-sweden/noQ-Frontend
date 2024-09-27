@@ -173,7 +173,7 @@ noqMockApi.onGet(outgoingBookingsUrl).reply(() => {
     var outgoingBookings = bookings.filter(function (booking) {
         return booking.status.description === 'checked_in' && booking.end_date === new Date().toISOString().split('T')[0];
     });
-    return [200, outgoingBookings];
+    return [200, JSON.stringify(outgoingBookings)];
 
 });
 
