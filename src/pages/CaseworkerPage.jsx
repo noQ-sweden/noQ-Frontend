@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from './../api/AxiosNoqApi'; 
+import axios from './../api/AxiosNoqApi';
 import ArrowUpIcon from '../assets/images/arrowUpIcon.svg';
 import ArrowDownIcon from '../assets/images/arrowDownIcon.svg';
 
@@ -12,9 +12,12 @@ export default function CaseworkerPage() {
   // Variable for text
   const descriptionTitelText = " - Rum";
   const roomAvailableText = " lediga av ";
-  const countRoomAvailableText = "Antal sängar lediga";
-  const totaltText = "totalt";
-  
+  const loadingTest = "Laddar...";
+  const errorText = "Fel:";
+  const namnText = "Namn";
+  const emptyPLacesText = "Lediga platser";
+  const descriptionText = "Beskrivning";
+
   useEffect(() => {
     axios
       .get('api/caseworker')
@@ -54,7 +57,7 @@ export default function CaseworkerPage() {
   const calculateRoomAvailability = (rooms) => {
     const totalAvailable = rooms.reduce((acc, room) => acc + room.places_left, 0);
     const totalPlaces = rooms.reduce((acc, room) => acc + room.total_places, 0);
-    const occupied = totalPlaces - totalAvailable; 
+    const occupied = totalPlaces - totalAvailable;
     return `${occupied}${roomAvailableText}${totalPlaces}`;
   };
 
@@ -68,12 +71,12 @@ export default function CaseworkerPage() {
 
   // Show loading spinner if the data is still being fetched
   if (loading) {
-    return <div>Laddar...</div>;
+    return <div>{loadingTest}</div>;
   }
 
   // Show error message if something went wrong
   if (error) {
-    return <div>Fel: {error}</div>;
+    return <div>{errorText}{error}</div>;
   }
 
   // Group data by host
@@ -84,9 +87,8 @@ export default function CaseworkerPage() {
 
       {Object.keys(groupedData).map((hostName, index) => {
         const rooms = groupedData[hostName];
-        const totalRooms = rooms.length; 
-        const isExpanded = expandedHosts[hostName]; 
-        
+        const isExpanded = expandedHosts[hostName];
+
         const roomAvailability = calculateRoomAvailability(rooms);
 
         return (
@@ -109,9 +111,9 @@ export default function CaseworkerPage() {
 
                 {/* Header Row */}
                 <div className="grid grid-cols-[250px,150px,1fr] gap-4 mb-1">
-                  <div className="text-left">Namn</div>
-                  <div className="text-left">Lediga platser</div>
-                  <div className="text-left">Beskrivning</div>
+                  <div className="text-left">{namnText}</div>
+                  <div className="text-left">{emptyPLacesText}</div>
+                  <div className="text-left">{descriptionText}</div>
                 </div>
 
                 {/* List of products/rooms under each host */}
