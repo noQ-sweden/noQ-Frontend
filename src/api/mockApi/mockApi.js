@@ -4,6 +4,7 @@ import { generateAvailablePlaces } from './hostFrontPage'
 import { countBookings } from './countBookings'
 import AxiosMockAdapter from 'axios-mock-adapter';
 import {products} from "./products.js";
+import { availableProducts } from './caseworkerFrontPage.js';
 
 export const axiosMockNoqApi = axios.create({
   headers: {
@@ -308,6 +309,6 @@ noqMockApi.onGet(urlAvailablePerDay).reply((config) => {
     return [200, JSON.stringify(available)];
 });
 
-noqMockApi.onGet("api/caseworker").reply(() => {
-    return [200, "Caseworker frontpage data comes here..."];
+noqMockApi.onGet('/api/caseworker/available_all').reply(() => {
+    return [200, JSON.stringify(availableProducts)];
 });
