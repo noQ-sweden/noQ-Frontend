@@ -14,13 +14,13 @@ export default function CaseworkerPage() {
   const roomAvailableText = " lediga av ";
   const loadingTest = "Laddar...";
   const errorText = "Fel:";
-  const namnText = "Namn";
+  const namnText = "Rumsnamn";
   const emptyPLacesText = "Lediga platser";
   const descriptionText = "Beskrivning";
 
   useEffect(() => {
     axios
-      .get('api/caseworker')
+      .get('/api/caseworker/available_all')
       .then((response) => {
         const fetchedData = response.data;
         setData(fetchedData);
