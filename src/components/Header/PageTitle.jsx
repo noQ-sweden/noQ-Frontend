@@ -7,7 +7,7 @@ export default function PageTitle() {
   const { header } = useHeader();
 
   const getName = (first_name, last_name) => {
-    if (!first_name || !last_name) return "Guest";
+    if (!first_name && !last_name) return "Gäst";
 
     const firstNameFormatted =
       first_name.charAt(0).toUpperCase() + first_name.slice(1);
@@ -19,11 +19,7 @@ export default function PageTitle() {
   return (
     <div className="flex items-center justify-between bg-white">
       <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold">
-        {login.first_name && login.last_name
-          ? getName(login.first_name, login.last_name)
-          : "Välkommen"}
-
-        {/* {login.username != null ? getName(login?.username) : "Välkommen"} */}
+        {getName(login.first_name, login.last_name)}
       </div>
       <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold mx-2">
         {header && typeof header === "string" && header !== "" ? " - " : ""}

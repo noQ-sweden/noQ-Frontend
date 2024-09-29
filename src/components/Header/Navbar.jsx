@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-/* import useLogin from "./../../hooks/useLogin"; */
+import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "./PageTitle";
 import {
@@ -10,10 +10,11 @@ import {
   FaQuestionCircle,
   FaSignOutAlt,
 } from "react-icons/fa";
+import PropTypes from "prop-types";
 
 export default function Navbar({ first_name, last_name }) {
   const navigate = useNavigate();
-  /* const { login } = useLogin(); */
+  const { login } = useLogin();
 
   //TODO: Functionality for messages and alerts is not in place yet.
   //      Displaying 0 messages and alerts for now.
@@ -34,18 +35,17 @@ export default function Navbar({ first_name, last_name }) {
     window.location.reload();
   };
 
-  /* const getInitials = (username) => {
-    const names = username.split(".");
-    let initials = "";
-    return initials.concat(names[0][0], names[1][0]).toUpperCase();
-  }; */
+  const getInitials = (first_name = "", last_name = "") => {
+    const firstInitial = first_name ? first_name[0].toUpperCase() : "";
+    const lastInitial = last_name ? last_name[0].toUpperCase() : "";
+    return `${firstInitial}${lastInitial}`;
+  };
 
   return (
     <>
       <nav className="flex items-center justify-between p-4 bg-white">
         <PageTitle />
         <div className="flex items-center space-x-10">
-          {" "}
           {/* Adjusted space-x value */}
           <div className="relative">
             <FaRegEnvelope className="size-6 fill-almost-black" />
@@ -61,7 +61,9 @@ export default function Navbar({ first_name, last_name }) {
           </div>
           <div className="relative flex items-center space-x-2">
             <div className="bg-green-noQ text-white rounded-full w-8 h-8 flex items-center justify-center">
-              {first_name} {last_name}
+              {login && first_name && last_name
+                ? getInitials(first_name, last_name)
+                : ""}
             </div>
             {isUserDropdownOpen && (
               <div
@@ -109,3 +111,9 @@ export default function Navbar({ first_name, last_name }) {
     </>
   );
 }
+
+// PropTypes Validation
+Navbar.propTypes = {
+  first_name: PropTypes.string.isRequired,
+  last_name: PropTypes.string.isRequired,
+};

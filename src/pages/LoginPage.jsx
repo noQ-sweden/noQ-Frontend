@@ -39,7 +39,6 @@ export default function LoginPage() {
         password: password,
       })
       .then((response) => {
-        console.log(response.data);
         if (response.status === 200 && response.data.login_status === true) {
           const usergroups = response?.data?.groups;
           const host = response?.data?.host;

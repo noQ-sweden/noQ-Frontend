@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import PropTypes from "prop-types";
 
 const LoginContext = createContext({});
@@ -16,7 +16,7 @@ export const LoginProvider = ({ children }) => {
   // Add handleLogin to update the state
   const handleLogin = async (loginData) => {
     try {
-      const response = await axios.post("/api/api/login/", loginData); // mock API call
+      const response = await axios.post("/api/api/login/", loginData);
       const data = response.data;
 
       // Updating the login state with response data
@@ -31,10 +31,6 @@ export const LoginProvider = ({ children }) => {
       console.error("Login failed:", error);
     }
   };
-
-  /* useEffect(() => {
-    console.log("login state:", login);
-  }, [login]); */
 
   return (
     <LoginContext.Provider value={{ login, setLogin }}>
