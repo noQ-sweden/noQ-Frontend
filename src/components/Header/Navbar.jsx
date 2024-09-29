@@ -116,4 +116,8 @@ export default function Navbar({ first_name, last_name }) {
 Navbar.propTypes = {
   first_name: PropTypes.string.isRequired,
   last_name: PropTypes.string.isRequired,
+  login: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+  }),
 };

@@ -13,25 +13,6 @@ export const LoginProvider = ({ children }) => {
     host: null,
   });
 
-  // Add handleLogin to update the state
-  const handleLogin = async (loginData) => {
-    try {
-      const response = await axios.post("/api/api/login/", loginData);
-      const data = response.data;
-
-      // Updating the login state with response data
-      setLogin({
-        username: data.username,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        usergroups: data.groups,
-        host: data.host,
-      });
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
-  };
-
   return (
     <LoginContext.Provider value={{ login, setLogin }}>
       {children}

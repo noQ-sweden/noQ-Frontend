@@ -30,7 +30,7 @@ export default function HostPage() {
       .catch((error) => {
         console.log("Error while fetching host data.", error);
       });
-  }, [setHost]);
+  }, [setHost, setHeader]);
 
   return (
     <>
