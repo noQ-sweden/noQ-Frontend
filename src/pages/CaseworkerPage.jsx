@@ -57,9 +57,9 @@ export default function CaseworkerPage() {
   const calculateRoomAvailability = (rooms) => {
     const totalAvailable = rooms.reduce((acc, room) => acc + room.places_left, 0);
     const totalPlaces = rooms.reduce((acc, room) => acc + room.total_places, 0);
-    const occupied = totalPlaces - totalAvailable;
-    return `${occupied}${roomAvailableText}${totalPlaces}`;
+    return `${totalAvailable}${roomAvailableText}${totalPlaces}`;
   };
+
 
   // Handle toggling expand/collapse for host
   const toggleExpand = (hostName) => {
