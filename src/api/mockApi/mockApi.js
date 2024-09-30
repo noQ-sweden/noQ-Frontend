@@ -351,8 +351,6 @@ noqMockApi.onGet(urlAvailablePerDay).reply((config) => {
   return [200, JSON.stringify(available)];
 });
 
-noqMockApi.onGet("api/caseworker").reply(() => {
-    return [200, "Caseworker frontpage data comes here..."];
 //Diako added this
 const availableSheltersUrl = "/api/user/available";
 const urlAvailableSheltersPerDay = new RegExp(`${availableSheltersUrl}/[\\d-]+`);
