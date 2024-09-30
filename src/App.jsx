@@ -11,11 +11,12 @@ import ErrorPage from "./pages/ErrorPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import RequestPageView from "./components/RequestsPage/RequestPageView";
 import RoomPage from "./pages/RoomPage";
+import AccommodationDetail from "./components/User/AccommodationDetail";
+import AccommodationBooking from "./components/User/AccommodationBooking";
 
 export const VisitorContext = createContext();
 
 function App() {
-
     return (
         <Routes>
             <Route path="/" element={<Layout />}>
@@ -28,6 +29,8 @@ function App() {
                 {/* User pages */}
                 <Route element={<RequireLogin allowedGroups={["user"]}/>}>
                     <Route path="user" element={<UserPage />} />
+                    <Route path="accommodations/:id" element={<AccommodationDetail />} />
+                    <Route path="accommodations/:id/booking" element={<AccommodationBooking />} />
                 </Route>
                 {/* Host pages */}
                 <Route element={<RequireLogin allowedGroups={["host"]}/>}>

@@ -4,6 +4,8 @@ import { generateAvailablePlaces } from "./hostFrontPage";
 import { countBookings } from "./countBookings";
 import AxiosMockAdapter from "axios-mock-adapter";
 import { products } from "./products.js";
+import { getAvailableShelters } from "./getAvailableShelters"; // Import the function
+import { availableProducts } from "./caseworkerFrontPage.js";
 
 export const axiosMockNoqApi = axios.create({
   headers: {
@@ -187,6 +189,38 @@ noqMockApi.onPatch(urlCheckIn).reply((config) => {
   }
 });
 
+const outgoingBookingsUrl = "api/host/bookings/outgoing";
+
+// This handles fetching outgoing bookings that are checked in and leaving today
+noqMockApi.onGet(outgoingBookingsUrl).reply(() => {
+  var outgoingBookings = bookings.filter(function (booking) {
+    return (
+      booking.status.description === "checked_in" &&
+      booking.end_date === new Date().toISOString().split("T")[0]
+    );
+  });
+  return [200, JSON.stringify(outgoingBookings)];
+});
+
+// Regular expression for the checkout URL
+const urlCheckOut = new RegExp(`${bookingsUrl}/\\d+/checkout`);
+
+// This handles the patch request for checking out a booking
+noqMockApi.onPatch(urlCheckOut).reply((config) => {
+  const bookingId = config.url.substring(
+    config.url.indexOf("s/") + 2,
+    config.url.indexOf("/checkout")
+  );
+
+  const idx = bookings.findIndex((obj) => obj.id === parseInt(bookingId));
+  if (idx > -1) {
+    bookings[idx].status.description = "completed"; // Updating status to 'completed'
+    return [200, JSON.stringify(bookings[idx])];
+  } else {
+    return [200, []]; // If no booking found, return an empty array
+  }
+});
+
 /*
     Booking actions for Caseworker
 */
@@ -199,7 +233,7 @@ noqMockApi.onGet(caseworkerBookingUrl + "/pending").reply(() => {
   return [200, JSON.stringify(pendingBookings)];
 });
 
-const urlAccept = new RegExp(`${caseworkerBookingUrl}/\\d+/accept`);
+let urlAccept = new RegExp(`${caseworkerBookingUrl}/\\d+/accept`);
 noqMockApi.onPatch(urlAccept).reply((config) => {
   const bookingId = config.url.substring(
     config.url.indexOf("s/") + 2,
@@ -329,6 +363,75 @@ noqMockApi.onGet(urlAvailablePerDay).reply((config) => {
   return [200, JSON.stringify(available)];
 });
 
-noqMockApi.onGet("api/caseworker").reply(() => {
-  return [200, "Caseworker frontpage data comes here..."];
+//Diako added this
+const availableSheltersUrl = "/api/user/available";
+const urlAvailableSheltersPerDay = new RegExp(
+  `${availableSheltersUrl}/[\\d-]+`
+);
+
+noqMockApi.onGet(urlAvailableSheltersPerDay).reply(() => {
+  const availableShelters = getAvailableShelters(); // Call the function to get available shelters
+  return [200, JSON.stringify(availableShelters)]; // Return the generated data
+});
+
+noqMockApi.onPost("/api/user/request_booking").reply((config) => {
+  let bookingData = JSON.parse(config.data);
+  console.log(bookingData);
+  //bookings.push(newBooking);
+  /*
+  Return data:
+  {
+  "id": 0,
+  "status": {
+    "description": "string"
+  },
+  "start_date": "2024-09-24",
+  "end_date": "2024-09-24",
+  "product": {
+    "id": 0,
+    "name": "string",
+    "description": "string",
+    "total_places": 0,
+    "host": {
+      "region": {
+        "id": 0,
+        "name": "string"
+      },
+      "id": 0,
+      "name": "string",
+      "street": "string",
+      "postcode": "",
+      "city": ""
+    },
+    "type": "string"
+  },
+  "user": {
+    "region": {
+      "id": 0,
+      "name": "string"
+    },
+    "id": 0,
+    "user": 0,
+    "first_name": "string",
+    "last_name": "string",
+    "gender": "s",
+    "street": "",
+    "postcode": "",
+    "city": "",
+    "country": "",
+    "phone": "string",
+    "email": "string",
+    "unokod": "string",
+    "day_of_birth": "2024-09-24",
+    "personnr_lastnr": "",
+    "requirements": 0,
+    "last_edit": "2024-09-24"
+  }
+}
+  */
+  return [200, "Hello!"];
+});
+
+noqMockApi.onGet("/api/caseworker/available_all").reply(() => {
+  return [200, JSON.stringify(availableProducts)];
 });
