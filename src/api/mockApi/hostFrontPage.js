@@ -22,6 +22,7 @@ function getRandomInt(max) {
 }
 
 export function generateAvailablePlaces(nr_of_days) {
+    
     const hostSthlm = {
         region: {
             id: 3,
@@ -31,7 +32,7 @@ export function generateAvailablePlaces(nr_of_days) {
         name: "Grimmans Akutboende",
         street: "Parkgatan 48",
         postcode: "",
-        city: "Sundbyberg"
+        city: "Sundbyberg",
     }
     const products = [
         {
@@ -58,7 +59,8 @@ export function generateAvailablePlaces(nr_of_days) {
             host: hostSthlm,
             type: "room"
         },
-    ] 
+    ]
+
     const currentDate = new Date()
     var available = {}
     for (let i = 0; i < nr_of_days; i++) {
