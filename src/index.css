@@ -8,3 +8,19 @@ body {
   @apply min-h-screen;
   font-family: inter
 }
+
+@layer components{
+  .accommodation_amenities_display_paragraph {
+    @apply       
+    place-self-end
+    text-sm
+    md:text-base
+   
+  }
+  .accommodation_amenities_display_image {
+    @apply       
+    h-4 sm:h-8
+  }
+
+  
+}
