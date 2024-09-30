@@ -100,3 +100,7 @@ export const getStatus = (status) => {
         return ""
     }
 }
+
+export const formatPostCode = (postcode) => {
+    return postcode.slice(0, 3) + " " + postcode.slice(3);
+}
