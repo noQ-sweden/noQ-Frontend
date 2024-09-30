@@ -1,10 +1,11 @@
-import axios from "axios";
-import { bookings } from "./bookings";
-import { generateAvailablePlaces } from "./hostFrontPage";
+import axios from 'axios';
+import { bookings } from './bookings'
+import { generateAvailablePlaces } from './hostFrontPage'
 import { getAvailableShelters } from "./getAvailableShelters"; // Import the function
-import { countBookings } from "./countBookings";
-import AxiosMockAdapter from "axios-mock-adapter";
-import { products } from "./products.js";
+import { countBookings } from './countBookings'
+import AxiosMockAdapter from 'axios-mock-adapter';
+import {products} from "./products.js";
+import { availableProducts } from './caseworkerFrontPage.js';
 
 export const axiosMockNoqApi = axios.create({
   headers: {
@@ -386,7 +387,6 @@ noqMockApi.onPost("/api/user/request_booking").reply((config) => {
   return [200, "Hello!"];
 });
 
-noqMockApi.onGet("api/caseworker").reply(() => {
-  return [200, "Caseworker frontpage data comes here..."];
+noqMockApi.onGet('/api/caseworker/available_all').reply(() => {
+    return [200, JSON.stringify(availableProducts)];
 });
-
