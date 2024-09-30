@@ -292,5 +292,54 @@ export var bookings = [
             requirements: null,
             last_edit: "2024-05-23"
         }
+    },
+    {
+        id: 7,
+        status: {
+            description: "checked_in"
+        },
+        booking_time:"2024-06-01T09:43:18.476Z",
+        start_date: "2024-08-14",
+        end_date: "2024-09-27",
+        product: {
+            id: 25,
+            name: "room",
+            description: "2-bäddsrum",
+            total_places: 2,
+            host: {
+                region: {
+                        id: 3,
+                        name: "Stockholm City"
+                },
+                id: 3,
+                name: "Grimmans Akutboende",
+                street: "Parkgatan 48",
+                postcode: "",
+                city: "Sundbyberg"
+            },
+            type: "room"
+        },
+        user: {
+            region: {
+                id: 2,
+                name: "Farsta"
+                },
+                id: 5,
+                user: 15,
+                first_name: "Johan",
+                last_name: "Johansson",
+                gender: "M",
+                street: "Kyrkogränd 6",
+                postcode: "",
+                city: "Handen",
+                country: "",
+                phone: "0701-401093",
+                email: "johan.johansson@hotmejl.se",
+                unokod: "5224",
+                day_of_birth: null,
+                personnr_lastnr: "",
+                requirements: null,
+                last_edit: "2024-05-05"
+        }
     }
 ];

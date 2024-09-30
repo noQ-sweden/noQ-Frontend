@@ -177,6 +177,37 @@ noqMockApi.onPatch(urlCheckIn).reply((config) => {
     }
 });
 
+const outgoingBookingsUrl = "api/host/bookings/outgoing";
+
+// This handles fetching outgoing bookings that are checked in and leaving today
+noqMockApi.onGet(outgoingBookingsUrl).reply(() => {
+    var outgoingBookings = bookings.filter(function (booking) {
+        return booking.status.description === 'checked_in' && booking.end_date === new Date().toISOString().split('T')[0];
+    });
+    return [200, JSON.stringify(outgoingBookings)];
+
+});
+
+// Regular expression for the checkout URL
+const urlCheckOut = new RegExp(`${bookingsUrl}/\\d+/checkout`);
+
+// This handles the patch request for checking out a booking
+noqMockApi.onPatch(urlCheckOut).reply((config) => {
+    const bookingId = config.url.substring(
+        config.url.indexOf("s/") + 2,
+        config.url.indexOf("/checkout")
+    );
+
+    const idx = bookings.findIndex(obj => obj.id === parseInt(bookingId));
+    if (idx > -1) {
+        bookings[idx].status.description = "completed"; // Updating status to 'completed'
+        return [200, JSON.stringify(bookings[idx])];
+    } else {
+        return [200, []]; // If no booking found, return an empty array
+    }
+});
+
+
 /*
     Booking actions for Caseworker
 */
