@@ -17,7 +17,7 @@ export default function RequestListCompact({requests}) {
                         <tr className='text-left'>
                             <th className='font-normal tracking-tight w-2/5'>Namn</th>
                             <th className='p-2 font-normal tracking-tight w-1/5'>Incheckning</th>
-                            <th className='p-2 font-normal tracking-tight w-1/5'>Utchecking</th>
+                            <th className='p-2 font-normal tracking-tight w-1/5'>Utcheckning</th> {/* Fixed typo */}
                             <th className='p-2 font-normal tracking-tight w-1/5'>Bokningsstatus</th>
                         </tr>
                     </thead>
@@ -26,7 +26,9 @@ export default function RequestListCompact({requests}) {
                             <tr key={request.id}>
                                 <td className='tracking-tight'>{request.user.first_name + " " + request.user.last_name}</td>
                                 <td className='p-2 tracking-tight text-center'>{getDayNumber(request.start_date) + " " + getMonth(request.start_date)}</td>
-                                <td className='p-2 tracking-tight text-center'>end date</td>
+                                <td className='p-2 tracking-tight text-center'>
+                                    {request.end_date ? getDayNumber(request.end_date) + " " + getMonth(request.end_date) : 'Ingen utcheckning'}
+                                </td>
                                 <td className='p-2 tracking-tight text-center'>{getStatus(request.status.description)}</td>
                             </tr>
                         ))}
