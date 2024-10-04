@@ -80,20 +80,23 @@ export const getStatus = (status) => {
             {"id": State.IN_QUEUE, "description": "in_queue"}, // yellow
             {"id": State.RESERVED, "description": "reserved"},
             {"id": State.CONFIRMED, "description": "confirmed"},
+            {"id": State.ADVISED_AGAINST, "description": "advised_against"},
         ]
     */
     if (status === 'accepted') {
-        return "Tilldelat";
+        return "Rekommenderad";
     } else if (status === 'declined') {
         return "Nekad";
     } else if (status === 'pending') {
         return "Avvaktar";
+    } else if (status === 'advised_against') {
+        return "Ej rekommenderad";
     } else if (status === 'checked_in') {
         return "Incheckad";
     } else if (status === 'in_queue') {
         return "I kö";
     } else if (status === 'reserved') {
-        return "Reserverad";
+        return "Tilldelad";
     } else if (status === 'confirmed') {
         return "Bekräftad";
     } else {
