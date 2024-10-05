@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from './../../api/AxiosNoqApi';
 import Panel from "../Common/Panel";
+import useUpdate from "./../../hooks/useUpdate";
 
 export default function OutgoingGuests() {
 
     const [outgoingBookings, setOutgoingBookings] = useState([])
+    const { updateData, setUpdateData } = useUpdate();
 
     useEffect(() => {
         axios.get('/api/host/bookings/outgoing')
@@ -16,7 +18,7 @@ export default function OutgoingGuests() {
             .catch((error) => {
                 console.log("Error while fetching outgoing bookings data.", error);
             });
-    }, []);
+    }, [setOutgoingBookings]);
 
     const handleCheckOut = (bookingId) => {
         axios.patch(`/api/host/bookings/${bookingId}/checkout`)
@@ -40,6 +42,7 @@ export default function OutgoingGuests() {
                             } : booking
                         )
                     );
+                    setUpdateData(updateData + 1);
                 }
             })
             .catch((error) => {

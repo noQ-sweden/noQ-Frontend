@@ -6,9 +6,11 @@ import requestsIcon from "./../../assets/images/requestsIcon.svg";
 import checkingOutIcon from "./../../assets/images/checkingOutIcon.svg";
 import Panel from "../Common/Panel";
 import Card from "../Common/Card";
+import useUpdate from "./../../hooks/useUpdate";
 
 export default function Overview() {
     const initialCounts = {checkedIn: 0, incoming: 0, pending: 0, checkingOut: 0};
+    const { updateData } = useUpdate();
     const [counts, setCounts] =
         useState(initialCounts);
     
@@ -30,32 +32,32 @@ export default function Overview() {
         .catch((error) => {
         console.log("Error while fetching overview data.", error);
         });
-    }, []);
+    }, [updateData]);
 
     return (
-        <Panel title="Överblick">
-            <div className="columns-4 gap-5">
-                <Card
-                    title="Förfrågningar"
-                    content={counts.pending}
-                    icon={requestsIcon}
-                />
-                <Card
-                    title="Kommande"
-                    content={counts.incoming}
-                    icon={checkedInIcon}
-                />
-                <Card
-                    title="Incheckade"
-                    content={counts.checkedIn}
-                    icon={freePlacesIcon}
-                />
-                <Card
-                    title="Utcheckning"
-                    content={counts.checkingOut}
-                    icon={checkingOutIcon}
-                />
-            </div>
-        </Panel>
+            <Panel title="Överblick">
+                <div className="columns-4 gap-5">
+                    <Card
+                        title="Förfrågningar"
+                        content={counts.pending}
+                        icon={requestsIcon}
+                    />
+                    <Card
+                        title="Kommande"
+                        content={counts.incoming}
+                        icon={checkedInIcon}
+                    />
+                    <Card
+                        title="Incheckade"
+                        content={counts.checkedIn}
+                        icon={freePlacesIcon}
+                    />
+                    <Card
+                        title="Utcheckning"
+                        content={counts.checkingOut}
+                        icon={checkingOutIcon}
+                    />
+                </div>
+            </Panel>
     )
 }

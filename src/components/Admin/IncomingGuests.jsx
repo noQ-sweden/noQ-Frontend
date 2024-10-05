@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from './../../api/AxiosNoqApi';
 import Panel from "../Common/Panel";
+import useUpdate from "./../../hooks/useUpdate";
 
 
 export default function IncomingGuests() {
 
-    const [incomingBookings, setIncomingBookings] = useState([])
+    const [ incomingBookings, setIncomingBookings ] = useState([]);
+    const { updateData, setUpdateData } = useUpdate();
 
     useEffect( () => {
         axios.get ('/api/host/bookings/incoming')
         .then ( (response) => {
             if (response.status === 200) {
-                setIncomingBookings(response?.data)
+                setIncomingBookings(response?.data);
             }
         })
         .catch((error) => {
             console.log("Error while fetching incoming bookings data.", error);
         });
-    }, []);
+    }, [setIncomingBookings]);
 
     const handleCheckIn = (bookingId) => {
         axios.patch(`/api/host/bookings/${bookingId}/checkin`)
@@ -46,6 +48,7 @@ export default function IncomingGuests() {
                         )
                         
                     )
+                    setUpdateData(updateData + 1);
                 }
             })
             .catch((error) => {

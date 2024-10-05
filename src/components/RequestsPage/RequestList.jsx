@@ -5,6 +5,7 @@ import BookingRow from './BookingRow'
 //import UndoRow from './UndoRow'
 import PropTypes from "prop-types";
 import Panel from "./../Common/Panel";
+import useUpdate from "./../../hooks/useUpdate";
 
 export default function RequestList({compact=false, config}) {
     RequestList.propTypes = {
@@ -24,6 +25,7 @@ export default function RequestList({compact=false, config}) {
     const [undoRequests, setUndoRequests] = useState([]);
     const [uniqueHosts, setUniqueHosts] = useState([]);
     const [checkedBookings, setCheckedBookings] = useState([{}]);
+    const { updateData } = useUpdate();
 
     const removeBookingIdFromAllHosts = (bookingIdToRemove) => {
         setCheckedBookings((prev) => {
@@ -145,7 +147,7 @@ export default function RequestList({compact=false, config}) {
 
     useEffect(() => {
         fetchPendingRequests();
-    }, [fetchPendingRequests]);
+    }, [fetchPendingRequests, updateData]);
 
     if (requests.length === 0) {
         <div>Inga förfrågningar just nu.</div>
