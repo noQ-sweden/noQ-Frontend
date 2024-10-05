@@ -16,14 +16,16 @@ export const axiosMockNoqApi = axios.create({
 
 const hostInfo = {
   region: {
-    id: 5,
-    name: "Övriga landet",
+    id: 3,
+    name: "Stockholm",
   },
-  id: 1,
-  name: "Bostället",
-  street: "Skolgatan 0",
-  postcode: "70362",
-  city: "Örebro",
+  id: 4,
+  name: "Aspudden",
+  street: "Skíderskúpargärden 13",
+  postcode: "12560",
+  city: "Hägersten",
+  first_name: "Frida",
+  last_name: "Hörderbärge",
 };
 
 const noqMockApi = new AxiosMockAdapter(axiosMockNoqApi, {
