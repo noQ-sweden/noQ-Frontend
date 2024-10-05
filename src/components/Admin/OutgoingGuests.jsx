@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from './../../api/AxiosNoqApi';
 import Panel from "../Common/Panel";
 import useUpdate from "./../../hooks/useUpdate";
+import { getStatus } from './../../utility/utilityFunctions';
 
 export default function OutgoingGuests() {
 
@@ -58,6 +59,7 @@ export default function OutgoingGuests() {
                         <thead className='border-b-2'>
                             <tr className='text-left'>
                                 <th className='font-normal tracking-tight w-3/5'>Namn</th>
+                                <th className='p-2 font-normal tracking-tight w-1/5'>Bokningsstatus</th>
                                 <th className='p-2 font-normal tracking-tight w-2/5'></th>
                             </tr>
                         </thead>
@@ -65,6 +67,7 @@ export default function OutgoingGuests() {
                             {outgoingBookings.map(booking => (
                                 <tr key={booking.id}>
                                     <td className='tracking-tight'>{booking.user.first_name} {booking.user.last_name}</td>
+                                    <td className='tracking-tight '>{getStatus(booking.status.description)}</td>
                                     <td className='p-2 tracking-tight text-right'>
                                         {!booking.isCheckedOut && (
                                             <button className="
