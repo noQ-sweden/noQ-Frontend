@@ -25,7 +25,7 @@ const hostInfo = {
   postcode: "12560",
   city: "Hägersten",
   first_name: "Frida",
-  last_name: "Hörderbärge",
+  last_name: "Härbärge",
 };
 
 const noqMockApi = new AxiosMockAdapter(axiosMockNoqApi, {
