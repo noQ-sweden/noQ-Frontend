@@ -35,29 +35,29 @@ export default function Overview() {
     }, [updateData]);
 
     return (
-            <Panel title="Överblick">
-                <div className="columns-4 gap-5">
-                    <Card
-                        title="Förfrågningar"
-                        content={counts.pending}
-                        icon={requestsIcon}
-                    />
-                    <Card
-                        title="Kommande"
-                        content={counts.incoming}
-                        icon={checkedInIcon}
-                    />
-                    <Card
-                        title="Incheckade"
-                        content={counts.checkedIn}
-                        icon={freePlacesIcon}
-                    />
-                    <Card
-                        title="Utcheckning"
-                        content={counts.checkingOut}
-                        icon={checkingOutIcon}
-                    />
-                </div>
-            </Panel>
+        <Panel title="Överblick">
+            <div className="columns-4 gap-5">
+                <Card
+                    title="Förfrågningar"
+                    content={counts.pending}
+                    icon={requestsIcon}
+                />
+                <Card
+                    title="Kommande"
+                    content={counts.incoming}
+                    icon={checkedInIcon}
+                />
+                <Card
+                    title="Incheckade"
+                    content={counts.checkedIn}
+                    icon={freePlacesIcon}
+                />
+                <Card
+                    title="Utcheckning"
+                    content={counts.checkingOut}
+                    icon={checkingOutIcon}
+                />
+            </div>
+        </Panel>
     )
 }
