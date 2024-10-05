@@ -10,13 +10,16 @@ export default function BookingRow({
     onRejectClick,
     okButtonText,
     nokButtonText}){
+    
     BookingRow.propTypes = {
         booking: PropTypes.any.isRequired,
         bg_color: PropTypes.string,
         checkedBookings: PropTypes.arrayOf(PropTypes.number),
         onCheckboxClick: PropTypes.func.isRequired,
         onAssignClick: PropTypes.func.isRequired,
-        onRejectClick: PropTypes.func.isRequired
+        onRejectClick: PropTypes.func.isRequired,
+        okButtonText: PropTypes.string,
+        nokButtonText: PropTypes.string,
     };
 
     return (
