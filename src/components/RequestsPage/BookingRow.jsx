@@ -1,14 +1,25 @@
 import { getDate, getDayNumber, getMonth, getStatus } from '../../utility/utilityFunctions';
 import PropTypes from "prop-types";
 
-export default function BookingRow({booking, bg_color, checkedBookings, onCheckboxClick, onAssignClick, onRejectClick}) {
+export default function BookingRow({
+    booking,
+    bg_color,
+    checkedBookings,
+    onCheckboxClick,
+    onAssignClick,
+    onRejectClick,
+    okButtonText,
+    nokButtonText}){
+    
     BookingRow.propTypes = {
         booking: PropTypes.any.isRequired,
         bg_color: PropTypes.string,
         checkedBookings: PropTypes.arrayOf(PropTypes.number),
         onCheckboxClick: PropTypes.func.isRequired,
         onAssignClick: PropTypes.func.isRequired,
-        onRejectClick: PropTypes.func.isRequired
+        onRejectClick: PropTypes.func.isRequired,
+        okButtonText: PropTypes.string,
+        nokButtonText: PropTypes.string,
     };
 
     return (
@@ -66,7 +77,7 @@ export default function BookingRow({booking, bg_color, checkedBookings, onCheckb
                         focus:outline-none
                         focus:shadow-outline"
                         onClick={() => onAssignClick(booking.id)}>
-                        Tilldela
+                        {okButtonText}
                     </button>
                 </div>
                 <div>
@@ -85,7 +96,7 @@ export default function BookingRow({booking, bg_color, checkedBookings, onCheckb
                         focus:outline-none
                         focus:shadow-outline"
                         onClick={() => onRejectClick(booking.id)}>
-                        Neka
+                        {nokButtonText}
                     </button>
                 </div>
             </div>
