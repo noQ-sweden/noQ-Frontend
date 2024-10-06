@@ -42,7 +42,7 @@ export default function HostPage({ first_name }) {
     <HostOverviewUpdateProvider>
       <>
         <SEO
-          title={`Gäst Sida | NoQ - Trygg Plats för att alla förtjänar det`}
+          title={`Bostället | NoQ - Trygg Plats för att alla förtjänar det`}
         />
         <div
           className="grid p-3 grid-cols-5 justify-items-start gap-4"

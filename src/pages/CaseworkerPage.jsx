@@ -108,7 +108,7 @@ export default function CaseworkerPage() {
     <>
       <div className="flex justify-between items-center">
         <SEO
-          title={`Handlägar Sida | NoQ - Trygg Plats för att alla förtjänar det
+          title={`Handläggarsida | NoQ - Trygg Plats för att alla förtjänar det
         - ${formatedName}`}
         />
       </div>

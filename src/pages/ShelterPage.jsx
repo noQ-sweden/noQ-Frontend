@@ -7,7 +7,7 @@ import SEO from "../components/SEO";
 const ShelterPage = () => {
   return (
     <>
-      <SEO title={`Ärbärge | NoQ - Trygg Plats för att alla förtjänar det`} />
+      <SEO title={`Bostället | NoQ - Trygg Plats för att alla förtjänar det`} />
       <div className="px-8 py-6">
         <h1 className="font-inter text-4xl font-bold leading-tight">
           Redigera härbärge
