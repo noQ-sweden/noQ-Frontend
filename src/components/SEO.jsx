@@ -1,11 +1,11 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import PropTypes from "prop-types";
 
 export const SEO = ({ title, description, first_name }) => {
   return (
     <Helmet>
       <title>{title}</title>
-      <meta name="description" content={description} />
       <meta name="author" content={first_name} />
       <meta name="description" content="NoQ Alla förtjänar en trygg plats" />
       <meta
@@ -15,6 +15,11 @@ export const SEO = ({ title, description, first_name }) => {
       {first_name && <meta name="author" content={first_name} />}
     </Helmet>
   );
+};
+
+SEO.propTypes = {
+  title: PropTypes.string.isRequired,
+  first_name: PropTypes.string,
 };
 
 export default SEO;

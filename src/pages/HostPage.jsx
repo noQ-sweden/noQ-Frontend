@@ -10,6 +10,7 @@ import IncomingGuests from "../components/Admin/IncomingGuests";
 import RequestList from "./../components/RequestsPage/RequestList";
 import Panel from "./../components/Common/Panel";
 import { GetBookingConfig } from "./../components/RequestsPage/GetBookingConfig";
+import PropTypes from "prop-types";
 
 import SEO from "../components/SEO";
 
@@ -61,3 +62,7 @@ export default function HostPage({ first_name }) {
     </>
   );
 }
+
+HostPage.propTypes = {
+  first_name: PropTypes.string,
+};
