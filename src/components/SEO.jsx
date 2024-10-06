@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import PropTypes from "prop-types";
 
-export const SEO = ({ title, description, first_name }) => {
+export const SEO = ({ title, first_name }) => {
   return (
     <Helmet>
       <title>{title}</title>
@@ -12,7 +12,6 @@ export const SEO = ({ title, description, first_name }) => {
         name="keywords"
         content="Gäst, Trygg Plats , NoQ, Stockholm utan hemlösa 2024"
       />
-      {first_name && <meta name="author" content={first_name} />}
     </Helmet>
   );
 };
