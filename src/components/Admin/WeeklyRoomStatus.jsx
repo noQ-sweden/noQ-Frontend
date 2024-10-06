@@ -1,9 +1,11 @@
 import React, {useState, useEffect } from "react";
 import axios from "../../api/AxiosNoqApi";
 import Panel from "../Common/Panel";
+import useUpdate from "./../../hooks/useUpdate";
 
 export default function WeeklyRoomStatus() {
     const [availableDates, setAvailableDates] = useState({})
+    const { updateData } = useUpdate();
 
     useEffect( () => {
         // Fetch data for one week
@@ -18,7 +20,7 @@ export default function WeeklyRoomStatus() {
         .catch((error) => {
         console.log("Error while fetching overview data.", error);
         });
-    }, []);
+    }, [updateData]);
 
     const dates = Object.keys(availableDates).slice(0, 7);
     const productMap = new Map();
