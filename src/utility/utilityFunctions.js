@@ -33,7 +33,7 @@ export const getMonth = (date) => {
             month="SEP";
             break;
         case '10':
-            month="OCT";
+            month="OKT";
             break;
         case '11':
             month="NOV";

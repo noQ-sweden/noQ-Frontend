@@ -23,7 +23,7 @@ export default function BookingRow({
     };
 
     return (
-        <div className={`grid grid-cols-[1fr_2fr_4fr_2fr_2fr_3fr_3fr_3fr_5fr] pl-1 py-1 ${bg_color}`}>
+        <div className={`grid grid-cols-[1fr_2fr_3fr_2fr_3fr_3fr_2fr_2fr_4fr] px-4 py-1 ${bg_color}`}>
             <div className='grid grid-rows-1 justify-start self-center'>
                 <input
                     className='size-4 ml-3'
@@ -45,7 +45,9 @@ export default function BookingRow({
                 <div>{booking.user.unokod}</div>
             </div>
             <div className='grid grid-rows-2 gap-1 items-center text-left'>
-                <div>{getStatus(booking.status.description)}</div>
+                { getStatus(booking.status.description).split(" ").map((word, index) => (
+                    <div key={index}>{word}</div>
+                ))}
             </div>
             <div className='grid grid-rows-2 gap-1 items-left text-left'>
                 <div>{booking.product.type}</div>
