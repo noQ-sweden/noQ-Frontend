@@ -11,7 +11,9 @@ import RequestList from "./../components/RequestsPage/RequestList";
 import Panel from "./../components/Common/Panel";
 import { GetBookingConfig } from "./../components/RequestsPage/GetBookingConfig";
 
-export default function HostPage() {
+import SEO from "../components/SEO";
+
+export default function HostPage({ first_name }) {
   const { setHost } = useHost();
   const { setHeader } = useHeader();
 
@@ -34,6 +36,7 @@ export default function HostPage() {
 
   return (
     <>
+      <SEO title={`Gäst Sida | NoQ - Trygg Plats för att alla förtjänar det`} />
       <div
         className="grid p-3 grid-cols-5 justify-items-start gap-4"
         id="HostPage"
