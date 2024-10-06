@@ -176,9 +176,9 @@ export default function RequestList({compact=false, config}) {
                         <Panel title={hostName}>
                             <div className='
                                 grid
-                                grid-cols-[1fr_2fr_4fr_2fr_2fr_3fr_3fr_3fr_5fr]
-                                py-2
-                                pl-1
+                                grid-cols-[1fr_2fr_3fr_2fr_3fr_3fr_2fr_2fr_4fr]
+                                py-1
+                                px-4
                                 text-sm
                                 '>
                                 <div className='grid grid-rows-1 items-center text-center'>
