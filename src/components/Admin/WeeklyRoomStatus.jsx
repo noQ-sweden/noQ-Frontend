@@ -42,7 +42,7 @@ export default function WeeklyRoomStatus() {
   
     const formatDate = (dateString) => {
       const [, month, day] = dateString.split('-');
-      return `${month}/${day}`;
+      return `${day}/${month}`;
     };
   
     return (
