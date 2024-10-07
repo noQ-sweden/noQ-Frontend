@@ -1,4 +1,4 @@
-import { getDate, getDayNumber, getMonth, getStatus } from '../../utility/utilityFunctions';
+import { getStatus } from '../../utility/utilityFunctions';
 import PropTypes from "prop-types";
 
 export default function BookingCard({ booking }){
