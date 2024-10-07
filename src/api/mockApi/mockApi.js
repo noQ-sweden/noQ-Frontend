@@ -16,16 +16,15 @@ export const axiosMockNoqApi = axios.create({
 
 const hostInfo = {
   region: {
-    id: 3,
-    name: "Stockholm",
+    id: 5,
+    name:  "Övriga landet",
   },
-  id: 4,
-  name: "Aspudden",
-  street: "Skíderskúpargärden 13",
-  postcode: "12560",
-  city: "Hägersten",
-  first_name: "Frida",
-  last_name: "Härbärge",
+  id: 1,
+  name: "Bostället",
+  street: "Skolgatan 0",
+  postcode: "70362",
+  city: "Örebro",
+  
 };
 
 const noqMockApi = new AxiosMockAdapter(axiosMockNoqApi, {
@@ -39,6 +38,8 @@ noqMockApi.onPost("api/login/").reply((config) => {
     login_status: true,
     message: "Login Successful",
     groups: ["user"],
+    first_name:"",
+    last_name:"",
   };
 
   if (
