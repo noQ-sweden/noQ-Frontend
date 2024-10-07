@@ -9,7 +9,7 @@ export default function BookingCard({ booking }){
 
     const getGradient = () => {
         if(booking.status.description == "declined") {
-            return "bg-[repeating-linear-gradient(0deg,_red_0,_red_10px,_transparent_10px,_transparent_20px)]";
+            return "bg-[repeating-linear-gradient(90deg,_red_0,_red_10px,_transparent_10px,_transparent_20px)]";
         } else if (booking.status.description == "reserved") {
             return "bg-[repeating-linear-gradient(0deg,_green_0,_green_10px,_transparent_10px,_transparent_20px)]";
         } else {
