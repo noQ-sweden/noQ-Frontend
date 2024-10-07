@@ -4,6 +4,7 @@ import axios from "./../api/AxiosNoqApi";
 import PropTypes from "prop-types";
 import useLogin from "./../hooks/useLogin";
 import useHeader from "./../hooks/useHeader";
+import SEO from "../components/SEO";
 
 LoginPage.propTypes = {
   loginHandler: PropTypes.func,
@@ -65,30 +66,34 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="mb-12 text-red-600 text-xl font-semibold">
-        <p
-          ref={errorRef}
-          className={errorMessage ? "errorMessage" : "offScreen"}
-        >
-          {errorMessage}
-        </p>
-      </div>
-      <div className="bg-white rounded px-8 pt-6 pb-8 mb-4">
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col items-center">
-            <h1 className="mb-8 text-2xl font-bold text-green-noQ tracking-normal">
-              Välkommen till noQ
-            </h1>
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-base font-semibold mb-2"
-              htmlFor="username"
-            >
-              E-post
-              <input
-                className="
+    <>
+      <SEO
+        title={`Inloggning | NoQ - Trygg Plats för att alla förtjänar det`}
+      />
+      <div className="flex flex-col items-center">
+        <div className="mb-12 text-red-600 text-xl font-semibold">
+          <p
+            ref={errorRef}
+            className={errorMessage ? "errorMessage" : "offScreen"}
+          >
+            {errorMessage}
+          </p>
+        </div>
+        <div className="bg-white rounded px-8 pt-6 pb-8 mb-4">
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col items-center">
+              <h1 className="mb-8 text-2xl font-bold text-green-noQ tracking-normal">
+                Välkommen till noQ
+              </h1>
+            </div>
+            <div className="mb-6">
+              <label
+                className="block text-gray-700 text-base font-semibold mb-2"
+                htmlFor="username"
+              >
+                E-post
+                <input
+                  className="
                   appearance-none
                   border rounded
                   w-full
@@ -99,24 +104,24 @@ export default function LoginPage() {
                   leading-tight
                   focus:outline-none
                   focus:shadow-outline"
-                type="text"
-                id="username"
-                ref={userRef}
-                autoComplete="on"
-                onChange={(e) => setUsername(e.target.value)}
-                value={username}
-                required
-              />
-            </label>
-          </div>
-          <div className="mb-1">
-            <label
-              className="block text-gray-700 text-base font-semibold mb-2"
-              htmlFor="password"
-            >
-              Lösenord
-              <input
-                className="
+                  type="text"
+                  id="username"
+                  ref={userRef}
+                  autoComplete="on"
+                  onChange={(e) => setUsername(e.target.value)}
+                  value={username}
+                  required
+                />
+              </label>
+            </div>
+            <div className="mb-1">
+              <label
+                className="block text-gray-700 text-base font-semibold mb-2"
+                htmlFor="password"
+              >
+                Lösenord
+                <input
+                  className="
                   appearance-none
                   border rounded
                   w-full
@@ -127,19 +132,19 @@ export default function LoginPage() {
                   leading-tight
                   focus:outline-none
                   focus:shadow-outline"
-                type="password"
-                id="password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                required
-                autoComplete="current-password"
-              />
-            </label>
-          </div>
-          <div>
-            <p className="text-sm">Glömt lösenordet?</p>
-          </div>
-          {/*
+                  type="password"
+                  id="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  required
+                  autoComplete="current-password"
+                />
+              </label>
+            </div>
+            <div>
+              <p className="text-sm">Glömt lösenordet?</p>
+            </div>
+            {/*
           // to be added when this functionality is in place
           <div className="mb-4 flex flex-row items-center">
             <div>
@@ -150,10 +155,10 @@ export default function LoginPage() {
             </div>
           </div>
           */}
-          <div className="flex flex-col items-center mt-10">
-            <button
-              type="submit"
-              className="
+            <div className="flex flex-col items-center mt-10">
+              <button
+                type="submit"
+                className="
                 bg-green-600
                 hover:bg-green-700
                 text-white
@@ -164,20 +169,20 @@ export default function LoginPage() {
                 rounded
                 focus:outline-none
                 focus:shadow-outline"
-              id="login-button"
-            >
-              Logga in
-            </button>
-          </div>
-          <div className="flex flex-col items-center mt-10">
-            <div>
-              <p className="text-sm mb-1">Har du inget konto?</p>
+                id="login-button"
+              >
+                Logga in
+              </button>
             </div>
-            <div>
-              <button
-                type="button"
-                onClick={navigateToRegister}
-                className="
+            <div className="flex flex-col items-center mt-10">
+              <div>
+                <p className="text-sm mb-1">Har du inget konto?</p>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  onClick={navigateToRegister}
+                  className="
                   bg-gray-200
                   hover:bg-gray-300
                   border-slate-800
@@ -189,14 +194,15 @@ export default function LoginPage() {
                   rounded
                   focus:outline-none
                   focus:shadow-outline"
-                id="register-button"
-              >
-                Skapa konto
-              </button>
+                  id="register-button"
+                >
+                  Skapa konto
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
