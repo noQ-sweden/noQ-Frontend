@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import {
   FaCog,
   FaUserAlt,
@@ -6,15 +6,19 @@ import {
 } from "react-icons/fa";
 import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
-import noQicon from "./../../assets/images/noQiconNoQGreen.svg";
+import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
+import noQiconRed from "./../../assets/images/NoqIconRed.svg";
+import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
 import GetMenuItems from "./GetMenuItems";
 
 export default function Sidebar() {
   const navigate = useNavigate();
   const { login } = useLogin();
+  const [ icon, setIcon ] = useState();
+  const [ hoverColor, setHoverColor ] = useState("bg-red-500");
 
   const liStyle =
-    "py-5 text-gray-500 border-green-noQ hover:bg-green-noQ hover:text-white transition-colors duration-200 rounded-2xl";
+    `py-5 text-gray-500 hover:${hoverColor} hover:text-white transition-colors duration-200 rounded-2xl`;
   const liTextStyle = "flex gap-4 pl-5 pr-5 text-l";
 
   const handleLogout = () => {
@@ -34,13 +38,26 @@ export default function Sidebar() {
     { icon: FaSignOutAlt, label: "Logga ut", action: handleLogout },
   ];
 
-  return (
+  useEffect(() => {
+    if (login.usergroups[0] == "user") {
+      setIcon(noQiconRed);
+      setHoverColor("bg-red-500");
+    } else if (login.usergroups[0] == "host") {
+      setIcon(noQiconWhiteOnGreen);
+      setHoverColor("bg-green-noQ");
+    } else {
+      setIcon(noQiconGreen);
+      setHoverColor("bg-green-noQ");
+    }
+  }, [login, setIcon, setHoverColor]);
+
+return (
     <div
       className="flex flex-col text-white min-h-screen bg-white m-0 select-none w-64"
     >
       <div className="items-center mt-4 mb-5">
           <img
-            src={noQicon}
+            src={icon}
             alt="noQ Logo"
             className="h-20 mx-auto w-auto"
             onClick={() => {
