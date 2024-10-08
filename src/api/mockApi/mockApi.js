@@ -70,7 +70,7 @@ noqMockApi.onPost("api/login/").reply((config) => {
   ) {
     login.groups = ["caseworker"];
     login.first_name == "user";
-    login.last_name == "host";
+    login.last_name == "caseworker";
     return [200, JSON.stringify(login)];
   }
   // Failed login
