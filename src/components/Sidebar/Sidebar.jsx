@@ -4,6 +4,8 @@ import useLogin from './../../hooks/useLogin'
 import { useNavigate } from 'react-router-dom'
 import noQiconNoQRed from './../../assets/images/noQiconNoQRed.svg'
 import noQiconNoQRedWhite from './../../assets/images/noQiconNoQRedWhite.svg'
+import noQiconWhiteOnGreen from './../../assets/images/NoqIconWhiteOnGreen.svg'
+import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
 import GetMenuItems from './GetMenuItems'
 
 export default function Sidebar() {
@@ -12,26 +14,41 @@ export default function Sidebar() {
 
   // Lisa
   const colorSchemeUser1 = {
-    iconColor: '#E04430',
-    hoverColor: '#F7F6F5',
+    liStyle:
+    'py-5 text-gray-500 hover:bg-gray-300 transition-colors duration-200 rounded-2xl',
     logoSrc: noQiconNoQRed
   }
 
   // Tommy
   const colorSchemeUser2 = {
-    iconColor: '#6B7280',
-    hoverColor: '#E04430',
-    iconHoverColor: '#FEF9ED',
+    liStyle:
+      'py-5 text-gray-500 hover:bg-[#E04430] hover:text-white transition-colors duration-200 rounded-2xl',
     logoSrc: noQiconNoQRedWhite
   }
 
-  // Select the correct color scheme based on user type
-  const isUserLisa = login?.first_name?.toLowerCase() === 'lisa'
-  const isUserTommy = login?.first_name?.toLowerCase() === 'tommy'
-  const colors = isUserLisa ? colorSchemeUser1 : colorSchemeUser2
+  const colorSchemeHost = {
+    liStyle:
+    'py-5 text-gray-500 hover:bg-green-noQ hover:text-white transition-colors duration-200 rounded-2xl',
+    logoSrc: noQiconWhiteOnGreen
+  }
 
-  const liStyle =
-    'py-5 text-gray-500 hover:bg-gray-100 transition-colors duration-200 rounded-2xl'
+  const colorSchemeCaseworker = {
+    liStyle:
+    'py-5 text-gray-500 hover:bg-green-noQ hover:text-white transition-colors duration-200 rounded-2xl',
+    logoSrc: noQiconGreen
+  }
+
+  // Select the correct color scheme based on user type and name  
+  let colors = null;
+  const isUserLisa = login?.first_name?.toLowerCase() === 'lisa';
+  if (login.usergroups[0] == "user") {
+    colors = isUserLisa ? colorSchemeUser1 : colorSchemeUser2
+  } else if (login.usergroups[0] == "host") {
+    colors = colorSchemeHost;
+  } else {
+    colors = colorSchemeCaseworker;
+  }
+
   const liTextStyle = 'flex gap-4 pl-5 pr-5 text-l'
 
   const handleLogout = () => {
@@ -49,57 +66,34 @@ export default function Sidebar() {
   ]
 
   return (
-    <div className="flex flex-col text-white min-h-screen bg-white m-0 select-none w-64">
-      <div
-        className="items-center mt-4 mb-5 rounded-full"
-        style={{ transition: 'background-color 0.3s ease' }}
-        onMouseEnter={(e) => {
-          if (isUserLisa) {
-            e.currentTarget.style.backgroundColor = colors.hoverColor
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (isUserLisa) {
-            e.currentTarget.style.backgroundColor = 'transparent'
-          }
-        }}
-      >
+    <div
+      className="flex flex-col text-white min-h-screen bg-white m-0 select-none w-64"
+    >
+    <div className="items-center mt-4 mb-5">
         <img
           src={colors.logoSrc}
           alt="noQ Logo"
           className="h-20 mx-auto w-auto"
-          onClick={() => navigate('host', { replace: false })}
+          onClick={() => {
+              navigate(login.usergroups[0], { replace: false });
+          }}
         />
-      </div>
-      <div className="align-top p-8">
-        <ul>
+    </div>
+    <div className="align-top p-8">
+      <ul>
+        <div>
           {sidebarItemsTop.map(({ icon: Icon, label, sideBarLink, action }) => (
             <div
               onClick={() => {
                 if (action) {
-                  action()
+                  action();
                 } else if (sideBarLink) {
-                  navigate(sideBarLink, { replace: false })
+                  navigate(sideBarLink, { replace: false });
                 }
               }}
               key={label}
             >
-              <li
-                className={liStyle}
-                style={{ color: colors.iconColor }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = colors.hoverColor
-                  if (isUserTommy) {
-                    e.currentTarget.style.color = colors.iconHoverColor
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent'
-                  if (isUserTommy) {
-                    e.currentTarget.style.color = colors.iconColor
-                  }
-                }}
-              >
+              <li className={colors.liStyle}>
                 <span className={liTextStyle}>
                   <Icon size="25" />
                   {label}
@@ -107,48 +101,33 @@ export default function Sidebar() {
               </li>
             </div>
           ))}
-        </ul>
-      </div>
-      <div className="align-bottom p-8">
-        <ul>
-          {sidebarItemsBottom.map(
-            ({ icon: Icon, label, sideBarLink, action }) => (
-              <div
-                onClick={() => {
-                  if (action) {
-                    action()
-                  } else if (sideBarLink) {
-                    navigate(sideBarLink, { replace: false })
-                  }
-                }}
-                key={label}
-              >
-                <li
-                  className={liStyle}
-                  style={{ color: colors.iconColor }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = colors.hoverColor
-                    if (isUserTommy) {
-                      e.currentTarget.style.color = colors.iconHoverColor
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent'
-                    if (isUserTommy) {
-                      e.currentTarget.style.color = colors.iconColor
-                    }
-                  }}
-                >
-                  <span className={liTextStyle}>
-                    <Icon size="25" />
-                    {label}
-                  </span>
-                </li>
-              </div>
-            )
-          )}
-        </ul>
-      </div>
+        </div>
+      </ul>
     </div>
-  )
+    <div className="align-bottom p-8">
+      <ul>
+        <div>
+          {sidebarItemsBottom.map(({ icon: Icon, label, sideBarLink, action }) => (
+            <div
+              onClick={() => {
+                if (action) {
+                  action();
+                } else if (sideBarLink) {
+                  navigate(sideBarLink, { replace: false });
+                }
+              }}
+              key={label}
+            >
+              <li className={colors.liStyle}>
+                <span className={liTextStyle}>
+                  <Icon size="25" />
+                  {label}
+                </span>
+              </li>
+            </div>
+          ))}
+        </div>
+      </ul>
+    </div>
+  </div>  );
 }
