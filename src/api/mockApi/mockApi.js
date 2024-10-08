@@ -17,13 +17,14 @@ export const axiosMockNoqApi = axios.create({
 const hostInfo = {
   region: {
     id: 5,
-    name: "Övriga landet",
+    name:  "Övriga landet",
   },
   id: 1,
   name: "Bostället",
   street: "Skolgatan 0",
   postcode: "70362",
   city: "Örebro",
+  
 };
 
 const noqMockApi = new AxiosMockAdapter(axiosMockNoqApi, {
@@ -37,16 +38,18 @@ noqMockApi.onPost("api/login/").reply((config) => {
     login_status: true,
     message: "Login Successful",
     groups: ["user"],
-    first_name: "",
-    last_name: "",
+    first_name:"",
+    last_name:"",
+
+
   };
   // User: user.user@test.nu
   if (
     data.email == "user.user@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
-    login.first_name = "Danilo";
-    login.last_name = "Fernandez";
+    login.first_name == "user";
+    login.last_name == "user";
     return [200, JSON.stringify(login)];
   }
   // Host: user.host@test.nu
@@ -54,10 +57,10 @@ noqMockApi.onPost("api/login/").reply((config) => {
     data.email == "user.host@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
-    login.first_name = "Host";
-    login.last_name = "User";
     login.groups = ["host"];
     login.host = hostInfo;
+    login.first_name == "user";
+    login.last_name == "host";
     return [200, JSON.stringify(login)];
   }
   // Caseworker: user.caseworker@test.nu
@@ -65,9 +68,9 @@ noqMockApi.onPost("api/login/").reply((config) => {
     data.email == "user.caseworker@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
-    login.first_name = "Casetest";
-    login.last_name = "Workertest";
     login.groups = ["caseworker"];
+    login.first_name == "user";
+    login.last_name == "caseworker";
     return [200, JSON.stringify(login)];
   }
   // Failed login
