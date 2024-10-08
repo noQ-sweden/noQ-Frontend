@@ -41,7 +41,7 @@ export default function Sidebar() {
   useEffect(() => {
     if (login.usergroups[0] == "user") {
       setIcon(noQiconRed);
-      setHoverColor("bg-red-500");
+      setHoverColor("bg-green-noQ");
     } else if (login.usergroups[0] == "host") {
       setIcon(noQiconWhiteOnGreen);
       setHoverColor("bg-green-noQ");
