@@ -46,6 +46,8 @@ noqMockApi.onPost("api/login/").reply((config) => {
     data.email == "user.user@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
+    login.first_name == "user";
+    login.last_name == "user";
     return [200, JSON.stringify(login)];
   } else if (
     data.email == "user.host@test.nu" &&
@@ -53,12 +55,16 @@ noqMockApi.onPost("api/login/").reply((config) => {
   ) {
     login.groups = ["host"];
     login.host = hostInfo;
+    login.first_name == "user";
+    login.last_name == "host";
     return [200, JSON.stringify(login)];
   } else if (
     data.email == "user.caseworker@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
     login.groups = ["caseworker"];
+    login.first_name == "user";
+    login.last_name == "host";
     return [200, JSON.stringify(login)];
   } else {
     login.login_status = false;
