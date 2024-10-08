@@ -10,6 +10,7 @@ import RegistrationPage from "./pages/RegistrationPage";
 import ErrorPage from "./pages/ErrorPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import RequestPageView from "./components/RequestsPage/RequestPageView";
+import StatisticsPage from "./components/Caseworker/StatisticsPage";
 import RoomPage from "./pages/RoomPage";
 import AccommodationDetail from "./components/User/AccommodationDetail";
 import AccommodationBooking from "./components/User/AccommodationBooking";
@@ -42,6 +43,7 @@ function App() {
                 <Route element={<RequireLogin allowedGroups={["caseworker"]}/>}>
                     <Route path="caseworker" element={<CaseworkerPage />} />
                     <Route path="caseworker/requests" element={<RequestPageView userGroup="caseworker" />} />
+                    <Route path="caseworker/statistics" element={<StatisticsPage userGroup="caseworker" />} />
                 </Route>
                 {/* Invalid path */}
                 <Route path="*" element={<ErrorPage />} />
