@@ -48,13 +48,8 @@ noqMockApi.onPost("api/login/").reply((config) => {
     data.email == "user.user@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
-
     login.first_name == "user";
     login.last_name == "user";
-
-    login.first_name = "Danilo";
-    login.last_name = "Fernandez";
-
     return [200, JSON.stringify(login)];
   }
   // Host: user.host@test.nu
@@ -62,8 +57,6 @@ noqMockApi.onPost("api/login/").reply((config) => {
     data.email == "user.host@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
-    login.first_name = "Host";
-    login.last_name = "User";
     login.groups = ["host"];
     login.host = hostInfo;
     login.first_name == "user";
@@ -75,8 +68,6 @@ noqMockApi.onPost("api/login/").reply((config) => {
     data.email == "user.caseworker@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
-    login.first_name = "Casetest";
-    login.last_name = "Workertest";
     login.groups = ["caseworker"];
     login.first_name == "user";
     login.last_name == "host";
