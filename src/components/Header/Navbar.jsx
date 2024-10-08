@@ -9,7 +9,6 @@ import {
   FaCaretUp,
   FaQuestionCircle,
   FaSignOutAlt,
-  FaUsers,
   FaCog, 
   FaShieldAlt 
 } from "react-icons/fa";
