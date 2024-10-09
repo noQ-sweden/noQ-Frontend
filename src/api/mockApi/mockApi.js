@@ -38,7 +38,7 @@ noqMockApi.onPost("api/login/").reply((config) => {
     login_status: true,
     message: "Login Successful",
     groups: ["user"],
-    first_name:"",
+    first_name: ["user"],
     last_name:"",
   };
 
