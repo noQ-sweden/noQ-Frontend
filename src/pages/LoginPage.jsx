@@ -83,7 +83,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col items-center">
               <h1 className="mb-8 text-2xl font-bold text-green-noQ tracking-normal">
-                Välkommen till noQ
+                Välkommen till noQ (test)
               </h1>
             </div>
             <div className="mb-6">
