@@ -51,7 +51,7 @@ Password: P4ssw0rd_for_Te5t+User
     <img src="https://contrib.rocks/image?repo=noQ-sweden/noQ-Frontend" />
 </a>
 
-Made with [contrib.rocks](https://contrib.rocks).
+Made with [contrib.rocks](https://contrib.rocks). .
 
 
 
