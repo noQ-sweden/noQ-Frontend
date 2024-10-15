@@ -26,7 +26,7 @@ const hostInfo = {
   postcode: "70362",
   city: "Örebro",
   
-
+};
 
 const noqMockApi = new AxiosMockAdapter(axiosMockNoqApi, {
   delayResponse: 0,
