@@ -10,9 +10,13 @@ export default function PageTitle() {
     if (!first_name && !last_name) return "Gäst";
 
     const firstNameFormatted =
-      first_name.charAt(0).toUpperCase() + first_name.slice(1);
+      first_name && typeof first_name === "string" && first_name.trim() !== ""
+        ? first_name.charAt(0).toUpperCase() + first_name.slice(1).toLowerCase()
+        : "";
     const lastNameFormatted =
-      last_name.charAt(0).toUpperCase() + last_name.slice(1);
+      last_name && typeof last_name === "string" && last_name.trim() !== ""
+        ? last_name.charAt(0).toUpperCase() + last_name.slice(1).toLowerCase()
+        : "";
 
     return `${firstNameFormatted} ${lastNameFormatted}`;
   };
