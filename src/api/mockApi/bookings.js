@@ -46,7 +46,7 @@ export var bookings = [
             personnr_lastnr: "",
             requirements: null,
             last_edit: "2024-06-05",
-            flag: "OK"
+            flag: true
         }
     },
     {
@@ -96,7 +96,7 @@ export var bookings = [
                 personnr_lastnr: "",
                 requirements: null,
                 last_edit: "2024-05-05",
-                flag: "OK"
+                flag: true
         }
     },
     {
@@ -146,7 +146,7 @@ export var bookings = [
             personnr_lastnr: "",
             requirements: null,
             last_edit: "2024-05-23",
-            flag: "FLAG"
+            flag: false
         }
     },
     {
@@ -196,7 +196,7 @@ export var bookings = [
                 personnr_lastnr: "",
                 requirements: null,
                 last_edit: "2024-05-05",
-                flag: "DANGER"
+                flag: false
         }
     },
     {
@@ -246,7 +246,7 @@ export var bookings = [
             personnr_lastnr: "",
             requirements: null,
             last_edit: "2024-05-23",
-            flag: "DANGER"
+            flag: false
         }
     },
     {
@@ -296,7 +296,7 @@ export var bookings = [
             personnr_lastnr: "",
             requirements: null,
             last_edit: "2024-05-23",
-            flag: "OK"
+            flag: true
         }
     },
     {
@@ -346,7 +346,7 @@ export var bookings = [
                 personnr_lastnr: "",
                 requirements: null,
                 last_edit: "2024-05-05",
-                flag: "FLAG"
+                flag: false
         }
     }
 ];
