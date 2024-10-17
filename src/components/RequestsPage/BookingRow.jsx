@@ -1,5 +1,10 @@
 import { getDate, getDayNumber, getMonth, getStatus } from '../../utility/utilityFunctions';
 import PropTypes from "prop-types";
+import { FaFlag } from "react-icons/fa6";
+import { FaCheckCircle } from "react-icons/fa";
+
+
+
 
 export default function BookingRow({
     booking,
@@ -9,8 +14,8 @@ export default function BookingRow({
     onAssignClick,
     onRejectClick,
     okButtonText,
-    nokButtonText}){
-    
+    nokButtonText }) {
+
     BookingRow.propTypes = {
         booking: PropTypes.any.isRequired,
         bg_color: PropTypes.string,
@@ -22,8 +27,16 @@ export default function BookingRow({
         nokButtonText: PropTypes.string,
     };
 
+    const renderFlag = (flag) => {
+        if (flag) {
+            return <FaFlag icon="fa-solid fa-flag" className="h-6 w-6 text-red-700" />;
+        } else {
+            return <FaCheckCircle className="h-6 w-6 text-green-noQ" />
+        }
+    };
+
     return (
-        <div className={`grid grid-cols-[1fr_2fr_3fr_2fr_3fr_3fr_2fr_2fr_4fr] px-4 py-1 ${bg_color}`}>
+        <div className={`grid grid-cols-[1fr_2fr_3fr_2fr_2fr_2fr_3fr_2fr_2fr_4fr] px-4 py-1 ${bg_color}`}>
             <div className='grid grid-rows-1 justify-start self-center'>
                 <input
                     className='size-4 ml-3'
@@ -48,6 +61,9 @@ export default function BookingRow({
                 { getStatus(booking.status.description).split(" ").map((word, index) => (
                     <div key={index}>{word}</div>
                 ))}
+            </div>
+            <div className='grid grid-rows-2 gap-1 items-center text-left'>
+                <div>{renderFlag(booking.user.flag)}</div>
             </div>
             <div className='grid grid-rows-2 gap-1 items-left text-left'>
                 <div>{booking.product.type}</div>
@@ -104,4 +120,5 @@ export default function BookingRow({
             </div>
        </div>
     );
+    
 }
