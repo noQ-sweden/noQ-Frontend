@@ -16,7 +16,9 @@ export default function CaseworkerPage() {
   const getName = (first_name) => {
     if (!first_name) return "Handläggare";
     const capitalFirstName =
-      first_name.charAt(0).toUpperCase() + first_name.slice(1);
+      first_name && typeof first_name === "string"
+        ? first_name.charAt(0).toUpperCase() + first_name.slice(1)
+        : "";
 
     return `${capitalFirstName}`;
   };
