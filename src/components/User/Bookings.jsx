@@ -7,7 +7,7 @@ import useHeader from "../../hooks/useHeader";
 
 export default function Bookings() {
     const { setHeader } = useHeader();
-    setHeader("Bookings");
+    setHeader("Bokningar");
 
     const [bookings, setBookings] = useState([]);
 
