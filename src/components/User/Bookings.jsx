@@ -2,9 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from './../../api/AxiosNoqApi';
 import BookingCard from "./BookingCard";
 import Panel from "../Common/Panel";
+import useHeader from "../../hooks/useHeader";
 //import PropTypes from "prop-types";
 
 export default function Bookings() {
+    const { setHeader } = useHeader();
+    setHeader("Bokningar");
+
     const [bookings, setBookings] = useState([]);
 
     const fetchBookings = useCallback(async () => {

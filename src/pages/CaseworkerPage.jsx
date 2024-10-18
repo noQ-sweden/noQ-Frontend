@@ -3,6 +3,7 @@ import axios from "./../api/AxiosNoqApi";
 import ArrowUpIcon from "../assets/images/arrowUpIcon.svg";
 import ArrowDownIcon from "../assets/images/arrowDownIcon.svg";
 import useLogin from "../hooks/useLogin";
+import useHeader from "../hooks/useHeader";
 import SEO from "../components/SEO";
 
 export default function CaseworkerPage() {
@@ -12,6 +13,8 @@ export default function CaseworkerPage() {
   const [expandedHosts, setExpandedHosts] = useState({});
 
   const { login } = useLogin();
+  const { setHeader } = useHeader();
+  setHeader("Överblick");
 
   const getName = (first_name) => {
     if (!first_name) return "Handläggare";
