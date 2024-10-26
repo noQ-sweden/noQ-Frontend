@@ -17,6 +17,7 @@ export const axiosMockNoqApi = axios.create({
 const hostInfo = {
   region: {
     id: 5,
+
     name: "Övriga landet",
   },
   id: 1,
@@ -35,18 +36,34 @@ noqMockApi.onPost("api/login/").reply((config) => {
   const data = JSON.parse(config.data);
   const login = {
     login_status: true,
+
     message: "Login Successful",
     groups: ["user"],
-    first_name: "",
+    first_name: ["user"],
     last_name: "",
   };
+
   // User: user.user@test.nu
   if (
     data.email == "user.user@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
-    login.first_name = "Danilo";
-    login.last_name = "Fernandez";
+    login.first_name = "Hans";
+    login.last_name = "User";
+    return [200, JSON.stringify(login)];
+  } else if (
+    data.email == "lisa-gast@noq.nu" &&
+    data.password == "P4ssw0rd_for_Te5t+User"
+  ) {
+    login.first_name = "Lisa";
+    login.last_name = "Guest";
+    return [200, JSON.stringify(login)];
+  } else if (
+    data.email == "tommy-gast@noq.nu" &&
+    data.password == "P4ssw0rd_for_Te5t+User"
+  ) {
+    login.first_name == "Tommy";
+    login.last_name == "Guest";
     return [200, JSON.stringify(login)];
   }
   // Host: user.host@test.nu
@@ -54,10 +71,10 @@ noqMockApi.onPost("api/login/").reply((config) => {
     data.email == "user.host@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
-    login.first_name = "Host";
-    login.last_name = "User";
     login.groups = ["host"];
     login.host = hostInfo;
+    login.first_name = "User";
+    login.last_name = "Host";
     return [200, JSON.stringify(login)];
   }
   // Caseworker: user.caseworker@test.nu
@@ -65,9 +82,9 @@ noqMockApi.onPost("api/login/").reply((config) => {
     data.email == "user.caseworker@test.nu" &&
     data.password == "P4ssw0rd_for_Te5t+User"
   ) {
-    login.first_name = "Casetest";
-    login.last_name = "Workertest";
     login.groups = ["caseworker"];
+    login.first_name = "User";
+    login.last_name = "Caseworker";
     return [200, JSON.stringify(login)];
   }
   // Failed login

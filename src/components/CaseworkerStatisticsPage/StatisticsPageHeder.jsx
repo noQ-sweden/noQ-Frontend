@@ -3,12 +3,23 @@ import GuestDropdown from './GuestDropdown';
 import IncheckadeButtons from './IncheckadeButtons';
 import { StartdatumInput, SlutdatumInput } from './DatePicker'; // Ensure correct import path
 import { addDays } from 'date-fns'; // Import addDays from date-fns
+import Pagination from './Pagination';
+import SearchBtn from './SearchBtn';
+//import useHeader from "./../../hooks/useHeader";
+//import FetchTotalNights from './FetchTotalNights';
 
 const StatisticsPageHeder = () => {
     // Define state for start and end dates
     const [startDate, setStartDate] = useState(addDays(new Date(), -7)); // Default to 7 days ago
     const [endDate, setEndDate] = useState(new Date()); // Default to today
+    const[currentPage, setCurrentPage] = useState(1)
+    const totalPages = 34
 
+    const handlePagechange = (page) => {
+        setCurrentPage(page)
+    }
+    //const { setHeader } = useHeader();
+    //setHeader("Statistik");
     return (
         <div className="py-6 px-9">
             <div className="text-xl font-semibold font-sans leading-7">Användningsrapport av gäst</div>
@@ -30,7 +41,22 @@ const StatisticsPageHeder = () => {
                     {/* <div className="font-sans text-sm font-semibold leading-5 tracking-normal text-left mb-2">Slutdatum</div> */}
                     <SlutdatumInput endDate={endDate} setEndDate={setEndDate} />
                 </div>
+                <div className='flex  justify-center items-center'>
+                    <SearchBtn />
+                </div>
+                
             </div>
+            
+            <div className='border-t border-1 mt-7 pt-8 w-[982px]'>
+              <div>
+               <Pagination 
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePagechange}
+               />
+            </div>
+            </div>
+            
         </div>
     );
 };

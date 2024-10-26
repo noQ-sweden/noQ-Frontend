@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-const GuestDropdown = () => {
+export default function GuestDropdown(){
     const [selectedGuest, setSelectedGuest] = useState(null);
 
 const guests = [
@@ -89,5 +89,3 @@ const guests = [
         </div>
     );
 };
-
-export default GuestDropdown;
