@@ -1,6 +1,7 @@
 import axios from "axios";
 import { bookings } from "./bookings";
 import { generateAvailablePlaces } from "./hostFrontPage";
+import { generateStays } from "./userStays";
 import { countBookings } from "./countBookings";
 import AxiosMockAdapter from "axios-mock-adapter";
 import { products } from "./products.js";
@@ -293,6 +294,14 @@ noqMockApi.onPatch("api/caseworker/bookings/batch/accept").reply((config) => {
   }
 
   return [200, JSON.stringify({ message: "Bulk update successful" })];
+});
+
+const caseworkerStatisticsUrl = "api/caseworker/guests/nights/count";
+const urlUserStatistics = new RegExp(`${caseworkerStatisticsUrl}/\\d+/\\d{4}-\\d{2}-\\d{2}\/\\d{4}-\\d{2}-\\d{2}`);
+noqMockApi.onGet(urlUserStatistics).reply((config) => {
+  const params = config.url.split("/");
+  const stays = generateStays(params[5], params[6], params[7]);
+  return [200, JSON.stringify(stays)]; //userId, startDate, endDate
 });
 
 /*
