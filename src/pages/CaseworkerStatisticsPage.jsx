@@ -5,7 +5,7 @@ import StatisticsPageHeder from "../components/CaseworkerStatisticsPage/Statisti
 const CaseworkerStatisticsPage = () => {
 
     useEffect( () => {
-        let url = "api/caseworker/guests/nights/count/1/2024-10-01/2024-10-31"
+        let url = "api/caseworker/guests/nights/count/2024-10-01/2024-10-31"
         axios.get (url)
         .then ((response) => {
             if (response.status === 200) {

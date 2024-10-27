@@ -90,5 +90,16 @@ export function generateStays(userId, startDate, endDate) {
     }
     userStays.user_stay_counts = stays;
 
-    return userStays
+    return userStays;
+}
+
+export function generateStaysMultipleUsers(startDate, endDate) {
+    let stays = [];
+    const nrOfUsers = getRandomInt(20);
+    for (var i = 1; i < nrOfUsers + 1; ++i) {
+        const userStays = generateStays(i, startDate, endDate);
+        stays.push(userStays);
+    }
+
+    return stays;
 }
