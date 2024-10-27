@@ -1,3 +1,17 @@
+const firstNames = [
+    "Kalle", "Pelle", "Ville", "Göran", "Mats",
+    "Matilda", "Lisa", "Lena", "Gunilla", "Helen", 
+    "Agnes", "Karl", "Erik", "Lars", "Anders",
+    "Maria", "Elisabeth", "Anna", "Kristina", "Eva"
+];
+
+const lastNames = [
+    "Andersson", "Johansson", "Karlsson", "Nilsson", "Eriksson",
+    "Larsson", "Olsson", "Persson", "Svensson", "Gustafsson", 
+    "Pettersson", "Jonsson", "Hansson", "Bengtsson", "Jönsson",
+    "Lindberg", "Jacobsson", "Magnusson", "Lindström", "Olofsson"
+];
+
 function getRandomInt(max) {
     let value = Math.floor(Math.random() * (max + 1));
     return value
@@ -76,6 +90,8 @@ export function generateStays(userId, startDate, endDate) {
     const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24))
     let userStays = {
         "user_id": userId,
+        "first_name": firstNames[userId - 1],
+        "last_name": lastNames[userId - 1],
         "user_stay_counts": null
     }
     const nrOfStays = getNrOfStays(diffInDays);
