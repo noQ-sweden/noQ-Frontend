@@ -36,7 +36,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
   const pageNumbers = generatePageNumbers();
 
   return (
-    <div className="flex justify-end font-sans text-sm font-semibold w-[982px]">
+    <div className="flex justify-end font-sans text-sm font-semibold">
       <div className="bg-white border border-gray-00 rounded-lg">
       <button className="bg-white text-black py-2 px-4"
         onClick={() => handlePageChange(currentPage - 1)}
