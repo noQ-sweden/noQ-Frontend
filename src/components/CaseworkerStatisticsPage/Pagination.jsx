@@ -1,15 +1,13 @@
 import React from "react";
 
-export default function Pagination({ currentPage, totalPages, onPageChange }) {
+export default function Pagination({ currentPage, totalPages, onPageChange,stays}) {
   const generatePageNumbers = () => {
     const pageNumbers = [];
     if (totalPages <= 5) {
-      // Show all pages if there are 5 or less
       for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i);
       }
     } else {
-      // Show first, last, and 3 around the current page
       if (currentPage > 3) pageNumbers.push(1);
       if (currentPage > 4) pageNumbers.push("...");
   
@@ -36,7 +34,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
   const pageNumbers = generatePageNumbers();
 
   return (
-    <div className="flex justify-end font-sans text-sm font-semibold">
+    <div className="flex justify-end font-sans text-sm font-semibold ">
       <div className="bg-white border border-gray-00 rounded-lg">
       <button className="bg-white text-black py-2 px-4"
         onClick={() => handlePageChange(currentPage - 1)}
@@ -64,6 +62,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         &gt;
       </button>
       </div>
+      
     </div>
   );
 };
