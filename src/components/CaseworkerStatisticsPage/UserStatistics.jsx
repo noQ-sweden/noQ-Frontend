@@ -14,7 +14,7 @@ export default function FetchUserStatistics({data}) {
               </thead>
               <tbody className='font-light'>
                 {data.user_stay_counts && data.user_stay_counts.map((stay, index) => (
-                    <tr key={index} className='border-b border-gray-200'>
+                  <tr key={index} className='border-b border-gray-200'>
                     <td className='text-left py-2 px-4'>{data.first_name} {data.last_name}</td>
                     <td className='text-left py-2 px-4'>{stay.host.name}</td>
                     <td className='text-center py-2 px-4'>{stay.total_nights}</td>
