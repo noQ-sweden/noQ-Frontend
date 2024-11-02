@@ -37,6 +37,7 @@ export default function Navbar({ first_name, last_name }) {
     const lastInitial = last_name ? last_name[0].toUpperCase() : "";
     return `${firstInitial}${lastInitial}`;
   };
+  console.log(getInitials.first_name);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -108,9 +109,9 @@ export default function Navbar({ first_name, last_name }) {
             className="bg-green-noQ text-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer"
             onClick={() => navigate("/user-management")} // Navigate on click
           >
-              {login && first_name && last_name
-                ? getInitials(first_name, last_name)
-                : ""}
+            {login && first_name && last_name
+              ? getInitials(first_name, last_name)
+              : ""}
           </div>
           {isUserDropdownOpen && (
             <div className="absolute right-0 top-10 z-10 w-48 bg-white shadow-lg">
