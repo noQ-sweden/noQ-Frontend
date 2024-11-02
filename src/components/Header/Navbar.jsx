@@ -9,8 +9,8 @@ import {
   FaCaretUp,
   FaQuestionCircle,
   FaSignOutAlt,
-  FaCog,
-  FaShieldAlt,
+  FaCog, 
+  FaShieldAlt 
 } from "react-icons/fa";
 import PropTypes from "prop-types";
 
@@ -51,6 +51,25 @@ export default function Navbar({ first_name, last_name }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
+
+  // Inject Botpress scripts
+  useEffect(() => {
+    const botpressScript1 = document.createElement("script");
+    botpressScript1.src = "https://cdn.botpress.cloud/webchat/v2.2/inject.js";
+    botpressScript1.async = true;
+
+    const botpressScript2 = document.createElement("script");
+    botpressScript2.src = "https://files.bpcontent.cloud/2024/11/02/09/20241102093854-JYPQTPG9.js";
+    botpressScript2.async = true;
+
+    document.body.appendChild(botpressScript1);
+    document.body.appendChild(botpressScript2);
+
+    return () => {
+      document.body.removeChild(botpressScript1);
+      document.body.removeChild(botpressScript2);
+    };
+  }, []);
 
   return (
     <nav className="flex items-center justify-between p-4 bg-white">
