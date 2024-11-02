@@ -75,13 +75,15 @@ export default function Navbar({ first_name, last_name }) {
       <PageTitle />
       <div className="flex items-center space-x-10">
         <div className="relative">
-          <FaRegEnvelope className="text-2xl fill-almost-black" /> {/* Adjusted size */}
+          <FaRegEnvelope className="text-2xl fill-almost-black" />{" "}
+          {/* Adjusted size */}
           <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
             {nrOfMessages}
           </span>
         </div>
         <div className="relative" onClick={() => navigate("/notifications")}>
-          <FaBell className="text-2xl fill-almost-black cursor-pointer" /> {/* Adjusted size */}
+          <FaBell className="text-2xl fill-almost-black cursor-pointer" />{" "}
+          {/* Adjusted size */}
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
             {nrOfAlerts}
           </span>
@@ -92,7 +94,9 @@ export default function Navbar({ first_name, last_name }) {
               <FaCog className="text-2xl" /> {/* Adjusted size */}
             </Link>
           </li>
-          <li className="ml-2"> {/* Added margin to create space */}
+          <li className="ml-2">
+            {" "}
+            {/* Added margin to create space */}
             <Link to="/administration" className="flex flex-col items-center">
               <FaShieldAlt className="text-2xl" /> {/* Adjusted size */}
             </Link>
@@ -100,11 +104,13 @@ export default function Navbar({ first_name, last_name }) {
         </ul>
         <div className="relative flex items-center space-x-2" ref={dropdownRef}>
           {/* Clickable initials referring to the Användare module */}
-          <div 
+          <div
             className="bg-green-noQ text-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer"
             onClick={() => navigate("/user-management")} // Navigate on click
           >
-            {login && first_name && last_name ? getInitials(first_name, last_name) : ""}
+              {login && first_name && last_name
+                ? getInitials(first_name, last_name)
+                : ""}
           </div>
           {isUserDropdownOpen && (
             <div className="absolute right-0 top-10 z-10 w-48 bg-white shadow-lg">
@@ -122,7 +128,11 @@ export default function Navbar({ first_name, last_name }) {
             </div>
           )}
           <div className="pr-1 pl-1">
-            {isUserDropdownOpen ? <FaCaretUp onClick={toggleUserDropdown} /> : <FaCaretDown onClick={toggleUserDropdown} />}
+            {isUserDropdownOpen ? (
+              <FaCaretUp onClick={toggleUserDropdown} />
+            ) : (
+              <FaCaretDown onClick={toggleUserDropdown} />
+            )}
           </div>
         </div>
         <FaQuestionCircle className="text-2xl text-green-noQ ml-4" />
