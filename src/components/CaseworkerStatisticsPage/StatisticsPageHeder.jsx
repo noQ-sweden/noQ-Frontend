@@ -1,58 +1,76 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from './../../api/AxiosNoqApi';
 import GuestDropdown from './GuestDropdown';
 import IncheckadeButtons from './IncheckadeButtons';
-import { StartdatumInput, SlutdatumInput } from './DatePicker'; // Ensure correct import path
-import { addDays } from 'date-fns'; // Import addDays from date-fns
+import { StartdatumInput, SlutdatumInput } from './DatePicker';
 import Pagination from './Pagination';
 import SearchBtn from './SearchBtn';
-import FetchUserStatistics from './UserStatistics'
+import FetchUserStatistics from './UserStatistics';
+import { addDays, addMonths, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
+
 
 const StatisticsPageHeder = () => {
-    // Define state for start and end dates
-    const [startDate, setStartDate] = useState(addDays(new Date(), -7)); // Default to 7 days ago
-    const [endDate, setEndDate] = useState(new Date()); // Default to today
-    const[data,Setdata] = useState([])
-    const[error,SetError] = useState(null)
-    const[loading,SetLoading] = useState(true)
-    const[currentPage, setCurrentPage] = useState(1)
-    const totalPages = 34
+    const [startDate, setStartDate] = useState(new Date()); // Default to today 
+    const [endDate, setEndDate] = useState(addMonths(new Date(), 1)); // Default to one month
+    const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [dateError, setDateError] = useState(null);
+    const [searchExecuted, setSearchExecuted] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = 34;
 
-    const caseworkerStatisticsUrl = "api/caseworker/guests/nights/count"
-    const urlUserStatistics = `${caseworkerStatisticsUrl}/2/2023-01-01/2023-12-31`
-    useEffect(() => {
-        SetLoading(true)
-          axios.get(urlUserStatistics)
-          .then((response) =>  {
-                Setdata(response.data)
-                console.log(response.data)
-                SetLoading(false)
-          })
-          .catch(() => SetError(true))
-    },[])
-    if (error) return <div>Error</div>
-    if (loading) return <div>Loading...</div>
-
+    const caseworkerStatisticsUrl = "api/caseworker/guests/nights/count";
     const handleSearch = () => {
+        if (!startDate || !endDate) {
+            setDateError("Välj datum");
+            return;
+        }
+        setDateError(null);
+        setSearchExecuted(true);
         const formattedStartDate = startDate.toISOString().split('T')[0];
         const formattedEndDate = endDate.toISOString().split('T')[0];
-        const searchUrlUserStatistics = `${caseworkerStatisticsUrl}/5/${formattedStartDate}/${formattedEndDate}`;
-
-        SetLoading(true); // Set loading state to true while fetching data
+        const searchUrlUserStatistics = `${caseworkerStatisticsUrl}/${formattedStartDate}/${formattedEndDate}`;
+        setLoading(true);
+        setError(null);
         axios.get(searchUrlUserStatistics)
             .then((response) => {
-                Setdata(response.data); // Update state with the new data
-                SetLoading(false); // Set loading state to false after fetching
+                setData(response.data);
+                setLoading(false);
             })
             .catch(() => {
-                SetError(true); // Handle any errors
-                SetLoading(false);
+                setError("Error while fetching data.");
+                setLoading(false);
             });
     };
 
-    const handlePagechange = (page) => {
-        setCurrentPage(page)
+    const setToday =() => {
+        const today = new Date();
+        setStartDate(today);
+        setEndDate(today);
+        setSearchExecuted(false); 
     }
+
+    const setThisWeek = () => {
+        const today = new Date();
+        setStartDate(startOfWeek(today, {weekStartsOn: 1}));
+        setEndDate(endOfWeek(today, {weekStartsOn: 1}));
+        setSearchExecuted(false); 
+    }
+
+    const setThisMonth =() => {
+        const today = new Date();
+        setStartDate(startOfMonth(today));
+        setEndDate(endOfMonth(today));
+        setSearchExecuted(false); 
+    }
+
+    const handleNewDateSelection = () => {
+        if (startDate && endDate) {
+            setSearchExecuted(false); 
+        }
+    };
+
     return (
         <div className="py-6 px-9">
             <div className="text-xl font-semibold font-sans leading-7">Användningsrapport av gäst</div>
@@ -60,40 +78,59 @@ const StatisticsPageHeder = () => {
             <div className="flex gap-7 items-center justify-center">
                 <div className="flex flex-col">
                     <div className="font-sans text-sm font-semibold leading-5 tracking-normal text-left mb-2">Gäst</div>
-                    <GuestDropdown />
+                    <GuestDropdown data={data} />
                 </div>
                 <div className="flex flex-col">
                     <div className="font-sans text-sm font-semibold leading-5 tracking-normal text-left mb-2">Incheckade</div>
-                    <IncheckadeButtons />
+                    <IncheckadeButtons 
+                    setToday={setToday}
+                    setThisWeek={setThisWeek}
+                    setThisMonth={setThisMonth}
+                    />
                 </div>
                 <div className="flex flex-col">
-                    {/* <div className="font-sans text-sm font-semibold leading-5 tracking-normal text-left mb-2">Startdatum</div> */}
-                    <StartdatumInput startDate={startDate} setStartDate={setStartDate} />
+                    <StartdatumInput 
+                        startDate={startDate} 
+                        setStartDate={(date) => {
+                            setStartDate(date);
+                            handleNewDateSelection();
+                        }} 
+                    />
                 </div>
                 <div className="flex flex-col">
-                    {/* <div className="font-sans text-sm font-semibold leading-5 tracking-normal text-left mb-2">Slutdatum</div> */}
-                    <SlutdatumInput endDate={endDate} setEndDate={setEndDate} />
+                    <SlutdatumInput 
+                        endDate={endDate} 
+                        setEndDate={(date) => {
+                            setEndDate(date);
+                            handleNewDateSelection();
+                        }} 
+                    />
                 </div>
-                <div className='flex justify-center items-center'>
-                    <SearchBtn onClick={handleSearch} />
-                </div>
-                
+                <div className="flex justify-center items-center">
+                    <SearchBtn 
+                        onClick={handleSearch} 
+                        disabled={!startDate || !endDate || loading || searchExecuted} 
+                    />
+                </div>             
             </div>
             
-            <div className='border-t border-1 mt-7 py-8 w-full'>
-              <div>
-               <Pagination 
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePagechange}
-                stays={data}
-               />
-            </div>
+            {dateError && <div>{dateError}</div>}
+            {loading && <div>Loading...</div>}
+            {error && <div>{error}</div>}
+            
+            <div className="border-t border-1 mt-7 py-8 w-full">
+                <Pagination 
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                    stays={data}
+                    startDate={startDate}
+                    endDate={endDate}
+                />
             </div>
             <div>
-                <FetchUserStatistics data={data}/>
+                <FetchUserStatistics data={data} />
             </div>
-            
         </div>
     );
 };

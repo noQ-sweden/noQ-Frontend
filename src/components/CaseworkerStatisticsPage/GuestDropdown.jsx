@@ -1,91 +1,80 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-export default function GuestDropdown(){
+export default function GuestDropdown({ data }) {
     const [selectedGuest, setSelectedGuest] = useState(null);
+    const guestsData = Array.isArray(data) ? data : [data];
 
-const guests = [
-    { value: 'all', label: 'All guests' },
-    { value: 'guest1', label: 'John Smith' },
-    { value: 'guest2', label: 'Emily Johnson' },
-    { value: 'guest3', label: 'Michael Williams' },
-    { value: 'guest4', label: 'Olivia Brown' },
-    { value: 'guest5', label: 'James Jones' },
-    { value: 'guest6', label: 'Sophia Garcia' },
-    { value: 'guest7', label: 'Benjamin Miller' },
-    { value: 'guest8', label: 'Emma Davis' },
-    { value: 'guest9', label: 'William Rodriguez' },
-    { value: 'guest10', label: 'Charlotte Martinez' },
-    { value: 'guest11', label: 'Henry Lopez' },
-    { value: 'guest12', label: 'Amelia Wilson' },
-    { value: 'guest13', label: 'Liam Anderson' },
-    { value: 'guest14', label: 'Mia Thomas' },
-    { value: 'guest15', label: 'Ethan Lee' },
-    { value: 'guest16', label: 'Ava Taylor' },
-    { value: 'guest17', label: 'Lucas Harris' },
-    { value: 'guest18', label: 'Isabella Clark' },
-    { value: 'guest19', label: 'Noah Walker' },
-    { value: 'guest20', label: 'Sophia Young' },
-];
-
-
-    // Стилі для кастомізації React Select
     const customStyles = {
         container: (provided) => ({
             ...provided,
-            width: '174px', // Встановлює ширину
+            width: '230px',
         }),
         control: (provided) => ({
             ...provided,
-            height: '36px', 
-            padding: '2px 8px', // Внутрішні відступи
-            borderColor: '#D1D5DB', 
-            boxShadow: 'none', // Прибирає тінь на фокусі
+            height: '36px',
+            padding: '2px 8px',
+            borderColor: '#D1D5DB',
+            boxShadow: 'none',
             '&:hover': {
-                borderColor: '#A3A3A3', // Колір бордюру при наведенні (Tailwind gray-400)
+                borderColor: '#A3A3A3',
             },
         }),
         menu: (provided) => ({
             ...provided,
-            width: '178px', // Ширина меню
-            height: '324px', // Висота меню
-            marginTop: '3px',// Залишає меню прямо під select
-            border: '1px solid #D1D5DB', // Колір бордюру меню (gray-300)
+            width: '178px',
+            height: '324px',
+            marginTop: '3px',
+            border: '1px solid #D1D5DB',
         }),
         menuList: (provided) => ({
             ...provided,
-            padding: 0, // Забирає внутрішні відступи у списку
-            gap: '0px', // Забирає проміжок між опціями
-            maxHeight: '324px', // Максимальна висота списку
-            overflowY: 'auto', // Додає прокрутку, якщо список великий
+            padding: 0,
+            gap: '0px',
+            maxHeight: '324px',
+            overflowY: 'auto',
         }),
         option: (provided, state) => ({
             ...provided,
-            padding: '8px 12px', // Відступи для кожної опції
-            backgroundColor: state.isFocused ? '#E5E7EB' : 'white', // Колір при фокусі (gray-200)
-            color: '#000000', // Чорний текст
-            cursor: 'pointer', // Курсор при наведенні
-            fontFamily: 'Inter', // Задає шрифт Inter
-            fontSize: '14px', // Задає розмір шрифту 14px
-            fontWeight: '400', // Задає вагу шрифту 400
-            lineHeight: '20px', // Задає висоту рядка 20px
-            textAlign: 'left', // Вирівнювання тексту зліва
+            padding: '8px 12px',
+            backgroundColor: state.isFocused ? '#E5E7EB' : 'white',
+            color: '#000000',
+            cursor: 'pointer',
+            fontFamily: 'Inter',
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '20px',
+            textAlign: 'left',
         }),
     };
+
+    const guests = [
+        { value: 'all', label: 'All guests' },
+        ...guestsData
+            .map((list) => ({
+                value: list.user_id,
+                label: `${list.first_name} ${list.last_name}`,
+            }))
+            .sort((a, b) => {
+                // Sort by first name then last name
+                const nameA = `${a.label}`.toUpperCase(); // ignore case
+                const nameB = `${b.label}`.toUpperCase(); // ignore case
+                return nameA < nameB ? -1 : nameA > nameB ? 1 : 0; // Sort alphabetically
+            }),
+    ];
 
     return (
         <div>
             <Select
-                options={guests} // Передаємо список гостей
-                value={selectedGuest} // Відображення вибраного гостя
-                onChange={setSelectedGuest} // Зміна вибору
-                styles={customStyles} // Використовуємо кастомні стилі
-                placeholder="Alla gäster" // Плейсхолдер
+                options={guests} 
+                value={selectedGuest}
+                onChange={setSelectedGuest}
+                styles={customStyles}
+                placeholder="Alla gäster"
                 components={{
-                    // DropdownIndicator: () => null, 
-                    IndicatorSeparator: () => null, 
+                    IndicatorSeparator: () => null,
                 }}
             />
         </div>
     );
-};
+}
