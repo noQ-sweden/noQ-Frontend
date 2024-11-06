@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchAllUsers } from "../api/AxiosNoqApi";
+import axios from "../api/AxiosNoqApi";
 import PropTypes from "prop-types";
 
 const UserList = ({ onUserSelect }) => {
@@ -10,19 +10,22 @@ const UserList = ({ onUserSelect }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const usersData = await fetchAllUsers();
-        setUsers(usersData);
-        setFilteredData(usersData);
+    axios.get ('api/caserworker/user/all')
+    .then ((response) => {
+      if (response.status === 200) {
+        const fetchedUsers = response?.data;
+        setUsers(fetchedUsers);
+        setFilteredData(fetchedUsers);
         setLoading(false);
-      } catch (err) {
-        console.log("API Error:", err);
-        setError("Failed to fetch users");
-        setLoading(false);
+      } else {
+        console.log('Error while fetching overview data.');
       }
-    };
-    loadUsers();
+    })
+    .catch((error) => {
+      console.log("API Error:", error);
+      setError("Failed to fetch users");
+      setLoading(false);
+    });
   }, []);
 
   //  Handle Delete

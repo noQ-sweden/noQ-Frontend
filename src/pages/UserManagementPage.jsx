@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import UserList from "../components/UserList";
 import UserForm from "../components/UserForm";
-import {
-  createUser,
-  updateUser,
-  deleteUser,
-  fetchAllUsers,
-} from "./../api/AxiosNoqApi";
+import axios from "./../api/AxiosNoqApi";
 
 const UserManagementPage = () => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -15,15 +10,18 @@ const UserManagementPage = () => {
 
   // Fetch users when the component mounts
   useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const fetchedUsers = await fetchAllUsers();
+    axios.get ('api/caserworker/user/all')
+    .then ((response) => {
+      if (response.status === 200) {
+        const fetchedUsers = response?.data;
         setUsers(fetchedUsers);
-      } catch (error) {
-        console.log("API Error:", error);
+      } else {
+        console.log('Error while fetching overview data.');
       }
-    };
-    loadUsers();
+    })
+    .catch((error) => {
+      console.log("API Error:", error);
+    });
   }, []);
 
   // Handle opening the form for crating a new user

@@ -4,6 +4,7 @@ import { generateAvailablePlaces } from "./hostFrontPage";
 import { countBookings } from "./countBookings";
 import AxiosMockAdapter from "axios-mock-adapter";
 import { products } from "./products.js";
+import { addUser, deleteUser, modifyUser, getUsers, initUserList } from "./users.js";
 import { getAvailableShelters } from "./getAvailableShelters"; // Import the function
 import { availableProducts } from "./caseworkerFrontPage.js";
 
@@ -85,6 +86,7 @@ noqMockApi.onPost("api/login/").reply((config) => {
     login.groups = ["caseworker"];
     login.first_name = "User";
     login.last_name = "Caseworker";
+    initUserList();
     return [200, JSON.stringify(login)];
   }
   // Failed login
@@ -394,61 +396,52 @@ noqMockApi.onGet(urlAvailableSheltersPerDay).reply(() => {
 noqMockApi.onPost("/api/user/request_booking").reply((config) => {
   let bookingData = JSON.parse(config.data);
   console.log(bookingData);
-  //bookings.push(newBooking);
-  /*
-  Return data:
-  {
-  "id": 0,
-  "status": {
-    "description": "string"
-  },
-  "start_date": "2024-09-24",
-  "end_date": "2024-09-24",
-  "product": {
-    "id": 0,
-    "name": "string",
-    "description": "string",
-    "total_places": 0,
-    "host": {
-      "region": {
-        "id": 0,
-        "name": "string"
-      },
-      "id": 0,
-      "name": "string",
-      "street": "string",
-      "postcode": "",
-      "city": ""
-    },
-    "type": "string"
-  },
-  "user": {
-    "region": {
-      "id": 0,
-      "name": "string"
-    },
-    "id": 0,
-    "user": 0,
-    "first_name": "string",
-    "last_name": "string",
-    "gender": "s",
-    "street": "",
-    "postcode": "",
-    "city": "",
-    "country": "",
-    "phone": "string",
-    "email": "string",
-    "unokod": "string",
-    "day_of_birth": "2024-09-24",
-    "personnr_lastnr": "",
-    "requirements": 0,
-    "last_edit": "2024-09-24"
-  }
-}
-  */
+
   return [200, "Hello!"];
 });
 
 noqMockApi.onGet("/api/caseworker/available_all").reply(() => {
   return [200, JSON.stringify(availableProducts)];
+});
+
+/*
+  Caseworker user management
+*/
+noqMockApi.onGet("api/caserworker/user/all").reply(() => {
+  return [200, JSON.stringify(getUsers())];
+});
+
+const caseworkerUserUrl = "api/caseworker/user";
+const urlCaseworkerUserId = new RegExp(`${caseworkerUserUrl}/\\d+`);
+noqMockApi.onGet(urlCaseworkerUserId).reply(() => {
+
+  return [200, "TBD"];
+});
+
+noqMockApi.onPost("/api/caseworker/user").reply((config) => {
+  let bookingData = JSON.parse(config.data);
+  console.log(bookingData);
+
+  return [200, "Hello!"];
+});
+
+noqMockApi.onPut(urlCaseworkerUserId).reply((config) => {
+  const userId = parseInt(config.url.match(/api\/caseworker\/user\/(\d+)/)[1]);
+  const updatedProduct = JSON.parse(config.data);
+  const index = users.findIndex((user) => user.id === userId);
+  if (index !== -1) {
+    products[index] = updatedProduct;
+    return [200, updatedProduct];
+  }
+  return [404];
+});
+
+noqMockApi.onDelete(urlCaseworkerUserId).reply((config) => {
+  const productId = parseInt(config.url.match(/api\/host\/products\/(\d+)/)[1]);
+  const index = products.findIndex((product) => product.id === productId);
+  if (index !== -1) {
+    products.splice(index, 1);
+    return [200];
+  }
+  return [404];
 });
