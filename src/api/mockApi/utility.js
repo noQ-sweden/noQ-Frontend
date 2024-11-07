@@ -19,6 +19,13 @@ const lastNames = [
     "Lindberg", "Jacobsson", "Magnusson", "Lindstrom", "Olofsson"
 ];
 
+const streetNames = [
+    "Skeppsbrokajen", "Kindstugatan", "Baggensgatan", "Drottninggatan", "Norrlandsgatan",
+    "Lejonbacken", "Slussplan", "Skeppsbron", "Hamngatan", "Jakobsgatan", 
+    "Riksgatan", "Tunnelgatan", "Tegelbacken", "Torstenssonsgatan", "Storkyrkobrinken",
+    "Nybrogatan", "Munkbroleden", "Myntgatan", "Biblioteksgatan", "Kanslikajen"
+];
+
 export function getRandomInt(max) {
     let value = Math.floor(Math.random() * (max + 1));
     return value
@@ -33,6 +40,10 @@ export function getFirstName(gender) {
 
 export function getLastName() {
     return lastNames[getRandomInt(lastNames.length - 1)];
+}
+
+export function getSteetName() {
+    return streetNames[getRandomInt(streetNames.length - 1)];
 }
 
 export function getGender() {

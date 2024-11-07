@@ -437,11 +437,9 @@ noqMockApi.onPut(urlCaseworkerUserId).reply((config) => {
 });
 
 noqMockApi.onDelete(urlCaseworkerUserId).reply((config) => {
-  const productId = parseInt(config.url.match(/api\/host\/products\/(\d+)/)[1]);
-  const index = products.findIndex((product) => product.id === productId);
-  if (index !== -1) {
-    products.splice(index, 1);
+  const userId = parseInt(config.url.match(/api\/host\/products\/(\d+)/)[1]);
+  if (deleteUser(userId)) {
     return [200];
   }
-  return [404];
+  return [404]; //not found
 });

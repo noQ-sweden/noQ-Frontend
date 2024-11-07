@@ -12,17 +12,17 @@ const UserManagementPage = () => {
   // Fetch users when the component mounts
   useEffect(() => {
     axios.get ('api/caserworker/user/all')
-    .then ((response) => {
-      if (response.status === 200) {
-        const fetchedUsers = response?.data;
-        setUsers(fetchedUsers);
-      } else {
-        console.log('Error while fetching overview data.');
-      }
-    })
-    .catch((error) => {
-      console.log("API Error:", error);
-    });
+      .then ((response) => {
+        if (response.status === 200) {
+          const fetchedUsers = response?.data;
+          setUsers(fetchedUsers);
+        } else {
+          console.log('Error while fetching overview data.');
+        }
+      })
+      .catch((error) => {
+        console.log("API Error:", error);
+      });
   }, []);
 
   // Handle opening the form for crating a new user
@@ -74,20 +74,25 @@ const UserManagementPage = () => {
 
   // Handle deleting a user
   const handleDeleteUser = async (userId) => {
-    try {
-      await deleteUser(userId);
-      setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
-      alert("User deleted successfully!");
-      closeForm();
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      alert("Error deleting user.");
-    }
+    axios.delete ('api/caserworker/user/' + userId)
+      .then ((response) => {
+        if (response.status === 200) {
+          setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
+          alert("User deleted successfully!");
+          closeForm();
+        } else {
+          console.log('Error while deleting user.');
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting user:", error);
+        alert("Error deleting user.");
+      });
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">User Management</h1>
+      <h1 className="text-2xl font-bold mb-4">Hantera användare</h1>
 
       {/* User List */}
       {isUserListVisible && (

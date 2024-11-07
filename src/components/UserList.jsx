@@ -55,7 +55,6 @@ const UserList = ({ onUserSelect, onOpenCreateForm }) => {
 
   return (
     <div className="">
-      <h1 className="text-2xl font-bold md-4 mb-3">Hantera användare</h1>
       <div className="flex items-center mb-4 space-x-4">
         <input
           type="text"

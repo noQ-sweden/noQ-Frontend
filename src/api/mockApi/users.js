@@ -1,4 +1,4 @@
-import { getRandomInt, getFirstName, getGender, getLastName, getPhoneNumber } from "./utility";
+import { getRandomInt, getFirstName, getGender, getLastName, getPhoneNumber, getSteetName } from "./utility";
 
 export var users = [];
 
@@ -9,10 +9,29 @@ export function addUser(userData) {
 }
 
 export function deleteUser(userId) {
-    return users;
+    const index = users.findIndex((user) => user.id === userId);
+    if (index !== -1) {
+      users.splice(index, 1);
+      return true;
+    }    
+    return false;
 }
 
 export function modifyUser(userData) {
+    const userId = userData.id;
+    users[userId - 1].email = userData.email;
+    users[userId - 1].password = userData.password;
+    users[userId - 1].first_name = userData.first_name;
+    users[userId - 1].last_name = userData.last_name;
+    users[userId - 1].phone = userData.phone;
+    users[userId - 1].gender = userData.gender;
+    users[userId - 1].street = userData.street;
+    users[userId - 1].postcode = userData.postcode;
+    users[userId - 1].city = userData.city;
+    users[userId - 1].country = userData.country;
+    users[userId - 1].region = userData.region;
+    users[userId - 1].day_of_birth = userData.day_of_birth;
+    users[userId - 1].personnr_lastnr = userData.personnr_lastnr;
     return users;
 }
 
@@ -29,18 +48,19 @@ export function initUserList() {
         var lastName = getLastName();
 
         var user = {
+            "id": i + 1,
             "email": firstName + "." + lastName + "@test.nu",
             "password": "test1234",
             "first_name": firstName,
             "last_name": lastName,
             "phone": getPhoneNumber(),
             "gender": gender,
-            "street": "string",
-            "postcode": "string",
-            "city": "string",
+            "street": getSteetName() + " " + (getRandomInt(124) + 1),
+            "postcode": 33444,
+            "city": "Stockholm",
             "country": "Sverige",
             "region": 0,
-            "day_of_birth": "2024-11-06",
+            "unokod": firstName[0] + lastName[0] + "0721",
             "personnr_lastnr": "1234"
         }
         users.push(user);
