@@ -76,7 +76,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
     const updatedData = {
       ...formData,
       [name]:
-        name === "phone" || name === "postcode"
+        name === "postcode"
           ? value
             ? parseInt(value, 10)
             : ""
