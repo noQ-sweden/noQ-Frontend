@@ -28,7 +28,7 @@ export default function GetMenuItems(userGroup) {
     },
     {
       icon: FaUser,
-      label: "Hantera Användare",
+      label: "Användare",
       sideBarLink: "caseworker/user-management",
     },
     {

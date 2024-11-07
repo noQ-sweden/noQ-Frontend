@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import UserList from "../components/UserList";
 import UserForm from "../components/UserForm";
 import axios from "./../api/AxiosNoqApi";
+import useHeader from "../hooks/useHeader";
 
 const UserManagementPage = () => {
+  const { setHeader } = useHeader();
+  setHeader("Användare");
   const [selectedUser, setSelectedUser] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [users, setUsers] = useState([]);
