@@ -6,17 +6,17 @@ const CustomDropdown = ({ name, value, onChange, requied }) => {
   const options = ["Man", "Kvinna"];
 
   const handleOptionClick = (option) => {
-    onChange({ target: { name, value: option } });
+    onChange(option);
     setIsOpen(false);
   };
 
   return (
     <div className="relative mt-5">
       <div
-        className="border rounded border-gray-400 py-1 px-2 w-full cursor-pointer"
+        className="border rounded border-gray-400 py-1 px-2 w-1/3 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {value || "Välj... "}
+        {value || "Välj Kön "}
       </div>
 
       {isOpen && (

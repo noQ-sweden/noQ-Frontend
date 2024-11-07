@@ -44,7 +44,10 @@ export const fetchUserById = async (userId) => {
 // Function to create an item in the Backend
 export const createUser = async (formData) => {
   try {
-    const response = await axiosNoqApi.post("/api/caseworker/user", formData);
+    const response = await axiosNoqApi.post(
+      "/api/caseworker/register",
+      formData
+    );
     return response.data;
   } catch (error) {
     console.error("Error creating item:", error);
@@ -53,10 +56,10 @@ export const createUser = async (formData) => {
 };
 
 // Function to update an item in the Backend
-export const updateUser = async (userId, formData) => {
+export const updateUser = async (user_id, formData) => {
   try {
     const response = await axiosNoqApi.put(
-      `/api/caseworker/user/${userId}`,
+      `/api/caseworker/update/user/${user_id}`,
       formData
     );
     return response.data;
@@ -69,7 +72,9 @@ export const updateUser = async (userId, formData) => {
 // Function to delete an item from the Backend
 export const deleteUser = async (userId) => {
   try {
-    const response = await axiosNoqApi.delete(`/api/caseworker/user/${userId}`);
+    const response = await axiosNoqApi.delete(
+      `/api/caseworker/delete/user/${userId}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error deleting item:", error);
