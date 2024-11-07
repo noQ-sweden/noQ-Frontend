@@ -4,7 +4,7 @@ import { generateAvailablePlaces } from "./hostFrontPage";
 import { countBookings } from "./countBookings";
 import AxiosMockAdapter from "axios-mock-adapter";
 import { products } from "./products.js";
-import { addUser, deleteUser, modifyUser, getUsers, initUserList } from "./users.js";
+import { addUser, deleteUser, updateUser, getUsers, initUserList } from "./users.js";
 import { getAvailableShelters } from "./getAvailableShelters"; // Import the function
 import { availableProducts } from "./caseworkerFrontPage.js";
 
@@ -407,7 +407,7 @@ noqMockApi.onGet("/api/caseworker/available_all").reply(() => {
 /*
   Caseworker user management
 */
-noqMockApi.onGet("api/caserworker/user/all").reply(() => {
+noqMockApi.onGet("api/caseworker/user/all").reply(() => {
   return [200, JSON.stringify(getUsers())];
 });
 
@@ -419,21 +419,15 @@ noqMockApi.onGet(urlCaseworkerUserId).reply(() => {
 });
 
 noqMockApi.onPost("/api/caseworker/user").reply((config) => {
-  let bookingData = JSON.parse(config.data);
-  console.log(bookingData);
-
-  return [200, "Hello!"];
+  let userData = JSON.parse(config.data);
+  addUser(userData);
+  return [200, "{}"];
 });
 
 noqMockApi.onPut(urlCaseworkerUserId).reply((config) => {
-  const userId = parseInt(config.url.match(/api\/caseworker\/user\/(\d+)/)[1]);
-  const updatedProduct = JSON.parse(config.data);
-  const index = users.findIndex((user) => user.id === userId);
-  if (index !== -1) {
-    products[index] = updatedProduct;
-    return [200, updatedProduct];
-  }
-  return [404];
+  const userData = JSON.parse(config.data);
+  const updatedUserData = updateUser(userData);
+  return [200, JSON.stringify(updatedUserData)];
 });
 
 noqMockApi.onDelete(urlCaseworkerUserId).reply((config) => {

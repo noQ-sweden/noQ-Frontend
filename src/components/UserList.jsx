@@ -10,7 +10,7 @@ const UserList = ({ onUserSelect, onOpenCreateForm }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get ('api/caserworker/user/all')
+    axios.get ('api/caseworker/user/all')
     .then ((response) => {
       if (response.status === 200) {
         const fetchedUsers = response?.data;

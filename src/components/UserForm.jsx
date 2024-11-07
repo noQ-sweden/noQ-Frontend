@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
   // initialize form data with empty values
   const [formData, setFormData] = useState({
+    id: "",
     first_name: "",
     last_name: "",
     gender: "",
@@ -30,6 +31,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
   useEffect(() => {
     if (isEditing && user) {
       setFormData({
+        id: user.id || "",
         first_name: user.first_name || "",
         last_name: user.last_name || "",
         gender: user.gender || "",
@@ -48,7 +50,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
       });
     } else {
       setFormData({
-        first_name: "",
+        id: "",
         last_name: "",
         gender: "",
         street: "",
@@ -74,7 +76,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
     const updatedData = {
       ...formData,
       [name]:
-        name === "phone" || name === "postcode" || name === "unokod"
+        name === "phone" || name === "postcode"
           ? value
             ? parseInt(value, 10)
             : ""
@@ -107,6 +109,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
       }
       onSubmit(formData);
     }
+    onSubmit(formData);
   };
 
   return (
@@ -127,6 +130,8 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
             }}
           />
           <form onSubmit={handleSubmit}>
+            {/* Hidden field for User ID */}
+            <input type="hidden" name="id" value={formData.id} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <h1 className="text-lg font-semibold mb-3">Kontouppgifter</h1>
@@ -291,7 +296,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                   className="border border-gray-400"
                 />
                 <span className="px-2">
-                  Jag goodkämmer
+                  Jag godkänner
                   <a href="" className="text-blue-500 font-semibold">
                     {" "}
                     villkoren för

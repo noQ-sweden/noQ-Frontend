@@ -17,7 +17,7 @@ export function deleteUser(userId) {
     return false;
 }
 
-export function modifyUser(userData) {
+export function updateUser(userData) {
     const userId = userData.id;
     users[userId - 1].email = userData.email;
     users[userId - 1].password = userData.password;
@@ -32,7 +32,7 @@ export function modifyUser(userData) {
     users[userId - 1].region = userData.region;
     users[userId - 1].day_of_birth = userData.day_of_birth;
     users[userId - 1].personnr_lastnr = userData.personnr_lastnr;
-    return users;
+    return users[userId - 1];
 }
 
 export function getUsers() {

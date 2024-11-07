@@ -11,7 +11,7 @@ const UserManagementPage = () => {
 
   // Fetch users when the component mounts
   useEffect(() => {
-    axios.get ('api/caserworker/user/all')
+    axios.get ('api/caseworker/user/all')
       .then ((response) => {
         if (response.status === 200) {
           const fetchedUsers = response?.data;
@@ -51,34 +51,54 @@ const UserManagementPage = () => {
     try {
       if (selectedUser) {
         // Update user
-        await updateUser(userId, formData);
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.id === selectedUser.id ? { ...user, ...formData } : user
-          )
-        );
-        alert("User updated successfully!");
+        const url = 'api/caseworker/user/' + formData.id;
+        console.log(url);
+        axios.put (url, formData)
+          .then ((response) => {
+            if (response.status === 200) {
+              setUsers((prevUsers) =>
+                prevUsers.map((user) =>
+                  user.id === selectedUser.id ? { ...user, ...formData } : user
+                )
+              );
+              alert("Användare uppdaterad framgångsrikt!");
+            } else {
+              console.log('Error while fetching overview data.');
+            }
+          })
+          .catch((error) => {
+            console.log("API Error:", error);
+          });
       } else {
         console.log("Creating new user");
         // Create new user
-        const newUser = await createUser(formData);
-        setUsers((prevUsers) => [...prevUsers, newUser]);
-        alert("User created successfully!");
+        axios.post ('api/caseworker/user', formData)
+          .then ((response) => {
+            if (response.status === 200) {
+              setUsers((prevUsers) => [...prevUsers, formData]);
+              alert("Användare skapad framgångsrikt!");
+            } else {
+              console.log('Error while fetching overview data.');
+            }
+          })
+          .catch((error) => {
+            console.log("API Error:", error);
+          });
       }
       closeForm();
     } catch (error) {
       console.error("Error updating user:", error);
-      alert("Error updating user.");
+      alert("Fel vid uppdatering av användare.");
     }
   };
 
   // Handle deleting a user
   const handleDeleteUser = async (userId) => {
-    axios.delete ('api/caserworker/user/' + userId)
+    axios.delete ('api/caseworker/user/' + userId)
       .then ((response) => {
         if (response.status === 200) {
           setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
-          alert("User deleted successfully!");
+          alert("Användare raderad framgångsrikt!");
           closeForm();
         } else {
           console.log('Error while deleting user.');
@@ -86,7 +106,7 @@ const UserManagementPage = () => {
       })
       .catch((error) => {
         console.error("Error deleting user:", error);
-        alert("Error deleting user.");
+        alert("Fel vid radering av användare.");
       });
   };
 
