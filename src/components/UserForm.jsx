@@ -4,6 +4,7 @@ import noQicon from "../assets/images/noQiconNoQGreen.svg";
 import PropTypes from "prop-types";
 
 const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
+  // initialize form data with empty values
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -16,7 +17,6 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
     email: "",
     unokod: "",
     day_of_birth: "",
-    personnr_lastnr: "",
     region: "",
     password: "",
     confirmPassword: "",
@@ -24,7 +24,9 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
   });
 
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [passwordMatchError, setPasswordMatchError] = useState(false);
 
+  // Populate form with user data if editing or clear it for new user creation
   useEffect(() => {
     if (isEditing && user) {
       setFormData({
@@ -39,46 +41,72 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
         email: user.email || "",
         unokod: user.unokod?.toString() || "",
         day_of_birth: user.day_of_birth?.toString() || "",
-        personnr_lastnr: user.personnr_lastnr?.toString() || "",
         region: user.region || "",
         password: user.password || "",
         confirmPassword: user.confirmPassword || "",
         requirements: user.requirements || "",
       });
+    } else {
+      setFormData({
+        first_name: "",
+        last_name: "",
+        gender: "",
+        street: "",
+        postcode: "",
+        city: "",
+        country: "",
+        phone: "",
+        email: "",
+        unokod: "",
+        day_of_birth: "",
+        region: "",
+        password: "",
+        confirmPassword: "",
+        requirements: "",
+      });
+
+      setAgreedToTerms(false);
     }
   }, [isEditing, user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    const updatedData = {
+      ...formData,
       [name]:
-        name === "phone" ||
-        name === "postcode" ||
-        name === "unokod" ||
-        name === "personnr_lastnr"
+        name === "phone" || name === "postcode" || name === "unokod"
           ? value
             ? parseInt(value, 10)
             : ""
           : value,
-    }));
+    };
+
+    setFormData(updatedData);
+
+    if (name === "password" || name === "confirmPassword") {
+      setPasswordMatchError(
+        updatedData.password !== updatedData.confirmPassword
+      );
+    }
+    return updatedData;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!isEditing && formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
+    if (!isEditing) {
+      if (formData.password !== formData.confirmPassword) {
+        setPasswordMatchError(true);
+        alert("Lösenord matchar inte");
+        return;
+      }
 
-    if (!agreedToTerms && !isEditing) {
-      alert("Please agree to the terms and conditions");
-      return;
+      if (!agreedToTerms) {
+        alert("Snäll och godkänn villkoren");
+        return;
+      }
+      onSubmit(formData);
     }
-
-    // Pass form data to the parent component for hadeling(create/update)
-    onSubmit(formData);
   };
 
   return (
@@ -99,152 +127,160 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
             }}
           />
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-2 gap-5">
-              {/* <div className="w-1/2 py-16 px-12"> */}
-              <input
-                type="text"
-                name="first_name"
-                value={formData.first_name}
-                onChange={handleChange}
-                placeholder="Firts Name"
-                required
-                className="border rounded border-gray-400 py-1 px-2"
-              />
-              <input
-                type="text"
-                name="last_name"
-                value={formData.last_name}
-                onChange={handleChange}
-                placeholder="Last Name"
-                className="border rounded border-gray-400 py-1 px-2 "
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h1 className="text-lg font-semibold mb-3">Kontouppgifter</h1>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mb-6">
+                  <input
+                    type="text"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    placeholder="Förnamn"
+                    required
+                    className="border rounded border-gray-400 py-1 px-2"
+                  />
+                  <input
+                    type="text"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    placeholder="Efternamn"
+                    className="border rounded border-gray-400 py-1 px-2"
+                  />
 
-              <div className="mt-5">
+                  <input
+                    type="text"
+                    name="unokod"
+                    value={formData.unokod}
+                    onChange={handleChange}
+                    placeholder="UNO-Kod"
+                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                  />
+
+                  <input
+                    type="password"
+                    name="password"
+                    autoComplete="off"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Lösenord"
+                    required={!isEditing}
+                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                  />
+
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    autoComplete="off"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Bekräfta lösenord"
+                    required={!isEditing}
+                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                  />
+                  {passwordMatchError && (
+                    <p className="text-red-500">Lösenorden matchar inte.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="">
+              <h1 className="text-lg font-semibold mb-3">
+                Personlig information
+              </h1>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-1 mb-6">
+                <CustomDropdown
+                  name="gender"
+                  value={formData.gender}
+                  onChange={(value) =>
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      gender: value,
+                    }))
+                  }
+                  required={true}
+                />
+
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Email"
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
+                  placeholder="Mail"
+                  className="border rounded border-gray-400 py-1 px-3 w-1/3"
                 />
-              </div>
-              <div className="mt-5">
+
                 <input
                   type="text"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="Phone"
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
+                  placeholder="Telefon nummer"
+                  className="border rounded border-gray-400 py-1 px-3 w-1/3"
                 />
               </div>
 
-              <div className="mt-5 relative">
-                <CustomDropdown
-                  name="gender"
-                  value={formData.gender}
-                  onChange={(value) =>
-                    setFormData((prevData) => ({ ...prevData, gender: value }))
-                  }
-                  required={true}
-                />
+              <div className="">
+                <h1 className="text-lg font-semibold mb-3">Addressupgifter</h1>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mb-6">
+                  <input
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    placeholder="Stad"
+                    required
+                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                  />
+
+                  <input
+                    type="text"
+                    name="region"
+                    value={formData.region}
+                    onChange={handleChange}
+                    placeholder="Region"
+                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                  />
+
+                  <input
+                    type="text"
+                    name="street"
+                    value={formData.street}
+                    onChange={handleChange}
+                    placeholder="Gata"
+                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                  />
+
+                  <input
+                    type="string"
+                    name="postcode"
+                    value={formData.postcode}
+                    onChange={handleChange}
+                    placeholder="Post kod"
+                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                  />
+
+                  <input
+                    type="text"
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    placeholder="Land"
+                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                  />
+                </div>
               </div>
-              <div className="mt-5">
-                <input
-                  type="text"
-                  name="street"
-                  value={formData.street}
-                  onChange={handleChange}
-                  placeholder="Gata"
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
-                />
-              </div>
-              <div className="mt-5">
-                <input
-                  type="string"
-                  name="postcode"
-                  value={formData.postcode}
-                  onChange={handleChange}
-                  placeholder="Post kod"
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
-                />
-              </div>
-              <div className="mt-5">
-                <input
-                  type="text"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  placeholder="Stad"
-                  required
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
-                />
-              </div>
-              <div className="mt-5">
-                <input
-                  type="text"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  placeholder="Country"
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
-                />
-              </div>
-              <div className="mt-5">
+              {/* <div className="mt-5">
                 <input
                   type="number"
                   name="day_of_birth"
                   value={formData.day_of_birth}
                   onChange={handleChange}
-                  placeholder="Date of Birth"
+                  placeholder="Födelsedag"
                   className="border rounded border-gray-400 py-1 px-3 w-full"
                 />
-              </div>
-              <div className="mt-5">
-                <input
-                  type="number"
-                  name="perosonnr_lastnr"
-                  value={formData.personnr_lastnr}
-                  onChange={handleChange}
-                  placeholder="Person Number 4 sista"
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
-                />
-              </div>
-              <div className="mt-5">
-                <input
-                  type="text"
-                  name="region"
-                  value={formData.region}
-                  onChange={handleChange}
-                  placeholder="Region"
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
-                />
-              </div>
-              <div className="mt-5">
-                <input
-                  type="password"
-                  name="password"
-                  autoComplete="off"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Password"
-                  required
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
-                />
-              </div>
-              <div className="mt-5">
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  autoComplete="off"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirm Password"
-                  required={!isEditing}
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
-                />
-              </div>
+              </div> */}
 
               <div className="mt-5">
                 {/* <div className="col-span-2"> */}
@@ -255,31 +291,31 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                   className="border border-gray-400"
                 />
                 <span className="px-2">
-                  I agree to the
+                  Jag goodkämmer
                   <a href="" className="text-blue-500 font-semibold">
                     {" "}
-                    terms
+                    villkoren för
                   </a>
                   ,
                   <a href="" className="text-blue-500 font-semibold">
                     {" "}
-                    pirvacy & conditions.
+                    sekretess & villkor.
                   </a>
                 </span>
               </div>
-              <div className="mt-5">
+              <div className="mt-5 flex space-x-4">
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded w-full "
+                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded w-1/2"
                 >
-                  {user ? "Update" : "Create"}
+                  {isEditing ? "Update" : "Skapa"}
                 </button>
                 <button
                   type="button"
                   onClick={onClose} // Call onClose when "Close" is clicked
-                  className="bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded w-full"
+                  className="bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded w-1/2"
                 >
-                  Close
+                  Stäng
                 </button>
               </div>
             </div>

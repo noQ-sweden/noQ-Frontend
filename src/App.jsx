@@ -53,7 +53,10 @@ function App() {
         {/* Host pages */}
         <Route element={<RequireLogin allowedGroups={["caseworker"]} />}>
           <Route path="caseworker" element={<CaseworkerPage />} />
-          <Route path="/user-management" element={<UserManagementPage />} />
+          <Route
+            path="caseworker/user-management"
+            element={<UserManagementPage />}
+          />
           <Route
             path="caseworker/requests"
             element={<RequestPageView userGroup="caseworker" />}

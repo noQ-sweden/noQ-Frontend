@@ -121,14 +121,6 @@ export default function CaseworkerPage() {
         />
       </div>
 
-      {/* Button to navigate to the user management page */}
-      <button
-        onClick={() => navigate("/user-management")}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Hantera användare
-      </button>
-
       <div className="w-full p-4">
         {Object.keys(groupedData).map((hostName) => {
           const rooms = groupedData[hostName];

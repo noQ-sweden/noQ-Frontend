@@ -7,6 +7,7 @@ const UserManagementPage = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [users, setUsers] = useState([]);
+  const [isUserListVisible, setIsUserListVisible] = useState(true);
 
   // Fetch users when the component mounts
   useEffect(() => {
@@ -28,18 +29,21 @@ const UserManagementPage = () => {
   const openCreateForm = () => {
     setSelectedUser(null);
     setIsFormVisible(true);
+    setIsUserListVisible(false);
   };
 
   // Edit User handler
   const handleSelectUser = (user) => {
     setSelectedUser(user);
     setIsFormVisible(true);
+    setIsUserListVisible(false);
   };
 
   // Handle form close
   const closeForm = () => {
     setIsFormVisible(false);
     setSelectedUser(null);
+    setIsUserListVisible(true);
   };
 
   // Handle form submission
@@ -47,8 +51,7 @@ const UserManagementPage = () => {
     try {
       if (selectedUser) {
         // Update user
-        await updateUser(selectedUser.id, formData);
-        console.log("User updated:", selectedUser.id);
+        await updateUser(userId, formData);
         setUsers((prevUsers) =>
           prevUsers.map((user) =>
             user.id === selectedUser.id ? { ...user, ...formData } : user
@@ -56,6 +59,7 @@ const UserManagementPage = () => {
         );
         alert("User updated successfully!");
       } else {
+        console.log("Creating new user");
         // Create new user
         const newUser = await createUser(formData);
         setUsers((prevUsers) => [...prevUsers, newUser]);
@@ -85,15 +89,14 @@ const UserManagementPage = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">User Management</h1>
 
-      <button
-        onClick={openCreateForm}
-        className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Create New User
-      </button>
-
       {/* User List */}
-      <UserList users={users} onUserSelect={handleSelectUser} />
+      {isUserListVisible && (
+        <UserList
+          users={users}
+          onUserSelect={handleSelectUser}
+          onOpenCreateForm={openCreateForm}
+        />
+      )}
 
       {/* Conditionally render the form */}
       {isFormVisible && (
