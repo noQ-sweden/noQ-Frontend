@@ -5,7 +5,7 @@ import ArrowDownIcon from "../assets/images/arrowDownIcon.svg";
 import useHeader from "../hooks/useHeader";
 import SEO from "../components/SEO";
 import useLogin from "../hooks/useLogin";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 export default function CaseworkerPage() {
   const [data, setData] = useState([]);
@@ -13,7 +13,7 @@ export default function CaseworkerPage() {
   const [error, setError] = useState(null);
   const [expandedHosts, setExpandedHosts] = useState({});
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const { login } = useLogin();
   const { setHeader } = useHeader();
   /* setHeader("Överblick"); */
