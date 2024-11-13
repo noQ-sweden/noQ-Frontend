@@ -4,13 +4,12 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import CalendarIcon from './CalendarIcon';
 
-// Startdatum Input Component
 const StartdatumInput = ({ startDate, setStartDate }) => {
     return (
         <div className="flex flex-col">
             <label className="font-sans text-sm font-semibold leading-5 tracking-normal text-left mb-2">Startdatum</label>
             <div className="relative flex items-center w-[220px] h-[36px]  p-2  bg-white  border rounded border-gray-300">
-                <CalendarIcon className="w-[20px] h-[20px]"/> {/* Place icon here */}
+                <CalendarIcon className="w-[20px] h-[20px]"/>
                 <DatePicker
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
@@ -22,8 +21,7 @@ const StartdatumInput = ({ startDate, setStartDate }) => {
     );
 };
 
-// Slutdatum Input Component
-const SlutdatumInput = ({ endDate, setEndDate }) => {
+const SlutdatumInput = ({startDate, endDate, setEndDate }) => {
     return (
         <div className="flex flex-col">
             <label className="font-sans text-sm font-semibold leading-5 tracking-normal text-left mb-2">Slutdatum</label>
@@ -33,6 +31,7 @@ const SlutdatumInput = ({ endDate, setEndDate }) => {
                     selected={endDate}
                     onChange={(date) => setEndDate(date)}
                     dateFormat="yyyy-MM-dd"
+                    minDate={startDate}
                     className="w-full h-full"
                 />
             </div>

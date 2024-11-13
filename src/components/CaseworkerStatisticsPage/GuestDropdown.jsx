@@ -1,14 +1,31 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
+import { startOfMonth, endOfMonth } from 'date-fns';
 
-export default function GuestDropdown({ data }) {
-    const [selectedGuest, setSelectedGuest] = useState(null);
+export default function GuestDropdown({ data, setSelectedGuest, setStartDate, setEndDate }) {
+    const [selectedGuestLocal, setSelectedGuestLocal] = useState(null);
+
     const guestsData = Array.isArray(data) ? data : [data];
+    const sortedGuests = guestsData
+        .map((list) => ({
+            value: list.user_id,
+            label: `${list.first_name} ${list.last_name}`,
+        }))
+        .sort((a, b) => {
+            const nameA = `${a.label}`.toUpperCase();
+            const nameB = `${b.label}`.toUpperCase();
+            return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+        });
+
+    const guests = [
+        { value: 'all', label: 'All guests' },
+        ...sortedGuests,
+    ];
 
     const customStyles = {
         container: (provided) => ({
             ...provided,
-            width: '230px',
+            width: '200px',
         }),
         control: (provided) => ({
             ...provided,
@@ -48,27 +65,24 @@ export default function GuestDropdown({ data }) {
         }),
     };
 
-    const guests = [
-        { value: 'all', label: 'All guests' },
-        ...guestsData
-            .map((list) => ({
-                value: list.user_id,
-                label: `${list.first_name} ${list.last_name}`,
-            }))
-            .sort((a, b) => {
-                // Sort by first name then last name
-                const nameA = `${a.label}`.toUpperCase(); // ignore case
-                const nameB = `${b.label}`.toUpperCase(); // ignore case
-                return nameA < nameB ? -1 : nameA > nameB ? 1 : 0; // Sort alphabetically
-            }),
-    ];
+    const handleSelectChange = (selectedOption) => {
+        setSelectedGuestLocal(selectedOption);
+        setSelectedGuest(selectedOption);
+
+        if (selectedOption.value === 'all') {
+            const startOfMonthDate = startOfMonth(new Date());
+            const endOfMonthDate = new Date();
+            setStartDate(startOfMonthDate);
+            setEndDate(endOfMonthDate);
+        }
+    };
 
     return (
         <div>
             <Select
-                options={guests} 
-                value={selectedGuest}
-                onChange={setSelectedGuest}
+                options={guests}
+                value={selectedGuestLocal}
+                onChange={handleSelectChange}
                 styles={customStyles}
                 placeholder="Alla gäster"
                 components={{
