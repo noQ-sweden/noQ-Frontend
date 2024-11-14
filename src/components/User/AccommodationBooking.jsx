@@ -186,7 +186,7 @@ export default function AccommodationBooking() {
                           </div>
                         ))
                       ) : (
-                        <p>Loading rooms...</p>
+                        <p>Laddar rum...</p>
                       )}
                     </div>
                   </div>
