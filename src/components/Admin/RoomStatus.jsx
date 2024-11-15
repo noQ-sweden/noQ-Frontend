@@ -3,9 +3,11 @@ import axios from "../../api/AxiosNoqApi";
 import freePlacesIcon from "./../../assets/images/freePlacesIcon.svg";
 import Panel from "../Common/Panel";
 import Card from "../Common/Card";
+import useUpdate from "./../../hooks/useUpdate";
 
 export default function RoomStatus() {
     const [availableDates, setAvailableDates] = useState({})
+    const { updateData } = useUpdate();
 
     useEffect( () => {
         // /api/host/available/{nr_of_days}
@@ -20,7 +22,7 @@ export default function RoomStatus() {
         .catch((error) => {
         console.log("Error while fetching overview data.", error);
         });
-    }, []);
+    }, [updateData]);
 
     return (
         <Panel title="Lediga platser idag">

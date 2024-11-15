@@ -10,10 +10,16 @@ import IncomingGuests from "../components/Admin/IncomingGuests";
 import RequestList from "./../components/RequestsPage/RequestList";
 import Panel from "./../components/Common/Panel";
 import { GetBookingConfig } from "./../components/RequestsPage/GetBookingConfig";
+import PropTypes from "prop-types";
+import { HostOverviewUpdateProvider } from "./../context/HostOverviewUpdateProvider";
+import useUpdate from "./../hooks/useUpdate";
 
-export default function HostPage() {
+import SEO from "../components/SEO";
+
+export default function HostPage({ first_name }) {
   const { setHost } = useHost();
   const { setHeader } = useHeader();
+  const { updateData } = useUpdate();
 
   useEffect(() => {
     // inside useEffect to avoid update during render
@@ -30,31 +36,40 @@ export default function HostPage() {
       .catch((error) => {
         console.log("Error while fetching host data.", error);
       });
-  }, [setHost, setHeader]);
+  }, [setHost, setHeader, updateData]);
 
   return (
-    <>
-      <div
-        className="grid p-3 grid-cols-5 justify-items-start gap-4"
-        id="HostPage"
-      >
-        <div className="pl-3 flex flex-row gap-4 col-span-3">
-          <div className="flex flex-col">
-            <Overview />
-            <RoomStatus />
-            <WeeklyRoomStatus />
+    <HostOverviewUpdateProvider>
+      <>
+        <SEO
+          title={`Bostället | NoQ - Trygg Plats för att alla förtjänar det`}
+        />
+        <div
+          className="grid p-3 grid-cols-5 justify-items-start gap-4"
+          id="HostPage"
+        >
+          <div className="pl-3 flex flex-row gap-4 col-span-3">
+            <div className="flex flex-col">
+              <Overview />
+              <RoomStatus />
+              <WeeklyRoomStatus />
+            </div>
+          </div>
+          <div className="pl-3 pr-3 flex flex-row gap-4 col-span-2 justify-start">
+            <div className="flex flex-col">
+              <Panel title="Förfrågningar">
+                <RequestList compact={true} config={GetBookingConfig("host")} />
+              </Panel>
+              <IncomingGuests />
+              <OutgoingGuests />
+            </div>
           </div>
         </div>
-        <div className="pl-3 pr-3 flex flex-row gap-4 col-span-2 justify-start">
-          <div className="flex flex-col">
-            <Panel title="Förfrågningar">
-              <RequestList compact={true} config={GetBookingConfig("host")} />
-            </Panel>
-            <IncomingGuests />
-            <OutgoingGuests />
-          </div>
-        </div>
-      </div>
-    </>
+      </>
+    </HostOverviewUpdateProvider>
   );
 }
+
+HostPage.propTypes = {
+  first_name: PropTypes.string,
+};
