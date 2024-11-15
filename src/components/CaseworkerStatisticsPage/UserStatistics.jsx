@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Icons from "./Icons";
+import Pagination from "./Pagination";
+import TotalNightStay from "./TotalNightStay"; 
 
-export default function FetchUserStatistics({ data }) {
+export default function FetchUserStatistics({ data, startDate, endDate }) {
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     const groupedData = {};
-
     data.forEach(user => {
         if (Array.isArray(user.user_stay_counts)) {
             user.user_stay_counts.forEach(stay => {
@@ -32,12 +35,35 @@ export default function FetchUserStatistics({ data }) {
         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
     });
 
+    const totalPages = Math.ceil(groupedDataArray.length / itemsPerPage);
+    const paginatedData = groupedDataArray.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
     return (
-        <div className="overflow-x-auto w-full rounded-xl text-lg h-[780px] shadow-xl">
+        <div className="overflow-x-auto w-full rounded-xl text-lg shadow-xl">
+           <div className="flex justify-between  mt-10 py-6 border-t border-2 w-full">
+           <TotalNightStay 
+                stays={data}
+                startDate={startDate} 
+                endDate={endDate} 
+             />
+
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
+           </div>
             <table className="bg-white border border-gray-300 w-full">
                 <thead className="border-2 border-gray-200 shadow-sm">
                     <tr className="font-medium">
-                        <th className="text-left font-bold py-2 px-4 w-1/4 ">
+                        <th className="text-left font-bold py-2 px-4 w-1/4">
                             <div className="flex items-center space-x-4">
                                 <span>Gäst</span>
                                 <Icons iconName="gäst" />
@@ -64,7 +90,7 @@ export default function FetchUserStatistics({ data }) {
                     </tr>
                 </thead>
                 <tbody className="font-light">
-                    {groupedDataArray.map((item, index) => (
+                    {paginatedData.map((item, index) => (
                         <tr key={index} className="border-b border-gray-200">
                             <td className="text-left py-2 px-4">
                                 {item.user.first_name} {item.user.last_name}
