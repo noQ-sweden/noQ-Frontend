@@ -5,6 +5,7 @@ import BookingRow from './BookingRow'
 //import UndoRow from './UndoRow'
 import PropTypes from "prop-types";
 import Panel from "./../Common/Panel";
+import useUpdate from "./../../hooks/useUpdate";
 
 export default function RequestList({compact=false, config}) {
     RequestList.propTypes = {
@@ -14,7 +15,9 @@ export default function RequestList({compact=false, config}) {
             assignUrl: PropTypes.func.isRequired, // function that returns a URL based on bookingId
             batchAssignUrl: PropTypes.string.isRequired, // function that returns a URL batch assignment
             rejectUrl: PropTypes.func.isRequired, // function that returns a URL based on bookingId
-            undoUrl: PropTypes.func.isRequired // function that returns a URL based on bookingId
+            undoUrl: PropTypes.func.isRequired, // function that returns a URL based on bookingId
+            okButtonText: PropTypes.string.isRequired, // Text for accept button
+            nokButtonText: PropTypes.string.isRequired // Text for decline button
         }).isRequired
     };
 
@@ -22,6 +25,7 @@ export default function RequestList({compact=false, config}) {
     const [undoRequests, setUndoRequests] = useState([]);
     const [uniqueHosts, setUniqueHosts] = useState([]);
     const [checkedBookings, setCheckedBookings] = useState([{}]);
+    const { updateData } = useUpdate();
 
     const removeBookingIdFromAllHosts = (bookingIdToRemove) => {
         setCheckedBookings((prev) => {
@@ -143,7 +147,7 @@ export default function RequestList({compact=false, config}) {
 
     useEffect(() => {
         fetchPendingRequests();
-    }, [fetchPendingRequests]);
+    }, [fetchPendingRequests, updateData]);
 
     if (requests.length === 0) {
         <div>Inga förfrågningar just nu.</div>
@@ -172,9 +176,9 @@ export default function RequestList({compact=false, config}) {
                         <Panel title={hostName}>
                             <div className='
                                 grid
-                                grid-cols-[1fr_2fr_4fr_2fr_2fr_3fr_3fr_3fr_5fr]
-                                py-2
-                                pl-1
+                                grid-cols-[1fr_2fr_3fr_2fr_2fr_2fr_3fr_2fr_2fr_4fr]
+                                py-1
+                                px-4
                                 text-sm
                                 '>
                                 <div className='grid grid-rows-1 items-center text-center'>
@@ -197,6 +201,9 @@ export default function RequestList({compact=false, config}) {
                                     Status
                                 </div>
                                 <div className='grid grid-rows-1 items-center text-left'>
+                                    Flagga
+                                </div>
+                                <div className='grid grid-rows-1 items-center text-left'>
                                     Detaljer
                                 </div>
                                 <div className='grid grid-rows-1 items-center text-left'>
@@ -216,6 +223,8 @@ export default function RequestList({compact=false, config}) {
                                             onCheckboxClick={handleCheckboxOnClick}
                                             onAssignClick={handleAssignOnClick}
                                             onRejectClick={handleRejectOnClick}
+                                            okButtonText={config.okButtonText}
+                                            nokButtonText={config.nokButtonText}
                                         />                
                                     </div>
                                 ))
@@ -242,7 +251,7 @@ export default function RequestList({compact=false, config}) {
                                         checkedBookings[hostId] === undefined
                                         || checkedBookings[hostId].length === 0}
                                     onClick={() => onAssignAllMarkedClick(hostId)}>
-                                    Tilldela alla markerade
+                                    {config.okButtonText} alla markerade
                                 </button>
                             </div>
                         </Panel>
