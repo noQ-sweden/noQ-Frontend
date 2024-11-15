@@ -19,13 +19,16 @@ function addDays(date, nrOfDays) {
 }
 
 function addStay(host, startDate, nrOfNights) {
-    const stay = {
+    return {
         "total_nights": nrOfNights,
         "start_date": startDate,
         "end_date": addDays(startDate, nrOfNights),
         "host": host
     };
-    return stay;
+}
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * (max + 1));
 }
 
 function getNrOfStays(diffInDays) {
@@ -82,14 +85,22 @@ export function generateStays(userId, startDate, endDate) {
         user_stay_counts: []
     };
 
-    const nrOfStays = getNrOfStays(diffInDays);
-    const stayLength = Math.floor(diffInDays / nrOfStays);
+    const nrOfStays = getNrOfStays(diffInDays > 0 ? diffInDays : 1);
     let start = startDate;
 
     for (let i = 0; i < nrOfStays; i++) {
-        const end = addDays(start, stayLength);
+        let total_nights;
+
+        if (diffInDays <= 1) {
+            total_nights = 1;
+        } else {
+            const maxNights = Math.floor(diffInDays / nrOfStays);
+            total_nights = getRandomInt(maxNights) + 1;
+        }
+
+        const end = addDays(start, total_nights);
         const host = getHost(i);
-        const stay = addStay(host, start, stayLength);
+        const stay = addStay(host, start, total_nights);
 
         userStays.user_stay_counts.push(stay);
         start = end;
