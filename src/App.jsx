@@ -16,7 +16,6 @@ import AccommodationDetail from "./components/User/AccommodationDetail";
 import AccommodationBooking from "./components/User/AccommodationBooking";
 import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
-import StatisticsPage from "./components/Caseworker/StatisticsPage";
 
 
 export const VisitorContext = createContext();

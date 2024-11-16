@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import axios from './../api/AxiosNoqApi';
 import StatisticsPageHeder from "../components/CaseworkerStatisticsPage/StatisticsPageHeder"
 
