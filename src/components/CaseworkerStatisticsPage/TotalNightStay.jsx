@@ -1,13 +1,13 @@
 import React from "react";
 import { format } from "date-fns";
+import PropTypes from "prop-types";
 
 export default function TotalNightStay({
   stays = [],
   startDate,
   endDate,
 }) {
-
-  const filteredStays = stays.filter(stay => 
+  const filteredStays = stays.filter(stay =>
     stay.user_stay_counts && stay.user_stay_counts.some(userStay => userStay.total_nights > 0)
   );
 
@@ -43,3 +43,18 @@ export default function TotalNightStay({
     </div>
   );
 }
+
+TotalNightStay.propTypes = {
+  stays: PropTypes.arrayOf(
+    PropTypes.shape({
+      user_stay_counts: PropTypes.arrayOf(
+        PropTypes.shape({
+          total_nights: PropTypes.number,
+        })
+      ),
+    })
+  ),
+  startDate: PropTypes.instanceOf(Date),
+  endDate: PropTypes.instanceOf(Date),
+};
+

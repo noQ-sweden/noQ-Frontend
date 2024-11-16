@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Icons from "./Icons";
 import Pagination from "./Pagination";
 import TotalNightStay from "./TotalNightStay"; 
@@ -113,3 +114,9 @@ export default function FetchUserStatistics({ data, startDate, endDate }) {
         </div>
     );
 }
+
+FetchUserStatistics.propTypes = {
+    data: PropTypes.array.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+};

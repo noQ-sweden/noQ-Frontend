@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
-import { startOfMonth, endOfMonth } from 'date-fns';
-
+import { startOfMonth } from 'date-fns';
+import PropTypes from 'prop-types';
 export default function GuestDropdown({ data, setSelectedGuest, setStartDate, setEndDate }) {
     const [selectedGuestLocal, setSelectedGuestLocal] = useState(null);
 
@@ -92,3 +92,10 @@ export default function GuestDropdown({ data, setSelectedGuest, setStartDate, se
         </div>
     );
 }
+
+GuestDropdown.propTypes = {
+    data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+    setSelectedGuest: PropTypes.func.isRequired,
+    setStartDate: PropTypes.func.isRequired,
+    setEndDate: PropTypes.func.isRequired,
+};

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const IncheckadeButtons = ({ setToday, setThisWeek, setThisMonth }) => {
     const [selectedButton, setSelectedButton] = useState(null);
@@ -45,6 +46,12 @@ const IncheckadeButtons = ({ setToday, setThisWeek, setThisMonth }) => {
             })}
         </div>
     );
+};
+
+IncheckadeButtons.propTypes = {
+    setToday: PropTypes.func.isRequired,
+    setThisWeek: PropTypes.func.isRequired,
+    setThisMonth: PropTypes.func.isRequired,
 };
 
 export default IncheckadeButtons;

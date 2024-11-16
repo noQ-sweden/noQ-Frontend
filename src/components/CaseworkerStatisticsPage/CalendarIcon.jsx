@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const CalendarIcon = ({ fill = "#AFAFAF", className = "" }) => {
     return (
@@ -18,6 +19,11 @@ const CalendarIcon = ({ fill = "#AFAFAF", className = "" }) => {
             />
         </svg>
     );
+};
+
+CalendarIcon.propTypes = {
+    fill: PropTypes.string,
+    className: PropTypes.string,
 };
 
 export default CalendarIcon;
