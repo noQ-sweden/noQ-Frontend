@@ -14,13 +14,14 @@ const UserManagementPage = () => {
 
   // Fetch users when the component mounts
   useEffect(() => {
-    axios.get ('api/caseworker/user/all')
-      .then ((response) => {
+    axios
+      .get("api/caseworker/user/all")
+      .then((response) => {
         if (response.status === 200) {
           const fetchedUsers = response?.data;
           setUsers(fetchedUsers);
         } else {
-          console.log('Error while fetching overview data.');
+          console.log("Error while fetching overview data.");
         }
       })
       .catch((error) => {
@@ -54,10 +55,11 @@ const UserManagementPage = () => {
     try {
       if (selectedUser) {
         // Update user
-        const url = 'api/caseworker/user/' + formData.id;
+        const url = "api/caseworker/user/" + formData.id;
         console.log(url);
-        axios.put (url, formData)
-          .then ((response) => {
+        axios
+          .put(url, formData)
+          .then((response) => {
             if (response.status === 200) {
               setUsers((prevUsers) =>
                 prevUsers.map((user) =>
@@ -66,7 +68,7 @@ const UserManagementPage = () => {
               );
               alert("Användare uppdaterad framgångsrikt!");
             } else {
-              console.log('Error while fetching overview data.');
+              console.log("Error while fetching overview data.");
             }
           })
           .catch((error) => {
@@ -75,13 +77,14 @@ const UserManagementPage = () => {
       } else {
         console.log("Creating new user");
         // Create new user
-        axios.post ('api/caseworker/user', formData)
-          .then ((response) => {
+        axios
+          .post("api/caseworker/user", formData)
+          .then((response) => {
             if (response.status === 200) {
               setUsers((prevUsers) => [...prevUsers, formData]);
               alert("Användare skapad framgångsrikt!");
             } else {
-              console.log('Error while fetching overview data.');
+              console.log("Error while fetching overview data.");
             }
           })
           .catch((error) => {
@@ -97,14 +100,15 @@ const UserManagementPage = () => {
 
   // Handle deleting a user
   const handleDeleteUser = async (userId) => {
-    axios.delete ('api/caseworker/user/' + userId)
-      .then ((response) => {
+    axios
+      .delete("api/caseworker/user/" + userId)
+      .then((response) => {
         if (response.status === 200) {
           setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
           alert("Användare raderad framgångsrikt!");
           closeForm();
         } else {
-          console.log('Error while deleting user.');
+          console.log("Error while deleting user.");
         }
       })
       .catch((error) => {
@@ -115,7 +119,9 @@ const UserManagementPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Hantera användare</h1>
+      <h1 className="text-2xl font-bold mb-6 border-b-2 pb-3  border-gray-200 ">
+        Hantera användare
+      </h1>
 
       {/* User List */}
       {isUserListVisible && (

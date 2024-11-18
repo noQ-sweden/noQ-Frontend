@@ -24,7 +24,6 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
     requirements: "",
   });
 
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [passwordMatchError, setPasswordMatchError] = useState(false);
 
   // Populate form with user data if editing or clear it for new user creation
@@ -75,12 +74,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
     const { name, value } = e.target;
     const updatedData = {
       ...formData,
-      [name]:
-        name === "postcode"
-          ? value
-            ? parseInt(value, 10)
-            : ""
-          : value,
+      [name]: name === "postcode" ? (value ? parseInt(value, 10) : "") : value,
     };
 
     setFormData(updatedData);
@@ -113,22 +107,9 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
   };
 
   return (
-    <div
-      className="min-h-screen py-20"
-      style={{ backgroundImage: "linear-gradient(115deg, #9F7AEA, #FEE2FE)" }}
-    >
-      <div className="container mx-auto ">
-        <div className="w-full py-16 px-12 bg-white bg-opacity-80 relative z-10">
-          <div
-            className="w-full md:w-8/12 bg-white rounded-xl mx-auto p-6 shadow-lg overflow-hidden"
-            style={{
-              backgroundImage: `url(${noQicon})`,
-              backgroundSize: "contain", // Adjust size (you can use "cover", "contain", or a specific value)
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              opacity: "0.1",
-            }}
-          />
+    <div className="min-h-screen rounded-xl border-2 border-gray-200">
+      <div className="container mx-auto rounded-xl overflow-hidden">
+        <div className="w-full py-16 px-12 bg-white bg-opacity-80 relative z-10 rounded-xl">
           <form onSubmit={handleSubmit}>
             {/* Hidden field for User ID */}
             <input type="hidden" name="id" value={formData.id} />
@@ -160,33 +141,34 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                     value={formData.unokod}
                     onChange={handleChange}
                     placeholder="UNO-Kod"
-                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                    className="border rounded border-gray-400 py-1 px-3 w-full col-span-1"
                   />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-2 mt-4">
+                    <input
+                      type="password"
+                      name="password"
+                      autoComplete="off"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Lösenord"
+                      required={!isEditing}
+                      className="border rounded border-gray-400 py-1 px-3 w-full"
+                    />
 
-                  <input
-                    type="password"
-                    name="password"
-                    autoComplete="off"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="Lösenord"
-                    required={!isEditing}
-                    className="border rounded border-gray-400 py-1 px-3 w-full"
-                  />
-
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    autoComplete="off"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="Bekräfta lösenord"
-                    required={!isEditing}
-                    className="border rounded border-gray-400 py-1 px-3 w-full"
-                  />
-                  {passwordMatchError && (
-                    <p className="text-red-500">Lösenorden matchar inte.</p>
-                  )}
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      autoComplete="off"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      placeholder="Bekräfta lösenord"
+                      required={!isEditing}
+                      className="border rounded border-gray-400 py-1 px-3 w-full"
+                    />
+                    {passwordMatchError && (
+                      <p className="text-red-500">Lösenorden matchar inte.</p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -276,52 +258,20 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                   />
                 </div>
               </div>
-              {/* <div className="mt-5">
-                <input
-                  type="number"
-                  name="day_of_birth"
-                  value={formData.day_of_birth}
-                  onChange={handleChange}
-                  placeholder="Födelsedag"
-                  className="border rounded border-gray-400 py-1 px-3 w-full"
-                />
-              </div> */}
-
-              <div className="mt-5">
-                {/* <div className="col-span-2"> */}
-                <input
-                  type="checkbox"
-                  checked={agreedToTerms}
-                  onChange={() => setAgreedToTerms(!agreedToTerms)}
-                  className="border border-gray-400"
-                />
-                <span className="px-2">
-                  Jag godkänner
-                  <a href="" className="text-blue-500 font-semibold">
-                    {" "}
-                    villkoren för
-                  </a>
-                  ,
-                  <a href="" className="text-blue-500 font-semibold">
-                    {" "}
-                    sekretess & villkor.
-                  </a>
-                </span>
-              </div>
-              <div className="mt-5 flex space-x-4">
+              <div className="mt-5 flex justify-end">
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded w-1/2"
+                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded w-1/6"
                 >
                   {isEditing ? "Update" : "Skapa"}
                 </button>
-                <button
+                {/* <button
                   type="button"
                   onClick={onClose} // Call onClose when "Close" is clicked
                   className="bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded w-1/2"
                 >
                   Stäng
-                </button>
+                </button> */}
               </div>
             </div>
           </form>
