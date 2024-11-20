@@ -38,6 +38,10 @@ Password: P4ssw0rd_for_Te5t+User
 Caseworker:
 email: user.caseworker@test.nu
 Password: P4ssw0rd_for_Te5t+User
+
+Volunteer:
+email: user.volunteer@test.nu
+Password: P4ssw0rd_for_Te5t+User
 ````
 
 
