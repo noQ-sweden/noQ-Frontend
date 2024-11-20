@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import CustomDropdown from "./CustomDropdownGender";
-import noQicon from "../assets/images/noQiconNoQGreen.svg";
+import CustomDropdownGender from "./CustomDropdownGender";
+import CustomDropdownRegion from "./CustomDropdownRegion";
 import PropTypes from "prop-types";
 
 const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
@@ -66,7 +66,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
         requirements: "",
       });
 
-      setAgreedToTerms(false);
+      /* setAgreedToTerms(false); */
     }
   }, [isEditing, user]);
 
@@ -97,10 +97,10 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
         return;
       }
 
-      if (!agreedToTerms) {
+      /* if (!agreedToTerms) {
         alert("Snäll och godkänn villkoren");
         return;
-      }
+      } */
       onSubmit(formData);
     }
     onSubmit(formData);
@@ -177,7 +177,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                 Personlig information
               </h1>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-1 mb-6">
-                <CustomDropdown
+                <CustomDropdownGender
                   name="gender"
                   value={formData.gender}
                   onChange={(value) =>
@@ -211,23 +211,16 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
               <div className="">
                 <h1 className="text-lg font-semibold mb-3">Addressupgifter</h1>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mb-6">
-                  <input
-                    type="text"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleChange}
-                    placeholder="Stad"
-                    required
-                    className="border rounded border-gray-400 py-1 px-3 w-full"
-                  />
-
-                  <input
-                    type="text"
+                  <CustomDropdownRegion
                     name="region"
                     value={formData.region}
-                    onChange={handleChange}
-                    placeholder="Region"
-                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                    onChange={(value) =>
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        region: value,
+                      }))
+                    }
+                    required={true}
                   />
 
                   <input

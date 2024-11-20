@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const CustomDropdown = ({ name, value, onChange, requied }) => {
+const CustomDropdownGender = ({ value, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const options = ["Man", "Kvinna"];
 
@@ -36,11 +36,9 @@ const CustomDropdown = ({ name, value, onChange, requied }) => {
   );
 };
 
-CustomDropdown.propTypes = {
-  name: PropTypes.string.isRequired,
+CustomDropdownGender.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  requied: PropTypes.bool,
 };
 
-export default CustomDropdown;
+export default CustomDropdownGender;
