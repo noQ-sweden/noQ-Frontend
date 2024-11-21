@@ -1,21 +1,23 @@
-import { createContext } from "react";
-import { Routes, Route } from "react-router-dom";
-import RequireLogin from "./components/RequireLogin";
-import Layout from "./components/Layouts/Layout";
-import LoginPage from "./pages/LoginPage";
-import CaseworkerPage from "./pages/CaseworkerPage";
-import HostPage from "./pages/HostPage";
-import UserPage from "./pages/UserPage";
-import UserLandingPage from "./pages/UserLandingPage";
-import RegistrationPage from "./pages/RegistrationPage";
-import ErrorPage from "./pages/ErrorPage";
-import UnauthorizedPage from "./pages/UnauthorizedPage";
-import RequestPageView from "./components/RequestsPage/RequestPageView";
-import RoomPage from "./pages/RoomPage";
-import AccommodationDetail from "./components/User/AccommodationDetail";
-import AccommodationBooking from "./components/User/AccommodationBooking";
-import Bookings from "./components/User/Bookings";
-import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
+
+import { createContext } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import RequireLogin from './components/RequireLogin'
+import Layout from './components/Layouts/Layout'
+import LoginPage from './pages/LoginPage'
+import CaseworkerPage from './pages/CaseworkerPage'
+import HostPage from './pages/HostPage'
+import UserPage from './pages/UserPage'
+import UserLandingPage from './pages/UserLandingPage'
+import RegistrationPage from './pages/RegistrationPage'
+import ErrorPage from './pages/ErrorPage'
+import UnauthorizedPage from './pages/UnauthorizedPage'
+import RequestPageView from './components/RequestsPage/RequestPageView'
+import StatisticsPage from './components/Caseworker/StatisticsPage'
+import RoomPage from './pages/RoomPage'
+import AccommodationDetail from './components/User/AccommodationDetail'
+import AccommodationBooking from './components/User/AccommodationBooking'
+import Bookings from './components/User/Bookings'
+import VolunteerPage from './pages/VolunteerPage'
 
 
 export const VisitorContext = createContext();
@@ -51,6 +53,11 @@ function App() {
           <Route path="caseworker" element={<CaseworkerPage />} />
           <Route path="caseworker/requests" element={<RequestPageView userGroup="caseworker" />} />
           <Route path="caseworker/statistics" element={<CaseworkerStatisticsPage userGroup="caseworker" />} />
+        </Route>
+
+        {/* Volunteer pages */}
+        <Route element={<RequireLogin allowedGroups={['volunteer']} />}>
+          <Route path="volunteer" element={<VolunteerPage />} />
         </Route>
 
         {/* Invalid path */}

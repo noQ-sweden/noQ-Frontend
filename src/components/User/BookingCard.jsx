@@ -1,10 +1,11 @@
 import { getStatus } from '../../utility/utilityFunctions';
 import PropTypes from "prop-types";
 
-export default function BookingCard({ booking }){
+export default function BookingCard({ booking, onDelete }){
     
     BookingCard.propTypes = {
         booking: PropTypes.any.isRequired,
+        onDelete: PropTypes.func.isRequired,
     };
 
     const getGradient = () => {
@@ -44,8 +45,25 @@ export default function BookingCard({ booking }){
                             h-10
                             rounded
                             focus:outline-none
-                            focus:shadow-outline">
+                            focus:shadow-outline
+                            mr-3">
                             Bekräfta
+                        </button>
+                        <button
+                          onClick={onDelete}
+                          className="
+                            bg-red-600
+                            hover:bg-red-700
+                            text-white
+                            font-semibold
+                            text-m    
+                            w-48
+                            h-10
+                            rounded
+                            focus:outline-none
+                            focus:shadow-outline
+                            mt-3">
+                            Avboka
                         </button>
                     </div>
                 )}
