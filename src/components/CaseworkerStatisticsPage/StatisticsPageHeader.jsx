@@ -7,7 +7,7 @@ import SearchBtn from './SearchBtn';
 import FetchUserStatistics from './UserStatistics';
 import { startOfWeek, endOfWeek, startOfMonth} from 'date-fns';
 
-const StatisticsPageHeder = () => {
+const StatisticsPageHeader = () => {
     const [startDate, setStartDate] = useState(startOfMonth(new Date())); 
     const [endDate, setEndDate] = useState(new Date()); 
     const [data, setData] = useState([]);
@@ -128,4 +128,4 @@ const StatisticsPageHeder = () => {
     );
 };
 
-export default StatisticsPageHeder;
+export default StatisticsPageHeader;
