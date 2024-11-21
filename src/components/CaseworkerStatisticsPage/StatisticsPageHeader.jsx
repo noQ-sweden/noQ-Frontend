@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-import axios from './../../api/AxiosNoqApi';
+import axios from '../../api/AxiosNoqApi';
 import GuestDropdown from './GuestDropdown';
 import IncheckadeButtons from './IncheckadeButtons';
 import { StartdatumInput, SlutdatumInput } from './DatePicker';
@@ -67,10 +67,10 @@ const StatisticsPageHeder = () => {
         : data;
 
     return (
-        <div className="py-6 px-6">
+        <div className="py-6 px-6 mx-6">
             <div className="text-xl font-semibold font-sans leading-7">Användningsrapport av gäst</div>
-            <div className="mb-6 mt-6 w-full h-px bg-secondary-soft"></div>
-            <div className="flex flex-row gap-4 items-center justify-between ">
+            <div className="mb-6 mt-6  h-px bg-secondary-soft"></div>
+            <div className="flex flex-row gap-4 items-center justify-between">
                 <div className="flex flex-col">
                     <div className="font-sans text-sm font-semibold leading-5 tracking-normal text-left mb-2">Gäst</div>
                     <GuestDropdown

@@ -1,6 +1,6 @@
 import React, { useEffect} from 'react';
 import axios from './../api/AxiosNoqApi';
-import StatisticsPageHeder from "../components/CaseworkerStatisticsPage/StatisticsPageHeder"
+import StatisticsPageHeader from "../components/CaseworkerStatisticsPage/StatisticsPageHeader"
 
 const CaseworkerStatisticsPage = () => {
 
@@ -20,7 +20,7 @@ const CaseworkerStatisticsPage = () => {
     }, []);
 
     return (
-      <StatisticsPageHeder/>
+      <StatisticsPageHeader/>
     );
 };
 

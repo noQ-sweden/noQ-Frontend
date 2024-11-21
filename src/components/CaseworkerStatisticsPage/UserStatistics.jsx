@@ -47,8 +47,8 @@ export default function FetchUserStatistics({ data, startDate, endDate }) {
     };
 
     return (
-        <div className="overflow-x-auto w-full rounded-xl text-lg shadow-xl">
-           <div className="flex justify-between  mt-10 py-6 border-t border-2 w-full">
+        <div className="overflow-x-auto w-full text-lg rounded-lg">
+           <div className="flex justify-between mt-10 py-6 border-t-2 w-full">
            <TotalNightStay 
                 stays={data}
                 startDate={startDate} 
@@ -61,8 +61,9 @@ export default function FetchUserStatistics({ data, startDate, endDate }) {
                 onPageChange={handlePageChange}
             />
            </div>
-            <table className="bg-white border border-gray-300 w-full">
-                <thead className="border-2 border-gray-200 shadow-sm">
+           <div className="rounded-t-md border-2 border-gray-300 overflow-hidden">
+            <table className="w-full">
+                <thead className="border-b-2 border-gray-300">
                     <tr className="font-medium">
                         <th className="text-left font-bold py-2 px-4 w-1/4">
                             <div className="flex items-center space-x-4">
@@ -92,7 +93,7 @@ export default function FetchUserStatistics({ data, startDate, endDate }) {
                 </thead>
                 <tbody className="font-light">
                     {paginatedData.map((item, index) => (
-                        <tr key={index} className="border-b border-gray-200">
+                        <tr key={index} className="border-b border-gray-400">
                             <td className="text-left py-2 px-4">
                                 {item.user.first_name} {item.user.last_name}
                             </td>
@@ -111,6 +112,7 @@ export default function FetchUserStatistics({ data, startDate, endDate }) {
                     ))}
                 </tbody>
             </table>
+            </div>
         </div>
     );
 }
