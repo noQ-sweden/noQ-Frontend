@@ -119,9 +119,16 @@ const UserManagementPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6 border-b-2 pb-3  border-gray-200 ">
-        Hantera användare
-      </h1>
+      <div className="flex justify-between items-center border-b-2 border-gray-200 mb-6 pb-3">
+        <h1 className="text-2xl font-bold  ">Hantera användare</h1>
+
+        <button
+          onClick={openCreateForm}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Skapa ny användare
+        </button>
+      </div>
 
       {/* User List */}
       {isUserListVisible && (

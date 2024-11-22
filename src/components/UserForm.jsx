@@ -194,7 +194,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Mail"
+                  placeholder="E-post"
                   className="border rounded border-gray-400 py-1 px-3 w-1/3"
                 />
 
@@ -203,7 +203,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="Telefon nummer"
+                  placeholder="Telefon"
                   className="border rounded border-gray-400 py-1 px-3 w-1/3"
                 />
               </div>
@@ -223,7 +223,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                     required={true}
                   />
 
-                  <input
+                  {/* <input
                     type="text"
                     name="street"
                     value={formData.street}
@@ -248,7 +248,7 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                     onChange={handleChange}
                     placeholder="Land"
                     className="border rounded border-gray-400 py-1 px-3 w-full"
-                  />
+                  /> */}
                 </div>
               </div>
               <div className="mt-5 flex justify-end">

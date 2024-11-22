@@ -98,7 +98,7 @@ const CustomDropdownRegion = ({ value, onChange }) => {
           <ul
             className="absolute top-full left-0 w-full bg-white border border-gray-400 rounded mt-1 shadow-lg z-10"
             style={{
-              maxHeight: "150px",
+              maxHeight: "100px",
               overflowY: "auto",
               paddingBottom: "8px",
             }}
@@ -128,7 +128,7 @@ const CustomDropdownRegion = ({ value, onChange }) => {
             <ul
               className="absolute top-full left-0 w-full bg-white border border-gray-400 rounded mt-1 shadow-lg z-10"
               style={{
-                maxHeight: "150px",
+                maxHeight: "100px",
                 overflowY: "auto",
                 paddingBottom: "8px",
               }}

@@ -13,7 +13,7 @@ const CustomDropdownGender = ({ value, onChange }) => {
   return (
     <div className="relative mt-5">
       <div
-        className="border rounded border-gray-400 py-1 px-2 w-1/3 cursor-pointer"
+        className="border rounded border-gray-400 py-1 px-2 w-1/3 cursor-pointer "
         onClick={() => setIsOpen(!isOpen)}
       >
         {value || "Välj Kön "}
