@@ -120,14 +120,20 @@ const UserManagementPage = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center border-b-2 border-gray-200 mb-6 pb-3">
-        <h1 className="text-2xl font-bold  ">Hantera användare</h1>
-
-        <button
-          onClick={openCreateForm}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Skapa ny användare
-        </button>
+        {(isUserListVisible && (
+          <h1 className="text-2xl font-bold">Hantera användare</h1>
+        )) ||
+          (isFormVisible && (
+            <h1 className="text-2xl font-bold">Skapa konto för användare</h1>
+          ))}
+        {!isFormVisible && (
+          <button
+            onClick={openCreateForm}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Skapa ny användare
+          </button>
+        )}
       </div>
 
       {/* User List */}

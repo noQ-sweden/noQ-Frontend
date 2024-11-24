@@ -115,101 +115,153 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
             <input type="hidden" name="id" value={formData.id} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <h1 className="text-lg font-semibold mb-3">Kontouppgifter</h1>
+                <h1 className="text-lg font-semibold mb-1">Kontouppgifter</h1>
+                <p className="text-xs font-thin mb-3 mt-0">
+                  Alla fält markerade med asterisk{" "}
+                  <span className="text-red-500">*</span> är obligatoriska
+                </p>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mb-6">
-                  <input
-                    type="text"
-                    name="first_name"
-                    value={formData.first_name}
-                    onChange={handleChange}
-                    placeholder="Förnamn"
-                    required
-                    className="border rounded border-gray-400 py-1 px-2"
-                  />
-                  <input
-                    type="text"
-                    name="last_name"
-                    value={formData.last_name}
-                    onChange={handleChange}
-                    placeholder="Efternamn"
-                    className="border rounded border-gray-400 py-1 px-2"
-                  />
-
-                  <input
-                    type="text"
-                    name="unokod"
-                    value={formData.unokod}
-                    onChange={handleChange}
-                    placeholder="UNO-Kod"
-                    className="border rounded border-gray-400 py-1 px-3 w-full col-span-1"
-                  />
+                  <div>
+                    <label className="block text-md font-semibold text-gray-700 mb-1">
+                      Förnamn <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="first_name"
+                      value={formData.first_name}
+                      onChange={handleChange}
+                      placeholder="Förnamn"
+                      required
+                      className="border rounded border-gray-400 py-1 px-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-md font-semibold text-gray-700 mb-1">
+                      Efternamn <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="last_name"
+                      value={formData.last_name}
+                      onChange={handleChange}
+                      placeholder="Efternamn"
+                      className="border rounded border-gray-400 py-1 px-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-md font-semibold text-gray-700 mb-1">
+                      UNO-kod <samp className="text-red-500">*</samp>
+                    </label>
+                    <input
+                      type="text"
+                      name="unokod"
+                      value={formData.unokod}
+                      onChange={handleChange}
+                      placeholder="UNO-Kod"
+                      className="border rounded border-gray-400 py-1 px-3 w-full col-span-1"
+                    />
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-2 mt-4">
-                    <input
-                      type="password"
-                      name="password"
-                      autoComplete="off"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="Lösenord"
-                      required={!isEditing}
-                      className="border rounded border-gray-400 py-1 px-3 w-full"
-                    />
+                    <div>
+                      <label className="block text-md font-semibold text-gray-700 mb-1">
+                        Lösenord <span className="text-red-500">*</span>{" "}
+                      </label>
+                      <input
+                        type="password"
+                        name="password"
+                        autoComplete="off"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Lösenord"
+                        required={!isEditing}
+                        className="border rounded border-gray-400 py-1 px-3 w-full"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-md font-semibold text-gray-700 mb-1">
+                        Bekråfta Lösenord{" "}
+                        <span className="text-red-500">*</span>
+                      </label>
 
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      autoComplete="off"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      placeholder="Bekräfta lösenord"
-                      required={!isEditing}
-                      className="border rounded border-gray-400 py-1 px-3 w-full"
-                    />
-                    {passwordMatchError && (
-                      <p className="text-red-500">Lösenorden matchar inte.</p>
-                    )}
+                      <input
+                        type="password"
+                        name="confirmPassword"
+                        autoComplete="off"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        placeholder="Bekräfta lösenord"
+                        required={!isEditing}
+                        className="border rounded border-gray-400 py-1 px-3 w-full"
+                      />
+                      {passwordMatchError && (
+                        <p className="text-red-500">Lösenorden matchar inte.</p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div className="">
-              <h1 className="text-lg font-semibold mb-3">
+              <h1 className="text-lg font-semibold mb-1">
                 Personlig information
               </h1>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-1 mb-6">
-                <CustomDropdownGender
-                  name="gender"
-                  value={formData.gender}
-                  onChange={(value) =>
-                    setFormData((prevData) => ({
-                      ...prevData,
-                      gender: value,
-                    }))
-                  }
-                  required={true}
-                />
+              <p className="text-xs font-thin mb-3 mt-0">
+                Alla fält markerade med asterisk{" "}
+                <span className="text-red-500">*</span> är obligatoriska
+              </p>
 
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="E-post"
-                  className="border rounded border-gray-400 py-1 px-3 w-1/3"
-                />
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-1 mb-6">
+                <div>
+                  <label className="block text-md font-semibold text-gray-700 mb-0">
+                    Kön <span>*</span>
+                  </label>
 
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Telefon"
-                  className="border rounded border-gray-400 py-1 px-3 w-1/3"
-                />
+                  <CustomDropdownGender
+                    name="gender"
+                    value={formData.gender}
+                    onChange={(value) =>
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        gender: value,
+                      }))
+                    }
+                    required={true}
+                  />
+                </div>
+                <div>
+                  <label className="block text-md font-semibold text-gray-700 mb-1">
+                    E-post
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="E-post"
+                    className="border rounded border-gray-400 py-1 px-3 w-1/3"
+                  />
+                </div>
+                <div>
+                  <label className="block text-md font-semibold text-gray-700 mb-1">
+                    Telefon
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Telefon"
+                    className="border rounded border-gray-400 py-1 px-3 w-1/3"
+                  />
+                </div>
               </div>
 
               <div className="">
-                <h1 className="text-lg font-semibold mb-3">Addressupgifter</h1>
+                <h1 className="text-lg font-semibold mb-1">Addressupgifter</h1>
+                <p className="text-xs font-thin mb-3 mt-0">
+                  Alla fält markerade med asterisk{" "}
+                  <span className="text-red-500">*</span> är obligatoriska
+                </p>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mb-6">
                   <CustomDropdownRegion
                     name="region"
@@ -222,33 +274,20 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                     }
                     required={true}
                   />
-
-                  {/* <input
+                </div>
+                <div>
+                  <label className="block text-md font-semibold text-gray-700 mb-1">
+                    Krav
+                  </label>
+                  <textarea
+                    rows="4"
                     type="text"
-                    name="street"
-                    value={formData.street}
+                    name="requirement"
+                    value={formData.requirements}
                     onChange={handleChange}
-                    placeholder="Gata"
-                    className="border rounded border-gray-400 py-1 px-3 w-full"
+                    placeholder="Skriv här"
+                    className="border rounded text-sm border-gray-400 bg-gray-50 p-2.5 px-3 w-3/4"
                   />
-
-                  <input
-                    type="string"
-                    name="postcode"
-                    value={formData.postcode}
-                    onChange={handleChange}
-                    placeholder="Post kod"
-                    className="border rounded border-gray-400 py-1 px-3 w-full"
-                  />
-
-                  <input
-                    type="text"
-                    name="country"
-                    value={formData.country}
-                    onChange={handleChange}
-                    placeholder="Land"
-                    className="border rounded border-gray-400 py-1 px-3 w-full"
-                  /> */}
                 </div>
               </div>
               <div className="mt-5 flex justify-end">
@@ -256,15 +295,8 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded w-1/6"
                 >
-                  {isEditing ? "Update" : "Skapa"}
+                  {isEditing ? "Updatera" : "Skapa Konto"}
                 </button>
-                {/* <button
-                  type="button"
-                  onClick={onClose} // Call onClose when "Close" is clicked
-                  className="bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded w-1/2"
-                >
-                  Stäng
-                </button> */}
               </div>
             </div>
           </form>
