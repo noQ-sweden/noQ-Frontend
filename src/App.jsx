@@ -11,12 +11,11 @@ import RegistrationPage from "./pages/RegistrationPage";
 import ErrorPage from "./pages/ErrorPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import RequestPageView from "./components/RequestsPage/RequestPageView";
-import StatisticsPage from "./components/Caseworker/StatisticsPage";
 import RoomPage from "./pages/RoomPage";
 import AccommodationDetail from "./components/User/AccommodationDetail";
 import AccommodationBooking from "./components/User/AccommodationBooking";
 import Bookings from "./components/User/Bookings";
-import UserManagementPage from "./pages/UserManagementPage";
+import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
 
 export const VisitorContext = createContext();
 
@@ -24,13 +23,13 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* Public pages */}
+        {/* Public Pages */}
         <Route path="/" element={<LoginPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegistrationPage />} />
         <Route path="unauthorized" element={<UnauthorizedPage />} />
 
-        {/* User pages */}
+        {/* User Pages */}
         <Route element={<RequireLogin allowedGroups={["user"]} />}>
           <Route path="user" element={<UserPage />} />
           <Route path="user-landing" element={<UserLandingPage />} />
@@ -41,7 +40,8 @@ function App() {
           />
           <Route path="user/requests" element={<Bookings />} />
         </Route>
-        {/* Host pages */}
+
+        {/* Host Pages */}
         <Route element={<RequireLogin allowedGroups={["host"]} />}>
           <Route path="host" element={<HostPage />} />
           <Route
@@ -50,22 +50,20 @@ function App() {
           />
           <Route path="host/products" element={<RoomPage />} />
         </Route>
-        {/* Host pages */}
+
+        {/* Caseworker Pages */}
         <Route element={<RequireLogin allowedGroups={["caseworker"]} />}>
           <Route path="caseworker" element={<CaseworkerPage />} />
-          <Route
-            path="caseworker/user-management"
-            element={<UserManagementPage />}
-          />
           <Route
             path="caseworker/requests"
             element={<RequestPageView userGroup="caseworker" />}
           />
           <Route
             path="caseworker/statistics"
-            element={<StatisticsPage userGroup="caseworker" />}
+            element={<CaseworkerStatisticsPage userGroup="caseworker" />}
           />
         </Route>
+
         {/* Invalid path */}
         <Route path="*" element={<ErrorPage />} />
       </Route>

@@ -21,6 +21,18 @@ export default function Bookings() {
             console.error("Error while fetching bookings.", error);
         }
     }, [setBookings]);
+    
+    const deleteBooking = useCallback(async (bookingId) => {
+      try {
+          const response = await axios.delete(`/api/user/bookings/${bookingId}`);
+          if (response.status === 200) {
+              // Remove deleted booking from state
+              setBookings(prevBookings => prevBookings.filter(booking => booking.id !== bookingId));
+          }
+      } catch (error) {
+          console.error("Error deleting booking.", error);
+      }
+    }, []);
 
     useEffect(() => {
         fetchBookings();
@@ -40,7 +52,7 @@ export default function Bookings() {
                 { bookings.map(booking => {                
                     return (
                         <div key={booking.id}>
-                            <BookingCard booking={booking} />
+                            <BookingCard booking={booking} onDelete={() => deleteBooking(booking.id)} />
                         </div>
                     )}
                 )}

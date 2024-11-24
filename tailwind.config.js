@@ -16,6 +16,7 @@ export default {
         "green-noQ": "#255B57", // used as contrast in navigation
         "green-noQ-comp": "#f7f6f4", //Complementary color to green-noQ
         "grey-button-border": "#64748B",
+        "secondary-soft":"#E5E7EB",
 
         //Overview component
         "overview-border": "f1f1f1",

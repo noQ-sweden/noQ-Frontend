@@ -1,12 +1,20 @@
 import axios from "axios";
 import { bookings } from "./bookings";
 import { generateAvailablePlaces } from "./hostFrontPage";
+import { generateStays, generateStaysMultipleUsers } from "./userStays";
 import { countBookings } from "./countBookings";
 import AxiosMockAdapter from "axios-mock-adapter";
 import { products } from "./products.js";
-import { addUser, deleteUser, updateUser, getUsers, initUserList } from "./users.js";
+import {
+  addUser,
+  deleteUser,
+  updateUser,
+  getUsers,
+  initUserList,
+} from "./users.js";
 import { getAvailableShelters } from "./getAvailableShelters"; // Import the function
 import { availableProducts } from "./caseworkerFrontPage.js";
+import { userTest } from "./users.js";
 
 export const axiosMockNoqApi = axios.create({
   headers: {
@@ -87,6 +95,16 @@ noqMockApi.onPost("api/login/").reply((config) => {
     login.first_name = "User";
     login.last_name = "Caseworker";
     initUserList();
+    return [200, JSON.stringify(login)];
+  }
+  // Volunteer: user.volunteer@test.nu
+  else if (
+    data.email == "user.volunteer@test.nu" &&
+    data.password == "P4ssw0rd_for_Te5t+User"
+  ) {
+    login.groups = ["volunteer"];
+    login.first_name = "User";
+    login.last_name = "Volunteer";
     return [200, JSON.stringify(login)];
   }
   // Failed login
@@ -314,6 +332,27 @@ noqMockApi.onPatch("api/caseworker/bookings/batch/accept").reply((config) => {
   return [200, JSON.stringify({ message: "Bulk update successful" })];
 });
 
+const caseworkerStatisticsUrl = "api/caseworker/guests/nights/count";
+const urlUserStatistics = new RegExp(
+  `^${caseworkerStatisticsUrl}/\\d+/\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}$`
+);
+noqMockApi.onGet(urlUserStatistics).reply((config) => {
+  const params = config.url.split("/");
+  const stays = generateStays(params[5], params[6], params[7]);
+
+  return [200, JSON.stringify(stays)]; //userId, startDate, endDate
+});
+
+const urlStatistics = new RegExp(
+  `${caseworkerStatisticsUrl}/\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}`
+);
+noqMockApi.onGet(urlStatistics).reply((config) => {
+  const params = config.url.split("/");
+  const stays = generateStaysMultipleUsers(params[5], params[6]);
+
+  return [200, JSON.stringify(stays)];
+});
+
 /*
     Below APIs are relate to host information
 */
@@ -404,6 +443,135 @@ noqMockApi.onGet("/api/caseworker/available_all").reply(() => {
   return [200, JSON.stringify(availableProducts)];
 });
 
+noqMockApi.onGet("/api/volunteer/available").reply((config) => {
+  const { selected_date, host_id } = config.params || {};
+
+  // Fetch the full list of available shelters with products
+  let availableShelters = getAvailableShelters();
+
+  // Filter by host_id if provided
+  if (host_id) {
+    availableShelters = availableShelters.filter(
+      (shelter) => shelter.host.id === parseInt(host_id)
+    );
+  }
+
+  // Filter by selected_date if provided
+  if (selected_date) {
+    availableShelters = availableShelters
+      .map((shelter) => ({
+        ...shelter,
+        products: shelter.products
+          .map((product) => {
+            // Set `places_left` based on mock availability for the date
+            // Assuming each product has a `dates` array with availability records
+            const availability = product.availability?.find(
+              (avail) => avail.date === selected_date
+            );
+            return {
+              ...product,
+              places_left: availability
+                ? availability.places_left
+                : product.total_places,
+            };
+          })
+          .filter((product) => product.places_left > 0), // Exclude fully booked products for the date
+      }))
+      .filter((shelter) => shelter.products.length > 0); // Exclude hosts with no available products
+  }
+
+  return [200, availableShelters];
+});
+
+noqMockApi.onGet("/api/volunteer/guest/search").reply((config) => {
+  const { first_name = "", last_name = "" } = config.params || {};
+
+  // Check if both first_name and last_name are empty
+  if (!first_name.trim() && !last_name.trim()) {
+    return [
+      400,
+      {
+        error:
+          "Either first name or last name must be provided for the search.",
+      },
+    ];
+  }
+
+  // Filter users by first and last name, case-insensitive, and map to only return the id
+  const matchingUsers = userTest
+    .filter(
+      (userObj) =>
+        userObj.user.first_name
+          .toLowerCase()
+          .includes(first_name.toLowerCase()) &&
+        userObj.user.last_name.toLowerCase().includes(last_name.toLowerCase())
+    )
+    .map((userObj) => ({ id: userObj.user.id })); // Access id inside the user object
+
+  if (matchingUsers.length === 0) {
+    return [404, { error: "No matching guest found" }];
+  }
+
+  return [200, matchingUsers];
+});
+
+const Guestbookings = [];
+
+noqMockApi.onPost("/api/volunteer/request_booking").reply((config) => {
+  const newBooking = JSON.parse(config.data);
+
+  // Check for duplicate bookings
+  const duplicate = Guestbookings.find(
+    (b) =>
+      b.product_id === newBooking.product_id &&
+      b.user_id === newBooking.user_id &&
+      b.start_date === newBooking.start_date &&
+      b.end_date === newBooking.end_date
+  );
+  if (duplicate) {
+    return [409, { error: "A booking with these details already exists." }];
+  }
+
+  newBooking.id = Guestbookings.length + 1;
+  newBooking.status = { description: "pending" };
+
+  Guestbookings.push(newBooking);
+
+  console.log("New Booking Created:", newBooking);
+
+  return [200, newBooking];
+});
+
+noqMockApi.onPatch(/\/api\/volunteer\/confirm_booking\/\d+/).reply((config) => {
+  const bookingId = parseInt(config.url.match(/confirm_booking\/(\d+)/)[1]);
+
+  // Find the booking in mock data
+  const bookingIndex = Guestbookings.findIndex((b) => b.id === bookingId);
+  console.log("Booking ID to Confirm:", bookingId);
+
+  if (bookingIndex !== -1) {
+    const booking = Guestbookings[bookingIndex];
+
+    // Only allow confirmation if booking is "pending"
+    if (booking.status.description !== "pending") {
+      return [400, { error: "Only pending bookings can be confirmed." }];
+    }
+
+    booking.status = { description: "confirmed" };
+
+    // Simulate sending a confirmation email if the user email exists
+    if (booking.user && booking.user.email) {
+      console.log(`Confirmation email sent to ${booking.user.email}`);
+    } else {
+      console.log("No email available for the user.");
+    }
+
+    return [200, booking];
+  } else {
+    return [404, { error: "Booking not found" }];
+  }
+});
+
 /*
   Caseworker user management
 */
@@ -414,7 +582,6 @@ noqMockApi.onGet("api/caseworker/user/all").reply(() => {
 const caseworkerUserUrl = "api/caseworker/user";
 const urlCaseworkerUserId = new RegExp(`${caseworkerUserUrl}/\\d+`);
 noqMockApi.onGet(urlCaseworkerUserId).reply(() => {
-
   return [200, "TBD"];
 });
 

@@ -1,0 +1,38 @@
+name: FRONTEND on push update
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: FRONTEND Submodule update
+    runs-on: ubuntu-latest
+    env:
+      PARENT_REPOSITORY: "noQ-sweden/noq_app_deployment"
+      CHECKOUT_BRANCH: "main"
+      PR_AGAINST_BRANCH: "main"
+      OWNER: "noQ-sweden"
+
+    steps:
+      - name: Get Token
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v4
+        with:
+          application_id: ${{ vars.GH_APPLICATION_ID }}
+          application_private_key: ${{ secrets.GH_APPLICATION_KEY }}
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        continue-on-error: true
+
+      - name: run action
+        id: run_action
+        uses: releasehub-com/github-action-create-pr-parent-submodule@v1
+        with:
+          github_token: ${{ steps.get_workflow_token.outputs.token }}
+          parent_repository: ${{ env.PARENT_REPOSITORY }}
+          checkout_branch: ${{ env.CHECKOUT_BRANCH }}
+          pr_against_branch: ${{ env.PR_AGAINST_BRANCH }}
+          owner: ${{ env.OWNER }}
