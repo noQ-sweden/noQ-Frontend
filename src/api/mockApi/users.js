@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import {
   getRandomInt,
   getFirstName,
@@ -11,17 +12,30 @@ export var users = [];
 
 // Define functions to modify user list
 export function addUser(userData) {
-  users.push(userData);
-  return users;
+  if (!userData.id) {
+    userData.id = uuidv4();
+  }
+  const newUser = { ...userData };
+  users.push(newUser);
+  return newUser;
 }
 
 export function deleteUser(userId) {
   const index = users.findIndex((user) => user.id === userId);
   if (index !== -1) {
     users.splice(index, 1);
-    return true;
   }
-  return false;
+
+  // Delete from local storage
+  const storedUsers = localStorage.getItem("users");
+  let localStorageUsers = storedUsers ? JSON.parse(storedUsers) : [];
+  const localStorageIndex = localStorageUsers.findIndex(
+    (user) => user.id === userId
+  );
+  // Update local storage
+  localStorage.setItem("users", JSON.stringify(localStorageUsers));
+
+  return index !== -1 || localStorageIndex !== -1;
 }
 
 export function updateUser(userData) {
@@ -55,7 +69,7 @@ export function initUserList() {
     var lastName = getLastName();
 
     var user = {
-      id: i + 1,
+      id: uuidv4(),
       email: firstName + "." + lastName + "@test.nu",
       password: "test1234",
       first_name: firstName,

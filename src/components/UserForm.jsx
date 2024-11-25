@@ -3,7 +3,13 @@ import CustomDropdownGender from "./CustomDropdownGender";
 import CustomDropdownRegion from "./CustomDropdownRegion";
 import PropTypes from "prop-types";
 
-const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
+const UserForm = ({
+  isEditing = false,
+  user = null,
+  onSubmit,
+  onDelete,
+  onClose,
+}) => {
   // initialize form data with empty values
   const [formData, setFormData] = useState({
     id: "",
@@ -96,12 +102,6 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
         alert("Lösenord matchar inte");
         return;
       }
-
-      /* if (!agreedToTerms) {
-        alert("Snäll och godkänn villkoren");
-        return;
-      } */
-      onSubmit(formData);
     }
     onSubmit(formData);
   };
@@ -293,10 +293,19 @@ const UserForm = ({ isEditing = false, user = null, onSubmit, onClose }) => {
               <div className="mt-5 flex justify-end">
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded w-1/6"
+                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-2 border-blue-700 hover:border-blue-500 border rounded w-2/12"
                 >
-                  {isEditing ? "Updatera" : "Skapa Konto"}
+                  {isEditing ? "Spara" : "Skapa Konto"}
                 </button>
+                {isEditing && onDelete && (
+                  <button
+                    type="button"
+                    onClick={onDelete}
+                    className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-2 border-red-700 hover:border-red-500 border rounded w-2/12 ml-4"
+                  >
+                    Radera
+                  </button>
+                )}
               </div>
             </div>
           </form>

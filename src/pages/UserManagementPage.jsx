@@ -11,6 +11,7 @@ const UserManagementPage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [users, setUsers] = useState([]);
   const [isUserListVisible, setIsUserListVisible] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Fetch users when the component mounts
   useEffect(() => {
@@ -21,11 +22,15 @@ const UserManagementPage = () => {
           const fetchedUsers = response?.data;
           setUsers(fetchedUsers);
         } else {
-          console.log("Error while fetching overview data.");
+          console.error(
+            `Error while fetching overview data. Status: ${response.status}`
+          );
+          alert("Fel vid laddning av användare. Försök igen senare.");
         }
       })
       .catch((error) => {
         console.log("API Error:", error);
+        alert("Fel uppstod vid hämtning av användare.");
       });
   }, []);
 
@@ -54,42 +59,35 @@ const UserManagementPage = () => {
   const handleFormSubmit = async (formData) => {
     try {
       if (selectedUser) {
+        if (!formData.id) {
+          console.error("Error updating user: ID is missing");
+          alert("Användare utan ID");
+          return;
+        }
         // Update user
-        const url = "api/caseworker/user/" + formData.id;
-        console.log(url);
-        axios
-          .put(url, formData)
-          .then((response) => {
-            if (response.status === 200) {
-              setUsers((prevUsers) =>
-                prevUsers.map((user) =>
-                  user.id === selectedUser.id ? { ...user, ...formData } : user
-                )
-              );
-              alert("Användare uppdaterad framgångsrikt!");
-            } else {
-              console.log("Error while fetching overview data.");
-            }
-          })
-          .catch((error) => {
-            console.log("API Error:", error);
-          });
+        const url = `api/caseworker/user/${formData.id}`;
+        console.log("updating user at:", url);
+        const response = await axios.put(url, formData);
+
+        if (response.status === 200) {
+          const updatedUser = response.data;
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.id === updatedUser.id ? updatedUser : user
+            )
+          );
+          alert("Användare uppdaterad framgångsrikt!");
+        }
       } else {
-        console.log("Creating new user");
         // Create new user
-        axios
-          .post("api/caseworker/user", formData)
-          .then((response) => {
-            if (response.status === 200) {
-              setUsers((prevUsers) => [...prevUsers, formData]);
-              alert("Användare skapad framgångsrikt!");
-            } else {
-              console.log("Error while fetching overview data.");
-            }
-          })
-          .catch((error) => {
-            console.log("API Error:", error);
-          });
+        console.log("Creating new user");
+        const response = await axios.post("api/caseworker/user", formData);
+
+        if (response.status === 200) {
+          const newUser = response.data;
+          setUsers((prevUsers) => [...prevUsers, newUser]);
+          alert("Användare skapad framgångsrikt!");
+        }
       }
       closeForm();
     } catch (error) {
@@ -100,21 +98,27 @@ const UserManagementPage = () => {
 
   // Handle deleting a user
   const handleDeleteUser = async (userId) => {
-    axios
-      .delete("api/caseworker/user/" + userId)
-      .then((response) => {
-        if (response.status === 200) {
-          setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
-          alert("Användare raderad framgångsrikt!");
-          closeForm();
-        } else {
-          console.log("Error while deleting user.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error deleting user:", error);
-        alert("Fel vid radering av användare.");
-      });
+    if (!userId) {
+      console.error("Error deleting user: ID is missing");
+      alert("Användare utan ID");
+      return;
+    }
+    setIsDeleting(true);
+    try {
+      const response = await axios.delete(`api/caseworker/user/${userId}`);
+      if (response.status === 200) {
+        setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
+        alert(response.data.message || "Användare raderad framgångsrikt!");
+        closeForm();
+      } else {
+        alert("Användaren kunde inte hittas.");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("Fel vid radering av användare.");
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -123,8 +127,14 @@ const UserManagementPage = () => {
         {(isUserListVisible && (
           <h1 className="text-2xl font-bold">Hantera användare</h1>
         )) ||
-          (isFormVisible && (
+          (isFormVisible && !selectedUser && (
             <h1 className="text-2xl font-bold">Skapa konto för användare</h1>
+          )) ||
+          (isFormVisible && selectedUser && (
+            <h1 className="text-2xl font-bold">
+              Redigera Profil - {selectedUser?.first_name}{" "}
+              {selectedUser?.last_name}
+            </h1>
           ))}
         {!isFormVisible && (
           <button
@@ -151,7 +161,14 @@ const UserManagementPage = () => {
           isEditing={!!selectedUser}
           user={selectedUser}
           onSubmit={handleFormSubmit}
-          onDelete={() => handleDeleteUser(selectedUser.id)}
+          onDelete={() => {
+            if (!selectedUser || !selectedUser.id) {
+              console.error("Error deleting user: ID is missing");
+              alert("Användare utan ID");
+              return;
+            }
+            handleDeleteUser(selectedUser.id);
+          }}
           onClose={closeForm}
         />
       )}
