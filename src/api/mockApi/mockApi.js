@@ -513,20 +513,27 @@ noqMockApi.onGet("/api/volunteer/available").reply(config => {
 });
 
 noqMockApi.onGet("/api/volunteer/guest/search").reply((config) => {
-  const { first_name = "", last_name = "" } = config.params || {};
+  const { first_name = "", last_name = "", uno = "" } = config.params || {};
 
-  // Check if both first_name and last_name are empty
-  if (!first_name.trim() && !last_name.trim()) {
-    return [400, { error: "Either first name or last name must be provided for the search." }];
+  
+  if (!first_name.trim() && !last_name.trim() && !uno.trim()) {
+    return [400, { error: "At least one search parameter (name or uno) must be provided." }];
   }
 
-  // Filter users by first and last name, case-insensitive, and map to only return the id
+
   const matchingUsers = userTest
-    .filter(userObj => 
-      userObj.user.first_name.toLowerCase().includes(first_name.toLowerCase()) &&
-      userObj.user.last_name.toLowerCase().includes(last_name.toLowerCase())
-    )
-    .map(userObj => ({ id: userObj.user.id })); // Access id inside the user object
+    .filter(userObj => {
+      const matchesFirstName = userObj.user.first_name.toLowerCase().includes(first_name.toLowerCase());
+      const matchesLastName = userObj.user.last_name.toLowerCase().includes(last_name.toLowerCase());
+      const matchesUno = userObj.user.uno?.toLowerCase() === uno.toLowerCase();
+      return matchesFirstName || matchesLastName || matchesUno;
+    })
+    .map(userObj => ({
+      id: userObj.user.id,
+      uno: userObj.user.uno,
+      first_name: userObj.user.first_name,
+      last_name: userObj.user.last_name,
+    }));
 
   if (matchingUsers.length === 0) {
     return [404, { error: "No matching guest found" }];
@@ -534,6 +541,7 @@ noqMockApi.onGet("/api/volunteer/guest/search").reply((config) => {
 
   return [200, matchingUsers];
 });
+
 
 const Guestbookings = [];
 
@@ -554,6 +562,7 @@ noqMockApi.onPost("/api/volunteer/request_booking").reply((config) => {
 
   newBooking.id = Guestbookings.length + 1;
   newBooking.status = { description: "pending" };
+  newBooking.uno = newBooking.uno;
 
   Guestbookings.push(newBooking);
 

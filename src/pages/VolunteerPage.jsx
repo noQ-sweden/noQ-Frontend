@@ -19,6 +19,7 @@ export default function VolunteerPage() {
     const [foundUserId, setFoundUserId] = useState(null);
     const [foundUser, setFoundUser] = useState(null);
     const [searchError, setSearchError] = useState(null);
+    const [userUno, setUserUno] = useState("");
 
     useEffect(() => {
         const fetchAllShelters = async () => {
@@ -85,7 +86,8 @@ export default function VolunteerPage() {
                 product_id: selectedProduct.id,
                 user_id: foundUserId,
                 start_date: selectedDate,
-                end_date: endDate // Using end date
+                end_date: endDate, // Using end date
+                uno: foundUser.uno
             };
 
             // Step 1: Create the booking
@@ -115,20 +117,24 @@ export default function VolunteerPage() {
     };
 
     const searchUser = async () => {
-        if (!userFirstName.trim() && !userLastName.trim()) {
-            setSearchError("Please enter a first name or last name to search.");
+        if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
+            setSearchError("Please enter a first name, last name, or UNO code to search.");
             return;
-        }
+          }
 
         try {
             const response = await axios.get("/api/volunteer/guest/search", {
-                params: { first_name: userFirstName, last_name: userLastName },
+            params: { first_name: userFirstName, last_name: userLastName, uno: userUno },
             });
 
             if (response.data.length > 0) {
                 const user = response.data[0];
                 setFoundUserId(user.id);
-                setFoundUser({ first_name: userFirstName, last_name: userLastName });
+                setFoundUser({
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    uno: user.uno,
+                  });
                 setSearchError(null);
             } else {
                 setSearchError("User not found.");
@@ -247,6 +253,14 @@ export default function VolunteerPage() {
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mb-4"
                             placeholder="Last name"
                         />
+                         <input
+                type="text"
+                value={userUno}
+                onChange={(e) => setUserUno(e.target.value)}
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mb-4"
+                placeholder="UNO code"
+            />
+                      
                         <button
                             onClick={searchUser}
                             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4"
@@ -259,7 +273,8 @@ export default function VolunteerPage() {
                         {foundUser && (
                             <div className="mt-4 p-4 bg-gray-100 rounded">
                                 <h3 className="font-semibold mb-2">Booking Details:</h3>
-                                <p><strong>Guest Name:</strong> {foundUser.first_name} {foundUser.last_name}</p>
+                                <p><strong>Guest Name:</strong> {foundUser.first_name} {foundUser.last_name} <p> UNO Code: {foundUser.uno}</p></p>
+                                <p><strong>UNO Code:</strong> {foundUser.uno}</p>
                                 <p><strong>Product:</strong> {selectedProduct.name}</p>
                                 <p><strong>Description:</strong> {selectedProduct.description}</p>
                                 <p><strong>Start Date:</strong> {selectedDate}</p>
