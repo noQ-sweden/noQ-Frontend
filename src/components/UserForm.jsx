@@ -9,6 +9,7 @@ const UserForm = ({
   onSubmit,
   onDelete,
   onClose,
+  isDeleting,
 }) => {
   // initialize form data with empty values
   const [formData, setFormData] = useState({
@@ -301,9 +302,12 @@ const UserForm = ({
                   <button
                     type="button"
                     onClick={onDelete}
-                    className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-2 border-red-700 hover:border-red-500 border rounded w-2/12 ml-4"
+                    disabled={isDeleting}
+                    className={`bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-2 border-red-700 hover:border-red-500 border rounded w-2/12 ml-4${
+                      isDeleting ? " opacity-50 cursor-not-allowed" : ""
+                    }`}
                   >
-                    Radera
+                    {isDeleting ? "Raderar..." : "Radera"}
                   </button>
                 )}
               </div>
@@ -320,6 +324,8 @@ UserForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   isEditing: PropTypes.bool,
+  onDelete: PropTypes.func,
+  isDeleting: PropTypes.bool,
 };
 
 export default UserForm;

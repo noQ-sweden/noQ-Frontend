@@ -160,6 +160,7 @@ const UserManagementPage = () => {
         <UserForm
           isEditing={!!selectedUser}
           user={selectedUser}
+          isDeleting={isDeleting}
           onSubmit={handleFormSubmit}
           onDelete={() => {
             if (!selectedUser || !selectedUser.id) {
