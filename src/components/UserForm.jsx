@@ -10,7 +10,6 @@ const UserForm = ({
   onDelete,
   onClose,
   isDeleting,
-  isFormVisible,
 }) => {
   // initialize form data with empty values
   const [formData, setFormData] = useState({
