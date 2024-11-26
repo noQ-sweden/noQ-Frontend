@@ -39,21 +39,18 @@ export function deleteUser(userId) {
 }
 
 export function updateUser(userData) {
-  const userId = userData.id;
-  users[userId - 1].email = userData.email;
-  users[userId - 1].password = userData.password;
-  users[userId - 1].first_name = userData.first_name;
-  users[userId - 1].last_name = userData.last_name;
-  users[userId - 1].phone = userData.phone;
-  users[userId - 1].gender = userData.gender;
-  users[userId - 1].street = userData.street;
-  users[userId - 1].postcode = userData.postcode;
-  users[userId - 1].city = userData.city;
-  users[userId - 1].country = userData.country;
-  users[userId - 1].region = userData.region;
-  users[userId - 1].day_of_birth = userData.day_of_birth;
-  users[userId - 1].personnr_lastnr = userData.personnr_lastnr;
-  return users[userId - 1];
+  console.log("attemting to updating user with ID:", userData.id);
+
+  const userIndex = users.findIndex((user) => user.id === userData.id);
+
+  if (userIndex === -1) {
+    console.error("Error updating user not found with ID:", userData.id);
+    return null;
+  }
+  users[userIndex] = { ...users[userIndex], ...userData };
+
+  console.log("Updated user with ID:", userData.id);
+  return users[userIndex];
 }
 
 export function getUsers() {

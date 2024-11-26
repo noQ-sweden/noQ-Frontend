@@ -10,6 +10,7 @@ const UserForm = ({
   onDelete,
   onClose,
   isDeleting,
+  isFormVisible,
 }) => {
   // initialize form data with empty values
   const [formData, setFormData] = useState({
@@ -72,8 +73,6 @@ const UserForm = ({
         confirmPassword: "",
         requirements: "",
       });
-
-      /* setAgreedToTerms(false); */
     }
   }, [isEditing, user]);
 
@@ -116,11 +115,17 @@ const UserForm = ({
             <input type="hidden" name="id" value={formData.id} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <h1 className="text-lg font-semibold mb-1">Kontouppgifter</h1>
-                <p className="text-xs font-thin mb-3 mt-0">
-                  Alla fält markerade med asterisk{" "}
-                  <span className="text-red-500">*</span> är obligatoriska
-                </p>
+                {!isEditing && (
+                  <div>
+                    <h1 className="text-lg font-semibold mb-1">
+                      Kontouppgifter
+                    </h1>
+                    <p className="text-xs font-thin mb-3 mt-0">
+                      Alla fält markerade med asterisk{" "}
+                      <span className="text-red-500">*</span> är obligatoriska
+                    </p>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mb-6">
                   <div>
                     <label className="block text-md font-semibold text-gray-700 mb-1">
@@ -149,86 +154,96 @@ const UserForm = ({
                       className="border rounded border-gray-400 py-1 px-2"
                     />
                   </div>
-                  <div>
-                    <label className="block text-md font-semibold text-gray-700 mb-1">
-                      UNO-kod <samp className="text-red-500">*</samp>
-                    </label>
-                    <input
-                      type="text"
-                      name="unokod"
-                      value={formData.unokod}
-                      onChange={handleChange}
-                      placeholder="UNO-Kod"
-                      className="border rounded border-gray-400 py-1 px-3 w-full col-span-1"
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-2 mt-4">
+                  {!isEditing && (
                     <div>
                       <label className="block text-md font-semibold text-gray-700 mb-1">
-                        Lösenord <span className="text-red-500">*</span>{" "}
+                        UNO-kod <samp className="text-red-500">*</samp>
                       </label>
                       <input
-                        type="password"
-                        name="password"
-                        autoComplete="off"
-                        value={formData.password}
+                        type="text"
+                        name="unokod"
+                        value={formData.unokod}
                         onChange={handleChange}
-                        placeholder="Lösenord"
-                        required={!isEditing}
-                        className="border rounded border-gray-400 py-1 px-3 w-full"
+                        placeholder="UNO-Kod"
+                        className="border rounded border-gray-400 py-1 px-3 w-full col-span-1"
                       />
                     </div>
-                    <div>
-                      <label className="block text-md font-semibold text-gray-700 mb-1">
-                        Bekråfta Lösenord{" "}
-                        <span className="text-red-500">*</span>
-                      </label>
-
-                      <input
-                        type="password"
-                        name="confirmPassword"
-                        autoComplete="off"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        placeholder="Bekräfta lösenord"
-                        required={!isEditing}
-                        className="border rounded border-gray-400 py-1 px-3 w-full"
-                      />
-                      {passwordMatchError && (
-                        <p className="text-red-500">Lösenorden matchar inte.</p>
-                      )}
+                  )}
+                  {!isEditing && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-2 mt-4">
+                      <div>
+                        <label className="block text-md font-semibold text-gray-700 mb-1">
+                          Lösenord <span className="text-red-500">*</span>{" "}
+                        </label>
+                        <input
+                          type="password"
+                          name="password"
+                          autoComplete="off"
+                          value={formData.password}
+                          onChange={handleChange}
+                          placeholder="Lösenord"
+                          required={!isEditing}
+                          className="border rounded border-gray-400 py-1 px-3 w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-md font-semibold text-gray-700 mb-1">
+                          Bekråfta Lösenord{" "}
+                          <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="password"
+                          name="confirmPassword"
+                          autoComplete="off"
+                          value={formData.confirmPassword}
+                          onChange={handleChange}
+                          placeholder="Bekräfta lösenord"
+                          required={!isEditing}
+                          className="border rounded border-gray-400 py-1 px-3 w-full"
+                        />
+                        {passwordMatchError && (
+                          <p className="text-red-500">
+                            Lösenorden matchar inte.
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
             <div className="">
-              <h1 className="text-lg font-semibold mb-1">
-                Personlig information
-              </h1>
-              <p className="text-xs font-thin mb-3 mt-0">
-                Alla fält markerade med asterisk{" "}
-                <span className="text-red-500">*</span> är obligatoriska
-              </p>
-
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-1 mb-6">
+              {!isEditing && (
                 <div>
-                  <label className="block text-md font-semibold text-gray-700 mb-0">
-                    Kön <span>*</span>
-                  </label>
-
-                  <CustomDropdownGender
-                    name="gender"
-                    value={formData.gender}
-                    onChange={(value) =>
-                      setFormData((prevData) => ({
-                        ...prevData,
-                        gender: value,
-                      }))
-                    }
-                    required={true}
-                  />
+                  <h1 className="text-lg font-semibold mb-1">
+                    Personlig information
+                  </h1>
+                  <p className="text-xs font-thin mb-3 mt-0">
+                    Alla fält markerade med asterisk{" "}
+                    <span className="text-red-500">*</span> är obligatoriska
+                  </p>
                 </div>
+              )}
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-1 mb-6">
+                {!isEditing && (
+                  <div>
+                    <label className="block text-md font-semibold text-gray-700 mb-0">
+                      Kön <span>*</span>
+                    </label>
+
+                    <CustomDropdownGender
+                      name="gender"
+                      value={formData.gender}
+                      onChange={(value) =>
+                        setFormData((prevData) => ({
+                          ...prevData,
+                          gender: value,
+                        }))
+                      }
+                      required={true}
+                    />
+                  </div>
+                )}
                 <div>
                   <label className="block text-md font-semibold text-gray-700 mb-1">
                     E-post
@@ -256,13 +271,18 @@ const UserForm = ({
                   />
                 </div>
               </div>
-
               <div className="">
-                <h1 className="text-lg font-semibold mb-1">Addressupgifter</h1>
-                <p className="text-xs font-thin mb-3 mt-0">
-                  Alla fält markerade med asterisk{" "}
-                  <span className="text-red-500">*</span> är obligatoriska
-                </p>
+                {!isEditing && (
+                  <div>
+                    <h1 className="text-lg font-semibold mb-1">
+                      Addressupgifter
+                    </h1>
+                    <p className="text-xs font-thin mb-3 mt-0">
+                      Alla fält markerade med asterisk{" "}
+                      <span className="text-red-500">*</span> är obligatoriska
+                    </p>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mb-6">
                   <CustomDropdownRegion
                     name="region"
@@ -291,25 +311,27 @@ const UserForm = ({
                   />
                 </div>
               </div>
-              <div className="mt-5 flex justify-end">
+              <div className="mt-5 flex justify-between items-center">
+                {isEditing && onDelete && (
+                  <div className="flex justify-start">
+                    <button
+                      type="button"
+                      onClick={onDelete}
+                      disabled={isDeleting}
+                      className={`bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-2  border-red-700 hover:border-red-500 border rounded w-40 ${
+                        isDeleting ? " opacity-50 cursor-not-allowed" : ""
+                      }`}
+                    >
+                      {isDeleting ? "Raderar..." : "Radera"}
+                    </button>
+                  </div>
+                )}
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-2 border-blue-700 hover:border-blue-500 border rounded w-2/12"
+                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-2 border-blue-700 hover:border-blue-500 border rounded w-40"
                 >
                   {isEditing ? "Spara" : "Skapa Konto"}
                 </button>
-                {isEditing && onDelete && (
-                  <button
-                    type="button"
-                    onClick={onDelete}
-                    disabled={isDeleting}
-                    className={`bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-2 border-red-700 hover:border-red-500 border rounded w-2/12 ml-4${
-                      isDeleting ? " opacity-50 cursor-not-allowed" : ""
-                    }`}
-                  >
-                    {isDeleting ? "Raderar..." : "Radera"}
-                  </button>
-                )}
               </div>
             </div>
           </form>
