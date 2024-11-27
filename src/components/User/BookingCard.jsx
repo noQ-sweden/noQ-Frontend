@@ -1,7 +1,7 @@
 import { getStatus } from '../../utility/utilityFunctions';
 import PropTypes from "prop-types";
 
-export default function BookingCard({ booking, onDelete }){
+export default function BookingCard({ booking, onDelete, onConfirm }){
     
     BookingCard.propTypes = {
         booking: PropTypes.any.isRequired,
@@ -33,9 +33,11 @@ export default function BookingCard({ booking, onDelete }){
                 <div className="text-xl mt-3 font-semibold">
                     {getStatus(booking.status.description)}
                 </div>
-                {booking.status.description == "reserved" && (
                     <div className="mt-6">
-                        <button className="
+                    {booking.status.description == "reserved" && (
+                        <button
+                            onClick={onConfirm}
+                            className="
                             bg-green-600
                             hover:bg-green-700
                             text-white
@@ -49,6 +51,7 @@ export default function BookingCard({ booking, onDelete }){
                             mr-3">
                             Bekräfta
                         </button>
+                        )}
                         <button
                           onClick={onDelete}
                           className="
@@ -66,8 +69,6 @@ export default function BookingCard({ booking, onDelete }){
                             Avboka
                         </button>
                     </div>
-                )}
-
             </div>
         </div>
     );
