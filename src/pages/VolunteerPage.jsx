@@ -89,7 +89,7 @@ export default function VolunteerPage() {
         console.log("createUser called");
 
         if (!newFirstName || !newLastName || !newUno) {
-          alert("Please fill out all fields to create a new user.");
+          alert("Fyll i alla fält");
           return;
         }
       
@@ -99,7 +99,7 @@ export default function VolunteerPage() {
             last_name: newLastName,
             uno: newUno,
           });
-          alert("User created successfully!");
+          alert("Gäst har skapats!");
           setMockApiUsers((prev) => [...prev, response.data]);
           setNewFirstName("");
           setNewLastName("");
@@ -109,10 +109,10 @@ export default function VolunteerPage() {
           
         } catch (error) {
           if (error.response?.status === 409) {
-            alert("A user with this UNO code already exists.");
+            alert("Någon med denna UNO KOD finns redan");
           } else {
             console.error("Error creating user:", error);
-            alert("Failed to create user.");
+            alert("Fel vid skapning av gästkonto.");
           }
         }
       };
@@ -148,31 +148,31 @@ export default function VolunteerPage() {
             const bookingResponse = await axios.post("/api/volunteer/request_booking", bookingData);
             const bookingId = bookingResponse.data.id;
 
-            alert(`Booking successful! Room: ${selectedProduct.name}, Guest: ${foundUser.first_name} ${foundUser.last_name}`);
+            alert(`Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`);
 
             // Step 2: Confirm the booking
             await axios.patch(`/api/volunteer/confirm_booking/${bookingId}`);
 
-            alert("Booking confirmed and email sent to guest!");
+            alert("Plats bokat, Email med bokingsinformation har skickats ut");
             closePopover();
         } catch (error) {
             if (error.response && error.response.status === 409) {
-                alert("A booking with these details already exists.");
+                alert("Bokning finns redan.");
             } else if (error.response && error.response.status === 422) {
-                alert("End date must be after start date.");
+                alert("Fel med Datum");
             } else if (error.response) {
                 console.error("Error confirming booking:", error.response.data);
-                alert(`Booking failed. Error: ${error.response.data.error || "Unknown error"}`);
+                alert(`Bokning gick ej igenom ${error.response.data.error || "Unknown error"}`);
             } else {
                 console.error("Unexpected error:", error);
-                alert("Booking failed due to an unexpected error.");
+                alert("Fel vid Bokning.");
             }
         }
     };
 
     const searchUser = async () => {
         if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
-            setSearchError("Please enter a first name, last name, or UNO code to search.");
+            setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka");
             return;
           }
 
@@ -197,7 +197,7 @@ export default function VolunteerPage() {
                   });
                 setSearchError(null);
             } else {
-                setSearchError("User not found.");
+                setSearchError("Gäst hittades ej.");
             }
         } catch (error) {
             console.error("Error searching for user:", error);
@@ -209,16 +209,16 @@ export default function VolunteerPage() {
         <div className="p-4">
             {/* Welcome message */}
             <div className="text-center mt-4 font-semibold">
-                Welcome, {login?.first_name}
+                Välkommen, {login?.first_name}
             </div>
     
             {/* Find Available Rooms */}
-            <h2 className="text-2xl font-bold my-4">Find Available Rooms</h2>
+            <h2 className="text-2xl font-bold my-4">Hitta tillgängliga rum</h2>
     
             {/* Filters Section */}
             <div className="flex space-x-4 mb-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Select Start Date</label>
+                    <label className="block text-sm font-medium text-gray-700">Välj Startdatum</label>
                     <input
                         type="date"
                         value={selectedDate}
@@ -228,7 +228,7 @@ export default function VolunteerPage() {
                 </div>
     
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Select End Date</label>
+                    <label className="block text-sm font-medium text-gray-700">Välj Slutdatum</label>
                     <input
                         type="date"
                         value={endDate}
@@ -238,13 +238,13 @@ export default function VolunteerPage() {
                 </div>
     
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Select Host</label>
+                    <label className="block text-sm font-medium text-gray-700">Välj Bostället </label>
                     <select
                         value={selectedHostId}
                         onChange={(e) => setSelectedHostId(e.target.value)}
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
-                        <option value="">All Hosts</option>
+                        <option value="">Alla</option>
                         {hosts.map((host) => (
                             <option key={host.id} value={host.id}>
                                 {host.name}
@@ -257,7 +257,7 @@ export default function VolunteerPage() {
                     onClick={handleFilter}
                     className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
-                    Search
+                    Sök
                 </button>
             </div>
     
@@ -267,33 +267,33 @@ export default function VolunteerPage() {
     
             {/* Create New User Section */}
             <div className="mt-8">
-                <h3 className="text-lg font-semibold mb-4">Create a New Guest</h3>
+                <h3 className="text-lg font-semibold mb-4">Skapa ny gäst</h3>
                 <input
                     type="text"
                     value={newFirstName}
                     onChange={(e) => setNewFirstName(e.target.value)}
                     className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mb-2"
-                    placeholder="First Name"
+                    placeholder="Förnamn"
                 />
                 <input
                     type="text"
                     value={newLastName}
                     onChange={(e) => setNewLastName(e.target.value)}
                     className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mb-2"
-                    placeholder="Last Name"
+                    placeholder="Efternamn"
                 />
                 <input
                     type="text"
                     value={newUno}
                     onChange={(e) => setNewUno(e.target.value)}
                     className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mb-4"
-                    placeholder="UNO Code"
+                    placeholder="UNO Kod"
                 />
                 <button
                     onClick={createUser}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
-                    Create User
+                    Skapa gäst
                 </button>
             </div>
     
@@ -304,7 +304,7 @@ export default function VolunteerPage() {
                         <div key={shelter.host.id} className="border p-4 rounded">
                             <h3 className="text-xl font-semibold">{shelter.host.name}</h3>
                             <p className="text-gray-600">
-                                Location: {shelter.host.street}, {shelter.host.city}
+                                Adress: {shelter.host.street}, {shelter.host.city}
                             </p>
                             <p>Region: {shelter.host.region.name}</p>
                             <div className="mt-2">
@@ -315,17 +315,17 @@ export default function VolunteerPage() {
                                         onClick={() => openBookingPopover(product)}
                                     >
                                         <p className="font-semibold">{product.name}</p>
-                                        <p>Description: {product.description}</p>
-                                        <p>Type: {product.type}</p>
-                                        <p>Total Places: {product.total_places}</p>
-                                        <p>Available Places: {product.places_left}</p>
+                                        <p>Beskrivningen: {product.description}</p>
+                                        <p>Typ: {product.type}</p>
+                                        <p>Antal platser: {product.total_places}</p>
+                                        <p>Tillgängliga platser: {product.places_left}</p>
                                     </div>
                                 ))}
                             </div>
                         </div>
                     ))
                 ) : (
-                    !loading && <p>No available rooms found</p>
+                    !loading && <p>Inga lediga rum</p>
                 )}
             </div>
     
@@ -333,10 +333,10 @@ export default function VolunteerPage() {
             {showPopover && (
                 <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
                     <div className="bg-white rounded-lg p-6 w-full max-w-md">
-                        <h2 className="text-lg font-semibold mb-4">Book Room</h2>
+                        <h2 className="text-lg font-semibold mb-4">Boka Rum</h2>
                         <p>{selectedProduct?.name}</p>
     
-                        <label className="block text-sm font-medium text-gray-700 mt-4">Search Guest by Name</label>
+                        <label className="block text-sm font-medium text-gray-700 mt-4">Söka Gäst</label>
                         <input
                             type="text"
                             value={userFirstName}
@@ -363,7 +363,7 @@ export default function VolunteerPage() {
                             onClick={searchUser}
                             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4"
                         >
-                            Search User
+                            Sök
                         </button>
     
                         {searchError && <p className="text-red-500">{searchError}</p>}
@@ -371,12 +371,12 @@ export default function VolunteerPage() {
                         {foundUser && (
                             <div className="mt-4 p-4 bg-gray-100 rounded">
                                 <h3 className="font-semibold mb-2">Booking Details:</h3>
-                                <p><strong>Guest Name:</strong> {foundUser.first_name} {foundUser.last_name}</p>
-                                <p><strong>UNO Code:</strong> {foundUser.uno}</p>
-                                <p><strong>Product:</strong> {selectedProduct.name}</p>
-                                <p><strong>Description:</strong> {selectedProduct.description}</p>
-                                <p><strong>Start Date:</strong> {selectedDate}</p>
-                                <p><strong>End Date:</strong> {endDate}</p>
+                                <p><strong>Namn:</strong> {foundUser.first_name} {foundUser.last_name}</p>
+                                <p><strong>UNO Kod:</strong> {foundUser.uno}</p>
+                                <p><strong>Produkt:</strong> {selectedProduct.name}</p>
+                                <p><strong>Beskrivningen:</strong> {selectedProduct.description}</p>
+                                <p><strong>Startdatum:</strong> {selectedDate}</p>
+                                <p><strong>Slutdatum:</strong> {endDate}</p>
                             </div>
                         )}
     
@@ -385,7 +385,7 @@ export default function VolunteerPage() {
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
                             disabled={!foundUser}
                         >
-                            Confirm Booking
+                            Bekräfta Bokningen
                         </button>
                         <button
                             onClick={closePopover}
