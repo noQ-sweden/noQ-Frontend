@@ -7,7 +7,7 @@ import AxiosMockAdapter from "axios-mock-adapter";
 import { products } from "./products.js";
 import { getAvailableShelters } from "./getAvailableShelters"; // Import the function
 import { availableProducts } from "./caseworkerFrontPage.js";
-import { userTest } from "./users.js"
+
 
 export const axiosMockNoqApi = axios.create({
   headers: {
@@ -512,21 +512,31 @@ noqMockApi.onGet("/api/volunteer/available").reply(config => {
   return [200, availableShelters]
 });
 
+// Volunteer 
+const mockUser = [
+  { user: { id: 1, uno: "UNO123", first_name: "Lars", last_name: "Andersson" } },
+  { user: { id: 2, uno: "UNO456", first_name: "Karin", last_name: "Johansson" } },
+  { user: { id: 3, uno: "UNO789", first_name: "Erik", last_name: "Nilsson" } },
+];
+
+ let mockTest =[...mockUser];
 noqMockApi.onGet("/api/volunteer/guest/search").reply((config) => {
   const { first_name = "", last_name = "", uno = "" } = config.params || {};
-
   
+  console.log("Search parameters:", { first_name, last_name, uno });
+
+  // Check if at least one search parameter is provided
   if (!first_name.trim() && !last_name.trim() && !uno.trim()) {
     return [400, { error: "At least one search parameter (name or uno) must be provided." }];
   }
 
-
-  const matchingUsers = userTest
+  const matchingUsers = mockTest
     .filter(userObj => {
-      const matchesFirstName = userObj.user.first_name.toLowerCase().includes(first_name.toLowerCase());
-      const matchesLastName = userObj.user.last_name.toLowerCase().includes(last_name.toLowerCase());
-      const matchesUno = userObj.user.uno?.toLowerCase() === uno.toLowerCase();
-      return matchesFirstName || matchesLastName || matchesUno;
+      const matchesFirstName = first_name ? userObj.user.first_name.toLowerCase() === first_name.toLowerCase() : true;
+      const matchesLastName = last_name ? userObj.user.last_name.toLowerCase() === last_name.toLowerCase() : true;
+      const matchesUno = uno ? userObj.user.uno.toLowerCase() === uno.toLowerCase() : true;
+    
+      return matchesFirstName && matchesLastName && matchesUno;
     })
     .map(userObj => ({
       id: userObj.user.id,
@@ -544,6 +554,52 @@ noqMockApi.onGet("/api/volunteer/guest/search").reply((config) => {
 
 
 const Guestbookings = [];
+
+const fetchUsers = () => {
+  return mockUser; 
+};
+
+
+noqMockApi.onGet("/api/volunteer/guest/list").reply(() => {
+  const users = mockTest.map((userObj) => ({
+    id: userObj.user.id,
+    uno: userObj.user.uno,
+    first_name: userObj.user.first_name,
+    last_name: userObj.user.last_name,
+  }));
+
+  return [200, users];
+});
+
+noqMockApi.onPost("/api/volunteer/guest/create").reply((config) => {
+  const { first_name, last_name, uno } = JSON.parse(config.data);
+
+ 
+  if (!first_name || !last_name || !uno) {
+    return [400, { error: "All fields (first_name, last_name, uno) are required." }];
+  }
+
+ 
+  const existingUser = mockTest.find((userObj) => userObj.user.uno === uno);
+  if (existingUser) {
+    return [409, { error: "A user with this UNO code already exists." }];
+  }
+
+
+  const newUser = {
+    user: {
+      id: mockTest.length + 1,
+      uno,
+      first_name,
+      last_name,
+    },
+  };
+  mockTest.push(newUser);
+
+  console.log("New User Created:", newUser);
+
+  return [201, newUser.user];
+});
 
 noqMockApi.onPost("/api/volunteer/request_booking").reply((config) => {
   const newBooking = JSON.parse(config.data);
