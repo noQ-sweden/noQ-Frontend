@@ -597,19 +597,18 @@ noqMockApi.onPut(urlCaseworkerUserId).reply((config) => {
     console.error("Invalid URL:", config.url);
     return [404, { message: "Bad Requst: Invalid URL" }];
   }
+
   const userId = match[1];
   const userData = JSON.parse(config.data);
+
   const updatedUser = updateUser({ id: userId, ...userData });
+
+  if (userData.password) {
+    console.log(`Password for user ${userId} has been updated.`);
+  }
+
   return [200, JSON.stringify(updatedUser)];
 });
-
-/* noqMockApi.onDelete(urlCaseworkerUserId).reply((config) => {
-  const userId = parseInt(config.url.match(/api\/host\/products\/(\d+)/)[1]);
-  if (deleteUser(userId)) {
-    return [200];
-  }
-  return [404]; //not found
-}); */
 
 noqMockApi.onDelete(/api\/caseworker\/user\/[a-zA-Z0-9-]+$/).reply((config) => {
   const match = config.url.match(/api\/caseworker\/user\/([a-zA-Z0-9-]+)$/);

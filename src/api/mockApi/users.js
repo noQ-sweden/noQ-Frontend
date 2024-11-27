@@ -39,7 +39,7 @@ export function deleteUser(userId) {
 }
 
 export function updateUser(userData) {
-  console.log("attemting to updating user with ID:", userData.id);
+  console.log("attemting to update user with ID:", userData.id);
 
   const userIndex = users.findIndex((user) => user.id === userData.id);
 
@@ -47,9 +47,34 @@ export function updateUser(userData) {
     console.error("Error updating user not found with ID:", userData.id);
     return null;
   }
+
+  const allowedFields = [
+    "email",
+    "password",
+    "first_name",
+    "last_name",
+    "phone",
+    "gender",
+    "street",
+    "postcode",
+    "city",
+    "country",
+    "region",
+    "unokod",
+    "personnr_lastnr",
+    "requirements",
+  ];
+
+  const validatedData = Object.keys(userData)
+    .filter((key) => allowedFields.includes(key))
+    .reduce((obj, key) => {
+      obj[key] = userData[key];
+      return obj;
+    }, {});
+
   users[userIndex] = { ...users[userIndex], ...userData };
 
-  console.log("Updated user with ID:", userData.id);
+  console.log("Updated user with ID:", users[userIndex].id);
   return users[userIndex];
 }
 

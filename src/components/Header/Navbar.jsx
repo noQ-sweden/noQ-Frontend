@@ -13,7 +13,7 @@ import {
   FaShieldAlt,
 } from "react-icons/fa";
 import PropTypes from "prop-types";
-import { BiFontFamily } from "react-icons/bi";
+/* import { BiFontFamily } from "react-icons/bi"; */
 
 export default function Navbar({ first_name, last_name }) {
   const navigate = useNavigate();

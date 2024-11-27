@@ -3,6 +3,8 @@ import UserList from "../components/UserList";
 import UserForm from "../components/UserForm";
 import axios from "./../api/AxiosNoqApi";
 import useHeader from "../hooks/useHeader";
+import DeleteConfirmationPopup from "../components/DeleteConfirmationPopup";
+import PasswordConfirmationPopup from "../components/PasswordConfirmationPopup";
 
 const UserManagementPage = () => {
   const { setHeader } = useHeader();
@@ -12,6 +14,8 @@ const UserManagementPage = () => {
   const [users, setUsers] = useState([]);
   const [isUserListVisible, setIsUserListVisible] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPasswordPopupOpen, setIsPasswordPopupOpen] = useState(false);
 
   // Fetch users when the component mounts
   useEffect(() => {
@@ -97,18 +101,22 @@ const UserManagementPage = () => {
   };
 
   // Handle deleting a user
-  const handleDeleteUser = async (userId) => {
-    if (!userId) {
+  const handleDeleteUser = async () => {
+    if (!selectedUser || !selectedUser.id) {
       console.error("Error deleting user: ID is missing");
       alert("Användare utan ID");
       return;
     }
     setIsDeleting(true);
     try {
-      const response = await axios.delete(`api/caseworker/user/${userId}`);
+      const response = await axios.delete(
+        `api/caseworker/user/${selectedUser.id}`
+      );
       if (response.status === 200) {
-        setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
-        alert(response.data.message || "Användare raderad framgångsrikt!");
+        setUsers((prevUsers) =>
+          prevUsers.filter((u) => u.id !== selectedUser.id)
+        );
+        alert("Användare raderad framgångsrikt!");
         closeForm();
       } else {
         alert("Användaren kunde inte hittas.");
@@ -118,7 +126,54 @@ const UserManagementPage = () => {
       alert("Fel vid radering av användare.");
     } finally {
       setIsDeleting(false);
+      setIsPopupOpen(false);
     }
+  };
+
+  // Handle password reset
+  const handlePasswordUpdate = async (newPassword) => {
+    console.log("Updating password for user:", newPassword);
+    const userId = selectedUser?.id;
+    if (!userId) {
+      alert("Användare utan ID");
+      return;
+    }
+
+    try {
+      const response = await axios.put(`api/caseworker/user/${userId}`, {
+        password: newPassword,
+      });
+
+      if (response.status === 200) {
+        const updateUser = response.data;
+
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.id === userId ? { ...user, password: newPassword } : user
+          )
+        );
+
+        alert("Lösenord uppdaterat framgångsrikt!");
+        setIsPasswordPopupOpen(false);
+      } else {
+        alert("Användaren kunde inte hittas.");
+      }
+    } catch (error) {
+      console.error("Error updating password:", error);
+      alert("Fel vid uppdatering av lösenord.");
+    }
+  };
+
+  // Handle Popup Open
+  const openPasswordPopup = () => {
+    console.log("Opening password popup ");
+    setIsPasswordPopupOpen(true);
+  };
+
+  // Handle Popup Close
+  const closePasswordPopup = () => {
+    console.log("Closing password popup ");
+    setIsPasswordPopupOpen(false);
   };
 
   return (
@@ -145,7 +200,6 @@ const UserManagementPage = () => {
           </button>
         )}
       </div>
-
       {/* User List */}
       {isUserListVisible && (
         <UserList
@@ -154,7 +208,6 @@ const UserManagementPage = () => {
           onOpenCreateForm={openCreateForm}
         />
       )}
-
       {/* Conditionally render the form */}
       {isFormVisible && (
         <UserForm
@@ -162,15 +215,27 @@ const UserManagementPage = () => {
           user={selectedUser}
           isDeleting={isDeleting}
           onSubmit={handleFormSubmit}
-          onDelete={() => {
-            if (!selectedUser || !selectedUser.id) {
-              console.error("Error deleting user: ID is missing");
-              alert("Användare utan ID");
-              return;
-            }
-            handleDeleteUser(selectedUser.id);
-          }}
+          onDelete={() => setIsPopupOpen(true)}
+          onPasswordUpdate={openPasswordPopup}
           onClose={closeForm}
+        />
+      )}
+      {/* Delete Confirmation Popup */}
+      <DeleteConfirmationPopup
+        isOpen={isPopupOpen}
+        user={selectedUser}
+        onClose={() => setIsPopupOpen(false)}
+        onConfirm={handleDeleteUser}
+      />
+      {/* Password Confirmation Popup */}
+      {isPasswordPopupOpen && (
+        <PasswordConfirmationPopup
+          isOpen={isPasswordPopupOpen}
+          onClose={closePasswordPopup}
+          onConfirm={(newPassword) => {
+            console.log("Confirming password update");
+            handlePasswordUpdate(newPassword);
+          }}
         />
       )}
     </div>

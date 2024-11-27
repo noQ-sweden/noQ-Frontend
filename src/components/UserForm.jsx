@@ -10,7 +10,9 @@ const UserForm = ({
   onDelete,
   onClose,
   isDeleting,
+  onPasswordUpdate,
 }) => {
+  console.log("onPasswordUpdate", onPasswordUpdate);
   // initialize form data with empty values
   const [formData, setFormData] = useState({
     id: "",
@@ -187,7 +189,7 @@ const UserForm = ({
                       </div>
                       <div>
                         <label className="block text-md font-semibold text-gray-700 mb-1">
-                          Bekråfta Lösenord{" "}
+                          Bekräfta Lösenord{" "}
                           <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -311,6 +313,18 @@ const UserForm = ({
                 </div>
               </div>
               <div className="mt-5 flex justify-between items-center">
+                {isEditing && onPasswordUpdate && (
+                  <div className="flex justify-start">
+                    <button
+                      type="button"
+                      onClick={onPasswordUpdate}
+                      className="bg-transparent hover:bg-gray-400 text-blue-500 font-bold py-2 px-4 border-b-2 border-blue-500 hover:border-gray-500 border rounded w-40"
+                    >
+                      Ändra Lösenord
+                    </button>
+                  </div>
+                )}
+
                 {isEditing && onDelete && (
                   <div className="flex justify-start">
                     <button
@@ -325,12 +339,21 @@ const UserForm = ({
                     </button>
                   </div>
                 )}
-                <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-2 border-blue-700 hover:border-blue-500 border rounded w-40"
-                >
-                  {isEditing ? "Spara" : "Skapa Konto"}
-                </button>
+                <div className="flex items-center space-x-4">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="bg-transparent hover:bg-gray-400 text-blue-500 font-bold py-2 px-4 border-b-2 border-blue-500 hover:border-gray-500 border rounded w-40"
+                  >
+                    Avbryt
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-2 border-blue-700 hover:border-blue-500 border rounded w-40"
+                  >
+                    {isEditing ? "Spara" : "Skapa Konto"}
+                  </button>
+                </div>
               </div>
             </div>
           </form>
