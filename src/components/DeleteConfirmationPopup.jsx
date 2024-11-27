@@ -45,6 +45,10 @@ DeleteConfirmationPopup.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+  }),
 };
 
 export default DeleteConfirmationPopup;

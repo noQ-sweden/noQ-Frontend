@@ -39,8 +39,7 @@ export function deleteUser(userId) {
 }
 
 export function updateUser(userData) {
-  console.log("attemting to update user with ID:", userData.id);
-
+  // console.log("attemting to update user with ID:", userData.id);
   const userIndex = users.findIndex((user) => user.id === userData.id);
 
   if (userIndex === -1) {
@@ -72,9 +71,9 @@ export function updateUser(userData) {
       return obj;
     }, {});
 
-  users[userIndex] = { ...users[userIndex], ...userData };
+  users[userIndex] = { ...users[userIndex], ...validatedData };
 
-  console.log("Updated user with ID:", users[userIndex].id);
+  // console.log("Updated user with ID:", users[userIndex].id);
   return users[userIndex];
 }
 

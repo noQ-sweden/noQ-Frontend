@@ -132,7 +132,6 @@ const UserManagementPage = () => {
 
   // Handle password reset
   const handlePasswordUpdate = async (newPassword) => {
-    console.log("Updating password for user:", newPassword);
     const userId = selectedUser?.id;
     if (!userId) {
       alert("Användare utan ID");
@@ -166,13 +165,11 @@ const UserManagementPage = () => {
 
   // Handle Popup Open
   const openPasswordPopup = () => {
-    console.log("Opening password popup ");
     setIsPasswordPopupOpen(true);
   };
 
   // Handle Popup Close
   const closePasswordPopup = () => {
-    console.log("Closing password popup ");
     setIsPasswordPopupOpen(false);
   };
 

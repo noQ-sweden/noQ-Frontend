@@ -12,7 +12,6 @@ const UserForm = ({
   isDeleting,
   onPasswordUpdate,
 }) => {
-  console.log("onPasswordUpdate", onPasswordUpdate);
   // initialize form data with empty values
   const [formData, setFormData] = useState({
     id: "",
