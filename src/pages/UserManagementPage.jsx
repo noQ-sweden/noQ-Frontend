@@ -154,7 +154,7 @@ const UserManagementPage = () => {
 
         setUsers((prevUsers) =>
           prevUsers.map((user) =>
-            user.id === userId ? { ...user, password: newPassword } : user
+            user.id === updatedUserFormLocal.id ? updatedUserFormLocal : user
           )
         );
 
