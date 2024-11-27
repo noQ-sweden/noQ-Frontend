@@ -369,6 +369,7 @@ UserForm.propTypes = {
   isEditing: PropTypes.bool,
   onDelete: PropTypes.func,
   isDeleting: PropTypes.bool,
+  onPasswordUpdate: PropTypes.func,
 };
 
 export default UserForm;

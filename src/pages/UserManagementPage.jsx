@@ -5,6 +5,7 @@ import axios from "./../api/AxiosNoqApi";
 import useHeader from "../hooks/useHeader";
 import DeleteConfirmationPopup from "../components/DeleteConfirmationPopup";
 import PasswordConfirmationPopup from "../components/PasswordConfirmationPopup";
+import { updateUser } from "../api/mockApi/users";
 
 const UserManagementPage = () => {
   const { setHeader } = useHeader();
@@ -144,7 +145,12 @@ const UserManagementPage = () => {
       });
 
       if (response.status === 200) {
-        const updateUser = response.data;
+        const updatedUser = response.data;
+
+        const updatedUserFormLocal = updateUser({
+          ...updatedUser,
+          password: newPassword,
+        });
 
         setUsers((prevUsers) =>
           prevUsers.map((user) =>
