@@ -6,6 +6,7 @@ export default function BookingCard({ booking, onDelete, onConfirm }){
     BookingCard.propTypes = {
         booking: PropTypes.any.isRequired,
         onDelete: PropTypes.func.isRequired,
+        onConfirm: PropTypes.func.isRequired,
     };
 
     const getGradient = () => {
