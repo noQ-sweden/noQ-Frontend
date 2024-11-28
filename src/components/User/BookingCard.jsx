@@ -12,10 +12,10 @@ export default function BookingCard({ booking, onDelete, onConfirm }){
     const getGradient = () => {
         if(booking.status.description == "declined") {
             return "bg-[repeating-linear-gradient(90deg,_red_0,_red_10px,_transparent_10px,_transparent_20px)]";
-        } else if (booking.status.description == "reserved") {
-            return "bg-[repeating-linear-gradient(0deg,_green_0,_green_10px,_transparent_10px,_transparent_20px)]";
-        } else {
+        } else if (booking.status.description == "pending") {
             return "bg-[repeating-linear-gradient(45deg,_blue_0,_blue_10px,_transparent_10px,_transparent_20px)]";
+        } else {
+            return "bg-[repeating-linear-gradient(0deg,_green_0,_green_10px,_transparent_10px,_transparent_20px)]";
         }
     }
 
