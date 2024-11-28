@@ -410,10 +410,26 @@ export default function VolunteerPage() {
                   <p className="text-gray-600">Produkt: {selectedProduct.name}</p>
                 </div>
               )}
-            </div>
-          </div>
-        )}
+               <div className="mt-4 flex gap-2">
+          <button
+            onClick={handleBooking}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex-1"
+            disabled={!foundUser}
+          >
+            Bekräfta
+          </button>
+          <button
+            onClick={closePopover}
+            className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded flex-1"
+          >
+            Avbryt
+          </button>
+        </div>
       </div>
+    </div>
+  )}
+</div>
+
     );
       
     
