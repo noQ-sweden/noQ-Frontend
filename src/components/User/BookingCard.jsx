@@ -37,7 +37,7 @@ export default function BookingCard({ booking, onDelete, onConfirm }){
                     <div className="mt-6">
                     {booking.status.description == "reserved" && (
                         <button
-                            onClick={onConfirm}
+                            onClick={() => onConfirm(booking.id)}
                             className="
                             bg-green-600
                             hover:bg-green-700
@@ -54,7 +54,7 @@ export default function BookingCard({ booking, onDelete, onConfirm }){
                         </button>
                         )}
                         <button
-                          onClick={onDelete}
+                          onClick={() => onDelete(booking.id)}
                           className="
                             bg-red-600
                             hover:bg-red-700

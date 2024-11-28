@@ -30,6 +30,7 @@ export default function Bookings() {
                 setBookings(response.data);
             }
         } catch (error) {
+            alert("Bekräftelse misslyckades, försök igen senare!");
             console.error("Error confirming booking.", error);
         }
       }, []);
@@ -42,6 +43,7 @@ export default function Bookings() {
               setBookings(prevBookings => prevBookings.filter(booking => booking.id !== bookingId));
           }
       } catch (error) {
+          alert("Avbokning misslyckades, försök igen senare!");
           console.error("Error deleting booking.", error);
       }
     }, []);
@@ -66,8 +68,8 @@ export default function Bookings() {
                         <div key={booking.id}>
                             <BookingCard
                                 booking={booking}
-                                onDelete={() => deleteBooking(booking.id)}
-                                onConfirm={() => confirmBooking(booking.id)} />
+                                onDelete={deleteBooking}
+                                onConfirm={confirmBooking} />
                         </div>
                     )}
                 )}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { bookings } from "./bookings";
+import { bookings, userBookings, generateBookings } from "./bookings";
 import { generateAvailablePlaces } from "./hostFrontPage";
 import { generateStays, generateStaysMultipleUsers } from "./userStays";
 import { countBookings } from "./countBookings";
@@ -476,6 +476,35 @@ noqMockApi.onPost("/api/user/request_booking").reply((config) => {
 }
   */
   return [200, "Hello!"];
+});
+
+noqMockApi.onGet("api/user/bookings").reply(() => {
+  generateBookings();
+  return [200, JSON.stringify(userBookings)]; // Return the generated data
+});
+
+const userBookingUrl = "api/user/bookings";
+const urlBookingDelete = new RegExp(`${userBookingUrl}/\\d+`);
+noqMockApi.onDelete(urlBookingDelete).reply((config) => {
+  const bookingId = parseInt(config.url.match(/api\/user\/bookings\/(\d+)/)[1]);
+  const index = userBookings.findIndex((booking) => booking.id === bookingId);
+  if (index !== -1) {
+    bookings.splice(index, 1);
+    return [200];
+  }
+  return [404];
+});
+
+const userConfirmUrl = "api/user/bookings/confirm";
+const urlBookingConfirm = new RegExp(`${userConfirmUrl}/\\d+`);
+noqMockApi.onGet(urlBookingConfirm).reply((config) => {
+  const bookingId = parseInt(config.url.match(/api\/user\/bookings\/confirm\/(\d+)/)[1]);
+  const index = userBookings.findIndex((booking) => booking.id === bookingId);
+  if (index !== -1) {
+    userBookings[index].status.description = "confirmed";
+    return [200, JSON.stringify(userBookings)];
+  }
+  return [404];
 });
 
 noqMockApi.onGet("/api/caseworker/available_all").reply(() => {
