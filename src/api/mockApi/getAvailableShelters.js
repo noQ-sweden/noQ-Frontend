@@ -43,7 +43,7 @@ export function getAvailableShelters() {
             host: { 
                 region: {
                     id: 1,
-                    name: "Stockholm"
+                    name: "Malmö"
                 },
                 id: 28,
                 name: "Blommans Bostället",
@@ -55,12 +55,12 @@ export function getAvailableShelters() {
                 {
                     id: 1,
                     name: "Rum",
-                    description: "Description Rum 1",
+                    description: "Enkelrum",
                     total_places: 5,
                     host: { 
                         region: {
                             id: 1,
-                            name: "Stockgolm"
+                            name: "Stockholm"
                         },
                         id: 28,
                         name: "4 bäddsrum",
@@ -72,33 +72,14 @@ export function getAvailableShelters() {
                     places_left: 3
                 },
                 {
-                    id: 50,
-                    name: "Hygienartiklar",
-                    description: "Tvål och shampoo",
-                    total_places: 0,
-                    host: { 
-                        region: {
-                            id: 1,
-                            name: "Test"
-                        },
-                        id: 28,
-                        name: "Test",
-                        street: "Test Street 12",
-                        postcode: "12345",
-                        city: "Teststad"
-                    },
-                    type: "hygieneproducts",
-                    places_left: 0
-                },
-                {
                     id: 52,
                     name: "Rum",
-                    description: "Description Rum 2",
+                    description: "Sovsal 2",
                     total_places: 4,
                     host: { 
                         region: {
                             id: 1,
-                            name: "Test"
+                            name: "Malmö"
                         },
                         id: 28,
                         name: "Test",
