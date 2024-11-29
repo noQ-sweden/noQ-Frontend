@@ -61,10 +61,12 @@ const UserForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      setPasswordMatchError(true);
-      alert("Lösenord matchar inte");
-      return;
+    if (!isEditing || formData.password || formData.confirmPassword) {
+      if (formData.password !== formData.confirmPassword) {
+        setPasswordMatchError(true);
+        alert("Lösenord matchar inte");
+        return;
+      }
     }
 
     setPasswordMatchError(false);
@@ -75,6 +77,17 @@ const UserForm = ({
     <div className="min-h-screen rounded-xl border-2 border-gray-200">
       <div className="container mx-auto rounded-xl overflow-hidden">
         <div className="w-full py-16 px-12 bg-white bg-opacity-80 relative z-10 rounded-xl">
+          {isEditing && onPasswordUpdate && (
+            <div className="absolute top-16 right-6">
+              <button
+                type="button"
+                onClick={onPasswordUpdate}
+                className="bg-transparent hover:bg-gray-400 text-blue-500 font-bold py-2 px-4 border-b-2 border-blue-500 hover:border-gray-500 border rounded w-40"
+              >
+                Ändra Lösenord
+              </button>
+            </div>
+          )}
           <form onSubmit={handleSubmit}>
             {/* Hidden field for User ID */}
             <input type="hidden" name="id" value={formData.id} />
@@ -276,9 +289,11 @@ const UserForm = ({
                   />
                 </div>
               </div>
-              <div className="mt-5 flex justify-between items-center">
-                {isEditing && onPasswordUpdate && (
-                  <div className="flex justify-start">
+              {/*               <div className="mt-5 flex justify-between items-center"> */}
+              <div className="relative min-h-screen p-1">
+                {/*
+                 {isEditing && onPasswordUpdate && (
+                  <div className="absolute top-4 right-4">
                     <button
                       type="button"
                       onClick={onPasswordUpdate}
@@ -287,10 +302,10 @@ const UserForm = ({
                       Ändra Lösenord
                     </button>
                   </div>
-                )}
+                )}  */}
 
-                {isEditing && onDelete && (
-                  <div className="flex justify-start">
+                <div className="flex justify-between items-center mt-8">
+                  {isEditing && onDelete && (
                     <button
                       type="button"
                       onClick={onDelete}
@@ -301,26 +316,26 @@ const UserForm = ({
                     >
                       {isDeleting ? "Raderar..." : "Radera"}
                     </button>
+                  )}
+                  <div className="flex items-center space-x-4">
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="bg-transparent hover:bg-gray-400 text-blue-500 font-bold py-2 px-4 border-b-2 border-blue-500 hover:border-gray-500 border rounded w-40"
+                    >
+                      Avbryt
+                    </button>
+                    <button
+                      type="submit"
+                      className={`bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-2 border-blue-700 hover:border-blue-500 border rounded w-40 ${
+                        passwordMatchError || isDeleting
+                          ? " opacity-50 cursor-not-allowed"
+                          : ""
+                      }`}
+                    >
+                      {isEditing ? "Spara" : "Skapa Konto"}
+                    </button>
                   </div>
-                )}
-                <div className="flex items-center space-x-4">
-                  <button
-                    type="button"
-                    onClick={onClose}
-                    className="bg-transparent hover:bg-gray-400 text-blue-500 font-bold py-2 px-4 border-b-2 border-blue-500 hover:border-gray-500 border rounded w-40"
-                  >
-                    Avbryt
-                  </button>
-                  <button
-                    type="submit"
-                    className={`bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-2 border-blue-700 hover:border-blue-500 border rounded w-40 ${
-                      passwordMatchError || isDeleting
-                        ? " opacity-50 cursor-not-allowed"
-                        : ""
-                    }`}
-                  >
-                    {isEditing ? "Spara" : "Skapa Konto"}
-                  </button>
                 </div>
               </div>
             </div>

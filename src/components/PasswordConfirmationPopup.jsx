@@ -7,6 +7,7 @@ const PasswordConfirmationPopup = ({ isOpen, onClose, onConfirm }) => {
   const [passwordMatchError, setPasswordMatchError] = useState(false);
 
   /* Handle password input changes */
+  /* 
   const handleChange = (e) => {
     setPassword(e.target.value);
     setPasswordMatchError(false);
@@ -15,7 +16,7 @@ const PasswordConfirmationPopup = ({ isOpen, onClose, onConfirm }) => {
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
     setPasswordMatchError(false);
-  };
+  }; */
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,10 +26,10 @@ const PasswordConfirmationPopup = ({ isOpen, onClose, onConfirm }) => {
       return;
     }
 
-    onConfirm(password);
+    onConfirm({ password, confirmPassword });
     setPassword("");
     setConfirmPassword("");
-    setPasswordMatchError(null);
+    setPasswordMatchError(false);
     onClose();
   };
 
@@ -46,7 +47,10 @@ const PasswordConfirmationPopup = ({ isOpen, onClose, onConfirm }) => {
             name="password"
             autoComplete="off"
             value={password}
-            onChange={handleChange}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setPasswordMatchError(false);
+            }}
             placeholder="Skriv in det nya löseordet"
             className="border rounded border-gray-400 py-1 px-3 w-full mb-3"
           />
@@ -56,7 +60,10 @@ const PasswordConfirmationPopup = ({ isOpen, onClose, onConfirm }) => {
             name="confirmPassword"
             autoComplete="off"
             value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              setPasswordMatchError(false);
+            }}
             placeholder="Bekräfta lösenord"
             className="border rounded border-gray-400 py-1 px-3 w-full mb-3"
           />

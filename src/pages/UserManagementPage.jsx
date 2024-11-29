@@ -97,24 +97,42 @@ const UserManagementPage = () => {
     closeForm();
   };
   // Handle password reset
-  const handlePasswordUpdate = async (newPassword) => {
-    if (!selectedUser?.id) return alert("Användare utan ID");
-    const updatedUser = await axios.put(
-      `api/caseworker/user/${selectedUser.id}`,
-      {
-        password: newPassword,
-      }
-    );
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === updatedUser.data.id ? updatedUser.data : user
-      )
-    );
+  const handlePasswordUpdate = async ({ password, confirmPassword }) => {
+    if (!selectedUser?.id) {
+      alert("Användare utan ID");
+      return;
+    }
+    // send only password to BE only for update
+    try {
+      const updatedUser = await axios.put(
+        `api/caseworker/user/${selectedUser.id}`,
+        {
+          password,
+        }
+      );
+      // Update the user in the local state
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === updatedUser.data.id
+            ? { ...updatedUser.data, password, confirmPassword }
+            : user
+        )
+      );
 
-    alert("Lösenord uppdaterat framgångsrikt!");
-    closePopup();
+      // Update the selected user state in the form
+      setSelectedUser((prevUser) => ({
+        ...prevUser,
+        password,
+        confirmPassword,
+      }));
+
+      alert("Lösenord uppdaterat framgångsrikt!");
+      closePopup();
+    } catch (error) {
+      console.error("Error updating user:", error);
+      alert("Ett fel uppstod. Försök igen senare.");
+    }
   };
-
   // Handle Popup Open
   const openPopup = (popupType) => {
     setActivePopup(popupType);
