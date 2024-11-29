@@ -16,6 +16,7 @@ import AccommodationDetail from "./components/User/AccommodationDetail";
 import AccommodationBooking from "./components/User/AccommodationBooking";
 import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
+import VolunteerPage from "./pages/VolunteerPage";
 
 
 export const VisitorContext = createContext();
@@ -51,6 +52,13 @@ function App() {
           <Route path="caseworker" element={<CaseworkerPage />} />
           <Route path="caseworker/requests" element={<RequestPageView userGroup="caseworker" />} />
           <Route path="caseworker/statistics" element={<CaseworkerStatisticsPage userGroup="caseworker" />} />
+        </Route>
+
+        {/* Volunteer Pages */}
+        <Route element={<RequireLogin allowedGroups={["volunteer"]} />}>
+          <Route path="volunteer" element={<VolunteerPage />} />
+          <Route path="volunteer/requests" element={<RequestPageView userGroup="volunteer" />} />
+          
         </Route>
 
         {/* Invalid path */}
