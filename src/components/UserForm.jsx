@@ -36,73 +36,38 @@ const UserForm = ({
 
   // Populate form with user data if editing or clear it for new user creation
   useEffect(() => {
-    if (isEditing && user) {
-      setFormData({
-        id: user.id || "",
-        first_name: user.first_name || "",
-        last_name: user.last_name || "",
-        gender: user.gender || "",
-        street: user.street || "",
-        postcode: user.postcode?.toString() || "",
-        city: user.city || "",
-        country: user.country || "",
-        phone: user.phone?.toString() || "",
-        email: user.email || "",
-        unokod: user.unokod?.toString() || "",
-        day_of_birth: user.day_of_birth?.toString() || "",
-        region: user.region || "",
-        password: user.password || "",
-        confirmPassword: user.confirmPassword || "",
-        requirements: user.requirements || "",
-      });
-    } else {
-      setFormData({
-        id: "",
-        last_name: "",
-        gender: "",
-        street: "",
-        postcode: "",
-        city: "",
-        country: "",
-        phone: "",
-        email: "",
-        unokod: "",
-        day_of_birth: "",
-        region: "",
-        password: "",
-        confirmPassword: "",
-        requirements: "",
-      });
-    }
+    setFormData((prevData) => ({
+      ...prevData,
+      ...user,
+      id: user?.id || "",
+      postcode: user?.postcode?.toString() || "",
+      phone: user?.phone?.toString() || "",
+      unokod: user?.unokod?.toString() || "",
+      day_of_birth: user?.day_of_birth?.toString() || "",
+      password: user?.password || "",
+      confirmPassword: user?.confirmPassword || "",
+      requirements: user?.requirements || "",
+    }));
   }, [isEditing, user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const updatedData = {
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: name === "postcode" ? (value ? parseInt(value, 10) : "") : value,
-    };
-
-    setFormData(updatedData);
-
-    if (name === "password" || name === "confirmPassword") {
-      setPasswordMatchError(
-        updatedData.password !== updatedData.confirmPassword
-      );
-    }
-    return updatedData;
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!isEditing) {
-      if (formData.password !== formData.confirmPassword) {
-        setPasswordMatchError(true);
-        alert("Lösenord matchar inte");
-        return;
-      }
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordMatchError(true);
+      alert("Lösenord matchar inte");
+      return;
     }
+
+    setPasswordMatchError(false);
     onSubmit(formData);
   };
 
@@ -303,8 +268,8 @@ const UserForm = ({
                   <textarea
                     rows="4"
                     type="text"
-                    name="requirement"
-                    value={formData.requirements}
+                    name="requirements"
+                    value={formData.requirements || ""}
                     onChange={handleChange}
                     placeholder="Skriv här"
                     className="border rounded text-sm border-gray-400 bg-gray-50 p-2.5 px-3 w-3/4"
@@ -348,7 +313,11 @@ const UserForm = ({
                   </button>
                   <button
                     type="submit"
-                    className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-2 border-blue-700 hover:border-blue-500 border rounded w-40"
+                    className={`bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-2 border-blue-700 hover:border-blue-500 border rounded w-40 ${
+                      passwordMatchError || isDeleting
+                        ? " opacity-50 cursor-not-allowed"
+                        : ""
+                    }`}
                   >
                     {isEditing ? "Spara" : "Skapa Konto"}
                   </button>

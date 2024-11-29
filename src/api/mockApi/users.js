@@ -104,6 +104,7 @@ export function initUserList() {
       region: 0,
       unokod: firstName[0] + lastName[0] + "0721",
       personnr_lastnr: "1234",
+      requirements: "",
     };
     users.push(user);
   }

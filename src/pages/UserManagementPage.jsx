@@ -5,7 +5,6 @@ import axios from "./../api/AxiosNoqApi";
 import useHeader from "../hooks/useHeader";
 import DeleteConfirmationPopup from "../components/DeleteConfirmationPopup";
 import PasswordConfirmationPopup from "../components/PasswordConfirmationPopup";
-import { updateUser } from "../api/mockApi/users";
 
 const UserManagementPage = () => {
   const { setHeader } = useHeader();
@@ -54,20 +53,30 @@ const UserManagementPage = () => {
   // Handle form submission
   const handleFormSubmit = async (formData) => {
     try {
-      const url = `api/caseworker/user/${formData.id}`;
-      const response = await axios.put(url, formData);
-      if (response.status === 200) {
-        const updatedUser = response.data;
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.id === updatedUser.id ? updatedUser : user
-          )
-        );
-        alert("Användare uppdaterad framgångsrikt!");
+      if (formData.id) {
+        const url = `api/caseworker/user/${formData.id}`;
+        console.log("Updating user at URL:", url);
+
+        const response = await axios.put(url, formData);
+        if (response.status === 200) {
+          const updatedUser = response.data;
+
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.id === updatedUser.id ? updatedUser : user
+            )
+          );
+          alert("Användare uppdaterad framgångsrikt!");
+        }
       } else {
-        const respons = await axios.post("api/caseworker/user", formData);
-        if (respons.status === 200) {
-          const newUser = respons.data;
+        // Create a new user
+        console.log("Creating new user");
+
+        const response = await axios.post("api/caseworker/user", formData);
+        if (response.status === 200) {
+          const newUser = response.data;
+
+          // Add the new user to the users list
           setUsers((prevUsers) => [...prevUsers, newUser]);
           alert("Användare skapad framgångsrikt!");
         }
@@ -75,6 +84,7 @@ const UserManagementPage = () => {
       closeForm();
     } catch (error) {
       console.error("Error updating user:", error);
+      alert("Ett fel uppstod. Försök igen senare.");
     }
   };
   // Handle deleting a user
@@ -104,26 +114,6 @@ const UserManagementPage = () => {
     alert("Lösenord uppdaterat framgångsrikt!");
     closePopup();
   };
-
-  /* // Handle Update a user
-  const handleUpdatedUser = async (formData) => {
-    const respons = await axios.post(
-      `api/caseworker/user${formData.id}`,
-      formData
-    );
-    const updatedUser = respons.data;
-    setUsers((prevUsers) =>
-      prevUsers.map((user) => (user.id === updatedUser.id ? updatedUser : user))
-    );
-    alert("Användare uppdaterad framgångsrikt!");
-  };
-
-  // Handle creating a new user
-  const handleCreateUser = async (formData) => {
-    const response = await axios.post("api/caseworker/user", formData);
-    setUsers((prevUsers) => [...prevUsers, newUser]);
-    alert("Användare skapad framgångsrikt!");
-  }; */
 
   // Handle Popup Open
   const openPopup = (popupType) => {
