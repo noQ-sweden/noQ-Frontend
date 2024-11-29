@@ -241,13 +241,13 @@ export default function VolunteerPage() {
           </div>
     
           <div className="w-full max-w-xs">
-            <label className="block font-medium text-gray-700">Välj Värd</label>
+            <label className="block font-medium text-gray-700">Välj Bostället</label>
             <select
               value={selectedHostId}
               onChange={(e) => setSelectedHostId(e.target.value)}
               className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 font-semibold"
             >
-              <option value="">Alla Värdar</option>
+              <option value="">Alla Boställen</option>
               {hosts.map((host) => (
                 <option key={host.id} value={host.id}>
                   {host.name}

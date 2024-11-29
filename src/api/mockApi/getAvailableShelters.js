@@ -46,7 +46,7 @@ export function getAvailableShelters() {
                     name: "Stockholm"
                 },
                 id: 28,
-                name: "Bostället",
+                name: "Blommans Bostället",
                 street: "Storvägen 59",
                 postcode: "12345",
                 city: "Malmö"
@@ -118,7 +118,7 @@ export function getAvailableShelters() {
                     name: "Test"
                 },
                 id: 1,
-                name: "Ny gemenskap",
+                name: "Ekens Bostället",
                 street: "Skolvägen 12",
                 postcode: "12345",
                 city: "Teststad"
