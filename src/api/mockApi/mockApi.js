@@ -555,7 +555,7 @@ noqMockApi.onGet("/api/volunteer/guest/search").reply((config) => {
 
 const Guestbookings = [];
 
-const fetchUsers = () => {
+export const fetchUsers = () => {
   return mockUser; 
 };
 
@@ -618,7 +618,7 @@ noqMockApi.onPost("/api/volunteer/request_booking").reply((config) => {
 
   newBooking.id = Guestbookings.length + 1;
   newBooking.status = { description: "pending" };
-  newBooking.uno = newBooking.uno;
+  //newBooking.uno = newBooking.uno;
 
   Guestbookings.push(newBooking);
 

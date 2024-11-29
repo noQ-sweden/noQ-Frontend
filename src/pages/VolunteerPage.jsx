@@ -23,7 +23,7 @@ export default function VolunteerPage() {
     const [newFirstName, setNewFirstName] = useState("");
     const [newLastName, setNewLastName] = useState("");
     const [newUno, setNewUno] = useState("");
-    const [mockApiUsers, setMockApiUsers] = useState([]);
+    const [_mockApiUsers, setMockApiUsers] = useState([]);
 
 
     useEffect(() => {
