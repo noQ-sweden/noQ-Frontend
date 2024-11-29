@@ -515,7 +515,7 @@ noqMockApi.onGet("/api/volunteer/available").reply(config => {
 // Volunteer 
 const mockUser = [
   { user: { id: 1, uno: "LA9709", first_name: "Lars", last_name: "Andersson" } },
-  { user: { id: 2, uno: "KR8327", first_name: "Karin", last_name: "Johansson" } },
+  { user: { id: 2, uno: "KJ8327", first_name: "Karin", last_name: "Johansson" } },
   { user: { id: 3, uno: "EN7801", first_name: "Erik", last_name: "Nilsson" } },
 ];
 
