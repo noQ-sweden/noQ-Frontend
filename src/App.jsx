@@ -16,7 +16,7 @@ import RoomPage from "./pages/RoomPage";
 import AccommodationDetail from "./components/User/AccommodationDetail";
 import AccommodationBooking from "./components/User/AccommodationBooking";
 import Bookings from "./components/User/Bookings";
-/* import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage"; */
+import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
 
 import UserManagementPage from "./pages/UserManagementPage";
 
