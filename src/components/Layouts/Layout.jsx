@@ -18,7 +18,7 @@ export default function Layout() {
       <main>
         <div className="flex">
           {/*Show sidebar only if viewer is host*/}
-          {viewerGroup === "host" || viewerGroup === "caseworker" || viewerGroup === "user" ? (
+          {viewerGroup === "host" || viewerGroup === "caseworker" || viewerGroup === "user" || viewerGroup === "volunteer" ? (
             <Sidebar />
           ) : null}
           <div style={{ flex: 1 }}>
