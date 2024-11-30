@@ -43,13 +43,13 @@ export function getAvailableShelters() {
             host: { 
                 region: {
                     id: 1,
-                    name: "Test"
+                    name: "Stockholm"
                 },
                 id: 28,
-                name: "Test",
-                street: "Test Street 12",
+                name: "Bostället",
+                street: "Storvägen 59",
                 postcode: "12345",
-                city: "Teststad"
+                city: "Malmö"
             },
             products: [
                 {
@@ -60,11 +60,11 @@ export function getAvailableShelters() {
                     host: { 
                         region: {
                             id: 1,
-                            name: "Test"
+                            name: "Stockgolm"
                         },
                         id: 28,
-                        name: "Test",
-                        street: "Test Street 12",
+                        name: "4 bäddsrum",
+                        street: "Storvägen 12",
                         postcode: "12345",
                         city: "Teststad"
                     },
@@ -118,8 +118,8 @@ export function getAvailableShelters() {
                     name: "Test"
                 },
                 id: 1,
-                name: "Test",
-                street: "Test Street 12",
+                name: "Ny gemenskap",
+                street: "Skolvägen 12",
                 postcode: "12345",
                 city: "Teststad"
             },
@@ -127,7 +127,7 @@ export function getAvailableShelters() {
                 {
                     id: 2,
                     name: "4-bädsrum ",
-                    description: "Description Rum 2",
+                    description: " Rum 2",
                     total_places: 4,
                     host: { 
                         region: {

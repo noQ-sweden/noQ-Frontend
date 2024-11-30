@@ -16,7 +16,8 @@ import RoomPage from "./pages/RoomPage";
 import AccommodationDetail from "./components/User/AccommodationDetail";
 import AccommodationBooking from "./components/User/AccommodationBooking";
 import Bookings from "./components/User/Bookings";
-/* import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage"; */
+import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
+import VolunteerPage from "./pages/VolunteerPage";
 
 import UserManagementPage from "./pages/UserManagementPage";
 
@@ -69,6 +70,13 @@ function App() {
             path="caseworker/statistics"
             element={<StatisticsPage userGroup="caseworker" />}
           />
+        </Route>
+
+        {/* Volunteer Pages */}
+        <Route element={<RequireLogin allowedGroups={["volunteer"]} />}>
+          <Route path="volunteer" element={<VolunteerPage />} />
+          <Route path="volunteer/requests" element={<RequestPageView userGroup="volunteer" />} />
+          
         </Route>
 
         {/* Invalid path */}
