@@ -3,7 +3,7 @@ export const regions = [
   "Skåne",
   "Västmanland",
   "VästraGötaland",
-  "Östergötlands",
+  "Östergötland",
   "Södermanland",
   "Halland",
   "Örebro",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import PropTypes, { number } from "prop-types";
+import PropTypes from "prop-types";
 
 import { regions, kommunerMap } from "./KommunData";
 
@@ -13,56 +13,61 @@ const CustomDropdownRegion = ({ name, number, value, onChange }) => {
   const regionDropdownRef = useRef(null);
   const kommunerDropdownRef = useRef(null);
 
+  // Update kommuner when the region changes
   useEffect(() => {
-    // Update kommuner when the region changes
-    if (selectedRegion) {
-      setKommuner(kommunerMap[selectedRegion] || []);
-    } else {
-      setKommuner([]);
-    }
+    setKommuner(kommunerMap[selectedRegion] || []);
   }, [selectedRegion]);
 
-  const handleRegionClick = (region) => {
-    setSelectedRegion(region);
-
-    const relatedKommuner = kommunerMap[region] || [];
-    setKommuner(relatedKommuner);
-
-    setIsOpen(false);
-    setIsKommunerOpen(false);
-    onChange(region);
-  };
-
-  const handleKommunClick = (kommun) => {
-    /*  if (!kommun || !kommun.name) {
-      console.log("Selected kommun:", kommun);
-      return;
-    } */
-    setSelectedKommun(kommun);
-    setIsKommunerOpen(false);
-
-    // Notify the parent component of the change
-    onChange({ region: selectedRegion, kommun });
-  };
-
-  const handleClickOutside = (event) => {
-    if (
-      regionDropdownRef.current &&
-      !regionDropdownRef.current.contains(event.target) &&
-      kommunerDropdownRef.current &&
-      !kommunerDropdownRef.current.contains(event.target)
-    ) {
-      setIsOpen(false);
-      setIsKommunerOpen(false);
-    }
-  };
-
+  // Close dropdown when clicking outside
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        regionDropdownRef.current &&
+        !regionDropdownRef.current.contains(event.target) &&
+        kommunerDropdownRef.current &&
+        !kommunerDropdownRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+        setIsKommunerOpen(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Toggle the region dropdown
+  const regionClickHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
+  // Select a Region
+  const selectedRegionHandler = (region) => {
+    setSelectedRegion(region);
+
+    setKommuner(kommunerMap[region] || []);
+
+    setIsOpen(false);
+    setIsKommunerOpen(false);
+    setSelectedKommun("");
+    onChange({ region, kommun: "" });
+  };
+
+  // Toggle the kommuner dropdown
+  const kommunClickHandler = () => {
+    if (kommuner.length > 0) {
+      setIsKommunerOpen(!isKommunerOpen);
+    }
+  };
+
+  // Select a Kommun
+  const selectKommunHandler = (kommun) => {
+    setSelectedKommun(kommun);
+    setIsKommunerOpen(false); //close the kommuner dropdown
+    onChange({ region: selectedRegion, kommun }); //Notify parent of Changes
+  };
 
   return (
     <div className="relative mt-5">
@@ -74,7 +79,10 @@ const CustomDropdownRegion = ({ name, number, value, onChange }) => {
           </label>
 
           <div
-            onClick={() => setIsOpen(!isOpen)}
+            role="button"
+            tabIndex={0}
+            aria-expanded={isOpen}
+            onClick={regionClickHandler}
             className={`border rounded border-gray-400 text-gray-400 py-1 px-2 cursor-pointer ${
               selectedRegion ? "text-blacj" : "text-gray-400"
             }`}
@@ -91,12 +99,12 @@ const CustomDropdownRegion = ({ name, number, value, onChange }) => {
                 paddingBottom: "8px",
               }}
             >
-              {regions.map((region, index) => (
+              {regions.map((region) => (
                 <li
-                  key={index}
+                  key={region}
                   role="option"
                   className="py-2 px-4 hover:bg-gray-200 cursor-pointer"
-                  onClick={() => handleRegionClick(region)}
+                  onClick={() => selectedRegionHandler(region)}
                 >
                   {region}
                 </li>
@@ -115,9 +123,7 @@ const CustomDropdownRegion = ({ name, number, value, onChange }) => {
             role="button"
             tabIndex={0}
             aria-expanded={isKommunerOpen}
-            onClick={() =>
-              kommuner.length > 0 && setIsKommunerOpen(!isKommunerOpen)
-            }
+            onClick={kommunClickHandler}
             className={`border rounded border-gray-400 py-1 px-2 cursor-pointer ${
               kommuner.length === 0 ? "text-gray-400 cursor-not-allowed" : ""
             }`}
@@ -141,7 +147,7 @@ const CustomDropdownRegion = ({ name, number, value, onChange }) => {
                   key={kommun}
                   role="option"
                   className="py-2 px-4 hover:bg-gray-200 cursor-pointer focus:bg-gray-300"
-                  onClick={() => handleKommunClick(kommun)}
+                  onClick={() => selectKommunHandler(kommun)}
                 >
                   {kommun}
                 </li>
@@ -156,7 +162,6 @@ const CustomDropdownRegion = ({ name, number, value, onChange }) => {
 
 CustomDropdownRegion.propTypes = {
   name: PropTypes.string.isRequired,
-  number: PropTypes.number,
   value: PropTypes.shape({
     region: PropTypes.string.isRequired,
     kommun: PropTypes.string,

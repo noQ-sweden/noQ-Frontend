@@ -55,7 +55,7 @@ const UserManagementPage = () => {
     try {
       if (formData.id) {
         const url = `api/caseworker/user/${formData.id}`;
-        console.log("Updating user at URL:", url);
+        /* console.log("Updating user at URL:", url); */
 
         const response = await axios.put(url, formData);
         if (response.status === 200) {
@@ -70,7 +70,7 @@ const UserManagementPage = () => {
         }
       } else {
         // Create a new user
-        console.log("Creating new user");
+        /* console.log("Creating new user"); */
 
         const response = await axios.post("api/caseworker/user", formData);
         if (response.status === 200) {
