@@ -6,24 +6,13 @@ const PasswordConfirmationPopup = ({ isOpen, onClose, onConfirm }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState(false);
 
-  /* Handle password input changes */
-  /* 
-  const handleChange = (e) => {
-    setPassword(e.target.value);
-    setPasswordMatchError(false);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-    setPasswordMatchError(false);
-  }; */
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (password !== confirmPassword) {
-      setPasswordMatchError(true);
-      return;
+    if (password || confirmPassword) {
+      if (password !== confirmPassword) {
+        setPasswordMatchError(true);
+        return;
+      }
     }
 
     onConfirm({ password, confirmPassword });

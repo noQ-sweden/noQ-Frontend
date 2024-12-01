@@ -36,18 +36,20 @@ const UserForm = ({
 
   // Populate form with user data if editing or clear it for new user creation
   useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      ...user,
-      id: user?.id || "",
-      postcode: user?.postcode?.toString() || "",
-      phone: user?.phone?.toString() || "",
-      unokod: user?.unokod?.toString() || "",
-      day_of_birth: user?.day_of_birth?.toString() || "",
-      password: user?.password || "",
-      confirmPassword: user?.confirmPassword || "",
-      requirements: user?.requirements || "",
-    }));
+    if (isEditing && user) {
+      setFormData((prevData) => ({
+        ...prevData,
+        ...user,
+        id: user?.id || "",
+        postcode: user?.postcode?.toString() || "",
+        phone: user?.phone?.toString() || "",
+        unokod: user?.unokod?.toString() || "",
+        day_of_birth: user?.day_of_birth?.toString() || "",
+        password: "",
+        confirmPassword: "",
+        requirements: user?.requirements || "",
+      }));
+    }
   }, [isEditing, user]);
 
   const handleChange = (e) => {
@@ -61,7 +63,7 @@ const UserForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!isEditing || formData.password || formData.confirmPassword) {
+    if (formData.password || formData.confirmPassword) {
       if (formData.password !== formData.confirmPassword) {
         setPasswordMatchError(true);
         alert("Lösenord matchar inte");
@@ -264,14 +266,17 @@ const UserForm = ({
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mb-6">
                   <CustomDropdownRegion
                     name="region"
-                    value={formData.region}
-                    onChange={(value) =>
-                      setFormData((prevData) => ({
-                        ...prevData,
-                        region: value,
-                      }))
-                    }
-                    required={true}
+                    value={{
+                      region: formData.region || "",
+                      kommun: formData.kommun || "",
+                    }}
+                    onChange={(selected) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        region: selected.region,
+                        kommun: selected.kommun,
+                      }));
+                    }}
                   />
                 </div>
                 <div>
@@ -289,21 +294,7 @@ const UserForm = ({
                   />
                 </div>
               </div>
-              {/*               <div className="mt-5 flex justify-between items-center"> */}
               <div className="relative min-h-screen p-1">
-                {/*
-                 {isEditing && onPasswordUpdate && (
-                  <div className="absolute top-4 right-4">
-                    <button
-                      type="button"
-                      onClick={onPasswordUpdate}
-                      className="bg-transparent hover:bg-gray-400 text-blue-500 font-bold py-2 px-4 border-b-2 border-blue-500 hover:border-gray-500 border rounded w-40"
-                    >
-                      Ändra Lösenord
-                    </button>
-                  </div>
-                )}  */}
-
                 <div className="flex justify-between items-center mt-8">
                   {isEditing && onDelete && (
                     <button
