@@ -1,3 +1,5 @@
+export var userBookings = [];
+
 export var bookings = [
     {
         id: 1,
@@ -350,3 +352,96 @@ export var bookings = [
         }
     }
 ];
+
+export function generateBookings() {
+    const user = {
+        region: {
+            id: 2,
+            name: "Farsta"
+        },
+        id: 5,
+        user: 15,
+        first_name: "Johan",
+        last_name: "Johansson",
+        gender: "M",
+        street: "Kyrkogränd 6",
+        postcode: "",
+        city: "Handen",
+        country: "",
+        phone: "0701-401093",
+        email: "johan.johansson@hotmejl.se",
+        unokod: "5224",
+        day_of_birth: null,
+        personnr_lastnr: "",
+        requirements: null,
+        last_edit: "2024-05-05",
+        flag: false
+    };
+
+    const product = {
+        id: 25,
+        name: "room",
+        description: "2-bäddsrum",
+        total_places: 2,
+        host: {
+            region: {
+                id: 3,
+                name: "Stockholm City"
+            },
+            id: 3,
+            name: "Grimmans Akutboende",
+            street: "Parkgatan 48",
+            postcode: "",
+            city: "Sundbyberg"
+        },
+        type: "room"
+    };
+
+    const getRandomDate = (startDate) => {
+        const date = new Date(startDate);
+        const daysToAdd = Math.floor(Math.random() * 30); // Add up to 30 days for randomness
+        date.setDate(date.getDate() + daysToAdd);
+        return date;
+    };
+
+    const formatDate = (date) => date.toISOString().split("T")[0]; // Format as "YYYY-MM-DD"
+
+    const isOverlapping = (newStart, newEnd, existingBookings) => {
+        for (const booking of existingBookings) {
+            const existingStart = new Date(booking.start_date);
+            const existingEnd = new Date(booking.end_date);
+            if (
+                (newStart >= existingStart && newStart <= existingEnd) ||
+                (newEnd >= existingStart && newEnd <= existingEnd) ||
+                (newStart <= existingStart && newEnd >= existingEnd)
+            ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    const bookings = [];
+    const currentDate = new Date();
+    let id = 1;
+
+    while (userBookings.length < 3) {
+        const startDate = getRandomDate(currentDate);
+        const endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + Math.floor(Math.random() * 3) + 1); // 1 to 3 days duration
+
+        if (!isOverlapping(startDate, endDate, bookings)) {
+             userBookings.push({
+                id: id++,
+                status: {
+                    description: "reserved"
+                },
+                booking_time: new Date().toISOString(),
+                start_date: formatDate(startDate),
+                end_date: formatDate(endDate),
+                product: product,
+                user: user
+            });
+        }
+    }
+}
