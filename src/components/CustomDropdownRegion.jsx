@@ -162,6 +162,7 @@ const CustomDropdownRegion = ({ name, number, value, onChange }) => {
 
 CustomDropdownRegion.propTypes = {
   name: PropTypes.string.isRequired,
+  number: PropTypes.number,
   value: PropTypes.shape({
     region: PropTypes.string.isRequired,
     kommun: PropTypes.string,
