@@ -1,5 +1,5 @@
 export var userBookings = [];
-
+//List of guest bookings
 export var bookings = [
     {
         id: 1,
