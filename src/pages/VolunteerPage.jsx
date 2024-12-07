@@ -157,7 +157,13 @@ export default function VolunteerPage() {
             closePopover();
         } catch (error) {
             if (error.response && error.response.status === 409) {
-                alert("Bokning finns redan.");
+                if (error.response.data.detail == "Booking is pending and can't be confirmed.") {
+                  alert ("Bokning väntar på godkännande och kan inte bekräftas.");
+                  closePopover();
+                } else {
+                  alert("Bokning finns redan.");
+                  closePopover();
+                }
             } else if (error.response && error.response.status === 422) {
                 alert("Fel med Datum");
             } else if (error.response) {
@@ -193,7 +199,7 @@ export default function VolunteerPage() {
                 setFoundUser({
                     first_name: user.first_name,
                     last_name: user.last_name,
-                    uno: user.uno,
+                    uno: user.unokod,
                   });
                 setSearchError(null);
             } else {
