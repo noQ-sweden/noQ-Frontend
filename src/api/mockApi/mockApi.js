@@ -630,7 +630,7 @@ noqMockApi.onPost("/api/volunteer/guest/create").reply((config) => {
   return [201, newUser.user];
 });
 
-noqMockApi.onPost("/api/volunteer/request_booking").reply((config) => {
+noqMockApi.onPost("/api/volunteer/booking/request").reply((config) => {
   const newBooking = JSON.parse(config.data);
   
   // Check for duplicate bookings
