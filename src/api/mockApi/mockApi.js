@@ -5,8 +5,16 @@ import { generateStays, generateStaysMultipleUsers } from "./userStays";
 import { countBookings } from "./countBookings";
 import AxiosMockAdapter from "axios-mock-adapter";
 import { products } from "./products.js";
+import {
+  addUser,
+  deleteUser,
+  updateUser,
+  getUsers,
+  initUserList,
+} from "./users.js";
 import { getAvailableShelters } from "./getAvailableShelters"; // Import the function
 import { availableProducts } from "./caseworkerFrontPage.js";
+import { userTest } from "./users.js";
 
 
 export const axiosMockNoqApi = axios.create({
@@ -87,6 +95,7 @@ noqMockApi.onPost("api/login/").reply((config) => {
     login.groups = ["caseworker"];
     login.first_name = "User";
     login.last_name = "Caseworker";
+    initUserList();
     return [200, JSON.stringify(login)];
   }
   // Volunteer: user.volunteer@test.nu
@@ -325,7 +334,9 @@ noqMockApi.onPatch("api/caseworker/bookings/batch/accept").reply((config) => {
 });
 
 const caseworkerStatisticsUrl = "api/caseworker/guests/nights/count";
-const urlUserStatistics = new RegExp(`^${caseworkerStatisticsUrl}/\\d+/\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}$`);
+const urlUserStatistics = new RegExp(
+  `^${caseworkerStatisticsUrl}/\\d+/\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}$`
+);
 noqMockApi.onGet(urlUserStatistics).reply((config) => {
   const params = config.url.split("/");
   const stays = generateStays(params[5], params[6], params[7]);
@@ -333,7 +344,9 @@ noqMockApi.onGet(urlUserStatistics).reply((config) => {
   return [200, JSON.stringify(stays)]; //userId, startDate, endDate
 });
 
-const urlStatistics = new RegExp(`${caseworkerStatisticsUrl}/\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}`);
+const urlStatistics = new RegExp(
+  `${caseworkerStatisticsUrl}/\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}`
+);
 noqMockApi.onGet(urlStatistics).reply((config) => {
   const params = config.url.split("/");
   const stays = generateStaysMultipleUsers(params[5], params[6]);
@@ -423,58 +436,7 @@ noqMockApi.onGet(urlAvailableSheltersPerDay).reply(() => {
 noqMockApi.onPost("/api/user/request_booking").reply((config) => {
   let bookingData = JSON.parse(config.data);
   console.log(bookingData);
-  //bookings.push(newBooking);
-  /*
-  Return data:
-  {
-  "id": 0,
-  "status": {
-    "description": "string"
-  },
-  "start_date": "2024-09-24",
-  "end_date": "2024-09-24",
-  "product": {
-    "id": 0,
-    "name": "string",
-    "description": "string",
-    "total_places": 0,
-    "host": {
-      "region": {
-        "id": 0,
-        "name": "string"
-      },
-      "id": 0,
-      "name": "string",
-      "street": "string",
-      "postcode": "",
-      "city": ""
-    },
-    "type": "string"
-  },
-  "user": {
-    "region": {
-      "id": 0,
-      "name": "string"
-    },
-    "id": 0,
-    "user": 0,
-    "first_name": "string",
-    "last_name": "string",
-    "gender": "s",
-    "street": "",
-    "postcode": "",
-    "city": "",
-    "country": "",
-    "phone": "string",
-    "email": "string",
-    "unokod": "string",
-    "day_of_birth": "2024-09-24",
-    "personnr_lastnr": "",
-    "requirements": 0,
-    "last_edit": "2024-09-24"
-  }
-}
-  */
+
   return [200, "Hello!"];
 });
 
@@ -511,34 +473,44 @@ noqMockApi.onGet("/api/caseworker/available_all").reply(() => {
   return [200, JSON.stringify(availableProducts)];
 });
 
-noqMockApi.onGet("/api/volunteer/available").reply(config => {
-  const { selected_date, host_id } = config.params || {}
+noqMockApi.onGet("/api/volunteer/available").reply((config) => {
+  const { selected_date, host_id } = config.params || {};
 
   // Fetch the full list of available shelters with products
-  let availableShelters = getAvailableShelters()
+  let availableShelters = getAvailableShelters();
 
   // Filter by host_id if provided
   if (host_id) {
-    availableShelters = availableShelters.filter(shelter => shelter.host.id === parseInt(host_id))
+    availableShelters = availableShelters.filter(
+      (shelter) => shelter.host.id === parseInt(host_id)
+    );
   }
 
   // Filter by selected_date if provided
   if (selected_date) {
-    availableShelters = availableShelters.map(shelter => ({
-      ...shelter,
-      products: shelter.products.map(product => {
-        // Set `places_left` based on mock availability for the date
-        // Assuming each product has a `dates` array with availability records
-        const availability = product.availability?.find(avail => avail.date === selected_date)
-        return {
-          ...product,
-          places_left: availability ? availability.places_left : product.total_places
-        }
-      }).filter(product => product.places_left > 0) // Exclude fully booked products for the date
-    })).filter(shelter => shelter.products.length > 0) // Exclude hosts with no available products
+    availableShelters = availableShelters
+      .map((shelter) => ({
+        ...shelter,
+        products: shelter.products
+          .map((product) => {
+            // Set `places_left` based on mock availability for the date
+            // Assuming each product has a `dates` array with availability records
+            const availability = product.availability?.find(
+              (avail) => avail.date === selected_date
+            );
+            return {
+              ...product,
+              places_left: availability
+                ? availability.places_left
+                : product.total_places,
+            };
+          })
+          .filter((product) => product.places_left > 0), // Exclude fully booked products for the date
+      }))
+      .filter((shelter) => shelter.products.length > 0); // Exclude hosts with no available products
   }
 
-  return [200, availableShelters]
+  return [200, availableShelters];
 });
 
 // Volunteer 
@@ -554,8 +526,30 @@ noqMockApi.onGet("/api/volunteer/guest/search").reply((config) => {
   
   console.log("Search parameters:", { first_name, last_name, uno });
 
+  // Check if both first_name and last_name are empty
+  if (!first_name.trim() && !last_name.trim()) {
+    return [
+      400,
+      {
+        error:
+          "Either first name or last name must be provided for the search.",
+      },
+    ];
+  }
+
+  // Filter users by first and last name, case-insensitive, and map to only return the id
+  const matchingUsers = userTest
+    .filter(
+      (userObj) =>
+        userObj.user.first_name
+          .toLowerCase()
+          .includes(first_name.toLowerCase()) &&
+        userObj.user.last_name.toLowerCase().includes(last_name.toLowerCase())
+    )
+    .map((userObj) => ({ id: userObj.user.id })); // Access id inside the user object
+  
   // Check if at least one search parameter is provided
-  if (!first_name.trim() && !last_name.trim() && !uno.trim()) {
+  {/*if (!first_name.trim() && !last_name.trim() && !uno.trim()) {
     return [400, { error: "At least one search parameter (name or uno) must be provided." }];
   }
 
@@ -572,7 +566,8 @@ noqMockApi.onGet("/api/volunteer/guest/search").reply((config) => {
       uno: userObj.user.uno,
       first_name: userObj.user.first_name,
       last_name: userObj.user.last_name,
-    }));
+    }));*/}
+
 
   if (matchingUsers.length === 0) {
     return [404, { error: "No matching guest found" }];
@@ -632,7 +627,7 @@ noqMockApi.onPost("/api/volunteer/guest/create").reply((config) => {
 
 noqMockApi.onPost("/api/volunteer/booking/request").reply((config) => {
   const newBooking = JSON.parse(config.data);
-  
+
   // Check for duplicate bookings
   const duplicate = Guestbookings.find(
     (b) =>
@@ -662,10 +657,10 @@ noqMockApi.onPatch(/\/api\/volunteer\/confirm_booking\/\d+/).reply((config) => {
   // Find the booking in mock data
   const bookingIndex = Guestbookings.findIndex((b) => b.id === bookingId);
   console.log("Booking ID to Confirm:", bookingId);
-  
+
   if (bookingIndex !== -1) {
     const booking = Guestbookings[bookingIndex];
-    
+
     // Only allow confirmation if booking is "pending"
     if (booking.status.description !== "pending") {
       return [400, { error: "Only pending bookings can be confirmed." }];
@@ -684,4 +679,57 @@ noqMockApi.onPatch(/\/api\/volunteer\/confirm_booking\/\d+/).reply((config) => {
   } else {
     return [404, { error: "Booking not found" }];
   }
+});
+
+/*
+  Caseworker user management
+*/
+noqMockApi.onGet("api/caseworker/user/all").reply(() => {
+  return [200, JSON.stringify(getUsers())];
+});
+
+const caseworkerUserUrl = "api/caseworker/user";
+const urlCaseworkerUserId = new RegExp(`${caseworkerUserUrl}/[a-zA-Z0-9-]+`);
+noqMockApi.onGet(urlCaseworkerUserId).reply(() => {
+  return [200, "TBD"];
+});
+
+noqMockApi.onPost("/api/caseworker/user").reply((config) => {
+  const userData = JSON.parse(config.data);
+  const newUser = addUser(userData);
+  return [200, newUser];
+});
+
+noqMockApi.onPut(urlCaseworkerUserId).reply((config) => {
+  const match = config.url.match(/api\/caseworker\/user\/([a-zA-Z0-9-]+)$/);
+  if (!match) {
+    console.error("Invalid URL:", config.url);
+    return [404, { message: "Bad Requst: Invalid URL" }];
+  }
+
+  const userId = match[1];
+  const userData = JSON.parse(config.data);
+
+  const updatedUser = updateUser({ id: userId, ...userData });
+
+  if (userData.password) {
+    console.log(`Password for user ${userId} has been updated.`);
+  }
+
+  return [200, JSON.stringify(updatedUser)];
+});
+
+noqMockApi.onDelete(/api\/caseworker\/user\/[a-zA-Z0-9-]+$/).reply((config) => {
+  const match = config.url.match(/api\/caseworker\/user\/([a-zA-Z0-9-]+)$/);
+  if (!match) {
+    console.error("Invalid URL:", config.url);
+    return [404, { message: "Bad Requst: Invalid URL" }];
+  }
+
+  const userId = match[1];
+  const userDeleted = deleteUser(userId);
+  if (userDeleted) {
+    return [200, { message: "User deleted successfully" }];
+  }
+  return [404, { message: "User not found" }];
 });
