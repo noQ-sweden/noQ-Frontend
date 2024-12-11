@@ -332,7 +332,7 @@ export default function VolunteerPage() {
                       className="border border-gray-300 bg-gray-50 p-4 rounded-lg shadow-sm hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
                       onClick={() => openBookingPopover(product)}
                     >
-                      <p className="font-semibold text-lg text-gray-800">
+                      <p className="font-bold pb-4 text-lg text-gray-800">
                         {product.name}
                       </p>
                       <p className="text-gray-600">
@@ -351,7 +351,21 @@ export default function VolunteerPage() {
                         <span className="font-medium text-gray-700">Tillgängliga Platser:</span>{" "}
                         {product.places_left}
                       </p>
+
+                      <div>
+                      {product.features && product.features.length > 0 && (
+                  <ul>
+                    {product.features.map((feature, index) => (
+                      <li key={index} className="pb-1">
+                        <span className="font-medium">{feature.label}:</span>{" "}
+                        {feature.value}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                      </div>
                     </div>
+                    
                   ))}
                 </div>
               </div>

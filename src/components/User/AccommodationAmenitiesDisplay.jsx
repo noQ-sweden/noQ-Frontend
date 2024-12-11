@@ -31,7 +31,7 @@ export default function AccommodationAmenitiesDisplay({ title, products }) {
                 {product.features && product.features.length > 0 && (
                   <ul className="list-disc ml-3">
                     {product.features.map((feature, index) => (
-                      <li key={index} className="pb-5">
+                      <li key={index} className="pb-4">
                         <span className="font-bold mr-2">{feature.label}:</span>{" "}
                         {feature.value}
                       </li>

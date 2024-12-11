@@ -49,7 +49,7 @@ export function getAvailableShelters() {
                 name: "Bostället",
                 street: "Storvägen 59",
                 postcode: "12345",
-                city: "Malmö"
+                city: "Malmö",
             },
             products: [
                 {
@@ -59,27 +59,20 @@ export function getAvailableShelters() {
                     total_places: 5,
                     places_left: 3,
                     type: "woman-only",
-                    
-                    
-                },
-                {
-                    id: 50,
-                    name: "Hygienartiklar",
-                    description: "Tvål och shampoo",
-                    total_places: 0,
-                    places_left: 0,
-                    type: "hygieneproducts",
                     features: [
                         { label: "Öppet", value: "Dygnet runt."},
+                        { label: "Bara kvinnor", value: "Ja" },
                         { label: "Egen toalett", value: "Nej" },
                         { label: "Egen dusch", value: "Nej" },
                         { label: "Hiss", value: "Nej" },
                         { label: "TV", value: "Ja, i gemensamma utrymmen" },
                         { label: "Wi-Fi", value: "Ja" },
-                        { label: "Bara kvinnor", value: "Ja" },
                         { label: "Tillgänglighetsanpassning för rörelsehindrade", value: "Ja" },
                     ],
+                    
+                    
                 },
+                
                 {
                     id: 52,
                     name: "Rum",
@@ -87,6 +80,7 @@ export function getAvailableShelters() {
                     total_places: 4,
                     places_left: 1,
                     type: "room",
+                    
                     
                 },
             ]
@@ -118,7 +112,11 @@ export function getAvailableShelters() {
                         { label: "Hiss", value: "Nej" },
                         { label: "Rökning inomhus", value: "Nej" },
                         { label: "Husdjur", value: "Nej" },
-                        
+                        { label: "Egen toalett", value: "Nej" },
+                        { label: "Egen dusch", value: "Nej" },
+                        { label: "Pentry", value: "Nej" },
+                        { label: "TV", value: "Ja" },
+                        { label: "Tillgänglighetsanpassning för rörelsehindrade", value: "Nej" },
                     ],
                 },
                 {
@@ -128,14 +126,7 @@ export function getAvailableShelters() {
                     total_places: 15,
                     places_left: 5,
                     type: "room",
-                    features: [
-
-                        { label: "Egen toalett", value: "Nej" },
-                        { label: "Egen dusch", value: "Nej" },
-                        { label: "Pentry", value: "Nej" },
-                        { label: "TV", value: "Ja" },
-                        { label: "Tillgänglighetsanpassning för rörelsehindrade", value: "Nej" },
-                    ],
+                    
                 },
                
             ]
@@ -167,6 +158,11 @@ export function getAvailableShelters() {
                         { label: "Hiss", value: "Nej" },
                         { label: "Rökning inomhus", value: "Nej" },
                         { label: "Husdjur", value: "Nej" },
+                        { label: "Egen toalett", value: "Nej" },
+                        { label: "Egen dusch", value: "Nej" },
+                        { label: "Pentry", value: "Nej" },
+                        { label: "TV", value: "Ja" },
+                        { label: "Tillgänglighetsanpassning för rörelsehindrade", value: "Nej" },
                         
                     ],
                 },
@@ -177,14 +173,6 @@ export function getAvailableShelters() {
                     total_places: 8,
                     places_left: 4,
                     type: "room",
-                    features: [
-
-                        { label: "Egen toalett", value: "Nej" },
-                        { label: "Egen dusch", value: "Nej" },
-                        { label: "Pentry", value: "Nej" },
-                        { label: "TV", value: "Ja" },
-                        { label: "Tillgänglighetsanpassning för rörelsehindrade", value: "Nej" },
-                    ],
                 },
             ]
         }

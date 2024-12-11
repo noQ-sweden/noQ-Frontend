@@ -15,26 +15,26 @@ export default function Sidebar() {
   // Lisa
   const colorSchemeUser1 = {
     liStyle:
-      "py-5 text-gray-500 hover:bg-gray-300 transition-colors duration-200 rounded-2xl",
+      "py-5 text-gray-500 hover:bg-[#E04430] cursor-pointer hover:text-white transition-colors duration-200 rounded-2xl",
     logoSrc: noQiconNoQRed,
   };
 
   // Tommy
   const colorSchemeUser2 = {
     liStyle:
-      "py-5 text-gray-500 hover:bg-[#E04430] hover:text-white transition-colors duration-200 rounded-2xl",
+      "py-5 text-gray-500 hover:bg-[#E04430] cursor-pointer hover:text-white transition-colors duration-200 rounded-2xl",
     logoSrc: noQiconNoQRedWhite,
   };
 
   const colorSchemeHost = {
     liStyle:
-      "py-5 text-gray-500 hover:bg-green-noQ hover:text-white transition-colors duration-200 rounded-2xl",
+      "py-5 text-gray-500 hover:bg-green-noQ hover:text-white cursor-pointer transition-colors duration-200 rounded-2xl",
     logoSrc: noQiconWhiteOnGreen,
   };
 
   const colorSchemeCaseworker = {
     liStyle:
-      "py-5 text-gray-500 hover:bg-green-noQ hover:text-white transition-colors duration-200 rounded-2xl",
+      "py-5 text-gray-500 hover:bg-green-noQ hover:text-white cursor-pointer transition-colors duration-200 rounded-2xl",
     logoSrc: noQiconGreen,
   };
 
@@ -45,6 +45,8 @@ export default function Sidebar() {
     login.first_name.toLowerCase() === "lisa";
   if (login.usergroups[0] == "user") {
     colors = isUserLisa ? colorSchemeUser1 : colorSchemeUser2;
+  } else if ( login.usergroups[0] =="volunteer") {
+    colors = colorSchemeUser1;
   } else if (login.usergroups[0] == "host") {
     colors = colorSchemeHost;
   } else {
@@ -73,7 +75,7 @@ export default function Sidebar() {
         <img
           src={colors.logoSrc}
           alt="noQ Logo"
-          className="h-20 mx-auto w-auto"
+          className="h-20 mx-auto w-auto cursor-pointer"
           onClick={() => {
             navigate(login.usergroups[0], { replace: false });
           }}
