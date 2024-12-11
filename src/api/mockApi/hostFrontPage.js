@@ -1,3 +1,5 @@
+import { getRandomInt } from "./utility";
+
 export var host = {
     "region": {
         "id": 5,
@@ -14,11 +16,6 @@ function addDays(date, days) {
     const newDate = new Date(date);
     newDate.setDate(date.getDate() + days);
     return newDate;
-}
-
-function getRandomInt(max) {
-    let value = Math.floor(Math.random() * (max + 1));
-    return value
 }
 
 export function generateAvailablePlaces(nr_of_days) {

@@ -1,11 +1,10 @@
-import axios from 'axios';
-import { axiosMockNoqApi } from './mockApi/mockApi';
+import axios from "axios";
+import { axiosMockNoqApi } from "./mockApi/mockApi";
 
 const axiosNoqApi = axios.create({
     baseURL: import.meta.env.NOQ_BASE_URL,
     headers: {
         "Content-type": "application/json",
-
       },
       withCredentials: true,
 });

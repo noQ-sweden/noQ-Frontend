@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "./../api/AxiosNoqApi";
 import ArrowUpIcon from "../assets/images/arrowUpIcon.svg";
 import ArrowDownIcon from "../assets/images/arrowDownIcon.svg";
-import useLogin from "../hooks/useLogin";
 import useHeader from "../hooks/useHeader";
 import SEO from "../components/SEO";
+import useLogin from "../hooks/useLogin";
+//import { useNavigate } from "react-router-dom";
 
 export default function CaseworkerPage() {
   const [data, setData] = useState([]);
@@ -12,9 +13,10 @@ export default function CaseworkerPage() {
   const [error, setError] = useState(null);
   const [expandedHosts, setExpandedHosts] = useState({});
 
+  //const navigate = useNavigate();
   const { login } = useLogin();
   const { setHeader } = useHeader();
-  setHeader("Överblick");
+  /* setHeader("Överblick"); */
 
   const getName = (first_name) => {
     if (!first_name) return "Handläggare";
@@ -38,6 +40,7 @@ export default function CaseworkerPage() {
   const descriptionText = "Beskrivning";
 
   useEffect(() => {
+    setHeader("Överblick");
     axios
       .get("/api/caseworker/available_all")
       .then((response) => {
@@ -59,7 +62,7 @@ export default function CaseworkerPage() {
         setError("Misslyckades med att hämta data");
         setLoading(false);
       });
-  }, []);
+  }, [setHeader]);
 
   // Group rooms by host
   const groupByHost = (products) => {
@@ -119,7 +122,7 @@ export default function CaseworkerPage() {
       </div>
 
       <div className="w-full p-4">
-        {Object.keys(groupedData).map((hostName, index) => {
+        {Object.keys(groupedData).map((hostName) => {
           const rooms = groupedData[hostName];
           const isExpanded = expandedHosts[hostName];
 
@@ -179,7 +182,7 @@ export default function CaseworkerPage() {
               )}
 
               {/* Expand/Collapse Button */}
-              <div className="">
+              <div>
                 <button
                   onClick={() => toggleExpand(hostName)}
                   className="w-full text-gray-800 py-1 text-right"

@@ -9,10 +9,11 @@ import {
   FaCaretUp,
   FaQuestionCircle,
   FaSignOutAlt,
-  FaCog, 
-  FaShieldAlt 
+  FaCog,
+  FaShieldAlt,
 } from "react-icons/fa";
 import PropTypes from "prop-types";
+/* import { BiFontFamily } from "react-icons/bi"; */
 
 export default function Navbar({ first_name, last_name }) {
   const navigate = useNavigate();
@@ -59,15 +60,57 @@ export default function Navbar({ first_name, last_name }) {
     botpressScript1.async = true;
 
     const botpressScript2 = document.createElement("script");
-    botpressScript2.src = "https://files.bpcontent.cloud/2024/11/02/09/20241102093854-JYPQTPG9.js";
     botpressScript2.async = true;
 
+    botpressScript1.onload = () => {
+      botpressScript2.onload = () => {
+        const botId = import.meta.env.VITE_BOTPRESS_BOT_ID || "fallback-bot-id";
+        const clientId =
+          import.meta.env.VITE_BOTPRESS_CLIENT_ID || "fallback-client-id";
+
+        if (!botId || !clientId) {
+          console.error(
+            "Bot ID and client ID must be provided in the environment variables"
+          );
+          return;
+        }
+
+        if (window.botpress && typeof window.botpress.init === "function") {
+          window.botpress.init({
+            botId,
+            clientId,
+            configuration: {
+              botName: "noQ chatbot",
+              botAvatar:
+                "https://files.bpcontent.cloud/2024/11/02/09/20241102095120-GBUPSQN9.png",
+              color: "#255b57",
+              variant: "solid",
+              themeMode: "light",
+              fontFamily: "inter",
+              radius: 1,
+              showPoweredBy: true,
+              additionalStylesheet: "",
+            },
+          });
+          console.log("Botpress initialized successfully!");
+        } else {
+          console.log("Botpress failed to initialize");
+        }
+      };
+      botpressScript2.src =
+        "https://files.bpcontent.cloud/2024/11/02/09/20241102093854-JYPQTPG9.js";
+      document.body.appendChild(botpressScript2);
+    };
+
     document.body.appendChild(botpressScript1);
-    document.body.appendChild(botpressScript2);
 
     return () => {
-      document.body.removeChild(botpressScript1);
-      document.body.removeChild(botpressScript2);
+      if (botpressScript1.parentNode === document.body) {
+        document.body.removeChild(botpressScript1);
+      }
+      if (botpressScript2.parentNode === document.body) {
+        document.body.removeChild(botpressScript2);
+      }
     };
   }, []);
 
