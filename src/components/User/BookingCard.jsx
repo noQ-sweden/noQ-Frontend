@@ -1,20 +1,21 @@
 import { getStatus } from '../../utility/utilityFunctions';
 import PropTypes from "prop-types";
 
-export default function BookingCard({ booking, onDelete }){
+export default function BookingCard({ booking, onDelete, onConfirm }){
     
     BookingCard.propTypes = {
         booking: PropTypes.any.isRequired,
         onDelete: PropTypes.func.isRequired,
+        onConfirm: PropTypes.func.isRequired,
     };
 
     const getGradient = () => {
         if(booking.status.description == "declined") {
             return "bg-[repeating-linear-gradient(90deg,_red_0,_red_10px,_transparent_10px,_transparent_20px)]";
-        } else if (booking.status.description == "reserved") {
-            return "bg-[repeating-linear-gradient(0deg,_green_0,_green_10px,_transparent_10px,_transparent_20px)]";
-        } else {
+        } else if (booking.status.description == "pending") {
             return "bg-[repeating-linear-gradient(45deg,_blue_0,_blue_10px,_transparent_10px,_transparent_20px)]";
+        } else {
+            return "bg-[repeating-linear-gradient(0deg,_green_0,_green_10px,_transparent_10px,_transparent_20px)]";
         }
     }
 
@@ -33,9 +34,11 @@ export default function BookingCard({ booking, onDelete }){
                 <div className="text-xl mt-3 font-semibold">
                     {getStatus(booking.status.description)}
                 </div>
-                {booking.status.description == "reserved" && (
                     <div className="mt-6">
-                        <button className="
+                    {booking.status.description == "reserved" && (
+                        <button
+                            onClick={() => onConfirm(booking.id)}
+                            className="
                             bg-green-600
                             hover:bg-green-700
                             text-white
@@ -49,8 +52,9 @@ export default function BookingCard({ booking, onDelete }){
                             mr-3">
                             Bekräfta
                         </button>
+                        )}
                         <button
-                          onClick={onDelete}
+                          onClick={() => onDelete(booking.id)}
                           className="
                             bg-red-600
                             hover:bg-red-700
@@ -66,8 +70,6 @@ export default function BookingCard({ booking, onDelete }){
                             Avboka
                         </button>
                     </div>
-                )}
-
             </div>
         </div>
     );

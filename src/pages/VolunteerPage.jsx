@@ -98,6 +98,8 @@ export default function VolunteerPage() {
             first_name: newFirstName,
             last_name: newLastName,
             uno: newUno,
+            gender: "N",
+            region: "Stockholm"
           });
           alert("Gäst har skapats!");
           setMockApiUsers((prev) => [...prev, response.data]);
@@ -145,19 +147,25 @@ export default function VolunteerPage() {
             };
 
             // Step 1: Create the booking
-            const bookingResponse = await axios.post("/api/volunteer/request_booking", bookingData);
+            const bookingResponse = await axios.post("/api/volunteer/booking/request", bookingData);
             const bookingId = bookingResponse.data.id;
 
             alert(`Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`);
 
             // Step 2: Confirm the booking
-            await axios.patch(`/api/volunteer/confirm_booking/${bookingId}`);
+            await axios.patch(`/api/volunteer/booking/confirm/${bookingId}`);
 
             alert("Plats bokat, Email med bokingsinformation har skickats ut");
             closePopover();
         } catch (error) {
             if (error.response && error.response.status === 409) {
-                alert("Bokning finns redan.");
+                if (error.response.data.detail == "Booking is pending and can't be confirmed.") {
+                  alert ("Bokning väntar på godkännande och kan inte bekräftas.");
+                  closePopover();
+                } else {
+                  alert("Bokning finns redan.");
+                  closePopover();
+                }
             } else if (error.response && error.response.status === 422) {
                 alert("Fel med Datum");
             } else if (error.response) {
@@ -193,7 +201,7 @@ export default function VolunteerPage() {
                 setFoundUser({
                     first_name: user.first_name,
                     last_name: user.last_name,
-                    uno: user.uno,
+                    uno: user.unokod,
                   });
                 setSearchError(null);
             } else {

@@ -21,7 +21,20 @@ export default function Bookings() {
             console.error("Error while fetching bookings.", error);
         }
     }, [setBookings]);
-    
+
+    const confirmBooking = useCallback(async (bookingId) => {
+        try {
+            const response = await axios.get(`/api/user/bookings/confirm/${bookingId}`);
+            if (response.status === 200) {
+                // Remove deleted booking from state
+                setBookings(response.data);
+            }
+        } catch (error) {
+            alert("Bekräftelse misslyckades, försök igen senare!");
+            console.error("Error confirming booking.", error);
+        }
+      }, []);
+
     const deleteBooking = useCallback(async (bookingId) => {
       try {
           const response = await axios.delete(`/api/user/bookings/${bookingId}`);
@@ -30,6 +43,7 @@ export default function Bookings() {
               setBookings(prevBookings => prevBookings.filter(booking => booking.id !== bookingId));
           }
       } catch (error) {
+          alert("Avbokning misslyckades, försök igen senare!");
           console.error("Error deleting booking.", error);
       }
     }, []);
@@ -52,7 +66,10 @@ export default function Bookings() {
                 { bookings.map(booking => {                
                     return (
                         <div key={booking.id}>
-                            <BookingCard booking={booking} onDelete={() => deleteBooking(booking.id)} />
+                            <BookingCard
+                                booking={booking}
+                                onDelete={deleteBooking}
+                                onConfirm={confirmBooking} />
                         </div>
                     )}
                 )}
