@@ -180,7 +180,7 @@ export default function VolunteerPage() {
 
     const searchUser = async () => {
         if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
-            setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka");
+            setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka.");
             return;
           }
 
