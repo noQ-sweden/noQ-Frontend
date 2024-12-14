@@ -55,10 +55,14 @@ export default function AccommodationDetail() {
                     <p className="text-base font-bold grid justify-items-start">Host not found</p>
                 )}
               </div>
+              
               <div className="grid gap-4">
                 <div className="grid gap-6">
                 {products ? (
                   <>
+                  <p className="w-4/5 font-semibold">Bostället kräver ett biståndsbeslut som du får av din stadsdelsförvaltning eller socialjouren.
+                 Endast för akutbistånd på kvällar, nätter och helger. 
+                Du får hjälp med detta om du är på plats.</p>
                     <p className="text-base font-bold grid justify-items-start ">
                       Vad vi erbjuder 
                     </p>
