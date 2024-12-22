@@ -45,8 +45,10 @@ export default function AccommodationList() {
                     my-1
                     bg-white
                     gap-5">
+          <div className="flex gap-16">
           <div>
             {/*Column 1*/}
+
             <img
               src={shelter}
               alt="Bild av bostället"
@@ -59,9 +61,14 @@ export default function AccommodationList() {
             <p className="text-gray-600 text-sm">{request.host.street}</p>
             <p className="text-gray-600 text-sm">{formatPostCode(request.host.postcode)} {request.host.city}</p>
           </div>
+          </div>
+          <div className="text-s font-semibold flex justify-center items-center">
+            <p>Kräver biståndsbeslut</p>
+          </div>
+          
           <div className="flex flex-col justify-between items-center p-2">
             {/*Column 3*/}
-            <Link to={`/accommodations/${request.host.id}/booking`}>
+            <Link to={`/accommodations/${request.host.id}`}>
               <button
                 className="
                   bg-green-600

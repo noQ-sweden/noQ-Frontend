@@ -27,16 +27,23 @@ export default function GetMenuItems(userGroup) {
     ];
 
     const userSidebarItemsTop = [
-        { icon: FaChartPie, label: "Överblick", sideBarLink: "user" },
+        { icon: FaChartPie, label: "Boka", sideBarLink: "user" },
         { icon: FaBell, label: "Bokningar", sideBarLink: "user/requests" },
     ];
+
+    const volunteerSidebarItemsTop = [
+        { icon: FaChartPie, label: "Boka", sideBarLink: "volunteer" },
+    ];
+
 
 
     if (userGroup == "caseworker") {
         return caseworkerSidebarItemsTop;
     } else if (userGroup == "host") {
         return hostSidebarItemsTop;
+    } else if(userGroup == "volunteer") {
+        return volunteerSidebarItemsTop;
     } else {
-        return userSidebarItemsTop;
+        return userSidebarItemsTop
     }
 }

@@ -49,7 +49,7 @@ export function getAvailableShelters() {
                 name: "Bostället",
                 street: "Storvägen 59",
                 postcode: "12345",
-                city: "Malmö"
+                city: "Malmö",
             },
             products: [
                 {
@@ -57,58 +57,32 @@ export function getAvailableShelters() {
                     name: "Rum",
                     description: "Description Rum 1",
                     total_places: 5,
-                    host: { 
-                        region: {
-                            id: 1,
-                            name: "Stockgolm"
-                        },
-                        id: 28,
-                        name: "4 bäddsrum",
-                        street: "Storvägen 12",
-                        postcode: "12345",
-                        city: "Teststad"
-                    },
+                    places_left: 3,
                     type: "woman-only",
-                    places_left: 3
+                    features: [
+                        { label: "Öppet", value: "Dygnet runt."},
+                        { label: "Bara kvinnor", value: "Ja" },
+                        { label: "Egen toalett", value: "Nej" },
+                        { label: "Egen dusch", value: "Nej" },
+                        { label: "Hiss", value: "Nej" },
+                        { label: "TV", value: "Ja, i gemensamma utrymmen" },
+                        { label: "Wi-Fi", value: "Ja" },
+                        { label: "Tillgänglighetsanpassning för rörelsehindrade", value: "Ja" },
+                    ],
+                    
+                    
                 },
-                {
-                    id: 50,
-                    name: "Hygienartiklar",
-                    description: "Tvål och shampoo",
-                    total_places: 0,
-                    host: { 
-                        region: {
-                            id: 1,
-                            name: "Test"
-                        },
-                        id: 28,
-                        name: "Test",
-                        street: "Test Street 12",
-                        postcode: "12345",
-                        city: "Teststad"
-                    },
-                    type: "hygieneproducts",
-                    places_left: 0
-                },
+                
                 {
                     id: 52,
                     name: "Rum",
                     description: "Description Rum 2",
                     total_places: 4,
-                    host: { 
-                        region: {
-                            id: 1,
-                            name: "Test"
-                        },
-                        id: 28,
-                        name: "Test",
-                        street: "Test Street 12",
-                        postcode: "12345",
-                        city: "Teststad"
-                    },
+                    places_left: 1,
                     type: "room",
-                    places_left: 1
-                },              
+                    
+                    
+                },
             ]
         },
         {
@@ -127,39 +101,79 @@ export function getAvailableShelters() {
                 {
                     id: 2,
                     name: "4-bädsrum ",
-                    description: " Rum 2",
+                    description: "Rum 2",
                     total_places: 4,
-                    host: { 
-                        region: {
-                            id: 1,
-                            name: "Test"
-                        },
-                        id: 1,
-                        name: "Test",
-                        street: "Test Street 12",
-                        postcode: "12345",
-                        city: "Teststad"
-                    },
+                    places_left: 2,
                     type: "room",
+                    features: [
+                        { label: "Öppet", value: "Dygnet runt."},
+                        { label: "Matsal", value: "Ja" },
+                        { label: "Wi-Fi", value: "Ja" },
+                        { label: "Hiss", value: "Nej" },
+                        { label: "Rökning inomhus", value: "Nej" },
+                        { label: "Husdjur", value: "Nej" },
+                        { label: "Egen toalett", value: "Nej" },
+                        { label: "Egen dusch", value: "Nej" },
+                        { label: "Pentry", value: "Nej" },
+                        { label: "TV", value: "Ja" },
+                        { label: "Tillgänglighetsanpassning för rörelsehindrade", value: "Nej" },
+                    ],
                 },
                 {
                     id: 3,
                     name: "Sovsal",
                     description: "Description Rum 2",
                     total_places: 15,
-                    host: { 
-                        region: {
-                            id: 1,
-                            name: "Test"
-                        },
-                        id: 1,
-                        name: "Test",
-                        street: "Test Street 12",
-                        postcode: "12345",
-                        city: "Teststad"
-                    },
+                    places_left: 5,
                     type: "room",
-                }            
+                    
+                },
+               
+            ]
+        },
+        {
+            host: { 
+                region: {
+                    id: 5,
+                    name: "Stockholm"
+                },
+                id: 5,
+                name: "Hvilan",
+                street: "Ingemarsgatan 9",
+                postcode: "113 54",
+                city: "Stockholm"
+            },
+            products: [
+                {
+                    id: 5,
+                    name: "Dubbelrum",
+                    description: "Rum 2",
+                    total_places: 13,
+                    places_left: 5,
+                    type: "room",
+                    features: [
+                        { label: "Öppet", value: "Dygnet runt."},
+                        { label: "Matsal", value: "Ja" },
+                        { label: "Wi-Fi", value: "Ja" },
+                        { label: "Hiss", value: "Nej" },
+                        { label: "Rökning inomhus", value: "Nej" },
+                        { label: "Husdjur", value: "Nej" },
+                        { label: "Egen toalett", value: "Nej" },
+                        { label: "Egen dusch", value: "Nej" },
+                        { label: "Pentry", value: "Nej" },
+                        { label: "TV", value: "Ja" },
+                        { label: "Tillgänglighetsanpassning för rörelsehindrade", value: "Nej" },
+                        
+                    ],
+                },
+                {
+                    id: 6,
+                    name: "Enkelrum",
+                    description: "Description Rum 2",
+                    total_places: 8,
+                    places_left: 4,
+                    type: "room",
+                },
             ]
         }
     ];
