@@ -18,6 +18,7 @@ export default function VolunteerPage() {
     const [userLastName, setUserLastName] = useState("");
     const [foundUserId, setFoundUserId] = useState(null);
     const [foundUser, setFoundUser] = useState(null);
+    const [selectedUserId, setSelectedUserId] = useState(null);
     const [searchError, setSearchError] = useState(null);
     const [userUno, setUserUno] = useState("");
     const [newFirstName, setNewFirstName] = useState("");
@@ -179,39 +180,40 @@ export default function VolunteerPage() {
     };
 
     const searchUser = async () => {
-        if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
-            setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka.");
-            return;
+      if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
+          setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka.");
+          return;
+      }
+  
+      try {
+          console.log("Search parameters:", {
+              first_name: userFirstName,
+              last_name: userLastName,
+              uno: userUno,
+          });
+  
+          const response = await axios.get("/api/volunteer/guest/search", {
+              params: { 
+                  first_name: userFirstName, 
+                  last_name: userLastName, 
+                  uno: userUno 
+              },
+          });
+  
+          if (response.data.length > 0) {
+              setSearchError(null);
+              setFoundUsers(response.data); 
+          } else {
+              setSearchError("Gäst hittades ej.");
+              setFoundUsers([]); 
           }
-
-        try {
-            console.log("Search parameters:", 
-                { first_name: userFirstName, 
-                    last_name: userLastName, 
-                    uno: userUno });
-            const response = await axios.get("/api/volunteer/guest/search", {
-            params: { first_name: userFirstName,
-                 last_name: userLastName,
-                  uno: userUno },
-            });
-
-            if (response.data.length > 0) {
-                const user = response.data[0];
-                setFoundUserId(user.id);
-                setFoundUser({
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    uno: user.unokod,
-                  });
-                setSearchError(null);
-            } else {
-                setSearchError("Gäst hittades ej.");
-            }
-        } catch (error) {
-            console.error("Error searching for user:", error);
-            setSearchError("Error searching for user.");
-        }
-    };
+      } catch (error) {
+          console.error("Error searching for user:", error);
+          setSearchError("Error searching for user.");
+          setFoundUsers([]); 
+      }
+  };
+  
 
     
     return (
