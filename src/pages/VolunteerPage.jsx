@@ -148,14 +148,14 @@ export default function VolunteerPage() {
 
             // Step 1: Create the booking
             const bookingResponse = await axios.post("/api/volunteer/booking/request", bookingData);
-            const bookingId = bookingResponse.data.id;
-
-            alert(`Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`);
-
+            //const bookingId = bookingResponse.data.id;
+            if (bookingResponse.status === 200) {
+              alert(`Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`);
+            }
             // Step 2: Confirm the booking
-            await axios.patch(`/api/volunteer/booking/confirm/${bookingId}`);
+            //await axios.patch(`/api/volunteer/booking/confirm/${bookingId}`);
 
-            alert("Plats bokat, Email med bokingsinformation har skickats ut");
+            //alert("Plats bokat, Email med bokingsinformation har skickats ut");
             closePopover();
         } catch (error) {
             if (error.response && error.response.status === 409) {
