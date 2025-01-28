@@ -55,7 +55,7 @@ export default function Navbar({ first_name, last_name }) {
 
 
   return (
-    <nav className="flex items-center justify-between p-4 bg-white">
+    <nav className="lg:flex items-center justify-between p-4 bg-white hidden">
       <PageTitle />
       <div className="flex items-center space-x-10">
         <div className="relative">

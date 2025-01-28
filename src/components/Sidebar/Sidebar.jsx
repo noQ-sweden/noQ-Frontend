@@ -70,7 +70,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="flex flex-col text-white min-h-screen bg-white m-0 select-none w-64">
+    <div className="lg:flex flex-col text-white min-h-screen bg-white m-0 select-none w-64 hidden">
       <div className="items-center mt-4 mb-5">
         <img
           src={colors.logoSrc}
