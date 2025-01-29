@@ -9,8 +9,8 @@ import {
   FaCaretUp,
   FaQuestionCircle,
   FaSignOutAlt,
-  FaCog, 
-  FaShieldAlt 
+  FaCog,
+  FaShieldAlt,
 } from "react-icons/fa";
 import PropTypes from "prop-types";
 
@@ -51,8 +51,6 @@ export default function Navbar({ first_name, last_name }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
-
-
 
   return (
     <nav className="lg:flex items-center justify-between p-4 bg-white hidden">
