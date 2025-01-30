@@ -149,33 +149,35 @@ export default function VolunteerPage() {
         uno: foundUser.uno,
       };
 
-      // Step 1: Create the booking
-      const bookingResponse = await axios.post(
-        "/api/volunteer/booking/request",
-        bookingData
-      );
-      const bookingId = bookingResponse.data.id;
+            // Step 1: Create the booking
+            const bookingResponse = await axios.post("/api/volunteer/booking/request", bookingData);
+            //const bookingId = bookingResponse.data.id;
+            if (bookingResponse.status === 200) {
+              alert(`Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`);
+            }
+            // Step 2: Confirm the booking
+            //await axios.patch(`/api/volunteer/booking/confirm/${bookingId}`);
 
-      alert(
-        `Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`
-      );
-
-      // Step 2: Confirm the booking
-      await axios.patch(`/api/volunteer/booking/confirm/${bookingId}`);
-
-      alert("Plats bokat, Email med bokingsinformation har skickats ut");
-      closePopover();
-    } catch (error) {
-      if (error.response && error.response.status === 409) {
-        if (
-          error.response.data.detail ==
-          "Booking is pending and can't be confirmed."
-        ) {
-          alert("Bokning väntar på godkännande och kan inte bekräftas.");
-          closePopover();
-        } else {
-          alert("Bokning finns redan.");
-          closePopover();
+            //alert("Plats bokat, Email med bokingsinformation har skickats ut");
+            closePopover();
+        } catch (error) {
+            if (error.response && error.response.status === 409) {
+                if (error.response.data.detail == "Booking is pending and can't be confirmed.") {
+                  alert ("Bokning väntar på godkännande och kan inte bekräftas.");
+                  closePopover();
+                } else {
+                  alert("Bokning finns redan.");
+                  closePopover();
+                }
+            } else if (error.response && error.response.status === 422) {
+                alert("Fel med Datum");
+            } else if (error.response) {
+                console.error("Error confirming booking:", error.response.data);
+                alert(`Bokning gick ej igenom ${error.response.data.error || "Unknown error"}`);
+            } else {
+                console.error("Unexpected error:", error);
+                alert("Fel vid Bokning.");
+            }
         }
       } else if (error.response && error.response.status === 422) {
         alert("Fel med Datum");
