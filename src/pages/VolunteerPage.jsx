@@ -149,37 +149,33 @@ export default function VolunteerPage() {
         uno: foundUser.uno,
       };
 
-            // Step 1: Create the booking
-            const bookingResponse = await axios.post("/api/volunteer/booking/request", bookingData);
-            //const bookingId = bookingResponse.data.id;
-            if (bookingResponse.status === 200) {
-              alert(`Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`);
-            }
-            // Step 2: Confirm the booking
-            //await axios.patch(`/api/volunteer/booking/confirm/${bookingId}`);
+      // Step 1: Create the booking
+      const bookingResponse = await axios.post(
+        "/api/volunteer/booking/request",
+        bookingData
+      );
 
-            //alert("Plats bokat, Email med bokingsinformation har skickats ut");
-            closePopover();
-        } catch (error) {
-            if (error.response && error.response.status === 409) {
-                if (error.response.data.detail == "Booking is pending and can't be confirmed.") {
-                  alert ("Bokning väntar på godkännande och kan inte bekräftas.");
-                  closePopover();
-                } else {
-                  alert("Bokning finns redan.");
-                  closePopover();
-                }
-            } else if (error.response && error.response.status === 422) {
-                alert("Fel med Datum");
-            } else if (error.response) {
-                console.error("Error confirming booking:", error.response.data);
-                alert(`Bokning gick ej igenom ${error.response.data.error || "Unknown error"}`);
-            } else {
-                console.error("Unexpected error:", error);
-                alert("Fel vid Bokning.");
-            }
+      if (bookingResponse.status === 200) {
+        alert(
+          `Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`
+        );
+      }
+
+      // Step 2: Confirm the booking (Uncomment if needed)
+      // await axios.patch(`/api/volunteer/booking/confirm/${bookingId}`);
+
+      closePopover();
+    } catch (error) {
+      if (error.response?.status === 409) {
+        if (
+          error.response.data.detail ===
+          "Booking is pending and can't be confirmed."
+        ) {
+          alert("Bokning väntar på godkännande och kan inte bekräftas.");
+        } else {
+          alert("Bokning finns redan.");
         }
-      } else if (error.response && error.response.status === 422) {
+      } else if (error.response?.status === 422) {
         alert("Fel med Datum");
       } else if (error.response) {
         console.error("Error confirming booking:", error.response.data);
@@ -192,6 +188,7 @@ export default function VolunteerPage() {
         console.error("Unexpected error:", error);
         alert("Fel vid Bokning.");
       }
+      closePopover(); // Ensure popover closes even if an error occurs
     }
   };
 
@@ -234,7 +231,7 @@ export default function VolunteerPage() {
   };
 
   return (
-    <div className="px-5 sm:px-10 mb-8 bg-gray-50 min-h-screen">
+    <div className="px-4 sm:px-10 mb-8 bg-gray-50 min-h-screen">
       <div className="text-center text-lg sm:text-xl mt-4 font-semibold text-gray-800">
         Välkommen {login?.first_name}
       </div>
@@ -402,7 +399,7 @@ export default function VolunteerPage() {
 
       {/* Booking Popover */}
       {showPopover && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+        <div className="fixed inset-0 z-40 select-none bg-gray-500 bg-opacity-45 flex items-center justify-center">
           <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-sm sm:max-w-lg shadow-lg mx-4 sm:mx-0 overflow-auto">
             <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 text-center">
               Boka Rum

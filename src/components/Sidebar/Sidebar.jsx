@@ -74,7 +74,7 @@ export default function Sidebar() {
     <div>
       {/* Hamburger menu btn for Mobile */}
       <button
-        className="absolute top-4 left-5 text-gray-700 focus:outline-none lg:hidden z-50"
+        className="absolute top-4 left-4 text-gray-700 focus:outline-none lg:hidden z-50"
         onClick={() => setIsOpen(!isOpen)}
       >
         <FaBars size="25" />
@@ -84,7 +84,7 @@ export default function Sidebar() {
       <div
         className={`flex flex-col text-white min-h-screen bg-white m-0 select-none w-64 fixed top-0 left-0 z-40 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:flex lg:relative lg:transform-none transition-transform duration-300`}
+        } lg:translate-x-0 lg:flex lg:relative lg:transform-none transition-transform duration-100`}
       >
         <div className="items-center mt-4 mb-5">
           <img
@@ -157,7 +157,7 @@ export default function Sidebar() {
       {/* Overlay for Mobile menu */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black opacity-50 z-30 lg:hidden"
+          className="fixed inset-0 z-30 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}

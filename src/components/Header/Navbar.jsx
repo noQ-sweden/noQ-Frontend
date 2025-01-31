@@ -53,7 +53,7 @@ export default function Navbar({ first_name, last_name }) {
   }, [dropdownRef]);
 
   return (
-    <nav className="lg:flex items-center justify-between p-4 bg-white hidden">
+    <nav className="lg:flex items-center justify-between p-4 bg-white transition-transform duration-100 hidden">
       <PageTitle />
       <div className="flex items-center space-x-10">
         <div className="relative">
