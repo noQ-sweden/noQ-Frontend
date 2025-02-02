@@ -151,8 +151,8 @@ export default function VolunteerPage() {
         product_id: selectedProduct.id,
         user_id: foundUser.id,
         start_date: selectedDate,
-        end_date: endDate, // Using end date
-        uno: foundUser.uno,
+        end_date: endDate || selectedDate, // Using end date
+        uno: foundUser.uno || foundUser.unokod,
       };
 
       // Step 1: Create the booking
@@ -160,16 +160,16 @@ export default function VolunteerPage() {
         "/api/volunteer/booking/request",
         bookingData
       );
-      const bookingId = bookingResponse.data.id;
-
-      alert(
-        `Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`
-      );
-
+      if (bookingResponse.status === 200) {
+        alert(
+          `Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`
+        );
+      }
       // Step 2: Confirm the booking
-      await axios.patch(`/api/volunteer/booking/confirm/${bookingId}`);
+      //const bookingId = bookingResponse.data.id;
+      //await axios.patch(`/api/volunteer/booking/confirm/${bookingId}`);
 
-      alert("Plats bokat, Email med bokingsinformation har skickats ut");
+      //alert("Plats bokat, Email med bokingsinformation har skickats ut");
       closePopover();
     } catch (error) {
       if (error.response && error.response.status === 409) {
