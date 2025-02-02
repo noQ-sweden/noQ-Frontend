@@ -16,7 +16,7 @@ export default function VolunteerPage() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
-  const [foundUserId, setFoundUserId] = useState(null);
+  // const [foundUserId, setFoundUserId] = useState(null);
   const [foundUser, setFoundUser] = useState(null);
   const [foundUsers, setFoundUsers] = useState([]);
   const [searchError, setSearchError] = useState(null);
@@ -136,7 +136,7 @@ export default function VolunteerPage() {
     setUserFirstName("");
     setUserLastName("");
     setFoundUser(null);
-    setFoundUserId(null);
+    setFoundUser(null);
     setSearchError(null);
   };
 
