@@ -16,7 +16,6 @@ export default function VolunteerPage() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
-  // const [foundUserId, setFoundUserId] = useState(null);
   const [foundUser, setFoundUser] = useState(null);
   const [foundUsers, setFoundUsers] = useState([]);
   const [searchError, setSearchError] = useState(null);
@@ -55,7 +54,6 @@ export default function VolunteerPage() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get("/api/volunteer/guest/list");
-      console.log("Fetched users:", response.data);
       setMockApiUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -135,7 +133,6 @@ export default function VolunteerPage() {
     setSelectedProduct(null);
     setUserFirstName("");
     setUserLastName("");
-    setFoundUser(null);
     setFoundUser(null);
     setSearchError(null);
   };
