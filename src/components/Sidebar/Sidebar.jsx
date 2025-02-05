@@ -1,5 +1,5 @@
-import React from "react";
-import { FaCog, FaUserAlt, FaSignOutAlt } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaBars, FaCog, FaUserAlt, FaSignOutAlt } from "react-icons/fa";
 import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import noQiconNoQRed from "./../../assets/images/noQiconNoQRed.svg";
@@ -9,6 +9,7 @@ import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
 import GetMenuItems from "./GetMenuItems";
 
 export default function Sidebar() {
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { login } = useLogin();
 
@@ -45,7 +46,7 @@ export default function Sidebar() {
     login.first_name.toLowerCase() === "lisa";
   if (login.usergroups[0] == "user") {
     colors = isUserLisa ? colorSchemeUser1 : colorSchemeUser2;
-  } else if ( login.usergroups[0] =="volunteer") {
+  } else if (login.usergroups[0] == "volunteer") {
     colors = colorSchemeUser1;
   } else if (login.usergroups[0] == "host") {
     colors = colorSchemeHost;
@@ -70,71 +71,96 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="flex flex-col text-white min-h-screen bg-white m-0 select-none w-64">
-      <div className="items-center mt-4 mb-5">
-        <img
-          src={colors.logoSrc}
-          alt="noQ Logo"
-          className="h-20 mx-auto w-auto cursor-pointer"
-          onClick={() => {
-            navigate(login.usergroups[0], { replace: false });
-          }}
+    <div>
+      {/* Hamburger menu btn for Mobile */}
+      <button
+        className="absolute top-4 left-4 text-gray-700 focus:outline-none lg:hidden z-50"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <FaBars size="25" />
+      </button>
+
+      {/* Sidebar */}
+      <div
+        className={`flex flex-col text-white min-h-screen bg-white m-0 select-none w-64 fixed top-0 left-0 z-40 transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 lg:flex lg:relative lg:transform-none transition-transform duration-100`}
+      >
+        <div className="items-center mt-4 mb-5">
+          <img
+            src={colors.logoSrc}
+            alt="noQ Logo"
+            className="h-20 mx-auto w-auto cursor-pointer"
+            onClick={() => {
+              navigate(login.usergroups[0], { replace: false });
+            }}
+          />
+        </div>
+        <div className="align-top p-8">
+          <ul>
+            <div>
+              {sidebarItemsTop.map(
+                ({ icon: Icon, label, sideBarLink, action }) => (
+                  <div
+                    onClick={() => {
+                      if (action) {
+                        action();
+                      } else if (sideBarLink) {
+                        navigate(sideBarLink, { replace: false });
+                      }
+                      setIsOpen(false); // close menu after selection
+                    }}
+                    key={label}
+                  >
+                    <li className={colors.liStyle}>
+                      <span className={liTextStyle}>
+                        <Icon size="25" />
+                        {label}
+                      </span>
+                    </li>
+                  </div>
+                )
+              )}
+            </div>
+          </ul>
+        </div>
+        <div className="align-bottom p-8">
+          <ul>
+            <div>
+              {sidebarItemsBottom.map(
+                ({ icon: Icon, label, sideBarLink, action }) => (
+                  <div
+                    onClick={() => {
+                      if (action) {
+                        action();
+                      } else if (sideBarLink) {
+                        navigate(sideBarLink, { replace: false });
+                      }
+                      setIsOpen(false); // close menu after selection
+                    }}
+                    key={label}
+                  >
+                    <li className={colors.liStyle}>
+                      <span className={liTextStyle}>
+                        <Icon size="25" />
+                        {label}
+                      </span>
+                    </li>
+                  </div>
+                )
+              )}
+            </div>
+          </ul>
+        </div>
+      </div>
+
+      {/* Overlay for Mobile menu */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-30 lg:hidden"
+          onClick={() => setIsOpen(false)}
         />
-      </div>
-      <div className="align-top p-8">
-        <ul>
-          <div>
-            {sidebarItemsTop.map(
-              ({ icon: Icon, label, sideBarLink, action }) => (
-                <div
-                  onClick={() => {
-                    if (action) {
-                      action();
-                    } else if (sideBarLink) {
-                      navigate(sideBarLink, { replace: false });
-                    }
-                  }}
-                  key={label}
-                >
-                  <li className={colors.liStyle}>
-                    <span className={liTextStyle}>
-                      <Icon size="25" />
-                      {label}
-                    </span>
-                  </li>
-                </div>
-              )
-            )}
-          </div>
-        </ul>
-      </div>
-      <div className="align-bottom p-8">
-        <ul>
-          <div>
-            {sidebarItemsBottom.map(
-              ({ icon: Icon, label, sideBarLink, action }) => (
-                <div
-                  onClick={() => {
-                    if (action) {
-                      action();
-                    } else if (sideBarLink) {
-                      navigate(sideBarLink, { replace: false });
-                    }
-                  }}
-                  key={label}
-                >
-                  <li className={colors.liStyle}>
-                    <span className={liTextStyle}>
-                      <Icon size="25" />
-                      {label}
-                    </span>
-                  </li>
-                </div>
-              )
-            )}
-          </div>
-        </ul>
-      </div>
+      )}
     </div>
   );
 }
