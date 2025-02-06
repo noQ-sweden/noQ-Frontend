@@ -23,8 +23,6 @@ export default function VolunteerPage() {
   const [searchError, setSearchError] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const [searchError, setSearchError] = useState(null);
-
   const [userUno, setUserUno] = useState("");
   const [newFirstName, setNewFirstName] = useState("");
   const [newLastName, setNewLastName] = useState("");
