@@ -303,11 +303,14 @@ export default function VolunteerPage() {
     }
   };
 
+<<<<<<< HEAD
   const openBookingPopover = (product) => {
     setSelectedProduct(product);
     setShowPopover(true);
   };
 
+=======
+>>>>>>> parent of 14491f2 (VolunteerPage.jsx aktualisieren)
   const closePopover = () => {
     setShowPopover(false);
     setSelectedProduct(null);
