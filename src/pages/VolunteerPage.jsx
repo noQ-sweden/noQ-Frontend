@@ -303,11 +303,6 @@ export default function VolunteerPage() {
     }
   };
 
-  const openBookingPopover = (product) => {
-    setSelectedProduct(product);
-    setShowPopover(true);
-  };
-
   const closePopover = () => {
     setShowPopover(false);
     setSelectedProduct(null);
