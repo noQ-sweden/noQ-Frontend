@@ -303,15 +303,6 @@ export default function VolunteerPage() {
     }
   };
 
-  const closePopover = () => {
-    setShowPopover(false);
-    setSelectedProduct(null);
-    setUserFirstName("");
-    setUserLastName("");
-    setFoundUser(null);
-    setFoundUserId(null);
-    setSearchError(null);
-  };
 
   const handleBooking = async () => {
     try {
