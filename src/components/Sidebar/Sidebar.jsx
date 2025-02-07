@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaBars, FaCog, FaUserAlt, FaSignOutAlt } from "react-icons/fa";
 import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
-import noQiconNoQRed from "./../../assets/images/noQiconNoQRed.svg";
+//import noQiconNoQRed from "./../../assets/images/noQiconNoQRed.svg";
 //import noQiconNoQRedWhite from "./../../assets/images/noQiconNoQRedWhite.svg";
 import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
 import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
