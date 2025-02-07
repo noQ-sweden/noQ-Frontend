@@ -3,7 +3,7 @@ import { FaBars, FaCog, FaUserAlt, FaSignOutAlt } from "react-icons/fa";
 import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import noQiconNoQRed from "./../../assets/images/noQiconNoQRed.svg";
-import noQiconNoQRedWhite from "./../../assets/images/noQiconNoQRedWhite.svg";
+//import noQiconNoQRedWhite from "./../../assets/images/noQiconNoQRedWhite.svg";
 import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
 import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
 import GetMenuItems from "./GetMenuItems";
@@ -40,7 +40,6 @@ export default function Sidebar() {
       "py-5 text-gray-500 hover:bg-green-noQ hover:text-white cursor-pointer transition-colors duration-200 rounded-2xl",
     logoSrc: noQiconGreen,
   };
-
   // Select the correct color scheme based on user type and name
   let colors = null;
   const isUserLisa =
