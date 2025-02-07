@@ -8,6 +8,7 @@ import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
 import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
 import GetMenuItems from "./GetMenuItems";
 
+
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -45,9 +46,9 @@ export default function Sidebar() {
     typeof login?.first_name === "string" &&
     login.first_name.toLowerCase() === "lisa";
   if (login.usergroups[0] == "user") {
-    colors = isUserLisa ? colorSchemeUser1 : colorSchemeUser2;
+    colors = isUserLisa ? colorSchemeHost : colorSchemeHost;
   } else if (login.usergroups[0] == "volunteer") {
-    colors = colorSchemeUser1;
+    colors = colorSchemeHost;
   } else if (login.usergroups[0] == "host") {
     colors = colorSchemeHost;
   } else {
@@ -74,11 +75,21 @@ export default function Sidebar() {
     <div>
       {/* Hamburger menu btn for Mobile */}
       <button
-        className="absolute top-4 left-4 text-gray-700 focus:outline-none lg:hidden z-50"
+        className="absolute top-6 right-4 text-[#FDFDFD] focus:outline-none lg:hidden z-50"
         onClick={() => setIsOpen(!isOpen)}
       >
         <FaBars size="25" />
       </button>
+
+      <img
+        className="absolute top-2 left-4 lg:hidden cursor-pointer"
+        src={colors.logoSrc}
+        onClick={() => {
+          navigate(login.usergroups[0], { replace: false });
+        }}
+        alt="noQ Logo"
+        width="100"
+      />
 
       {/* Sidebar */}
       <div
