@@ -458,7 +458,6 @@ export default function VolunteerPage() {
 
                       }}
                       onClick={() => {
-                        setSelectedUser(user);
                         setSelectedUserId(user.id); // Fix
                       }}
 
