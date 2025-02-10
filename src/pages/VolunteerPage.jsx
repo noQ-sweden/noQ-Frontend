@@ -21,7 +21,6 @@ export default function VolunteerPage() {
   const [foundUser, setFoundUser] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [searchError, setSearchError] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null);
   const [userUno, setUserUno] = useState("");
   const [newFirstName, setNewFirstName] = useState("");
   const [newLastName, setNewLastName] = useState("");
@@ -91,8 +90,6 @@ export default function VolunteerPage() {
     setFilteredShelters(filtered);
   };
 
-  const createUser = async () => {
-    console.log("createUser called");
   const createUser = async () => {
     console.log("createUser called");
 
@@ -200,11 +197,6 @@ export default function VolunteerPage() {
     }
   };
 
-  const searchUser = async () => {
-    if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
-      setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka.");
-      return;
-    }
   const searchUser = async () => {
     if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
       setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka.");
