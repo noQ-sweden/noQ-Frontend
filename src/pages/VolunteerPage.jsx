@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import axios from './../api/AxiosNoqApi';
-import useLogin from '../hooks/useLogin';
+
+import React, { useEffect, useState } from "react";
+import axios from "./../api/AxiosNoqApi";
+import useLogin from "../hooks/useLogin";
 
 export default function VolunteerPage() {
   const { login } = useLogin();
@@ -68,6 +69,9 @@ export default function VolunteerPage() {
   useEffect(() => {
     fetchUsers();
   }, []);
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const handleFilter = () => {
     let filtered = [...availableShelters];
@@ -87,6 +91,8 @@ export default function VolunteerPage() {
     setFilteredShelters(filtered);
   };
 
+  const createUser = async () => {
+    console.log("createUser called");
   const createUser = async () => {
     console.log("createUser called");
 
@@ -194,6 +200,11 @@ export default function VolunteerPage() {
     }
   };
 
+  const searchUser = async () => {
+    if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
+      setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka.");
+      return;
+    }
   const searchUser = async () => {
     if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
       setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka.");
@@ -496,5 +507,4 @@ export default function VolunteerPage() {
 
   );
 
-
-}
+}}}
