@@ -157,7 +157,7 @@ const EditRoomTable = () => {
             </div>
             <div className="mb-4 flex items-center">
               <label className="block mr-2 w-32">Typ</label>
-              <select className="w-[400px] h-[38px] px-3 border bg-[#D9D9D9BF]" onChange={handleInputChange(setType)} >
+              <select className="w-[400px] h-[38px] px-3 border bg-[#D9D9D9BF]" value={type} onChange={handleInputChange(setType)} >
                 <option value="room">Room</option>
                 <option value="woman-only">Women-only</option>
               </select>{/* options={roomOptions} value="" onChange={handleInputChange(setType)} className="w-[400px] h-[38px] px-3 py-2 border bg-[#D9D9D9BF]" />/*/}
