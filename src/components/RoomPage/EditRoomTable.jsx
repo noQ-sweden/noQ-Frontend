@@ -11,7 +11,7 @@ const EditRoomTable = () => {
   const [description, setDescription] = useState('');
   const [host, setHost] = useState(login.host);
   const [beds, setBeds] = useState(null);
-  const [type, setType] = useState('');
+  const [type, setType] = useState('room');
   const [requirements, setRequirements] = useState('');
   const [rows, setRows] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
@@ -70,7 +70,7 @@ const EditRoomTable = () => {
     setDescription('');
     setHost(login.host);
     setBeds(null);
-    setType('');
+    setType('room');
     setRequirements('');
     setEditIndex(null);
   };
