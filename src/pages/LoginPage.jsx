@@ -1,69 +1,102 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
-import axios from './../api/AxiosNoqApi'
-import PropTypes from 'prop-types'
-import useLogin from './../hooks/useLogin'
-import useHeader from './../hooks/useHeader'
-import SEO from '../components/SEO'
+import React, { useRef, useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "./../api/AxiosNoqApi";
+import PropTypes from "prop-types";
+import useLogin from "./../hooks/useLogin";
+import useHeader from "./../hooks/useHeader";
+import SEO from "../components/SEO";
 
 LoginPage.propTypes = {
-  loginHandler: PropTypes.func
-}
+  loginHandler: PropTypes.func,
+};
 
 export default function LoginPage() {
-  const { setLogin } = useLogin()
-  const { setHeader } = useHeader()
-  const userRef = useRef()
-  const errorRef = useRef()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const from = location.state?.from?.pathname || '/'
+  const { setLogin } = useLogin();
+  const { setHeader } = useHeader();
+  const userRef = useRef();
+  const errorRef = useRef();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    userRef.current.focus()
-  }, [])
-
-  const navigateToRegister = () => {
-    navigate('/register')
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
+    // check if user is already logged in
+    // automaticaly login after refresh page
     axios
-      .post('api/login/', {
-        email: username,
-        password: password
+      .get("/api/self/auth/", {
+        withCredentials: true,
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
       })
       .then((response) => {
         if (response.status === 200 && response.data.login_status === true) {
-          const usergroups = response?.data?.groups
-          const host = response?.data?.host
-          const first_name = response?.data?.first_name
-          const last_name = response?.data?.last_name
-          setLogin({ username, first_name, last_name, usergroups, host })
-          setHeader('')
+          const usergroups = response?.data?.groups;
+          const host = response?.data?.host;
+          const first_name = response?.data?.first_name;
+          const last_name = response?.data?.last_name;
+          setLogin({ username, first_name, last_name, usergroups, host });
+          setHeader("");
 
-          setUsername('')
-          setPassword('')
+          setUsername("");
+          setPassword("");
 
-          const returnUrl = from === '/' ? '/' + usergroups[0] : from
-          navigate(returnUrl, { replace: true })
+          const returnUrl = from === "/" ? "/" + usergroups[0] : from;
+          navigate(returnUrl, { replace: true });
+        }
+      })
+      .catch((err) => {
+        console.log("Could not fetch user data", err); // Hantera fel
+      });
+  }, []);
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+
+  const navigateToRegister = () => {
+    navigate("/register");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    axios
+      .post("api/login/", {
+        email: username,
+        password: password,
+      })
+      .then((response) => {
+        if (response.status === 200 && response.data.login_status === true) {
+          const usergroups = response?.data?.groups;
+          const host = response?.data?.host;
+          const first_name = response?.data?.first_name;
+          const last_name = response?.data?.last_name;
+          setLogin({ username, first_name, last_name, usergroups, host });
+          setHeader("");
+
+          setUsername("");
+          setPassword("");
+
+          const returnUrl = from === "/" ? "/" + usergroups[0] : from;
+          navigate(returnUrl, { replace: true });
         } else {
-          setErrorMessage('Autentisering misslyckades.')
-          setUsername('')
-          setPassword('')
+          setErrorMessage("Autentisering misslyckades.");
+          setUsername("");
+          setPassword("");
         }
       })
       .catch((error) => {
-        console.log('Error while login.', error)
-      })
-    setPassword('')
-  }
+        console.log("Error while login.", error);
+      });
+    setPassword("");
+  };
 
   // Inject Botpress scripts
   useEffect(() => {
@@ -72,7 +105,8 @@ export default function LoginPage() {
     botpressScript1.async = true;
 
     const botpressScript2 = document.createElement("script");
-    botpressScript2.src = "https://files.bpcontent.cloud/2024/11/02/09/20241102093854-JYPQTPG9.js";
+    botpressScript2.src =
+      "https://files.bpcontent.cloud/2024/11/02/09/20241102093854-JYPQTPG9.js";
     botpressScript2.async = true;
 
     document.body.appendChild(botpressScript1);
@@ -92,7 +126,7 @@ export default function LoginPage() {
         <div className="mb-12 text-red-600 text-xl font-semibold">
           <p
             ref={errorRef}
-            className={errorMessage ? 'errorMessage' : 'offScreen'}
+            className={errorMessage ? "errorMessage" : "offScreen"}
           >
             {errorMessage}
           </p>
@@ -222,5 +256,5 @@ export default function LoginPage() {
         </div>
       </div>
     </>
-  )
+  );
 }
