@@ -55,6 +55,7 @@ const EditRoomTable = () => {
         const productId = rows[editIndex].id;
         await axios.put(`/api/host/products/${productId}/edit`, newRow);
       } else {
+        newRow.id = Date.now() + Math.floor(Math.random() * 1000000);
         await axios.post('/api/host/products', newRow);
       }
       fetchRooms();
