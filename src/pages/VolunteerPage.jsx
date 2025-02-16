@@ -17,7 +17,9 @@ export default function VolunteerPage() {
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [foundUser, setFoundUser] = useState(null);
-  const [foundUsers, setFoundUsers] = useState([]);
+  /* const [foundUsers, setFoundUsers] = useState([]); */
+  const [foundUserId, setFoundUserId] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [searchError, setSearchError] = useState(null);
   const [userUno, setUserUno] = useState("");
   const [newFirstName, setNewFirstName] = useState("");
@@ -54,6 +56,7 @@ export default function VolunteerPage() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get("/api/volunteer/guest/list");
+      console.log("Fetched users:", response.data);
       setMockApiUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -124,6 +127,7 @@ export default function VolunteerPage() {
   };
 
   const openBookingPopover = (product) => {
+    console.log("Selected Product:", product);
     setSelectedProduct(product);
     setShowPopover(true);
   };
@@ -134,22 +138,31 @@ export default function VolunteerPage() {
     setUserFirstName("");
     setUserLastName("");
     setFoundUser(null);
+    setFoundUserId(null);
     setSearchError(null);
   };
 
   const handleBooking = async () => {
-    if (!foundUser) {
-      alert("Välj en användare för att boka");
+    if (!selectedUserId) {
+      alert("Välj en gäst innan du bokar.");
       return;
     }
 
     try {
+      const selectedUser = foundUser?.find(
+        (user) => user.id === selectedUserId
+      );
+
+      if (!selectedUser) {
+        alert("Ingen användare vald.");
+        return;
+      }
       const bookingData = {
         product_id: selectedProduct.id,
-        user_id: foundUser.id,
+        user_id: foundUserId,
         start_date: selectedDate,
-        end_date: endDate || selectedDate, // Using end date
-        uno: foundUser.uno || foundUser.unokod,
+        end_date: endDate, // Using end date
+        uno: selectedUser.uno,
       };
 
       // Step 1: Create the booking
@@ -157,16 +170,18 @@ export default function VolunteerPage() {
         "/api/volunteer/booking/request",
         bookingData
       );
-      if (bookingResponse.status === 200) {
-        alert(
-          `Bokningsbekräftelse ${selectedProduct.name}, Gäst: ${foundUser.first_name} ${foundUser.last_name}`
-        );
-      }
-      // Step 2: Confirm the booking
-      //const bookingId = bookingResponse.data.id;
-      //await axios.patch(`/api/volunteer/booking/confirm/${bookingId}`);
+      const bookingId = bookingResponse.data.id;
 
-      //alert("Plats bokat, Email med bokingsinformation har skickats ut");
+      alert(
+        `Bokningsbekräftelse ${selectedProduct?.name || "Okänt namn"}, Gäst: ${
+          selectedUser?.first_name || "Okänd"
+        } ${selectedUser?.last_name || "Okänd"}`
+      );
+
+      // Step 2: Confirm the booking
+      await axios.patch(`/api/volunteer/confirm_booking/${bookingId}`);
+
+      alert("Plats bokat, Email med bokingsinformation har skickats ut");
       closePopover();
     } catch (error) {
       if (error.response && error.response.status === 409) {
@@ -197,54 +212,38 @@ export default function VolunteerPage() {
   };
 
   const searchUser = async () => {
-    setFoundUsers([]);
-    setFoundUser(null);
-    setSearchError(null);
-
     if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
       setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka.");
       return;
     }
 
-    let params = {};
-
-    if (userFirstName.trim()) {
-      params.first_name = userFirstName.trim();
-    }
-
-    if (userLastName.trim()) {
-      params.last_name = userLastName.trim();
-    }
-
-    if (userUno.trim()) {
-      params.uno = String(userUno.trim()); // Ensure uno is always sent as a string
-    }
-
     try {
-      // console.log("Search parameters:", params);
+      console.log("Search parameters:", {
+        first_name: userFirstName,
+        last_name: userLastName,
+        uno: userUno,
+      });
 
       const response = await axios.get("/api/volunteer/guest/search", {
-        params,
+        params: {
+          first_name: userFirstName,
+          last_name: userLastName,
+          uno: userUno,
+        },
       });
 
       if (response.data.length > 0) {
-        setFoundUsers(response.data);
         setSearchError(null);
+        setFoundUser(response.data);
       } else {
         setSearchError("Gäst hittades ej.");
+        setFoundUser([]);
       }
     } catch (error) {
       console.error("Error searching for user:", error);
       setSearchError("Error searching for user.");
+      setFoundUser([]);
     }
-  };
-
-  const clearSearchResults = () => {
-    setFoundUsers([]);
-    setUserFirstName("");
-    setUserLastName("");
-    setUserUno("");
-    setSearchError(null);
   };
 
   return (
@@ -326,27 +325,21 @@ export default function VolunteerPage() {
           <input
             type="text"
             value={newFirstName}
-            onChange={(e) => {
-              setNewFirstName(e.target.value);
-            }}
+            onChange={(e) => setNewFirstName(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 font-semibold"
             placeholder="Förnamn"
           />
           <input
             type="text"
             value={newLastName}
-            onChange={(e) => {
-              setNewLastName(e.target.value);
-            }}
+            onChange={(e) => setNewLastName(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 font-semibold"
             placeholder="Efternamn"
           />
           <input
             type="text"
             value={newUno}
-            onChange={(e) => {
-              setNewUno(e.target.value);
-            }}
+            onChange={(e) => setNewUno(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 font-semibold"
             placeholder="UNO Kod"
           />
@@ -468,10 +461,7 @@ export default function VolunteerPage() {
               />
             </div>
             <button
-              onClick={() => {
-                clearSearchResults();
-                searchUser();
-              }}
+              onClick={searchUser}
               className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded w-full mt-4"
             >
               Sök Användare
@@ -479,47 +469,49 @@ export default function VolunteerPage() {
             {searchError && (
               <p className="text-red-500 text-sm mt-2">{searchError}</p>
             )}
-            {foundUsers.length > 0 && (
-              <div className="mt-4 bg-gray-50 p-4 rounded shadow">
-                <h3 className="font-semibold text-gray-800">
-                  Bokningsinformation:
-                </h3>
-                {foundUsers.map((user, index) => (
-                  <div key={index} className="border-b border-gray-300 py-2">
-                    <p className="text-gray-600">
-                      <strong>Gästnamn:</strong>
-                      {user.first_name} {user.last_name}
-                    </p>
-                    <p className="text-gray-600">
-                      UNO Kod: {user.uno || user.unokod || "Ej tillgänglig"}
-                    </p>
-                    <button
-                      onClick={() => setFoundUser(user)} // ✅ Select this user
-                      className={`mt-2 px-4 py-2 rounded ${
-                        foundUser?.id === user.id
-                          ? "bg-green-600 text-white"
-                          : "bg-gray-300 hover:bg-gray-400"
-                      }`}
+            {foundUser && foundUser.length > 0 && (
+              <div>
+                <h3>Välj en gäst:</h3>
+                <ul>
+                  {foundUser.map((user) => (
+                    <li
+                      key={user.id}
+                      style={{
+                        padding: "8px",
+                        margin: "5px",
+                        border: "1px solid #ccc",
+                        cursor: "pointer",
+                        backgroundColor:
+                          selectedUserId === user.id ? "#cce5ff" : "white",
+                      }}
+                      onClick={() => {
+                        setSelectedUserId(user.id); // Fix
+                      }}
                     >
-                      {foundUser?.id === user.id ? "✅ Vald" : "Välj"}
-                    </button>
-                  </div>
-                ))}
+                      {user.first_name} {user.last_name} ({user.uno})
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
+
             <div className="mt-4 flex gap-2">
               <button
                 onClick={handleBooking}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex-1"
-                disabled={!foundUser}
+                disabled={!selectedUserId}
+                style={{
+                  backgroundColor: selectedUserId ? "#007bff" : "#ccc",
+                  color: "white",
+                  padding: "10px",
+                  border: "none",
+                  cursor: selectedUserId ? "pointer" : "not-allowed",
+                }}
               >
                 Bekräfta
               </button>
+
               <button
-                onClick={() => {
-                  closePopover();
-                  clearSearchResults();
-                }}
+                onClick={closePopover}
                 className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded flex-1"
               >
                 Avbryt
