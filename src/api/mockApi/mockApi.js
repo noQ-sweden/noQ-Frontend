@@ -685,3 +685,32 @@ noqMockApi.onPatch(/\/api\/volunteer\/confirm_booking\/\d+/).reply((config) => {
     return [404, { error: "Booking not found" }];
   }
 });
+
+noqMockApi.onGet(/api\/user\/available_host\/\d+/).reply((config) => {
+  const hostId = parseInt(config.url.match(/api\/user\/available_host\/(\d+)/)[1]);
+
+  // all available 
+  const availableShelters = getAvailableShelters();
+
+  // Find the requested host by ID
+  const hostData = availableShelters.find(shelter => shelter.host.id === hostId);
+
+  if (!hostData) {
+    return [404, { error: "Host not found" }];
+  }
+
+  // match backend API structure
+  const response = [{
+    host: hostData.host,  
+    products: hostData.products.map(product => ({
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      total_places: product.total_places,
+      type: product.type,
+      available_dates: product.available_dates || [] 
+    }))
+  }];
+
+  return [200, response];
+});

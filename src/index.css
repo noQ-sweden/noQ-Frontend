@@ -21,6 +21,18 @@ body {
     @apply       
     h-4 sm:h-8
   }
+}
 
-  
+
+.react-datepicker__day--in-range,
+.react-datepicker__day--in-selecting-range {
+  @apply bg-gray-300 text-gray-700 rounded-full !important;
+}
+
+.react-datepicker__day--selected {
+  @apply bg-green-500 text-white !important;
+}
+
+.react-datepicker__day--keyboard-selected {
+  @apply bg-gray-200 text-gray-700 rounded-full !important;
 }
