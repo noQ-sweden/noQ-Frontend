@@ -52,7 +52,8 @@ export default function LoginPage() {
         }
       })
       .catch((err) => {
-        console.log("Could not fetch user data", err); // Hantera fel
+        // Better error handling here
+        console.log("Could not fetch user data");
       });
   }, []);
 

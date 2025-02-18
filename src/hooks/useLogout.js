@@ -1,20 +1,19 @@
 import { useState } from "react";
 import axios from "./../api/AxiosNoqApi";
-import useLogin from "./useLogin"; // För att uppdatera login state efter logout
 
 const useLogout = () => {
-  const { setLogin } = useLogin(); // Hämta setLogin från din login context
-  const [isLoggingOut, setIsLoggingOut] = useState(false); // För att hantera loading-status
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const logout = async () => {
     try {
-      setIsLoggingOut(true); // Sätt till loading innan logout
-      // Skicka GET-förfrågan till backend för att logga ut
+      setIsLoggingOut(true);
+      // Send a request to the backend server to log out the user
       await axios.get("/api/logout/", { withCredentials: true });
     } catch (error) {
-      console.log("Error logging out", error);
+      // maybe some better error handling here
+      console.log("An error occurred while logging out. Please try again.");
     } finally {
-      setIsLoggingOut(false); // Återställ loading-status
+      setIsLoggingOut(false); // reset the state
     }
   };
 
