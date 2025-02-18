@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaBars, FaCog, FaUserAlt, FaSignOutAlt } from "react-icons/fa";
+import { FaBars, FaCog, FaUserAlt, FaSignOutAlt, FaTimes } from "react-icons/fa";
 import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import noQiconNoQRed from "./../../assets/images/noQiconNoQRed.svg";
@@ -74,27 +74,27 @@ export default function Sidebar() {
     <div>
       {/* Hamburger menu btn for Mobile */}
       <button
-        className="absolute top-4 left-4 text-gray-700 focus:outline-none lg:hidden z-50"
+        className="absolute top-4 right-4 text-white focus:outline-none lg:hidden z-50"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <FaBars size="25" />
+        {isOpen ?  <FaTimes size="30" /> : <FaBars size="25"/>}
       </button>
 
       {/* Sidebar */}
       <div
-        className={`flex flex-col text-white min-h-screen bg-white m-0 select-none w-64 fixed top-0 left-0 z-40 transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:flex lg:relative lg:transform-none transition-transform duration-100`}
+        className={`flex flex-col text-white bg-white m-0 shadow-xl rounded-md select-none w-64 fixed top-20 right-0 z-40 transform ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        } lg:translate-x-0 lg:flex lg:relative lg:transform-none transition-transform duration-200`}
       >
-        <div className="items-center mt-4 mb-5">
-          <img
+        <div className="items-center mt-2 mb-5">
+          {/*<img
             src={colors.logoSrc}
             alt="noQ Logo"
             className="h-20 mx-auto w-auto cursor-pointer"
             onClick={() => {
               navigate(login.usergroups[0], { replace: false });
             }}
-          />
+          />*/}
         </div>
         <div className="align-top p-8">
           <ul>
