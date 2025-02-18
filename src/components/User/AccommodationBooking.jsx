@@ -146,12 +146,27 @@ export default function AccommodationBooking() {
                     <label className="block mb-2">Incheckningsdatum</label>
                     <DatePicker
                       selected={startDate}
-                      onChange={(date) => setStartDate(date)}
+                      onChange={(date) => {
+                        setStartDate(date);
+
+                        // Find the first room that has the selected date
+                        const matchingRoom = hostRooms.find(room =>
+                          indexedAvailableDates[room.id]?.includes(format(date, "yyyy-MM-dd"))
+                        );
+
+                        if (matchingRoom) {
+                          setSelectedRoom(matchingRoom.id);
+                        } else {
+                          setSelectedRoom(null); // Reset selection if no match
+                        }
+                      }}
                       selectsStart
                       startDate={startDate}
                       endDate={endDate}
                       placeholderText="Välj incheckningsdatum"
                       className="p-3 border rounded-md w-full"
+                      includeDates={selectedRoom ? indexedAvailableDates[selectedRoom]?.map(date => new Date(date)) || [] 
+                                                  : Object.values(indexedAvailableDates).flat().map(date => new Date(date))}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -165,6 +180,14 @@ export default function AccommodationBooking() {
                       minDate={startDate}
                       placeholderText="Välj utcheckningsdatum"
                       className="p-3 border rounded-md w-full"
+                      includeDates={
+                        selectedRoom && startDate
+                          ? indexedAvailableDates[selectedRoom]
+                              ?.map(date => new Date(date))
+                              .filter(date => date >= startDate) || []
+                          : []
+                      }
+                      disabled={!startDate}
                     />
                   </div>
                 </div>
@@ -173,14 +196,14 @@ export default function AccommodationBooking() {
               <div className="bg-white p-4 rounded-md mb-6">
                 <p className="mb-2 font-semibold">Välj rum</p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  {hostRooms ? (
+                  {hostRooms.length > 0 ? (
                     hostRooms.map((room) => (
                       <div
                         key={room.id}
                         className={`p-4 border rounded transition-all duration-300 shadow-sm w-full ${
-                          selectedRoom === room.id
-                            ? "bg-[#4CAA4A] text-white"
-                            : "bg-gray-200"
+                          selectedRoom === room.id 
+                          ? "bg-[#4CAA4A] text-white" 
+                          : "bg-gray-200"
                         }`}
                       >
                         <div className="grid gap-4 justify-items-center">
@@ -188,7 +211,11 @@ export default function AccommodationBooking() {
                           <p className="text-center">{room.description}</p>
                           <button
                             className="bg-green-600 hover:bg-green-700 text-white font-semibold text-m align-middle h-7 px-6 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400 disabled:cursor-not-allowed"
-                            onClick={() => handleSelectRoom(room)}
+                            onClick={() => {
+                              setSelectedRoom(room.id);
+                              setStartDate(null); // Reset start date when switching rooms
+                              setEndDate(null);   // Reset end date when switching rooms
+                            }}
                             disabled={selectedRoom === room.id}
                           >
                             {selectedRoom === room.id ? "Vald" : "Välj"}
