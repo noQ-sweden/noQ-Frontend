@@ -69,8 +69,10 @@ export function getAvailableShelters() {
                         { label: "Wi-Fi", value: "Ja" },
                         { label: "Tillgänglighetsanpassning för rörelsehindrade", value: "Ja" },
                     ],
-                    
-                    
+                    available_dates: [
+                        { available_date: "2025-02-25" },
+                        { available_date: "2025-02-27" }
+                    ]
                 },
                 
                 {
@@ -80,8 +82,9 @@ export function getAvailableShelters() {
                     total_places: 4,
                     places_left: 1,
                     type: "room",
-                    
-                    
+                    available_dates: [
+                        { available_date: "2025-02-26" }
+                    ]
                 },
             ]
         },
@@ -118,6 +121,10 @@ export function getAvailableShelters() {
                         { label: "TV", value: "Ja" },
                         { label: "Tillgänglighetsanpassning för rörelsehindrade", value: "Nej" },
                     ],
+                    available_dates: [
+                        { available_date: "2025-02-28" },
+                        { available_date: "2025-03-01" }
+                    ]
                 },
                 {
                     id: 3,
@@ -126,7 +133,9 @@ export function getAvailableShelters() {
                     total_places: 15,
                     places_left: 5,
                     type: "room",
-                    
+                    available_dates: [
+                        { available_date: "2025-02-26" }
+                    ]
                 },
                
             ]
