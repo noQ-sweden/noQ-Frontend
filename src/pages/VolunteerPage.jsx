@@ -16,16 +16,14 @@ export default function VolunteerPage() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
-  const [foundUser, setFoundUser] = useState(null);
-  /* const [foundUsers, setFoundUsers] = useState([]); */
-  const [foundUserId, setFoundUserId] = useState(null);
+  const [foundUsers, setFoundUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [searchError, setSearchError] = useState(null);
   const [userUno, setUserUno] = useState("");
   const [newFirstName, setNewFirstName] = useState("");
   const [newLastName, setNewLastName] = useState("");
   const [newUno, setNewUno] = useState("");
-  const [_mockApiUsers, setMockApiUsers] = useState([]);
+  const [mockApiUsers, setMockApiUsers] = useState([]);
 
   useEffect(() => {
     const fetchAllShelters = async () => {
@@ -56,8 +54,10 @@ export default function VolunteerPage() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get("/api/volunteer/guest/list");
-      console.log("Fetched users:", response.data);
-      setMockApiUsers(response.data);
+      console.log("Users:", response.data);
+      if (response.data) {
+        setMockApiUsers(response.data);
+      }
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -137,8 +137,7 @@ export default function VolunteerPage() {
     setSelectedProduct(null);
     setUserFirstName("");
     setUserLastName("");
-    setFoundUser(null);
-    setFoundUserId(null);
+    setFoundUsers([]);
     setSearchError(null);
   };
 
@@ -149,7 +148,7 @@ export default function VolunteerPage() {
     }
 
     try {
-      const selectedUser = foundUser?.find(
+      const selectedUser = foundUsers?.find(
         (user) => user.id === selectedUserId
       );
 
@@ -159,7 +158,7 @@ export default function VolunteerPage() {
       }
       const bookingData = {
         product_id: selectedProduct.id,
-        user_id: foundUserId,
+        user_id: selectedUserId,
         start_date: selectedDate,
         end_date: endDate, // Using end date
         uno: selectedUser.uno,
@@ -212,38 +211,53 @@ export default function VolunteerPage() {
   };
 
   const searchUser = async () => {
-    if (!userFirstName.trim() && !userLastName.trim() && !userUno.trim()) {
-      setSearchError("Ange förnamn, efternamn, eller UNO KOD för att söka.");
+    const trimmedFirstName = userFirstName.trim().toLowerCase();
+    const trimmedLastName = userLastName.trim().toLowerCase();
+    const trimmedUno = userUno.trim();
+
+    const minCharacters = 2;
+
+    if (
+      (trimmedFirstName && trimmedFirstName.length < minCharacters) ||
+      (trimmedLastName && trimmedLastName.length < minCharacters) ||
+      (trimmedUno && trimmedUno.length < minCharacters)
+    ) {
+      setTimeout(() => {
+        setSearchError(
+          `Ange minst ${minCharacters} karaktär eller UNO KOD för att söka.`
+        );
+      }, 0);
+      setFoundUsers([]);
       return;
+    } else {
+      setSearchError(null);
     }
 
-    try {
-      console.log("Search parameters:", {
-        first_name: userFirstName,
-        last_name: userLastName,
-        uno: userUno,
-      });
-
-      const response = await axios.get("/api/volunteer/guest/search", {
-        params: {
-          first_name: userFirstName,
-          last_name: userLastName,
-          uno: userUno,
-        },
-      });
-
-      if (response.data.length > 0) {
-        setSearchError(null);
-        setFoundUser(response.data);
-      } else {
+    const filtredUsers = mockApiUsers.filter(
+      (user) =>
+        (trimmedFirstName &&
+          user.first_name.toLowerCase().includes(trimmedFirstName)) ||
+        (trimmedLastName &&
+          user.last_name.toLowerCase().includes(trimmedLastName)) ||
+        (trimmedUno && String(user.unokod).startsWith(trimmedUno))
+    );
+    if (filtredUsers.length > 0) {
+      setFoundUsers(filtredUsers);
+      console.log("Found users:", filtredUsers);
+      setSearchError(null);
+    } else {
+      setFoundUsers([]);
+      setTimeout(() => {
         setSearchError("Gäst hittades ej.");
-        setFoundUser([]);
-      }
-    } catch (error) {
-      console.error("Error searching for user:", error);
-      setSearchError("Error searching for user.");
-      setFoundUser([]);
+      }, 0);
     }
+  };
+
+  const clearSearchResults = () => {
+    setUserFirstName("");
+    setUserLastName("");
+    setUserUno("");
+    setSearchError(null);
   };
 
   return (
@@ -461,7 +475,10 @@ export default function VolunteerPage() {
               />
             </div>
             <button
-              onClick={searchUser}
+              onClick={() => {
+                searchUser();
+                clearSearchResults();
+              }}
               className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded w-full mt-4"
             >
               Sök Användare
@@ -469,17 +486,18 @@ export default function VolunteerPage() {
             {searchError && (
               <p className="text-red-500 text-sm mt-2">{searchError}</p>
             )}
-            {foundUser && foundUser.length > 0 && (
+            {foundUsers && foundUsers.length > 0 && (
               <div>
                 <h3>Välj en gäst:</h3>
                 <ul>
-                  {foundUser.map((user) => (
+                  {foundUsers.map((user) => (
                     <li
                       key={user.id}
                       style={{
                         padding: "8px",
                         margin: "5px",
                         border: "1px solid #ccc",
+                        borderRadius: "5px",
                         cursor: "pointer",
                         backgroundColor:
                           selectedUserId === user.id ? "#cce5ff" : "white",
@@ -488,7 +506,8 @@ export default function VolunteerPage() {
                         setSelectedUserId(user.id); // Fix
                       }}
                     >
-                      {user.first_name} {user.last_name} ({user.uno})
+                      {user.first_name} {user.last_name}
+                      {user.uno ? `(${user.uno})` : ""}
                     </li>
                   ))}
                 </ul>
