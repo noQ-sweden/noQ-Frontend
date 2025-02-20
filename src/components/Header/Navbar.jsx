@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import useLogin from "./../../hooks/useLogin";
+import useLogout from "../../hooks/useLogout";
 import { useNavigate, Link } from "react-router-dom";
 import PageTitle from "./PageTitle";
 import {
@@ -17,6 +18,7 @@ import PropTypes from "prop-types";
 export default function Navbar({ first_name, last_name }) {
   const navigate = useNavigate();
   const { login } = useLogin();
+  const { logout } = useLogout();
   const [nrOfMessages] = useState(0);
   const [nrOfAlerts] = useState(3); // Mocked alerts count
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -27,6 +29,7 @@ export default function Navbar({ first_name, last_name }) {
   };
 
   const handleLogout = () => {
+    logout();
     localStorage.clear();
     navigate("/", { replace: true });
     window.location.reload();
