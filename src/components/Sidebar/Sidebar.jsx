@@ -84,7 +84,7 @@ export default function Sidebar() {
       <div
         className={`flex flex-col text-white bg-white m-0 shadow-xl rounded-md select-none w-64 fixed top-20 right-0 z-40 transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        } lg:translate-x-0 lg:flex lg:relative lg:transform-none transition-transform duration-200`}
+        } lg:top-16 lg:translate-x-0 lg:flex lg:relative lg:transform-none transition-transform duration-200 lg:h-screen`}
       >
         <div className="items-center mt-2 mb-5">
           {/*<img
