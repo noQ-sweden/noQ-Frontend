@@ -6,17 +6,25 @@ import Iconbar from "./Iconbar";
 
 export default function Header() {
   const { login } = useLogin();
+  const viewerGroup =
+    login?.usergroups instanceof Array ? login?.usergroups[0] : null;
 
   return login?.first_name || login?.last_name ? (
     <div>
-      <Navbar
-        first_name={
-          Array.isArray(login.first_name)
-            ? login.first_name[0]
-            : login.first_name
-        }
-        last_name={login.last_name}
-      />
+      <div className="bg-[#245b56] p-8 h-10 flex items-center w-full fixed top-0 left-0">
+        <img src="src/assets/images/NoqIconWhiteOnGreen.svg" alt="noQ" className="w-24" />
+      </div>
+      {viewerGroup !== "user" ? (
+        <Navbar
+          first_name={
+            Array.isArray(login.first_name)
+              ? login.first_name[0]
+              : login.first_name
+          }
+          last_name={login.last_name}
+        />
+      ) : null}
+      
     </div>
   ) : (
     <div>
