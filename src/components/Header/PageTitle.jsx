@@ -21,7 +21,7 @@ export default function PageTitle() {
     return `${firstNameFormatted} ${lastNameFormatted}`;
   };
   return (
-    <div className="flex items-center justify-between bg-white">
+    <div className="hidden lg:flex items-center justify-between bg-white">
       <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold">
         {getName(login.first_name, login.last_name)}
       </div>

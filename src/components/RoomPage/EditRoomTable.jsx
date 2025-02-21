@@ -11,7 +11,7 @@ const EditRoomTable = () => {
   const [description, setDescription] = useState('');
   const [host, setHost] = useState(login.host);
   const [beds, setBeds] = useState(null);
-  const [type, setType] = useState('');
+  const [type, setType] = useState('room');
   const [requirements, setRequirements] = useState('');
   const [rows, setRows] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
@@ -55,6 +55,7 @@ const EditRoomTable = () => {
         const productId = rows[editIndex].id;
         await axios.put(`/api/host/products/${productId}/edit`, newRow);
       } else {
+        newRow.id = Date.now() + Math.floor(Math.random() * 1000000);
         await axios.post('/api/host/products', newRow);
       }
       fetchRooms();
@@ -70,7 +71,7 @@ const EditRoomTable = () => {
     setDescription('');
     setHost(login.host);
     setBeds(null);
-    setType('');
+    setType('room');
     setRequirements('');
     setEditIndex(null);
   };
@@ -157,7 +158,7 @@ const EditRoomTable = () => {
             </div>
             <div className="mb-4 flex items-center">
               <label className="block mr-2 w-32">Typ</label>
-              <select className="w-[400px] h-[38px] px-3 border bg-[#D9D9D9BF]" onChange={handleInputChange(setType)} >
+              <select className="w-[400px] h-[38px] px-3 border bg-[#D9D9D9BF]" value={type} onChange={handleInputChange(setType)} >
                 <option value="room">Room</option>
                 <option value="woman-only">Women-only</option>
               </select>{/* options={roomOptions} value="" onChange={handleInputChange(setType)} className="w-[400px] h-[38px] px-3 py-2 border bg-[#D9D9D9BF]" />/*/}
