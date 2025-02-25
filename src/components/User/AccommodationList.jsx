@@ -65,8 +65,7 @@ export default function AccommodationList() {
               {startDate ? format(startDate, "yyyy-MM-dd") : "Idag"}
             </button>
           </div>
-          <div className="w-full">
-
+          <div className="w-full md:mt-7">
             <button
               type="button"
               onClick={handleSelectTomorrow}
