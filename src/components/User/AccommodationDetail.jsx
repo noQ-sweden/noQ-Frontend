@@ -150,7 +150,7 @@ export default function AccommodationDetail() {
                 )}
               </div>
 
-              {/* Submit Button */}
+              {/* submit btn */}
               <div className="grid ">
                 {host && (
                   <div className="flex justify-center">
@@ -163,7 +163,7 @@ export default function AccommodationDetail() {
                       }`}
                       disabled={loading}
                     >
-                      {loading ? "Laddar..." : "Skicka förfrågan"}
+                      Skicka förfrågan
                     </button>
                   </div>
                 )}
@@ -215,12 +215,6 @@ export default function AccommodationDetail() {
                     )}
                   </div>
                 )}
-
-                {/*<div className="flex justify-center">
-                  <p className="font-semibold text-xs sm:text-sm">
-                    
-                  </p>
-                </div> */}
               </div>
             </div>
           </div>

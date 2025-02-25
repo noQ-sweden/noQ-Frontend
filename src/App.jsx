@@ -13,7 +13,6 @@ import UnauthorizedPage from "./pages/UnauthorizedPage";
 import RequestPageView from "./components/RequestsPage/RequestPageView";
 import RoomPage from "./pages/RoomPage";
 import AccommodationDetail from "./components/User/AccommodationDetail";
-import AccommodationBooking from "./components/User/AccommodationBooking";
 import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
 import VolunteerPage from "./pages/VolunteerPage";
@@ -36,7 +35,6 @@ function App() {
           <Route path="user" element={<UserPage />} />
           <Route path="user-landing" element={<UserLandingPage />} />
           <Route path="accommodations/:id" element={<AccommodationDetail />} />
-          <Route path="accommodations/:id/booking" element={<AccommodationBooking />} />
           <Route path="user/requests" element={<Bookings />} />
         </Route>
 
