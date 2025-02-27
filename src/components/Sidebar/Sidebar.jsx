@@ -75,14 +75,14 @@ export default function Sidebar() {
     <div>
       {/* Hamburger menu btn for Mobile */}
       <button
-        className="absolute top-4 right-4 text-white focus:outline-none lg:hidden z-50"
+        className="fixed top-4 right-4 text-white focus:outline-none lg:hidden z-50"
 
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ?  <FaTimes size="30" /> : <FaBars size="25"/>}
       </button>
 
-      <img
+      {/*<img
         className="absolute top-2 left-4 lg:hidden cursor-pointer"
         src={colors.logoSrc}
         onClick={() => {
@@ -91,12 +91,13 @@ export default function Sidebar() {
         alt="noQ Logo"
         width="100"
       />
+      */}
 
       {/* Sidebar */}
       <div
-        className={`flex flex-col text-white bg-white m-0 shadow-xl rounded-md select-none w-64 fixed top-20 right-0 z-40 transform ${
+        className={`flex flex-col text-white bg-white m-0 shadow-xl rounded-md select-none w-64 fixed top-20 right-0 z-40 sm:z-40 lg:z-0 transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        } lg:top-16 lg:translate-x-0 lg:flex lg:relative lg:transform-none transition-transform duration-200 lg:h-screen`}
+        } lg:top-16 lg:h-100 lg:translate-x-0 lg:flex lg:sticky transition-transform duration-200 `}
       >
         <div className="items-center mt-2 mb-5">
           {/*<img
