@@ -49,7 +49,7 @@ export default function AccommodationList() {
       {/* Date Section */}
       <div
         className="flex flex-col border border-gray-300 
-          p-3 mt-2 rounded-xl gap-4 lg:gap-5 py-8 bg-[#FDFDFD] shadow-md"
+          p-3 mt-2 rounded-xl gap-4 lg:gap-5 py-8 bg-[#FDFDFD] shadow-md scroll-smooth"
       >
         <p className="mb-2 font-semibold">Välj datum</p>
         <div className="flex flex-col md:flex-row md:max-w-[685px] gap-10">
