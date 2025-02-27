@@ -58,7 +58,7 @@ export default function AccommodationDetail() {
   };
 
   return (
-    <div className="p-3 text-[#39352E] relative">
+    <div className="pt-12 text-[#39352E] relative">
       <AccommodationPanel title="Om bostället">
         <div>
           <p className="font-semibold text-lg mb-2">
