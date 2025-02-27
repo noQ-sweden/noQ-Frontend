@@ -14,7 +14,7 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
     } else if (booking.status.description === "pending") {
       return "bg-[repeating-linear-gradient(45deg,_blue_0,_blue_10px,_transparent_10px,_transparent_20px)] border-blue-500";
     } else {
-      return "bg-[repeating-linear-gradient(0deg,_green_0,_green_10px,_transparent_10px,_transparent_20px)] border-green-500";
+      return "bg-[repeating-linear-gradient(0deg,_#4CAA4A_0,_#4CAA4A_10px,_transparent_10px,_transparent_20px)] rounded-xl";
     }
   };
 
@@ -22,7 +22,7 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
 
   return (
     <div className={boxStyle}>
-      <div className="bg-white p-4 rounded-lg">
+      <div className="bg-white p-2 rounded-xl">
         <div className="text-lg font-semibold">
           {booking.start_date} - {booking.end_date}
         </div>
@@ -45,7 +45,7 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
           </span>
         </div>
 
-        <div className="mt-6 flex flex-col sm:flex-row sm:gap-3">
+        <div className="mt-6 flex flex-row gap-3">
           {booking.status.description === "reserved" && (
             <button
               onClick={() => onConfirm(booking.id)}
@@ -56,8 +56,8 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
                             font-semibold
                             text-m    
                             w-full sm:w-48
-                            h-10
-                            rounded
+                            h-12
+                            rounded-xl
                             focus:outline-none
                             focus:shadow-outline
                             mb-3 sm:mb-0"
@@ -74,8 +74,8 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
                             font-semibold
                             text-m    
                             w-full sm:w-48
-                            h-10
-                            rounded
+                            h-12
+                            rounded-xl
                             focus:outline-none
                             focus:shadow-outline"
           >
