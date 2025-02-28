@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { FaBars, FaCog, FaUserAlt, FaSignOutAlt, FaTimes } from "react-icons/fa";
+import {
+  FaBars,
+  FaCog,
+  FaUserAlt,
+  FaSignOutAlt,
+  FaTimes,
+} from "react-icons/fa";
 import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 //import noQiconNoQRed from "./../../assets/images/noQiconNoQRed.svg";
@@ -7,15 +13,16 @@ import { useNavigate } from "react-router-dom";
 import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
 import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
 import GetMenuItems from "./GetMenuItems";
-
+import useLogout from "../../hooks/useLogout";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { login } = useLogin();
+  const { logout } = useLogout();
 
   // Lisa
- /* const colorSchemeUser1 = {
+  /* const colorSchemeUser1 = {
     liStyle:
       "py-5 text-gray-500 hover:bg-[#E04430] cursor-pointer hover:text-white transition-colors duration-200 rounded-2xl",
     logoSrc: noQiconNoQRed,
@@ -58,6 +65,7 @@ export default function Sidebar() {
   const liTextStyle = "flex gap-4 pl-5 pr-5 text-l";
 
   const handleLogout = () => {
+    logout();
     localStorage.clear();
     navigate("/", { replace: true });
     window.location.reload();
@@ -76,10 +84,9 @@ export default function Sidebar() {
       {/* Hamburger menu btn for Mobile */}
       <button
         className="fixed top-4 right-4 text-white focus:outline-none lg:hidden z-50"
-
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ?  <FaTimes size="30" /> : <FaBars size="25"/>}
+        {isOpen ? <FaTimes size="30" /> : <FaBars size="25" />}
       </button>
 
       {/*<img
