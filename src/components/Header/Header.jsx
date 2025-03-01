@@ -3,6 +3,7 @@ import React from "react";
 import useLogin from "./../../hooks/useLogin";
 import Navbar from "./Navbar";
 import Iconbar from "./Iconbar";
+import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
 
 export default function Header() {
   const { login } = useLogin();
@@ -22,7 +23,7 @@ export default function Header() {
         />
       ) :       
           <div className="bg-[#245b56] p-8 h-10 flex items-center w-full fixed top-0 left-0">
-              <img src="src/assets/images/NoqIconWhiteOnGreen.svg" alt="noQ" className="w-24" />
+              <img src={noQiconWhiteOnGreen} alt="noQ" className="w-24" />
           </div>
       }
       
