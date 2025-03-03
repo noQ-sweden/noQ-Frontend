@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { FaBars, FaCog, FaUserAlt, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaBars,
+  FaCog,
+  FaUserAlt,
+  FaSignOutAlt,
+  FaTimes,
+} from "react-icons/fa";
 import useLogin from "./../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 //import noQiconNoQRed from "./../../assets/images/noQiconNoQRed.svg";
@@ -7,15 +13,16 @@ import { useNavigate } from "react-router-dom";
 import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
 import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
 import GetMenuItems from "./GetMenuItems";
-
+import useLogout from "../../hooks/useLogout";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { login } = useLogin();
+  const { logout } = useLogout();
 
   // Lisa
- /* const colorSchemeUser1 = {
+  /* const colorSchemeUser1 = {
     liStyle:
       "py-5 text-gray-500 hover:bg-[#E04430] cursor-pointer hover:text-white transition-colors duration-200 rounded-2xl",
     logoSrc: noQiconNoQRed,
@@ -58,6 +65,7 @@ export default function Sidebar() {
   const liTextStyle = "flex gap-4 pl-5 pr-5 text-l";
 
   const handleLogout = () => {
+    logout();
     localStorage.clear();
     navigate("/", { replace: true });
     window.location.reload();
@@ -75,13 +83,13 @@ export default function Sidebar() {
     <div>
       {/* Hamburger menu btn for Mobile */}
       <button
-        className="absolute top-6 right-4 text-[#FDFDFD] focus:outline-none lg:hidden z-50"
+        className="fixed top-4 right-4 text-white focus:outline-none lg:hidden z-50"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <FaBars size="25" />
+        {isOpen ? <FaTimes size="30" /> : <FaBars size="25" />}
       </button>
 
-      <img
+      {/*<img
         className="absolute top-2 left-4 lg:hidden cursor-pointer"
         src={colors.logoSrc}
         onClick={() => {
@@ -90,22 +98,23 @@ export default function Sidebar() {
         alt="noQ Logo"
         width="100"
       />
+      */}
 
       {/* Sidebar */}
       <div
-        className={`flex flex-col text-white min-h-screen bg-white m-0 select-none w-64 fixed top-0 left-0 z-40 transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:flex lg:relative lg:transform-none transition-transform duration-100`}
+        className={`flex flex-col text-white bg-white m-0 shadow-xl rounded-md select-none w-64 fixed top-20 right-0 z-40 sm:z-40 lg:z-0 transform ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        } lg:top-16 lg:h-100 lg:translate-x-0 lg:flex lg:sticky transition-transform duration-200 `}
       >
-        <div className="items-center mt-4 mb-5">
-          <img
+        <div className="items-center mt-2 mb-5">
+          {/*<img
             src={colors.logoSrc}
             alt="noQ Logo"
             className="h-20 mx-auto w-auto cursor-pointer"
             onClick={() => {
               navigate(login.usergroups[0], { replace: false });
             }}
-          />
+          />*/}
         </div>
         <div className="align-top p-8">
           <ul>
