@@ -8,6 +8,7 @@ import HostPage from "./pages/HostPage";
 import UserPage from "./pages/UserPage";
 import UserLandingPage from "./pages/UserLandingPage";
 import RegistrationPage from "./pages/RegistrationPage";
+import BookingUpdate from "./pages/BookingUpdateNotification";
 import ErrorPage from "./pages/ErrorPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import RequestPageView from "./components/RequestsPage/RequestPageView";
@@ -38,6 +39,7 @@ function App() {
           <Route path="accommodations/:id" element={<AccommodationDetail />} />
           <Route path="accommodations/:id/booking" element={<AccommodationBooking />} />
           <Route path="user/requests" element={<Bookings />} />
+          <Route path="notifications" element={<BookingUpdate />} />
         </Route>
 
         {/* Host Pages */}

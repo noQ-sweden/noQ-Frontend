@@ -18,7 +18,7 @@ export default function Navbar({ first_name, last_name }) {
   const navigate = useNavigate();
   const { login } = useLogin();
   const [nrOfMessages] = useState(0);
-  const [nrOfAlerts] = useState(3); // Mocked alerts count
+  const [nrOfAlerts, setNrOfAlerts] = useState(0); // Mocked alerts count
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -68,7 +68,7 @@ export default function Navbar({ first_name, last_name }) {
           <FaBell className="text-2xl fill-almost-black cursor-pointer" />{" "}
           {/* Adjusted size */}
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-            {nrOfAlerts}
+            {nrOfAlerts ? nrOfAlerts : 0}
           </span>
         </div>
         <ul className="flex space-x-10">
