@@ -12,6 +12,7 @@ export default function UserPage() {
       <SEO title={`Gäst | NoQ - Trygg Plats för att alla förtjänar det`} />
       <div className="mr-8 sm:mr-3 w-full pt-20" id="UserPage">
         <AccommodationPanel title="Välj boställe">
+          
           <AccommodationList />
         </AccommodationPanel>
       </div>
