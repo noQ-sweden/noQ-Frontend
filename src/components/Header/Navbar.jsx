@@ -20,7 +20,7 @@ export default function Navbar({ first_name, last_name }) {
   const { login } = useLogin();
   const { logout } = useLogout();
   const [nrOfMessages] = useState(0);
-  const [nrOfAlerts] = useState(3); // Mocked alerts count
+  const [nrOfAlerts, setNrOfAlerts] = useState(0); // Mocked alerts count
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
