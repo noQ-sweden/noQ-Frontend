@@ -5,11 +5,13 @@ import { useParams, Link } from "react-router-dom";
 import { AccommodationContext } from "./../../context/AccommodationProvider";
 import shelter from "./../../assets/images/genericShelter.png";
 import { FaChevronLeft } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 export default function AccommodationDetail() {
   const { accommodation } = useContext(AccommodationContext);
   const params = useParams();
   const [hostProducts, setHostProducts] = useState("");
+  const [ t, i18n ] = useTranslation();
 
   useEffect(() => {
     const products = accommodation.filter((item) => item.host.id == params.id);
@@ -32,7 +34,7 @@ export default function AccommodationDetail() {
             >
               <Link to={`/user`} className="flex items-center">
                 <FaChevronLeft className="mr-2 text-gray-500" />
-                Tillbaka
+                {t('ActionButtons.Back')}
               </Link>
             </p>
             <div
@@ -82,7 +84,7 @@ export default function AccommodationDetail() {
                         med detta om du är på plats.
                       </p>
                       <p className="text-base font-bold grid justify-items-start ">
-                        Vad vi erbjuder
+                        {t('AccommodationDetail.Offer')}
                       </p>
                       <AccommodationAmenitiesDisplay
                         title={"Rum"}
@@ -136,7 +138,7 @@ export default function AccommodationDetail() {
                                           focus:outline-none
                                           focus:shadow-outline"
                           >
-                            Välj
+                            {t('ActionButtons.Select')}
                           </button>
                         </Link>
                       </>
@@ -153,7 +155,7 @@ export default function AccommodationDetail() {
                     >
                       <Link to={`/user`} className="flex items-center">
                         <FaChevronLeft className="mr-2 text-gray-500" />
-                        Tillbaka
+                        {t('ActionButtons.Back')}
                       </Link>
                     </p>
                   </div>

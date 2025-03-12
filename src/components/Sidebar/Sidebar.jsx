@@ -14,12 +14,15 @@ import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
 import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
 import GetMenuItems from "./GetMenuItems";
 import useLogout from "../../hooks/useLogout";
+import { useTranslation } from "react-i18next";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { login } = useLogin();
   const { logout } = useLogout();
+  const { t, i18n } = useTranslation();
+
 
   // Lisa
   /* const colorSchemeUser1 = {
@@ -71,12 +74,16 @@ export default function Sidebar() {
     window.location.reload();
   };
 
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+  };
+
   const sidebarItemsTop = GetMenuItems(login.usergroups[0]);
 
   const sidebarItemsBottom = [
-    { icon: FaCog, label: "Inställningar" },
-    { icon: FaUserAlt, label: "Användare" },
-    { icon: FaSignOutAlt, label: "Logga ut", action: handleLogout },
+    { icon: FaCog, label: t("sidebar.Settings") },
+    { icon: FaUserAlt, label: t("sidebar.User") },
+    { icon: FaSignOutAlt, label: t("sidebar.Logout"), action: handleLogout },
   ];
 
   return (
@@ -169,6 +176,10 @@ export default function Sidebar() {
                   </div>
                 )
               )}
+              <div className="text-right">
+                <button onClick={() => changeLanguage("en")} className="text-gray-500 px-4 mt-8">English</button>
+                <button onClick={() => changeLanguage("sv")} className="text-gray-500">Svenska</button>
+              </div>
             </div>
           </ul>
         </div>

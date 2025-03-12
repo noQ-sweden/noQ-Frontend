@@ -5,9 +5,11 @@ import { AccommodationContext } from "../../context/AccommodationProvider";
 import shelter from "./../../assets/images/genericShelter.png";
 import { formatPostCode } from "../../utility/utilityFunctions";
 import { FaChevronRight } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 export default function AccommodationList() {
   const { accommodation, setAccommodation } = useContext(AccommodationContext);
+  const { t, i18n } = useTranslation();
 
   // Fetch shelter data from the mock API
 
@@ -69,7 +71,7 @@ export default function AccommodationList() {
                 bg-[#4CAA4A] hover:bg-green-600 text-white px-4 py-2 
                 font-semibold text-sm rounded-md w-full md:w-auto"
               >
-                Välj
+                {t('ActionButtons.Select')}
               </button>
             </Link>
             <p className="text-sm font-semibold">
@@ -77,7 +79,7 @@ export default function AccommodationList() {
                 to={`/accommodations/${request.host.id}`}
                 className="flex items-center justify-center md:justify-start text-[#4CAA4A]"
               >
-                Mer information{" "}
+                {t('ActionButtons.MoreInformation')}{" "}
                 <FaChevronRight className="ml-2 text-gray-500" />
               </Link>
             </p>

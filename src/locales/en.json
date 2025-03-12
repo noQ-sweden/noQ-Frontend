@@ -1,0 +1,30 @@
+{
+    "sidebar": {
+        "Logout": "Logout",
+        "User": "User",
+        "Settings": "Settings",
+        "Reservations": "Reservations",
+        "Book": "Book"
+    },
+
+    "AccommodationPanel": {
+        "Residence": "Choose Residence"
+    },
+
+    "AccommodationDetail": {
+        "Offer": "What we offer"
+    },
+
+    "AccommodationBooking": {
+        "SelectDate": "Choose Date",
+        "SelectDateLabel1": "Check-in Date",
+        "SelectDateLabel2": "Check-out Date"
+
+    },
+
+    "ActionButtons": {
+        "Select": "Choose",
+        "MoreInformation": "More Information",
+        "Back": "Back"
+    }
+}

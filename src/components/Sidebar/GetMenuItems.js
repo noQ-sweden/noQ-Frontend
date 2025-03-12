@@ -7,8 +7,12 @@ import {
     FaCalendarAlt,
     FaChartBar,
   } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
+ 
 
 export default function GetMenuItems(userGroup) {
+    const { t, i18n } = useTranslation();
+    
     const hostSidebarItemsTop = [
         { icon: FaChartPie, label: "Överblick", sideBarLink: "host" },
         { icon: FaBell, label: "Förfrågningar", sideBarLink: "host/requests" },
@@ -27,8 +31,8 @@ export default function GetMenuItems(userGroup) {
     ];
 
     const userSidebarItemsTop = [
-        { icon: FaChartPie, label: "Boka", sideBarLink: "user" },
-        { icon: FaBell, label: "Bokningar", sideBarLink: "user/requests" },
+        { icon: FaChartPie, label: t("sidebar.Book"), sideBarLink: "user" },
+        { icon: FaBell, label: t("sidebar.Reservations"), sideBarLink: "user/requests" },
     ];
 
     const volunteerSidebarItemsTop = [

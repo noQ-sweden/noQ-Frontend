@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FaChevronLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import AccommodationAlertBooking from "./AccomodationAlertBooking.jsx";
+import { useTranslation } from "react-i18next";
 
 export default function AccommodationBooking() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function AccommodationBooking() {
   const [showAlert, setShowAlert] = useState(false);
   const [bookingSuccessful, setBookingSuccessful] = useState(false);
   const [indexedAvailableDates, setIndexedAvailableDates] = useState({});
+  const [t, i18n] = useTranslation();
 
   const handleTextareaChange = (e) => {
     setMessage(e.target.value);
@@ -122,7 +124,7 @@ export default function AccommodationBooking() {
             <p className="font-semibold text-lg mb-6">
               <Link to={`/user`} className="flex items-center">
                 <FaChevronLeft className="mr-2 text-gray-500" />
-                Tillbaka
+                {t("ActionButtons.Back")}
               </Link>
             </p>
 
@@ -140,10 +142,10 @@ export default function AccommodationBooking() {
             <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto">
 
               <div className="bg-white p-4 rounded-md mb-6">
-                <p className="mb-2 font-semibold">Välj datum</p>
+                <p className="mb-2 font-semibold">{t("AccommodationBooking.SelectDate")}</p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-3 rounded-md bg-gray-200">
                   <div className="flex flex-col">
-                    <label className="block mb-2">Incheckningsdatum</label>
+                    <label className="block mb-2">{t('AccommodationBooking.SelectDateLabel1')}</label>
                     <DatePicker
                       selected={startDate}
                       onChange={(date) => {
@@ -170,7 +172,7 @@ export default function AccommodationBooking() {
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="block mb-2">Utcheckningsdatum</label>
+                    <label className="block mb-2">{t('AccommodationBooking.SelectDateLabel2')}</label>
                     <DatePicker
                       selected={endDate}
                       onChange={(date) => setEndDate(date)}
