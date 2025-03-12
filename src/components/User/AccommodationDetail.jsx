@@ -17,6 +17,7 @@ export default function AccommodationDetail() {
   const [loading, setLoading] = useState(false);
   const [bookingSuccessful, setBookingSuccessful] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [missingDatesError, setMissingDatesError] = useState(false);
 
   useEffect(() => {
     const products = accommodation.filter((item) => item.host.id == params.id);
@@ -28,7 +29,7 @@ export default function AccommodationDetail() {
 
   const handleSubmit = async () => {
     if (!startDate || !endDate) {
-      alert("Vänligen välj både inchecknings- och utcheckningsdatum.");
+      setMissingDatesError(true);
       return;
     }
 
@@ -89,7 +90,7 @@ export default function AccommodationDetail() {
                       </div>
 
                       <div>
-                        <button className="bg-[#EFF6FF] text-[#2563EB] font-light rounded-full px-3">
+                        <button className="bg-[#D9D9D9] text-[#496D44] font-light rounded-full px-3">
                           Karta
                         </button>
                       </div>
@@ -149,6 +150,11 @@ export default function AccommodationDetail() {
                   </p>
                 )}
               </div>
+              {missingDatesError && (
+                <div className="text-red-600 p-3 rounded-md text-center">
+                  Vänligen välj både inchecknings- och utcheckningsdatum.
+                </div>
+              )}
 
               {/* submit btn */}
               <div className="grid ">
@@ -156,10 +162,10 @@ export default function AccommodationDetail() {
                   <div className="flex justify-center">
                     <button
                       onClick={handleSubmit}
-                      className={`p-3 w-full sm:w-[336px] bg-[#2563EB] text-white rounded-xl ${
+                      className={`p-3 w-full sm:w-[336px] bg-white text-[#496D44] border border-[#1C4915] rounded-xl ${
                         loading
                           ? "opacity-50 cursor-not-allowed"
-                          : "hover:bg-blue-500"
+                          : "hover:bg-[#f9f9f9]"
                       }`}
                       disabled={loading}
                     >
@@ -172,7 +178,7 @@ export default function AccommodationDetail() {
                   <div className="fixed inset-0 flex items-center justify-center bg-[#FDFDFD] bg-opacity-85">
                     {bookingSuccessful ? (
                       <div className="fixed 0 m-2 flex items-center justify-center bg-[#FDFDFD] bg-opacity-85">
-                        <div className="bg-[#FDFDFD] shadow-lg rounded-xl w-[364px] lg:w-[869px] h-[451px] lg:h-[265px] lg:px-16  text-center border border-gray-300">
+                        <div className="bg-[#FDFDFD] shadow-lg rounded-xl w-[364px] lg:w-[869px] h-[451px] lg:h-[285px] lg:px-16  text-center border border-gray-300">
                           <div className="flex flex-col-reverse lg:flex-row-reverse  justify-center items-center ">
                             <div>
                               <h2 className="text-2xl font-bold mb-4">
@@ -204,7 +210,7 @@ export default function AccommodationDetail() {
                             to={`/user`}
                             className="flex items-center justify-center"
                           >
-                            <button className="bg-[#2563EB] hover:bg-blue-500 text-white font-semibold py-3 px-16  rounded-2xl">
+                            <button className=" bg-white text-[#496D44] border border-[#1C4915] hover:bg-[#f9f9f9] font-semibold py-3 px-20  rounded-full">
                               Tillbaka till start
                             </button>
                           </Link>

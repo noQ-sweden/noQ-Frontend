@@ -5,9 +5,11 @@ import { AccommodationContext } from "../../context/AccommodationProvider";
 import shelter from "./../../assets/images/genericShelter.png";
 import { formatPostCode } from "../../utility/utilityFunctions";
 import { format } from "date-fns";
+import { FaBed } from "react-icons/fa";
 
 export default function AccommodationList() {
   const { accommodation, setAccommodation } = useContext(AccommodationContext);
+  const [availablePlaces, setAvailablePlaces] = useState({});
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -15,20 +17,52 @@ export default function AccommodationList() {
     const fetchAvailableShelters = async () => {
       const today = new Date();
       const selected_day = today.toLocaleDateString("sv-SE");
-      axios
-        .get("/api/user/available/" + selected_day)
-        .then((response) => {
-          if (response.status === 200) {
-            setAccommodation(response?.data || []);
-          }
-        })
-        .catch((error) => {
-          console.log("Error while fetching available shelters.", error);
-        });
+      try {
+        const response = await axios.get(`/api/user/available/${selected_day}`);
+        if (response.status === 200) {
+          setAccommodation(response.data || []);
+        }
+      } catch (error) {
+        console.log("Error while fetching available shelters.", error);
+      }
     };
 
     fetchAvailableShelters();
   }, [setAccommodation]);
+
+  // Fetch available places for each host
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      const placesData = {};
+      const requests = accommodation.map(async (request) => {
+        try {
+          const response = await axios.get(
+            `/api/user/available_host/${request.host.id}`
+          );
+          if (response.status === 200 && response.data.length > 0) {
+            const totalPlaces = response.data[0].products.reduce(
+              (sum, product) => sum + product.total_places,
+              0
+            );
+            placesData[request.host.id] = totalPlaces;
+          }
+        } catch (error) {
+          console.log(
+            `Error fetching places for host ${request.host.id}:`,
+            error
+          );
+          placesData[request.host.id] = 0;
+        }
+      });
+
+      await Promise.all(requests);
+      setAvailablePlaces(placesData);
+    };
+
+    if (accommodation.length > 0) {
+      fetchPlaces();
+    }
+  }, [accommodation]);
 
   const handleSelectToday = () => {
     setStartDate(new Date());
@@ -41,36 +75,45 @@ export default function AccommodationList() {
     }
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    setEndDate(tomorrow);
+    setEndDate(tomorrow); //className=""
   };
 
   return (
     <>
       {/* Date Section */}
-      <div
-        className="flex flex-col border border-gray-300 
-          p-3 mt-2 rounded-xl gap-4 lg:gap-5 py-8 bg-[#FDFDFD] shadow-md scroll-smooth"
-      >
-        <p className="mb-2 font-semibold">Välj datum</p>
-        <div className="flex flex-col md:flex-row md:max-w-[685px] gap-10">
-          <div className="w-full">
-            <p className="mb-1">Incheckningsdatum</p>
+      <div className="flex flex-col border border-gray-300 p-3 mt-2 rounded-xl gap-4 lg:gap-5 py-8 bg-[#FFFFFF] shadow-md">
+        <p
+          className={`px-4 py-1  ${
+            startDate
+              ? "hidden"
+              : "mb-2 font-semibold md:text-start text-center"
+          }`}
+        >
+          Välj datum
+        </p>
+        <p className="mb-1 md:text-start text-center">Incheckningsdatum</p>
+        <div className="flex flex-row justify-center md:justify-start md:items-end gap-6 md:max-w-[685px]">
+          <div className="">
             <button
               type="button"
               onClick={handleSelectToday}
-              className={`p-2 border rounded-md w-full ${
-                startDate ? "bg-[#2563EB] text-white" : "bg-[#F7F7F7]"
+              className={`px-4 py-1 border border-[#1C4915] rounded-full ${
+                startDate
+                  ? "bg-[#496D44] text-[#fff]"
+                  : "bg-[#fff] text-[#496D44]"
               }`}
             >
               {startDate ? format(startDate, "yyyy-MM-dd") : "Idag"}
             </button>
           </div>
-          <div className="w-full md:mt-7">
+          <div className="">
             <button
               type="button"
               onClick={handleSelectTomorrow}
-              className={`p-2 border rounded-md w-full ${
-                endDate ? "bg-[#2563EB] text-white" : "bg-[#F7F7F7]"
+              className={`px-4 py-1 border border-[#1C4915] rounded-full ${
+                endDate
+                  ? "bg-[#496D44] text-[#fff]"
+                  : "bg-[#fff] text-[#496D44]"
               }`}
               disabled={!startDate}
             >
@@ -79,11 +122,11 @@ export default function AccommodationList() {
           </div>
         </div>
       </div>
+
       <div className="w-full sm:grid sm:grid-cols-2 sm:gap-4 lg:flex lg:flex-col">
         {accommodation.map((request) => (
           <div
-            className="flex flex-col border border-gray-300 
-          p-3 mt-2 rounded-xl gap-4 lg:gap-5 py-6 bg-[#FDFDFD] shadow-md"
+            className="flex flex-col border border-gray-300 p-3 mt-2 rounded-xl gap-4 lg:gap-5 py-6 bg-[#FFFFFF] shadow-md"
             key={request.id}
           >
             <div className="flex justify-center sm:block">
@@ -93,40 +136,50 @@ export default function AccommodationList() {
                 className="rounded-lg w-28 h-28 lg:w-20 lg:h-20"
               />
             </div>
+
             <div className="flex flex-row items-center md:items-start md:gap-2 justify-between lg:max-w-[97%]">
-              <div className="border border-[#2563EB] rounded-full px-3 py-1">
-                <p className="text-sm text-[#2563EB] font-light">
-                  <Link to={`/accommodations/${request.host.id}`} className="">
+              <div className="border border-[#1C4915] hover:bg-[#f9f9f9] rounded-full px-3 py-1">
+                <p className="text-sm text-[#496D44] font-light">
+                  <Link to={`/accommodations/${request.host.id}`}>
                     Mer information
                   </Link>
                 </p>
               </div>
 
               <div>
-                <button className="bg-[#EFF6FF] text-[#2563EB] font-light rounded-full px-3">
+                <button className="bg-[#D9D9D9] hover:bg-[#d2d2d2] text-[#496D44] font-light rounded-full px-3">
                   Karta
                 </button>
               </div>
             </div>
 
             <div className="flex flex-col justify-center text-start md:text-left gap-1">
-              <p className="font-semibold text-lg">{request.host.name}</p>
-              <p className="text-gray-600 text-sm">{request.host.street}</p>
-              <p className="text-gray-600 text-sm">
+              <p className="font-semibold text-lg text-[#09090B]">
+                {request.host.name}
+              </p>
+              <p className="text-[#5B5959] text-sm">{request.host.street}</p>
+              <p className="text-[#5B5959] text-sm">
                 {formatPostCode(request.host.postcode)} {request.host.city}
               </p>
+            </div>
+
+            {/* Availability Info */}
+            <div className="flex flex-row justify-between items-center">
+              <p className="font-semibold text-lg"></p>
+              <div className="flex items-center gap-2 border border-[#1C4915] px-6 py-2 rounded-full">
+                <FaBed className="text-[#496D44]" />
+                <span className="font-light text-[#496D44]">
+                  {availablePlaces[request.host.id] || 0} platser
+                </span>
+              </div>
             </div>
 
             <div className="flex flex-col sm:justify-end sm:items-end w-full">
               <Link
                 to={`/accommodations/${request.host.id}`}
                 state={{ startDate, endDate }}
-                className="w-full md:w-auto"
               >
-                <button
-                  className="bg-[#2563EB] hover:bg-blue-500 text-white py-2 
-                font-semibold text-normal rounded-xl w-full sm:w-36"
-                >
+                <button className="bg-[#fff] text-[#496D44] border border-[#1C4915] hover:bg-[#f9f9f9] py-2 font-semibold text-normal rounded-full w-full sm:w-36">
                   Välj
                 </button>
               </Link>
