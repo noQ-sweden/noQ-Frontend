@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import axios from "./../api/AxiosNoqApi";
 import PropTypes from "prop-types";
 import useLogin from "./../hooks/useLogin";
@@ -194,8 +194,10 @@ export default function LoginPage() {
                 />
               </label>
             </div>
-            <div>
-              <p className="text-sm">Glömt lösenordet?</p>
+            <div> 
+              <p className="text-sm"> 
+                <Link to="/forgot-password">Glömt lösenordet?</Link>
+                </p>
             </div>
             {/*
           // to be added when this functionality is in place

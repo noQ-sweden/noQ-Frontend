@@ -17,6 +17,7 @@ import AccommodationBooking from "./components/User/AccommodationBooking";
 import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
 import VolunteerPage from "./pages/VolunteerPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 
 export const VisitorContext = createContext();
@@ -30,6 +31,7 @@ function App() {
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegistrationPage />} />
         <Route path="unauthorized" element={<UnauthorizedPage />} />
+        <Route path="forgot-password" element={<ForgotPasswordPage/>}/>
 
         {/* User Pages */}
         <Route element={<RequireLogin allowedGroups={["user"]} />}>
