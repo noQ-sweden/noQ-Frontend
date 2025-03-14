@@ -37,7 +37,7 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
               booking.status.description === "pending"
                 ? "bg-yellow-300 text-yellow-900"
                 : booking.status.description === "accepted"
-                ? "bg-green-300 text-green-900"
+                ? "bg-green-900 text-green-900"
                 : "bg-red-300 text-red-900"
             }`}
           >
@@ -50,8 +50,8 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
             <button
               onClick={() => onConfirm(booking.id)}
               className="
-                           bg-[#4CAA4A]
-                            hover:bg-green-600
+                           bg-[#1C4915CC]
+                            hover:bg-[#274737CC]
                             text-white
                             font-semibold
                             text-m    
@@ -68,8 +68,8 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
           <button
             onClick={() => onDelete(booking.id)}
             className="
-                            bg-[#B34A3C]
-                            hover:bg-red-700
+                            bg-[#B34A3c]
+                            hover:bg-[#B34947CC]
                             text-white
                             font-semibold
                             text-m    

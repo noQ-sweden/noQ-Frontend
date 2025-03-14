@@ -30,7 +30,7 @@ export default function AccommodationList() {
     fetchAvailableShelters();
   }, [setAccommodation]);
 
-  // Fetch available places for each host
+  // fetch available places for each host
   useEffect(() => {
     const fetchPlaces = async () => {
       const placesData = {};
@@ -41,7 +41,7 @@ export default function AccommodationList() {
           );
           if (response.status === 200 && response.data.length > 0) {
             const totalPlaces = response.data[0].products.reduce(
-              (sum, product) => sum + product.total_places,
+              (sum, product) => sum + product.places_left,
               0
             );
             placesData[request.host.id] = totalPlaces;
@@ -75,12 +75,11 @@ export default function AccommodationList() {
     }
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    setEndDate(tomorrow); //className=""
+    setEndDate(tomorrow);
   };
 
   return (
     <>
-      {/* Date Section */}
       <div className="flex flex-col border border-gray-300 p-3 mt-2 rounded-xl gap-4 lg:gap-5 py-8 bg-[#FFFFFF] shadow-md">
         <p
           className={`px-4 py-1  ${
@@ -163,7 +162,7 @@ export default function AccommodationList() {
               </p>
             </div>
 
-            {/* Availability Info */}
+            {/* availability info */}
             <div className="flex flex-row justify-between items-center">
               <p className="font-semibold text-lg"></p>
               <div className="flex items-center gap-2 border border-[#1C4915] px-6 py-2 rounded-full">
@@ -175,14 +174,23 @@ export default function AccommodationList() {
             </div>
 
             <div className="flex flex-col sm:justify-end sm:items-end w-full">
-              <Link
-                to={`/accommodations/${request.host.id}`}
-                state={{ startDate, endDate }}
-              >
-                <button className="bg-[#fff] text-[#496D44] border border-[#1C4915] hover:bg-[#f9f9f9] py-2 font-semibold text-normal rounded-full w-full sm:w-36">
+              {startDate && endDate ? (
+                <Link
+                  to={`/accommodations/${request.host.id}`}
+                  state={{ startDate, endDate }}
+                >
+                  <button className="bg-[#fff] text-[#496D44] border border-[#1C4915] hover:bg-[#f9f9f9] py-2 font-semibold text-normal rounded-full w-full sm:w-36">
+                    Välj
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  className="bg-[#fff] text-[#496D44] border border-[#1C4915] py-2 font-semibold text-normal rounded-full w-full sm:w-36 opacity-50 cursor-not-allowed"
+                  disabled
+                >
                   Välj
                 </button>
-              </Link>
+              )}
             </div>
           </div>
         ))}
