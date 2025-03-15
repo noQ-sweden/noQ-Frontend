@@ -16,12 +16,14 @@ import GetMenuItems from "./GetMenuItems";
 import useLogout from "../../hooks/useLogout";
 import { useTranslation } from "react-i18next";
 
+
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { login } = useLogin();
   const { logout } = useLogout();
   const { t, i18n } = useTranslation();
+  const { login } = useLogin();
+  const viewerGroup = login?.usergroups instanceof Array ? login?.usergroups[0] : null;
 
 
   // Lisa
@@ -176,10 +178,14 @@ export default function Sidebar() {
                   </div>
                 )
               )}
-              <div className="text-right">
-                <button onClick={() => changeLanguage("en")} className="text-gray-500 px-4 mt-8">English</button>
-                <button onClick={() => changeLanguage("sv")} className="text-gray-500">Svenska</button>
-              </div>
+              {viewerGroup !== "user" ? (
+                null
+              ) : 
+                <div className="text-right">
+                  <button onClick={() => changeLanguage("en")} className="text-gray-500 px-4 mt-8">English</button>
+                  <button onClick={() => changeLanguage("sv")} className="text-gray-500">Svenska</button>
+                </div>
+              }
             </div>
           </ul>
         </div>
