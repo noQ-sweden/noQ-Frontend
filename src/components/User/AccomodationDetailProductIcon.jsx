@@ -16,9 +16,9 @@ const AccomodationDetailProductIcon = ({ category }) => {
   const allAmenities = [
     { type: "room", icon: sovsal, label: "Room", category: "Rum" },
     {
-      type: "woman-only",
+      type: "Room",
       icon: singlerum,
-      label: "Woman Only",
+      label: "Room",
       category: "Rum",
     },
     {

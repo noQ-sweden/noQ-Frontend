@@ -10,6 +10,7 @@ import { FaBed } from "react-icons/fa";
 export default function AccommodationList() {
   const { accommodation, setAccommodation } = useContext(AccommodationContext);
   const [availablePlaces, setAvailablePlaces] = useState({});
+  const [womensOnly, setWomensOnly] = useState({});
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -34,29 +35,47 @@ export default function AccommodationList() {
   useEffect(() => {
     const fetchPlaces = async () => {
       const placesData = {};
-      const requests = accommodation.map(async (request) => {
-        try {
-          const response = await axios.get(
-            `/api/user/available_host/${request.host.id}`
-          );
-          if (response.status === 200 && response.data.length > 0) {
-            const totalPlaces = response.data[0].products.reduce(
-              (sum, product) => sum + product.places_left,
-              0
-            );
-            placesData[request.host.id] = totalPlaces;
-          }
-        } catch (error) {
-          console.log(
-            `Error fetching places for host ${request.host.id}:`,
-            error
-          );
-          placesData[request.host.id] = 0;
-        }
-      });
+      const womensOnlyData = {};
 
-      await Promise.all(requests);
-      setAvailablePlaces(placesData);
+      try {
+        const requests = accommodation.map(async (request) => {
+          try {
+            const { data, status } = await axios.get(
+              `/api/user/available_host/${request.host.id}`
+            );
+
+            if (status === 200 && data.length > 0) {
+              const products = data[0].products;
+
+              // Calculate total places left
+              placesData[request.host.id] = products.reduce(
+                (sum, product) => sum + (product.places_left || 0),
+                0
+              );
+
+              womensOnlyData[request.host.id] = products.some(
+                (product) => product.type === "woman-only"
+              );
+            } else {
+              placesData[request.host.id] = 0;
+              womensOnlyData[request.host.id] = false;
+            }
+          } catch (error) {
+            console.error(
+              `Error fetching places for host ${request.host.id}:`,
+              error
+            );
+            placesData[request.host.id] = 0;
+            womensOnlyData[request.host.id] = false;
+          }
+        });
+
+        await Promise.all(requests);
+        setAvailablePlaces(placesData);
+        setWomensOnly(womensOnlyData);
+      } catch (error) {
+        console.error("Error fetching shelters:", error);
+      }
     };
 
     if (accommodation.length > 0) {
@@ -163,8 +182,17 @@ export default function AccommodationList() {
             </div>
 
             {/* availability info */}
-            <div className="flex flex-row justify-between items-center">
-              <p className="font-semibold text-lg"></p>
+            <div className="flex flex-col gap-2 items-end">
+              {womensOnly[request.host.id] && (
+                <div className="flex items-center  border border-[#1C4915] px-3 py-2 rounded-full">
+                  <span className="font-light text-[#496D44]">
+                    {" "}
+                    Women's Only{" "}
+                  </span>
+                </div>
+              )}
+
+              {/*{womensOnly[host.id] && <p> Shelter</p>} */}
               <div className="flex items-center gap-2 border border-[#1C4915] px-6 py-2 rounded-full">
                 <FaBed className="text-[#496D44]" />
                 <span className="font-light text-[#496D44]">

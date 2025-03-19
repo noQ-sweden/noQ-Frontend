@@ -119,10 +119,6 @@ export default function AccommodationDetail() {
                     </p>
                     <AccommodationAmenitiesDisplay
                       title="Rum"
-                      products={products.filter(
-                        (item) =>
-                          item.type === "room" || item.type === "woman-only"
-                      )}
                     />
                     <AccommodationAmenitiesDisplay
                       title="Hygien"
