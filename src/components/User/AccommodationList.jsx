@@ -47,7 +47,6 @@ export default function AccommodationList() {
             if (status === 200 && data.length > 0) {
               const products = data[0].products;
 
-              // Calculate total places left
               placesData[request.host.id] = products.reduce(
                 (sum, product) => sum + (product.places_left || 0),
                 0
@@ -192,7 +191,6 @@ export default function AccommodationList() {
                 </div>
               )}
 
-              {/*{womensOnly[host.id] && <p> Shelter</p>} */}
               <div className="flex items-center gap-2 border border-[#1C4915] px-6 py-2 rounded-full">
                 <FaBed className="text-[#496D44]" />
                 <span className="font-light text-[#496D44]">
