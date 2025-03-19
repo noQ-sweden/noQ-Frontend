@@ -186,7 +186,7 @@ export default function AccommodationList() {
                 <div className="flex items-center  border border-[#1C4915] px-3 py-2 rounded-full">
                   <span className="font-light text-[#496D44]">
                     {" "}
-                    Women's Only{" "}
+                    Womens Only{" "}
                   </span>
                 </div>
               )}
