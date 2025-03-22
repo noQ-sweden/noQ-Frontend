@@ -1,89 +1,226 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import axios from "../../api/AxiosNoqApi";
 import { Link } from "react-router-dom";
 import { AccommodationContext } from "../../context/AccommodationProvider";
 import shelter from "./../../assets/images/genericShelter.png";
 import { formatPostCode } from "../../utility/utilityFunctions";
-import { FaChevronRight } from "react-icons/fa";
+import { format } from "date-fns";
+import { FaBed } from "react-icons/fa";
 
 export default function AccommodationList() {
   const { accommodation, setAccommodation } = useContext(AccommodationContext);
-
-  // Fetch shelter data from the mock API
+  const [availablePlaces, setAvailablePlaces] = useState({});
+  const [womensOnly, setWomensOnly] = useState({});
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     const fetchAvailableShelters = async () => {
       const today = new Date();
       const selected_day = today.toLocaleDateString("sv-SE");
-      axios
-        .get("/api/user/available/" + selected_day)
-        .then(function (response) {
-          if (response.status === 200) {
-            setAccommodation(response?.data || []);
-          }
-        })
-        .catch((error) => {
-          console.log("Error while fetching available shelters.", error);
-        });
-    }; // Fetch data on component load
+      try {
+        const response = await axios.get(`/api/user/available/${selected_day}`);
+        if (response.status === 200) {
+          setAccommodation(response.data || []);
+        }
+      } catch (error) {
+        console.log("Error while fetching available shelters.", error);
+      }
+    };
 
     fetchAvailableShelters();
   }, [setAccommodation]);
 
+  // fetch available places for each host
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      const placesData = {};
+      const womensOnlyData = {};
+
+      try {
+        const requests = accommodation.map(async (request) => {
+          try {
+            const { data, status } = await axios.get(
+              `/api/user/available_host/${request.host.id}`
+            );
+
+            if (status === 200 && data.length > 0) {
+              const products = data[0].products;
+
+              placesData[request.host.id] = products.reduce(
+                (sum, product) => sum + (product.places_left || 0),
+                0
+              );
+
+              womensOnlyData[request.host.id] = products.some(
+                (product) => product.type === "woman-only"
+              );
+            } else {
+              placesData[request.host.id] = 0;
+              womensOnlyData[request.host.id] = false;
+            }
+          } catch (error) {
+            console.error(
+              `Error fetching places for host ${request.host.id}:`,
+              error
+            );
+            placesData[request.host.id] = 0;
+            womensOnlyData[request.host.id] = false;
+          }
+        });
+
+        await Promise.all(requests);
+        setAvailablePlaces(placesData);
+        setWomensOnly(womensOnlyData);
+      } catch (error) {
+        console.error("Error fetching shelters:", error);
+      }
+    };
+
+    if (accommodation.length > 0) {
+      fetchPlaces();
+    }
+  }, [accommodation]);
+
+  const handleSelectToday = () => {
+    setStartDate(new Date());
+  };
+
+  const handleSelectTomorrow = () => {
+    if (!startDate) {
+      alert("Vänligen välj incheckningsdatum först.");
+      return;
+    }
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    setEndDate(tomorrow);
+  };
+
   return (
-    <div className="w-full">
-      {accommodation.map((request) => (
-        <div
-          className="flex flex-col md:grid md:grid-cols-[auto_1fr_auto]
-        rounded p-3 my-2  gap-4 md:gap-5 bg-white shadow-sm"
-          key={request.id}
+    <>
+      <div className="flex flex-col border border-gray-300 p-3 mt-2 rounded-xl gap-4 lg:gap-5 py-8 bg-[#FFFFFF] shadow-md">
+        <p
+          className={`px-4 py-1  ${
+            startDate
+              ? "hidden"
+              : "mb-2 font-semibold md:text-start text-center"
+          }`}
         >
-          <div>
-            <div className="flex justify-center md:block">
+          Välj datum
+        </p>
+        <p className="mb-1 md:text-start text-center">Incheckningsdatum</p>
+        <div className="flex flex-row justify-center md:justify-start md:items-end gap-6 md:max-w-[685px]">
+          <div className="">
+            <button
+              type="button"
+              onClick={handleSelectToday}
+              className={`px-4 py-1 border border-[#1C4915] rounded-full ${
+                startDate
+                  ? "bg-[#496D44] text-[#fff]"
+                  : "bg-[#fff] text-[#496D44]"
+              }`}
+            >
+              {startDate ? format(startDate, "yyyy-MM-dd") : "Idag"}
+            </button>
+          </div>
+          <div className="">
+            <button
+              type="button"
+              onClick={handleSelectTomorrow}
+              className={`px-4 py-1 border border-[#1C4915] rounded-full ${
+                endDate
+                  ? "bg-[#496D44] text-[#fff]"
+                  : "bg-[#fff] text-[#496D44]"
+              }`}
+              disabled={!startDate}
+            >
+              {endDate ? format(endDate, "yyyy-MM-dd") : "Imorgon"}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full sm:grid sm:grid-cols-2 sm:gap-4 lg:flex lg:flex-col">
+        {accommodation.map((request) => (
+          <div
+            className="flex flex-col border border-gray-300 p-3 mt-2 rounded-xl gap-4 lg:gap-5 py-6 bg-[#FFFFFF] shadow-md"
+            key={request.id}
+          >
+            <div className="flex justify-center sm:block">
               <img
                 src={shelter}
                 alt="Bild av bostället"
-                className="rounded-lg w-16 h-16 md:w-20 md:h-20"
+                className="rounded-lg w-28 h-28 lg:w-20 lg:h-20"
               />
             </div>
 
-            <div className="flex flex-col justify-center text-center md:text-left">
-              <p className="font-semibold text-lg">{request.host.name}</p>
-              <p className="text-gray-600 text-sm">{request.host.street}</p>
-              <p className="text-gray-600 text-sm">
+            <div className="flex flex-row items-center md:items-start md:gap-2 justify-between lg:max-w-[97%]">
+              <div className="border border-[#1C4915] hover:bg-[#f9f9f9] rounded-full px-3 py-1">
+                <p className="text-sm text-[#496D44] font-light">
+                  <Link to={`/accommodations/${request.host.id}`}>
+                    Mer information
+                  </Link>
+                </p>
+              </div>
+
+              <div>
+                <button className="bg-[#D9D9D9] hover:bg-[#d2d2d2] text-[#496D44] font-light rounded-full px-3">
+                  Karta
+                </button>
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-center text-start md:text-left gap-1">
+              <p className="font-semibold text-lg text-[#09090B]">
+                {request.host.name}
+              </p>
+              <p className="text-[#5B5959] text-sm">{request.host.street}</p>
+              <p className="text-[#5B5959] text-sm">
                 {formatPostCode(request.host.postcode)} {request.host.city}
               </p>
             </div>
 
-            <div className="text-sm font-semibold flex justify-center items-center text-gray-700 md:block">
-              <p>Kräver biståndsbeslut</p>
+            {/* availability info */}
+            <div className="flex flex-col gap-2 items-end">
+              {womensOnly[request.host.id] && (
+                <div className="flex items-center  border border-[#1C4915] px-3 py-2 rounded-full">
+                  <span className="font-light text-[#496D44]">
+                    {" "}
+                    Womens Only{" "}
+                  </span>
+                </div>
+              )}
+
+              <div className="flex items-center gap-2 border border-[#1C4915] px-6 py-2 rounded-full">
+                <FaBed className="text-[#496D44]" />
+                <span className="font-light text-[#496D44]">
+                  {availablePlaces[request.host.id] || 0} platser
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:justify-end sm:items-end w-full">
+              {startDate && endDate ? (
+                <Link
+                  to={`/accommodations/${request.host.id}`}
+                  state={{ startDate, endDate }}
+                >
+                  <button className="bg-[#fff] text-[#496D44] border border-[#1C4915] hover:bg-[#f9f9f9] py-2 font-semibold text-normal rounded-full w-full sm:w-36">
+                    Välj
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  className="bg-[#fff] text-[#496D44] border border-[#1C4915] py-2 font-semibold text-normal rounded-full w-full sm:w-36 opacity-50 cursor-not-allowed"
+                  disabled
+                >
+                  Välj
+                </button>
+              )}
             </div>
           </div>
-          <div className="flex flex-col items-center md:items-end gap-2 w-full">
-            <Link
-              to={`/accommodations/${request.host.id}`}
-              className="w-full md:w-auto"
-            >
-              <button
-                className="
-                bg-[#4CAA4A] hover:bg-green-600 text-white px-4 py-2 
-                font-semibold text-sm rounded-md w-full md:w-auto"
-              >
-                Välj
-              </button>
-            </Link>
-            <p className="text-sm font-semibold">
-              <Link
-                to={`/accommodations/${request.host.id}`}
-                className="flex items-center justify-center md:justify-start text-[#4CAA4A]"
-              >
-                Mer information{" "}
-                <FaChevronRight className="ml-2 text-gray-500" />
-              </Link>
-            </p>
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 }

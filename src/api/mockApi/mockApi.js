@@ -708,6 +708,7 @@ noqMockApi.onGet(/api\/user\/available_host\/\d+/).reply((config) => {
       name: product.name,
       description: product.description,
       total_places: product.total_places,
+      places_left: product.places_left, //Added
       type: product.type,
       available_dates: product.available_dates || [] 
     }))
