@@ -1,0 +1,29 @@
+{
+    "sidebar": {
+        "Logout": "Wyloguj się",
+        "User": "Użytkownik",
+        "Settings": "Ustawienia",
+        "Reservations": "Rezerwacje",
+        "Book": "Książka"
+    },
+
+    "AccommodationPanel": {
+        "Residence": "Wybierz rezydencję"
+    },
+
+    "AccommodationDetail": {
+        "Offer": "Co oferujemy"
+    },
+
+    "AccommodationBooking": {
+        "SelectDate": "Wybierz datę",
+        "SelectDateLabel1": "Data zameldowania",
+        "SelectDateLabel2": "Data wymeldowania"
+    },
+
+    "ActionButtons": {
+        "Select": "Wybierać",
+        "MoreInformation": "Więcej informacji",
+        "Back": "Z powrotem"
+    }
+}
