@@ -111,9 +111,9 @@ export default function AccommodationList() {
               : "mb-2 font-semibold md:text-start text-center"
           }`}
         >
-          Välj datum
+          {t('AccommodationBooking.SelectDate')}
         </p>
-        <p className="mb-1 md:text-start text-center">Incheckningsdatum</p>
+        <p className="mb-1 md:text-start text-center">{t('AccommodationBooking.SelectDateLabel1')}</p>
         <div className="flex flex-row justify-center md:justify-start md:items-end gap-6 md:max-w-[685px]">
           <div className="">
             <button
