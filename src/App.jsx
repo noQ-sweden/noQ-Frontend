@@ -16,7 +16,8 @@ import AccommodationDetail from "./components/User/AccommodationDetail";
 import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
 import VolunteerPage from "./pages/VolunteerPage";
-
+import VolunteerManagementDashboard from "./pages/VolunteerManagementDashboard";
+import TestScript from "./components/Admin/VolunteerManagement/TestScript";
 
 export const VisitorContext = createContext();
 
@@ -41,23 +42,44 @@ function App() {
         {/* Host Pages */}
         <Route element={<RequireLogin allowedGroups={["host"]} />}>
           <Route path="host" element={<HostPage />} />
-          <Route path="host/requests" element={<RequestPageView userGroup="host" />} />
+          <Route
+            path="host/requests"
+            element={<RequestPageView userGroup="host" />}
+          />
           <Route path="host/products" element={<RoomPage />} />
         </Route>
 
         {/* Caseworker Pages */}
         <Route element={<RequireLogin allowedGroups={["caseworker"]} />}>
           <Route path="caseworker" element={<CaseworkerPage />} />
-          <Route path="caseworker/requests" element={<RequestPageView userGroup="caseworker" />} />
-          <Route path="caseworker/statistics" element={<CaseworkerStatisticsPage userGroup="caseworker" />} />
+          <Route
+            path="caseworker/requests"
+            element={<RequestPageView userGroup="caseworker" />}
+          />
+          <Route
+            path="caseworker/statistics"
+            element={<CaseworkerStatisticsPage userGroup="caseworker" />}
+          />
         </Route>
 
         {/* Volunteer Pages */}
         <Route element={<RequireLogin allowedGroups={["volunteer"]} />}>
           <Route path="volunteer" element={<VolunteerPage />} />
-          <Route path="volunteer/requests" element={<RequestPageView userGroup="volunteer" />} />
-          
+          <Route
+            path="volunteer/requests"
+            element={<RequestPageView userGroup="volunteer" />}
+          />
         </Route>
+
+        {/* Volunteer Management Dashboard */}
+        <Route element={<RequireLogin allowedGroups={["admin", "host"]} />}>
+          <Route
+            path="/admin/volunteers"
+            element={<VolunteerManagementDashboard />}
+          />
+          {/* Volunteer Testing Page */}
+        </Route>
+        <Route path="volunteer-test" element={<TestScript />} />
 
         {/* Invalid path */}
         <Route path="*" element={<ErrorPage />} />
