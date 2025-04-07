@@ -13,6 +13,7 @@ import { GetBookingConfig } from "./../components/RequestsPage/GetBookingConfig"
 import PropTypes from "prop-types";
 import { HostOverviewUpdateProvider } from "./../context/HostOverviewUpdateProvider";
 import useUpdate from "./../hooks/useUpdate";
+import RateVolunteer from "../components/Admin/RateVolunteer";
 
 import SEO from "../components/SEO";
 
@@ -62,6 +63,7 @@ export default function HostPage({ first_name }) {
               </Panel>
               <IncomingGuests />
               <OutgoingGuests />
+              < RateVolunteer />
             </div>
           </div>
         </div>
