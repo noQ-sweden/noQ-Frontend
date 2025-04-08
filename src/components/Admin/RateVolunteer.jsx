@@ -64,11 +64,11 @@ export default function RateVolunteer() {
   return (
     <div className="flex flex-col w-full h-full">
       <div className="bg-white shadow-md rounded-lg p-4">
-        <h1 className="text-2xl font-bold mb-4">Rate Volunteer</h1>
+        <h1 className="text-2xl font-bold mb-4">Betygsätt volontärer</h1>
 
         {volunteers.length > 0 ? (
           <>
-            <label className="text-lg">Välj volontär:</label>
+            <label className="text-lg mr-2">Välj volontär:</label>
             <select
               value={selectedVolunteer?.id || ""}
               onChange={(e) => {
@@ -91,7 +91,7 @@ export default function RateVolunteer() {
             {selectedVolunteer && (
               <>
                 <p className="text-lg mt-4">
-                  Volunteer: {selectedVolunteer.name}
+                Volontär: {selectedVolunteer.name}
                 </p>
                 <label className="text-lg mt-4">Ge ditt betyg</label>
                 <div className="flex gap-1">{renderStars()}</div>
@@ -104,7 +104,16 @@ export default function RateVolunteer() {
                 <button
                   onClick={handleRating}
                   disabled={loading}
-                  className={`bg-blue-500 text-white rounded-md p-2 mt-4 ${
+                  className={`
+                  bg-green-600
+                  hover:bg-green-700
+                  text-white
+                  font-semibold
+                  mt-2
+                  w-32
+                  h-7
+                  rounded
+                   ${
                     loading ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >
