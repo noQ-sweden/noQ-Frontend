@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
-import axios from "./../../api/AxiosNoqApi"; // Use your axios instance
+import axios from "./../../api/AxiosNoqApi";
 
 export default function RateVolunteer() {
-  const [rating, setRating] = useState(0); // Current rating value
-  const [hover, setHover] = useState(0); // Hover effect value for stars
-  const [volunteers, setVolunteers] = useState([]); // List of volunteers
-  const [selectedVolunteer, setSelectedVolunteer] = useState(null); // Selected volunteer
-  const [avgRating, setAvgRating] = useState(null); // Average rating of selected volunteer
-  const [loading, setLoading] = useState(false); // Loading state
+  const [rating, setRating] = useState(0); 
+  const [hover, setHover] = useState(0);
+  const [volunteers, setVolunteers] = useState([]);
+  const [selectedVolunteer, setSelectedVolunteer] = useState(null);
+  const [avgRating, setAvgRating] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     axios
@@ -39,11 +39,11 @@ export default function RateVolunteer() {
       .post(`/api/volunteer/${selectedVolunteer.id}/rate`, { rating })
       .then((response) => {
         console.log(response.data);
-        setAvgRating(response.data.avgRating); // Update average rating from the response
+        setAvgRating(response.data.avgRating);
         alert("Rating har sparats!");
       })
       .catch(() => alert("Fel vid betygsättning."))
-      .finally(() => setLoading(false)); // Reset loading state
+      .finally(() => setLoading(false));
   };
 
   // Rendering the star ratings
@@ -54,9 +54,9 @@ export default function RateVolunteer() {
         size={28}
         className="cursor-pointer"
         color={(hover || rating) > i ? "#ffc107" : "#e4e5e9"}
-        onClick={() => setRating(i + 1)} // Set rating on click
-        onMouseEnter={() => setHover(i + 1)} // Highlight stars on hover
-        onMouseLeave={() => setHover(0)} // Reset hover state
+        onClick={() => setRating(i + 1)}
+        onMouseEnter={() => setHover(i + 1)}
+        onMouseLeave={() => setHover(0)}
       />
     ));
   };
@@ -76,8 +76,8 @@ export default function RateVolunteer() {
                   (v) => v.id === parseInt(e.target.value)
                 );
                 setSelectedVolunteer(volunteer);
-                setRating(0); // Reset the rating when changing the volunteer
-                setAvgRating(volunteer?.avgRating || null); // Reset avgRating to the volunteer's current rating
+                setRating(0);
+                setAvgRating(volunteer?.avgRating || null);
               }}
               className="mt-2 p-2 border rounded-md"
             >
