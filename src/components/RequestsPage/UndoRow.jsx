@@ -1,5 +1,6 @@
 import { getDayNumber, getMonth, getGender, getStatus } from '../../utility/utilityFunctions';
 import PropTypes from "prop-types";
+import {useTranslation} from "react-i18next";
 
 export default function BookingRow({undoRequest, onUndoClick}) {
     BookingRow.propTypes = {

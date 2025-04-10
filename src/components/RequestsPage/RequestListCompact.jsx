@@ -2,6 +2,7 @@ import React from 'react';
 import { getDayNumber, getMonth, getStatus } from '../../utility/utilityFunctions';
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import {useTranslation} from "react-i18next";
 
 export default function RequestListCompact({requests}) {
     RequestListCompact.propTypes = {

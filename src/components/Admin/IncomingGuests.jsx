@@ -3,6 +3,7 @@ import axios from './../../api/AxiosNoqApi';
 import Panel from "../Common/Panel";
 import useUpdate from "./../../hooks/useUpdate";
 import { getStatus } from './../../utility/utilityFunctions';
+import {useTranslation} from "react-i18next";
 
 
 export default function IncomingGuests() {
