@@ -8,22 +8,45 @@
     },
 
     "AccommodationPanel": {
-        "Residence": "Välj boställe"
+        "Residence": "Välj boställe",
+        "About": "Om bostället"
     },
 
     "AccommodationDetail": {
-        "Offer": "Vad vi erbjuderr"
+        "Offer": "Vad vi erbjuderr",
+        "Seats": "Platser",
+        "Error": "Vänligen välj både inchecknings- och utcheckningsdatum",
+        "Success": "Din förfrågan är skickad!",
+        "SuccessMessage": "Vi återkommer med bekräftelse så fort din förfrågan har behandlats.",
+        "Back": "Tillbaka till start"
     },
 
     "AccommodationBooking": {
         "SelectDate": "Välj datum",
         "SelectDateLabel1": "Incheckningsdatum",
-        "SelectDateLabel2": "Utcheckningsdatum"
+        "SelectDateLabel2": "Utcheckningsdatum",
+        "SelectDateLabel3": "Idag",
+        "SelectDateLabel4": "Imorgon"
     },
 
     "ActionButtons": {
         "Select": "Välj",
         "MoreInformation": "Mer information",
-        "Back": "Tillbaka"
+        "Back": "Tillbaka",
+        "Map": "Karta",
+        "SendRequest": "Skicka förfrågan",
+        "Confirm": "Bekräfta",
+        "Cancel": "Avboka",
+        "Remove": "Ta Bort"
+    },
+    "Reservations": {
+        "Reserved": "Tilldelad",
+        "Confirmed": "Bekräftad",
+        "In_Queue": "I kö",
+        "Checked_In": "Incheckad",
+        "Checked_Out": "Utcheckad",
+        "Pending": "Avvaktar",
+        "Declined": "Nekad",
+        "Accepted": "Rekommenderad"
     }
 }

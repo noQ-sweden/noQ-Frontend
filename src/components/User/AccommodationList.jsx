@@ -125,7 +125,7 @@ export default function AccommodationList() {
                   : "bg-[#fff] text-[#496D44]"
               }`}
             >
-              {startDate ? format(startDate, "yyyy-MM-dd") : "Idag"}
+              {startDate ? format(startDate, "yyyy-MM-dd") : t('AccommodationBooking.SelectDateLabel3')}
             </button>
           </div>
           <div className="">
@@ -139,7 +139,7 @@ export default function AccommodationList() {
               }`}
               disabled={!startDate}
             >
-              {endDate ? format(endDate, "yyyy-MM-dd") : "Imorgon"}
+              {endDate ? format(endDate, "yyyy-MM-dd") : t('AccommodationBooking.SelectDateLabel4')}
             </button>
           </div>
         </div>
@@ -163,14 +163,14 @@ export default function AccommodationList() {
               <div className="border border-[#1C4915] hover:bg-[#f9f9f9] rounded-full px-3 py-1">
                 <p className="text-sm text-[#496D44] font-light">
                   <Link to={`/accommodations/${request.host.id}`}>
-                    Mer information
+                    {t('ActionButtons.MoreInformation')}
                   </Link>
                 </p>
               </div>
 
               <div>
                 <button className="bg-[#D9D9D9] hover:bg-[#d2d2d2] text-[#496D44] font-light rounded-full px-3">
-                  Karta
+                  {t('ActionButtons.Map')}
                 </button>
               </div>
             </div>
@@ -199,7 +199,7 @@ export default function AccommodationList() {
               <div className="flex items-center gap-2 border border-[#1C4915] px-6 py-2 rounded-full">
                 <FaBed className="text-[#496D44]" />
                 <span className="font-light text-[#496D44]">
-                  {availablePlaces[request.host.id] || 0} platser
+                  {availablePlaces[request.host.id] || 0} {t('AccommodationDetail.Seats')}
                 </span>
               </div>
             </div>
@@ -211,7 +211,7 @@ export default function AccommodationList() {
                   state={{ startDate, endDate }}
                 >
                   <button className="bg-[#fff] text-[#496D44] border border-[#1C4915] hover:bg-[#f9f9f9] py-2 font-semibold text-normal rounded-full w-full sm:w-36">
-                    Välj
+                    {t('ActionButtons.Select')}
                   </button>
                 </Link>
               ) : (
@@ -219,7 +219,7 @@ export default function AccommodationList() {
                   className="bg-[#fff] text-[#496D44] border border-[#1C4915] py-2 font-semibold text-normal rounded-full w-full sm:w-36 opacity-50 cursor-not-allowed"
                   disabled
                 >
-                  Välj
+                  {t('ActionButtons.Select')}
                 </button>
               )}
             </div>

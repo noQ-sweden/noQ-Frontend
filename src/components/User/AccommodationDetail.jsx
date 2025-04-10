@@ -62,12 +62,12 @@ export default function AccommodationDetail() {
 
   return (
     <div className="pt-12 text-[#39352E] relative">
-      <AccommodationPanel title="Om bostället">
+      <AccommodationPanel title={t('AccommodationPanel.About')}>
         <div>
           <p className="font-semibold text-lg mb-2">
             <Link to={`/user`} className="flex items-center">
               <FaChevronLeft className="mr-2 text-gray-500" />
-              Tillbaka
+              {t('ActionButtons.Back')}
             </Link>
           </p>
 
@@ -93,7 +93,7 @@ export default function AccommodationDetail() {
 
                       <div>
                         <button className="bg-[#D9D9D9] text-[#496D44] font-light rounded-full px-3">
-                          Karta
+                          {t('ActionButtons.Map')}
                         </button>
                       </div>
                     </div>
@@ -150,7 +150,7 @@ export default function AccommodationDetail() {
               </div>
               {missingDatesError && (
                 <div className="text-red-600 p-3 rounded-md text-center">
-                  Vänligen välj både inchecknings- och utcheckningsdatum.
+                  {t('AccommodationDetail.Error')} {/*Vänligen välj både inchecknings- och utcheckningsdatum.*/}
                 </div>
               )}
 
@@ -167,7 +167,7 @@ export default function AccommodationDetail() {
                       }`}
                       disabled={loading}
                     >
-                      Skicka förfrågan
+                      {t('ActionButtons.SendRequest')}
                     </button>
                   </div>
                 )}
@@ -180,7 +180,7 @@ export default function AccommodationDetail() {
                           <div className="flex flex-col-reverse lg:flex-row-reverse  justify-center items-center ">
                             <div>
                               <h2 className="text-2xl font-bold mb-4">
-                                Din förfrågan är skickad!
+                                {t('AccommodationDetail.Success')}{/* Din förfrågan är skickad! */}
                               </h2>
                             </div>
                             <div className="flex justify-center my-4">
@@ -201,15 +201,14 @@ export default function AccommodationDetail() {
                             </div>
                           </div>
                           <p className="text-black font-medium mb-6">
-                            Vi återkommer med bekräftelse så fort din förfrågan
-                            har behandlats.
+                            {t('AccommodationDetail.SuccessMessage')}{/*Vi återkommer med bekräftelse så fort din förfrågan har behandlats.*/}
                           </p>
                           <Link
                             to={`/user`}
                             className="flex items-center justify-center"
                           >
                             <button className=" bg-white text-[#496D44] border border-[#1C4915] hover:bg-[#f9f9f9] font-semibold py-3 px-20  rounded-full">
-                              Tillbaka till start
+                              {t('AccommodationDetail.Back')}{/* Tillbaka till start */}
                             </button>
                           </Link>
                         </div>

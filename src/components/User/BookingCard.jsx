@@ -1,7 +1,10 @@
 import { getStatus } from "../../utility/utilityFunctions";
 import PropTypes from "prop-types";
+import {useTranslation} from "react-i18next";
 
 export default function BookingCard({ booking, onDelete, onConfirm }) {
+
+  const { t } = useTranslation();
   BookingCard.propTypes = {
     booking: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -62,7 +65,7 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
                             focus:shadow-outline
                             mb-3 sm:mb-0"
             >
-              Bekräfta
+              {t('ActionButtons.Confirm')}
             </button>
           )}
           <button
@@ -79,7 +82,7 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
                             focus:outline-none
                             focus:shadow-outline"
           >
-            {booking.status.description === "declined" ? "Ta bort" : "Avboka"}
+            {booking.status.description === "declined" ? t('ActionButtons.Remove') : t('ActionButtons.Cancel')}
           </button>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 export const getMonth = (date) => {
     if (typeof date === 'undefined') {
         return "NaN";
@@ -71,6 +73,8 @@ export const getDate = (datetime) => {
 }
 
 export const getStatus = (status) => {
+    const {t } = useTranslation();
+
     /*
         statuses = [
             {"id": State.PENDING, "description": "pending"}, //red
@@ -84,21 +88,21 @@ export const getStatus = (status) => {
         ]
     */
     if (status === 'accepted') {
-        return "Rekommenderad";
+        return t("Reservations.Accepted")  //"Rekommenderad";
     } else if (status === 'declined') {
-        return "Nekad";
+        return t('Reservations.Declined')  //"Nekad";
     } else if (status === 'pending') {
-        return "Avvaktar";
+        return t('Reservations.Pending')  //"Avvaktar";
     } else if (status === 'advised_against') {
         return "Ej rekommenderad";
     } else if (status === 'checked_in') {
-        return "Incheckad";
+        return t('Reservations.Checked_In')  //"Incheckad";
     } else if (status === 'in_queue') {
-        return "I kö";
+        return t('Reservations.In_Queue')  //"I kö";
     } else if (status === 'reserved') {
-        return "Tilldelad";
+        return t('Reservations.Reserved')  //"Tilldelad";
     } else if (status === 'confirmed') {
-        return "Bekräftad";
+        return t('Reservations.Confirmed')  //"Bekräftad";
     } else {
         return ""
     }

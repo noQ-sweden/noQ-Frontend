@@ -8,23 +8,47 @@
     },
 
     "AccommodationPanel": {
-        "Residence": "Choose Residence"
+        "Residence": "Choose Residence",
+        "About": "About Residence"
     },
 
     "AccommodationDetail": {
-        "Offer": "What we offer"
+        "Offer": "What we offer",
+        "Seats": "Seats",
+        "Error": "Please select both check-in and check-out dates",
+        "Success": "Your request has been sent!",
+        "SuccessMessage": "We will get back to you with confirmation as soon as your request has been processed.",
+        "Back": "Back to start"
     },
 
     "AccommodationBooking": {
         "SelectDate": "Choose Date",
         "SelectDateLabel1": "Check-in Date",
-        "SelectDateLabel2": "Check-out Date"
+        "SelectDateLabel2": "Check-out Date",
+        "SelectDateLabel3": "Today",
+        "SelectDateLabel4": "Tomorrow"
 
     },
 
     "ActionButtons": {
         "Select": "Choose",
         "MoreInformation": "More Information",
-        "Back": "Back"
+        "Back": "Back",
+        "Map": "Map",
+        "SendRequest": "Send Request",
+        "Confirm": "Confirm",
+        "Cancel": "Cancel",
+        "Remove": "Remove"
+    },
+
+    "Reservations": {
+        "Reserved": "Reserved",
+        "Confirmed": "Confirmed",
+        "In_Queue": "In Queue",
+        "Checked_In": "Checked In",
+        "Checked_Out": "Checked Out",
+        "Pending": "Pending",
+        "Declined": "Declined",
+        "Accepted": "Recommended"
     }
 }

@@ -8,22 +8,46 @@
     },
 
     "AccommodationPanel": {
-        "Residence": "Wybierz rezydencję"
+        "Residence": "Wybierz rezydencję",
+        "About": "O miejscu zamieszkania "
     },
 
     "AccommodationDetail": {
-        "Offer": "Co oferujemy"
+        "Offer": "Co oferujemy",
+        "Seats": "Miejsca",
+        "Error": "Prozę wybrać datę zameldowania i wymeldowania",
+        "Success": "Twoje zaproszenie zostało wysłane!",
+        "SuccessMessage": "Wrócimy z potwierdzeniem, gdy tylko twoja prośba zostanie przetworzona",
+        "Back": "Wróć na początek"
     },
 
     "AccommodationBooking": {
         "SelectDate": "Wybierz datę",
         "SelectDateLabel1": "Data zameldowania",
-        "SelectDateLabel2": "Data wymeldowania"
+        "SelectDateLabel2": "Data wymeldowania",
+        "SelectDateLabel3": "Dzisiaj ",
+        "SelectDateLabel4": "Jutro"
     },
 
     "ActionButtons": {
         "Select": "Wybierać",
         "MoreInformation": "Więcej informacji",
-        "Back": "Z powrotem"
+        "Back": "Z powrotem",
+        "Map": "Mapa",
+        "SendRequest": "Wyślij zaproszenie",
+        "Confirm": "Potwierdž",
+        "Cancel": "Anuluj",
+        "Remove": ""
+    },
+
+    "Reservations": {
+        "Reserved": "Przydzielony",
+        "Confirmed": "Potwierdzone",
+        "In_Queue": "",
+        "Checked_In": "",
+        "Checked_Out": "",
+        "Pending": "",
+        "Declined": "",
+        "Accepted": ""
     }
 }
