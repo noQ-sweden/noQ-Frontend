@@ -58,7 +58,7 @@ export default function BookingRow({
                 <div>{booking.user.unokod}</div>
             </div>
             <div className='grid grid-rows-2 gap-1 items-center text-left'>
-                { getStatus(booking.status.description).split(" ").map((word, index) => (
+                { getStatus(booking.status.description, t).split(" ").map((word, index) => (
                     <div key={index}>{word}</div>
                 ))}
             </div>

@@ -1,5 +1,3 @@
-import { useTranslation } from "react-i18next";
-
 export const getMonth = (date) => {
     if (typeof date === 'undefined') {
         return "NaN";
@@ -72,8 +70,7 @@ export const getDate = (datetime) => {
     return date;
 }
 
-export const getStatus = (status) => {
-    const { t } = useTranslation();
+export const getStatus = (status, t) => {
 
     /*
         statuses = [

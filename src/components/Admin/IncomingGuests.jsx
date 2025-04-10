@@ -74,7 +74,7 @@ export default function IncomingGuests() {
                             { incomingBookings.map(booking => (
                                 <tr key={booking.id}>
                                     <td className='tracking-tight '>{booking.user.first_name} {booking.user.last_name}</td>
-                                    <td className='tracking-tight '>{getStatus(booking.status.description)}</td>
+                                    <td className='tracking-tight '>{getStatus(booking.status.description, t)}</td>
                                     <td className='p-2 tracking-tight text-right'>
                                         {!booking.isChecked &&(
                                             <button className="

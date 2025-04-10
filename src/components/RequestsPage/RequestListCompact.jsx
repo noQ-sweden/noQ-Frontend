@@ -29,7 +29,7 @@ export default function RequestListCompact({requests}) {
                                 <td className='p-2 tracking-tight text-center'>
                                     {request.end_date ? getDayNumber(request.end_date) + " " + getMonth(request.end_date) : 'Ingen utcheckning'}
                                 </td>
-                                <td className='p-2 tracking-tight text-center'>{getStatus(request.status.description)}</td>
+                                <td className='p-2 tracking-tight text-center'>{getStatus(request.status.description, t)}</td>
                             </tr>
                         ))}
                     </tbody>

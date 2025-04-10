@@ -44,7 +44,7 @@ export default function BookingCard({ booking, onDelete, onConfirm }) {
                 : "bg-red-300 text-red-900"
             }`}
           >
-            {getStatus(booking.status.description)}
+            {getStatus(booking.status.description, t)}
           </span>
         </div>
 

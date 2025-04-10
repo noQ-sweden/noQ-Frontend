@@ -17,7 +17,7 @@ export default function BookingRow({undoRequest, onUndoClick}) {
         p-2
         '>
         <div className='grid grid-rows-1 items-center text-left font-bold text-xl text-green-noQ'>
-            { getStatus(undoRequest.status.description) }
+            { getStatus(undoRequest.status.description, t) }
         </div>
         <div className='grid grid-rows-1 items-center text-center'>
             <div className='leading-3'>
