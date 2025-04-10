@@ -1,39 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "../../../api/AxiosNoqApi";
+import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
-const TaskAssignment = () => {
-  const [volunteerId, setVolunteerId] = useState("");
-  const [activityId, setActivityId] = useState("");
-  const [message, setMessage] = useState("");
+const TaskAssignment = ({ onStatusChange }) => {
+  const [tasks, setTasks] = useState([]);
 
-  const handleAssign = async () => {
+  const fetchTasks = async () => {
     try {
-      const response = await assignTask(volunteerId, activityId);
-      setMessage(response.message);
+      const res = await axios.get("/api/admin/volunteer/tasks");
+      console.log("Request sent to: ", res.config.url);
+      console.log("Raw data received:", res.data);
+      setTasks(res.data);
     } catch (error) {
-      setMessage("Error assigning task");
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+  useEffect(() => {
+    console.log("Tasks state:", tasks);
+  }, [tasks]);
+
+  const handleStatusChanges = async (taskId, newStatus) => {
+    try {
+      const res = await axios.patch(`/api/admin/volunteer/tasks/${taskId}`, {
+        status: newStatus,
+      });
+      toast.success("Status uppdaterad!");
+      console.log("Status updated:", res.data);
+      if (onStatusChange) {
+        onStatusChange();
+      }
+    } catch (error) {
       console.error("Error assigning task:", error);
     }
   };
 
   return (
     <div>
-      <h3>Assign Task</h3>
-      <input
-        type="text"
-        placeholder="Volunteer ID"
-        value={volunteerId}
-        onChange={(e) => setVolunteerId(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Activity ID"
-        value={activityId}
-        onChange={(e) => setActivityId(e.target.value)}
-      />
-      <button onClick={handleAssign}>Assign</button>
-      {message && <p>{message}</p>}
+      <h2> 📋 Uppgiftstilldelning</h2>
+      {tasks.length === 0 ? (
+        <p>Inga uppgifter tilldelade ännu.</p>
+      ) : (
+        tasks.map((task) => (
+          <div key={task.id}>
+            <p>
+              <strong>{task.volunteer} - ✓</strong>
+              <strong>{task.activity_title}</strong>
+            </p>
+            <p>{task.status}</p>
+            <label>
+              Ändra Status:
+              <select
+                value={task.status}
+                onChange={(e) => handleStatusChanges(task.id, e.target.value)}
+              >
+                <option value="pending">Väntande</option>
+                <option value="accepted">Accepterad</option>
+                <option value="declined">Avslutad</option>
+              </select>
+            </label>
+          </div>
+        ))
+      )}
     </div>
   );
+};
+
+TaskAssignment.propTypes = {
+  onStatusChange: PropTypes.func,
 };
 
 export default TaskAssignment;

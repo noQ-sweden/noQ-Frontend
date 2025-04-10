@@ -24,3 +24,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Local proxy fix — do not commit
+vite.config.local.js
