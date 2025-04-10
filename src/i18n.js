@@ -3,6 +3,8 @@ import { initReactI18next } from "react-i18next";
 
 import enTranslation from './locales/en.json'
 import svTranslation from './locales/sv.json'
+import plTranslation from './locales/pl.json'
+import roTranslation from './locales/ro.json'
 
 // the translations
 // (tip move them in a JSON file and import them,
@@ -10,6 +12,8 @@ import svTranslation from './locales/sv.json'
 const resources = {
     sv: { translation: svTranslation },
     en: { translation: enTranslation },
+    pl: { translation: plTranslation },
+    ro: { translation: roTranslation }
 }
 
 i18n

@@ -37,17 +37,17 @@
         "SendRequest": "Wyślij zaproszenie",
         "Confirm": "Potwierdž",
         "Cancel": "Anuluj",
-        "Remove": ""
+        "Remove": "Usunąć"
     },
 
     "Reservations": {
         "Reserved": "Przydzielony",
         "Confirmed": "Potwierdzone",
-        "In_Queue": "",
-        "Checked_In": "",
-        "Checked_Out": "",
-        "Pending": "",
-        "Declined": "",
-        "Accepted": ""
+        "In_Queue": "W kolejce",
+        "Checked_In": "Zameldowanie",
+        "Checked_Out": "Wymeldowanie",
+        "Pending": "Czekanie",
+        "Declined": "Odmówiono",
+        "Accepted": "Zalecane"
     }
 }

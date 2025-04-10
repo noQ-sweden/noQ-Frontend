@@ -181,9 +181,17 @@ export default function Sidebar() {
               {viewerGroup !== "user" ? (
                 null
               ) : 
-                <div className="text-right">
-                  <button onClick={() => changeLanguage("en")} className="text-gray-500 px-4 mt-8">English</button>
-                  <button onClick={() => changeLanguage("sv")} className="text-gray-500">Svenska</button>
+                //Language Translation for "User/Guest"
+                <div className="relative text-right">
+                <select
+                  onChange={(e) => changeLanguage(e.target.value)}
+                  className="text-gray-700 rounded px-4 py-2"
+                >
+                  <option value="sv">Svenska</option>
+                  <option value="en">English</option>
+                  <option value="pl">Polski</option>
+                  <option value="ro">Română</option>
+                </select>
                 </div>
               }
             </div>
