@@ -35,6 +35,9 @@ export default function BookingRow({
         }
     };
 
+    const { t } = useTranslation();
+    
+
     return (
         <div className={`grid grid-cols-[1fr_2fr_3fr_2fr_2fr_2fr_3fr_2fr_2fr_4fr] px-4 py-1 ${bg_color}`}>
             <div className='grid grid-rows-1 justify-start self-center'>

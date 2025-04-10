@@ -8,6 +8,8 @@ export default function OutgoingGuests() {
 
     const [outgoingBookings, setOutgoingBookings] = useState([])
     const { updateData, setUpdateData } = useUpdate();
+    const { t } = useTranslation();
+    
 
     useEffect(() => {
         axios.get('/api/host/bookings/outgoing')

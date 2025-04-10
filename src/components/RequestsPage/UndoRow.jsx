@@ -6,6 +6,9 @@ export default function BookingRow({undoRequest, onUndoClick}) {
         undoRequest: PropTypes.any.isRequired,
         onUndoClick: PropTypes.func.isRequired
     };
+    
+    const { t } = useTranslation();
+    
 
     return (
         <div className='

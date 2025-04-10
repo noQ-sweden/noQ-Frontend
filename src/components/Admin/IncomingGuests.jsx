@@ -9,6 +9,8 @@ export default function IncomingGuests() {
 
     const [ incomingBookings, setIncomingBookings ] = useState([]);
     const { updateData, setUpdateData } = useUpdate();
+    const { t } = useTranslation();
+    
 
     useEffect( () => {
         axios.get ('/api/host/bookings/incoming')

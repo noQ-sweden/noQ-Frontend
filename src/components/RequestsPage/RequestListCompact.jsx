@@ -8,6 +8,8 @@ export default function RequestListCompact({requests}) {
         requests: PropTypes.any
     };
     const navigate = useNavigate()
+    const { t } = useTranslation();
+    
 
     return (
         <div>
