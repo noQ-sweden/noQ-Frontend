@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 import { AccommodationContext } from "../../context/AccommodationProvider";
 import shelter from "./../../assets/images/genericShelter.png";
 import { formatPostCode } from "../../utility/utilityFunctions";
-import { FaChevronRight } from "react-icons/fa";
+//import { FaChevronRight } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 import { FaBed } from "react-icons/fa";
 
 export default function AccommodationList() {
   const { accommodation, setAccommodation } = useContext(AccommodationContext);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [availablePlaces, setAvailablePlaces] = useState({});
   const [womensOnly, setWomensOnly] = useState({});
   const [startDate, setStartDate] = useState(null);

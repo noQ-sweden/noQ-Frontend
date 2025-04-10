@@ -73,7 +73,7 @@ export const getDate = (datetime) => {
 }
 
 export const getStatus = (status) => {
-    const {t } = useTranslation();
+    const { t } = useTranslation();
 
     /*
         statuses = [

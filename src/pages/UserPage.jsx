@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 export default function UserPage() {
   const { setHeader } = useHeader();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   setHeader("Boställen");
 

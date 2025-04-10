@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
  
 
 export default function GetMenuItems(userGroup) {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     
     const hostSidebarItemsTop = [
         { icon: FaChartPie, label: "Överblick", sideBarLink: "host" },

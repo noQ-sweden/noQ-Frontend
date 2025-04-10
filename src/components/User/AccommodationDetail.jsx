@@ -11,7 +11,7 @@ import AccommodationAmenitiesDisplay from "./AccommodationAmenitiesDisplay";
 export default function AccommodationDetail() {
   const { accommodation } = useContext(AccommodationContext);
   const params = useParams();
-  const [ t, i18n ] = useTranslation();
+  const [ t ] = useTranslation();
   const location = useLocation();
   const { startDate, endDate } = location.state || {};
 
