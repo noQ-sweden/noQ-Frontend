@@ -13,8 +13,7 @@ const VolunteerManagementDashboard = () => {
   const fetchActivities = async () => {
     try {
       const res = await axios.get("/api/admin/activities/");
-      console.log("Full response:", res);
-      console.log("Raw data received:", res.data);
+
       setActivities(res.data);
     } catch (error) {
       console.error("Error fetching activities:", error);
@@ -25,10 +24,6 @@ const VolunteerManagementDashboard = () => {
     fetchActivities();
   }, []);
 
-  /*  useEffect(() => {
-    console.log("Activities state:", activities);
-  }, [activities]);
- */
   const handleDelite = async (id) => {
     try {
       await axios.delete(`/api/admin/activities/${id}`);

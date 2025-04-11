@@ -9,8 +9,6 @@ const TaskAssignment = ({ onStatusChange }) => {
   const fetchTasks = async () => {
     try {
       const res = await axios.get("/api/admin/volunteer/tasks");
-      console.log("Request sent to: ", res.config.url);
-      console.log("Raw data received:", res.data);
       setTasks(res.data);
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -20,9 +18,6 @@ const TaskAssignment = ({ onStatusChange }) => {
   useEffect(() => {
     fetchTasks();
   }, []);
-  useEffect(() => {
-    console.log("Tasks state:", tasks);
-  }, [tasks]);
 
   const handleStatusChanges = async (taskId, newStatus) => {
     try {
@@ -30,7 +25,6 @@ const TaskAssignment = ({ onStatusChange }) => {
         status: newStatus,
       });
       toast.success("Status uppdaterad!");
-      console.log("Status updated:", res.data);
       if (onStatusChange) {
         onStatusChange();
       }
