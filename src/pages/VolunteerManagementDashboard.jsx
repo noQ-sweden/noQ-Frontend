@@ -3,9 +3,12 @@ import axios from "axios";
 import ActivityForm from "../components/Admin/VolunteerManagement/ActivityForm";
 import ActivityList from "../components/Admin/VolunteerManagement/ActivityList";
 import TaskAssignment from "../components/Admin/VolunteerManagement/TaskAssignment";
+import ActivitetyCalendar from "../components/Admin/VolunteerManagement/ActivityCalendar";
+import { toast } from "react-toastify";
 
 const VolunteerManagementDashboard = () => {
   const [activities, setActivities] = useState([]);
+  const [activityToEdit, setActivityToEdit] = useState(null);
 
   const fetchActivities = async () => {
     try {
@@ -22,9 +25,23 @@ const VolunteerManagementDashboard = () => {
     fetchActivities();
   }, []);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     console.log("Activities state:", activities);
   }, [activities]);
+ */
+  const handleDelite = async (id) => {
+    try {
+      await axios.delete(`/api/admin/activities/${id}`);
+      toast.success("Aktivitet raderad!");
+      fetchActivities();
+    } catch (error) {
+      console.error("Error deleting activity:", error);
+    }
+  };
+
+  const handleEdit = (activity) => {
+    setActivityToEdit(activity);
+  };
 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white rounded-2xl shadow">
@@ -32,11 +49,23 @@ const VolunteerManagementDashboard = () => {
         Admin:📋 Management Volunteer Activities
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ActivityForm onCreated={fetchActivities} />
-        <ActivityList activities={activities} />
+        <ActivityForm
+          onCreated={fetchActivities}
+          activityToEdit={activityToEdit}
+          onUpdated={() => {
+            fetchActivities();
+            setActivityToEdit(null);
+          }}
+        />
+        <ActivityList
+          activities={activities}
+          onEdit={handleEdit}
+          onDelete={handleDelite}
+        />
         <div className="md:col-span-2">
           <TaskAssignment onStatusChange={fetchActivities} />
         </div>
+        <ActivitetyCalendar activities={activities} />
       </div>
     </div>
   );
