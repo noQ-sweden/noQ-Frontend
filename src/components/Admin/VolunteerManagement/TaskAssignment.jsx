@@ -21,7 +21,7 @@ const TaskAssignment = ({ onStatusChange }) => {
 
   const handleStatusChanges = async (taskId, newStatus) => {
     try {
-      const res = await axios.patch(`/api/admin/volunteer/tasks/${taskId}`, {
+      await axios.patch(`/api/admin/volunteer/tasks/${taskId}`, {
         status: newStatus,
       });
       toast.success("Status uppdaterad!");
