@@ -1,5 +1,7 @@
 import { createContext } from "react";
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import RequireLogin from "./components/RequireLogin";
 import Layout from "./components/Layouts/Layout";
 import LoginPage from "./pages/LoginPage";
@@ -16,53 +18,77 @@ import AccommodationDetail from "./components/User/AccommodationDetail";
 import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
 import VolunteerPage from "./pages/VolunteerPage";
-
-
+import VolunteerManagementDashboard from "./pages/VolunteerManagementDashboard";
 export const VisitorContext = createContext();
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        {/* Public Pages */}
-        <Route path="/" element={<LoginPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegistrationPage />} />
-        <Route path="unauthorized" element={<UnauthorizedPage />} />
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          {/* Public Pages */}
+          <Route path="/" element={<LoginPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegistrationPage />} />
+          <Route path="unauthorized" element={<UnauthorizedPage />} />
 
-        {/* User Pages */}
-        <Route element={<RequireLogin allowedGroups={["user"]} />}>
-          <Route path="user" element={<UserPage />} />
-          <Route path="user-landing" element={<UserLandingPage />} />
-          <Route path="accommodations/:id" element={<AccommodationDetail />} />
-          <Route path="user/requests" element={<Bookings />} />
+          {/* User Pages */}
+          <Route element={<RequireLogin allowedGroups={["user"]} />}>
+            <Route path="user" element={<UserPage />} />
+            <Route path="user-landing" element={<UserLandingPage />} />
+            <Route
+              path="accommodations/:id"
+              element={<AccommodationDetail />}
+            />
+            <Route path="user/requests" element={<Bookings />} />
+          </Route>
+
+          {/* Host Pages */}
+          <Route element={<RequireLogin allowedGroups={["host"]} />}>
+            <Route path="host" element={<HostPage />} />
+            <Route
+              path="host/requests"
+              element={<RequestPageView userGroup="host" />}
+            />
+            <Route path="host/products" element={<RoomPage />} />
+          </Route>
+
+          {/* Caseworker Pages */}
+          <Route element={<RequireLogin allowedGroups={["caseworker"]} />}>
+            <Route path="caseworker" element={<CaseworkerPage />} />
+            <Route
+              path="caseworker/requests"
+              element={<RequestPageView userGroup="caseworker" />}
+            />
+            <Route
+              path="caseworker/statistics"
+              element={<CaseworkerStatisticsPage userGroup="caseworker" />}
+            />
+          </Route>
+
+          {/* Volunteer Pages */}
+          <Route element={<RequireLogin allowedGroups={["volunteer"]} />}>
+            <Route path="volunteer" element={<VolunteerPage />} />
+            <Route
+              path="volunteer/requests"
+              element={<RequestPageView userGroup="volunteer" />}
+            />
+          </Route>
+
+          {/* Volunteer Management Dashboard */}
+          <Route element={<RequireLogin allowedGroups={["admin", "host"]} />}>
+            {/* Volunteer Testing Page */}
+            <Route
+              path="/admin/volunteers"
+              element={<VolunteerManagementDashboard />}
+            />
+          </Route>
+          {/* Invalid path */}
+          <Route path="*" element={<ErrorPage />} />
         </Route>
-
-        {/* Host Pages */}
-        <Route element={<RequireLogin allowedGroups={["host"]} />}>
-          <Route path="host" element={<HostPage />} />
-          <Route path="host/requests" element={<RequestPageView userGroup="host" />} />
-          <Route path="host/products" element={<RoomPage />} />
-        </Route>
-
-        {/* Caseworker Pages */}
-        <Route element={<RequireLogin allowedGroups={["caseworker"]} />}>
-          <Route path="caseworker" element={<CaseworkerPage />} />
-          <Route path="caseworker/requests" element={<RequestPageView userGroup="caseworker" />} />
-          <Route path="caseworker/statistics" element={<CaseworkerStatisticsPage userGroup="caseworker" />} />
-        </Route>
-
-        {/* Volunteer Pages */}
-        <Route element={<RequireLogin allowedGroups={["volunteer"]} />}>
-          <Route path="volunteer" element={<VolunteerPage />} />
-          <Route path="volunteer/requests" element={<RequestPageView userGroup="volunteer" />} />
-          
-        </Route>
-
-        {/* Invalid path */}
-        <Route path="*" element={<ErrorPage />} />
-      </Route>
-    </Routes>
+      </Routes>
+      <ToastContainer position="top-right" autoClose={3000} />;
+    </>
   );
 }
 
