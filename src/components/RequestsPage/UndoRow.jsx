@@ -1,11 +1,15 @@
 import { getDayNumber, getMonth, getGender, getStatus } from '../../utility/utilityFunctions';
 import PropTypes from "prop-types";
+import {useTranslation} from "react-i18next";
 
 export default function BookingRow({undoRequest, onUndoClick}) {
     BookingRow.propTypes = {
         undoRequest: PropTypes.any.isRequired,
         onUndoClick: PropTypes.func.isRequired
     };
+    
+    const { t } = useTranslation();
+    
 
     return (
         <div className='
@@ -17,7 +21,7 @@ export default function BookingRow({undoRequest, onUndoClick}) {
         p-2
         '>
         <div className='grid grid-rows-1 items-center text-left font-bold text-xl text-green-noQ'>
-            { getStatus(undoRequest.status.description) }
+            { getStatus(undoRequest.status.description, t) }
         </div>
         <div className='grid grid-rows-1 items-center text-center'>
             <div className='leading-3'>

@@ -2,6 +2,7 @@ import { getDate, getDayNumber, getMonth, getStatus } from '../../utility/utilit
 import PropTypes from "prop-types";
 import { FaFlag } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
+import {useTranslation} from "react-i18next";
 
 
 
@@ -35,6 +36,9 @@ export default function BookingRow({
         }
     };
 
+    const { t } = useTranslation();
+    
+
     return (
         <div className={`grid grid-cols-[1fr_2fr_3fr_2fr_2fr_2fr_3fr_2fr_2fr_4fr] px-4 py-1 ${bg_color}`}>
             <div className='grid grid-rows-1 justify-start self-center'>
@@ -58,7 +62,7 @@ export default function BookingRow({
                 <div>{booking.user.unokod}</div>
             </div>
             <div className='grid grid-rows-2 gap-1 items-center text-left'>
-                { getStatus(booking.status.description).split(" ").map((word, index) => (
+                { getStatus(booking.status.description, t).split(" ").map((word, index) => (
                     <div key={index}>{word}</div>
                 ))}
             </div>

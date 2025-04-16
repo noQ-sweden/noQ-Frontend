@@ -2,12 +2,15 @@ import React from 'react';
 import { getDayNumber, getMonth, getStatus } from '../../utility/utilityFunctions';
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import {useTranslation} from "react-i18next";
 
 export default function RequestListCompact({requests}) {
     RequestListCompact.propTypes = {
         requests: PropTypes.any
     };
     const navigate = useNavigate()
+    const { t } = useTranslation();
+    
 
     return (
         <div>
@@ -29,7 +32,7 @@ export default function RequestListCompact({requests}) {
                                 <td className='p-2 tracking-tight text-center'>
                                     {request.end_date ? getDayNumber(request.end_date) + " " + getMonth(request.end_date) : 'Ingen utcheckning'}
                                 </td>
-                                <td className='p-2 tracking-tight text-center'>{getStatus(request.status.description)}</td>
+                                <td className='p-2 tracking-tight text-center'>{getStatus(request.status.description, t)}</td>
                             </tr>
                         ))}
                     </tbody>

@@ -1,0 +1,53 @@
+{
+    "sidebar": {
+        "Logout": "Wyloguj się",
+        "User": "Użytkownik",
+        "Settings": "Ustawienia",
+        "Reservations": "Rezerwacje",
+        "Book": "Książka"
+    },
+
+    "AccommodationPanel": {
+        "Residence": "Wybierz rezydencję",
+        "About": "O miejscu zamieszkania "
+    },
+
+    "AccommodationDetail": {
+        "Offer": "Co oferujemy",
+        "Seats": "Miejsca",
+        "Error": "Prozę wybrać datę zameldowania i wymeldowania",
+        "Success": "Twoje zaproszenie zostało wysłane!",
+        "SuccessMessage": "Wrócimy z potwierdzeniem, gdy tylko twoja prośba zostanie przetworzona",
+        "Back": "Wróć na początek"
+    },
+
+    "AccommodationBooking": {
+        "SelectDate": "Wybierz datę",
+        "SelectDateLabel1": "Data zameldowania",
+        "SelectDateLabel2": "Data wymeldowania",
+        "SelectDateLabel3": "Dzisiaj ",
+        "SelectDateLabel4": "Jutro"
+    },
+
+    "ActionButtons": {
+        "Select": "Wybierać",
+        "MoreInformation": "Więcej informacji",
+        "Back": "Z powrotem",
+        "Map": "Mapa",
+        "SendRequest": "Wyślij zaproszenie",
+        "Confirm": "Potwierdž",
+        "Cancel": "Anuluj",
+        "Remove": "Usunąć"
+    },
+
+    "Reservations": {
+        "Reserved": "Przydzielony",
+        "Confirmed": "Potwierdzone",
+        "In_Queue": "W kolejce",
+        "Checked_In": "Zameldowanie",
+        "Checked_Out": "Wymeldowanie",
+        "Pending": "Czekanie",
+        "Declined": "Odmówiono",
+        "Accepted": "Zalecane"
+    }
+}
