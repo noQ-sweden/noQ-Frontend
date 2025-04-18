@@ -24,7 +24,7 @@ const VolunteerManagementDashboard = () => {
     fetchActivities();
   }, []);
 
-  const handleDelite = async (id) => {
+  const handleDelete = async (id) => {
     try {
       await axios.delete(`/api/admin/activities/${id}`);
       toast.success("Aktivitet raderad!");
@@ -55,7 +55,7 @@ const VolunteerManagementDashboard = () => {
         <ActivityList
           activities={activities}
           onEdit={handleEdit}
-          onDelete={handleDelite}
+          onDelete={handleDelete}
         />
         <div className="md:col-span-2">
           <TaskAssignment onStatusChange={fetchActivities} />
