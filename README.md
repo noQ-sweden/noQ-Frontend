@@ -48,6 +48,11 @@ Password: P4ssw0rd_for_Te5t+User
 Volunteer:
 email: user.volunteer@test.nu
 Password: P4ssw0rd_for_Te5t+User
+
+Admin:
+email:    user.admin@test.nu
+Password: P4ssw0rd_for_Te5t+User
+
 ```
 
 ## Wiki
