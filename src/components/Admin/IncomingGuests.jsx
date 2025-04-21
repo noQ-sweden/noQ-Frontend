@@ -10,13 +10,8 @@ export default function IncomingGuests() {
 
     const [incomingBookings, setIncomingBookings] = useState([]);
     const { updateData, setUpdateData } = useUpdate();
-<<<<<<< HEAD
-    const [modalOpen, setModalOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
-=======
     const { t } = useTranslation();
     
->>>>>>> origin/main
 
     useEffect(() => {
         axios.get('/api/host/bookings/incoming')
@@ -80,18 +75,8 @@ export default function IncomingGuests() {
                         <tbody className='border-b-2'>
                             {incomingBookings.map(booking => (
                                 <tr key={booking.id}>
-<<<<<<< HEAD
-                                    <td 
-                                        className='tracking-tight text-blue-500 cursor-pointer'
-                                        onClick={() => handleUserClick(booking.user)}
-                                    >
-                                        {booking.user.first_name} {booking.user.last_name}
-                                    </td>
-                                    <td className='tracking-tight '>{getStatus(booking.status.description)}</td>
-=======
                                     <td className='tracking-tight '>{booking.user.first_name} {booking.user.last_name}</td>
                                     <td className='tracking-tight '>{getStatus(booking.status.description, t)}</td>
->>>>>>> origin/main
                                     <td className='p-2 tracking-tight text-right'>
                                         {!booking.isChecked && (
                                             <button className="
