@@ -10,6 +10,7 @@ import { AccommodationProvider } from "./context/AccommodationProvider";
 import { HeaderProvider } from "./context/HeaderProvider";
 import App from "./App.jsx";
 import "./index.css";
+import "./i18n.js"
 
 
 
