@@ -58,7 +58,7 @@ export default function RegistrationPage() {
         setEmail("");
         setPassword("");
         setConfirmPassword("");
-        setTimeout(() => navigate("/login"), 5000);
+        setTimeout(() => navigate("/login"), 3500);
       } else {
         setError(response.data.error);
         errorRef.current?.focus();

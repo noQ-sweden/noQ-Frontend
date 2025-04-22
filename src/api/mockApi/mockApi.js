@@ -85,14 +85,14 @@ noqMockApi.onPost("api/register/").reply((config) => {
   }
 
   // 9. Success path (with fake ID and echoing the assigned role)
-  const fakeUserId = Math.floor(Math.random() * 100000) + 1;
+  const fakeUserId = 12345;
   return [
     201,
     {
       success: "Användare registrerad!",
       user_id: fakeUserId,
-      role: role,                // so the frontend can see group assignment
-      first_name: first_name,    // mirrors that you do create with first_name/last_name
+      role: role,               
+      first_name: first_name,    
       last_name: last_name
     },
   ];
