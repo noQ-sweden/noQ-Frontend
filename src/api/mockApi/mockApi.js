@@ -34,6 +34,70 @@ const noqMockApi = new AxiosMockAdapter(axiosMockNoqApi, {
   onNoMatch: "throwException",
 });
 
+noqMockApi.onPost("api/register/").reply((config) => {
+  // 1. Role header check
+  const role = config.headers["X-User-Role"] || "user";
+  const allowedRoles = ["user", "volunteer"];
+  if (!allowedRoles.includes(role)) {
+    return [400, { error: "Invalid role specified." }];
+  }
+
+  // 2. Simulate backend “region missing” failure
+  if (config.headers["X-Force-Region-Error"]) {
+    return [400, { error: "Ett oväntat fel inträffade. Vänligen försök igen." }];
+  }
+  // 3. Simulate backend IntegrityError
+  if (config.headers["X-Force-DB-Error"]) {
+    return [400, { error: "Något gick fel: En användare kunde inte skapas." }];
+  }
+
+  // 4. Parse JSON body
+  let data;
+  try {
+    data = JSON.parse(config.data);
+  } catch {
+    return [400, { error: "Ogiltig JSON-data." }];
+  }
+  const { email, password, first_name, last_name } = data;
+
+  // 5. Empty‐email check
+  if (!email || !email.trim()) {
+    return [400, { error: "E-post måste anges och får inte vara tom." }];
+  }
+  // 6. Email‐format check
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return [400, { error: "Ogiltig e-postadress." }];
+  }
+  // 7. Empty‐password check
+  if (!password || !password.trim()) {
+    return [400, { error: "Lösenord måste anges och får inte vara tomt." }];
+  }
+
+  // 8. Existing‐email check (mirror your User.objects.filter…)
+  const existingEmails = [
+    "user.user@test.nu",
+    "lisa-gast@noq.nu",
+    "tommy-gast@noq.nu",
+  ];
+  if (existingEmails.includes(email)) {
+    return [400, { error: "Användare med denna e-postadress finns redan." }];
+  }
+
+  // 9. Success path (with fake ID and echoing the assigned role)
+  const fakeUserId = Math.floor(Math.random() * 100000) + 1;
+  return [
+    201,
+    {
+      success: "Användare registrerad!",
+      user_id: fakeUserId,
+      role: role,                // so the frontend can see group assignment
+      first_name: first_name,    // mirrors that you do create with first_name/last_name
+      last_name: last_name
+    },
+  ];
+});
+
 noqMockApi.onPost("api/login/").reply((config) => {
   const data = JSON.parse(config.data);
   const login = {
