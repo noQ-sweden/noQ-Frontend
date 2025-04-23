@@ -4,12 +4,12 @@ import axios from "../../../api/AxiosNoqApi";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
-const ActivityForm = ({ onCreated, activityToEdit, onUpdated }) => {
+const ActivityForm = ({ onCreated, activityToEdit, onUpdated, onClose }) => {
   const [form, setForm] = useState({
-    title: "",
-    description: "",
-    start_time: "",
-    end_time: "",
+    title: activityToEdit?.title || "",
+    description: activityToEdit?.description || "",
+    start_time: activityToEdit?.start_time || "",
+    end_time: activityToEdit?.end_time || "",
   });
 
   useEffect(() => {
@@ -49,8 +49,9 @@ const ActivityForm = ({ onCreated, activityToEdit, onUpdated }) => {
           is_approved: true,
         });
         toast.success("Aktivitet skapad!");
-        onCreated?.();
+        onCreated?.(); //Refresh
       }
+      onClose();
       setForm({ title: "", description: "", start_time: "", end_time: "" });
     } catch (error) {
       console.error("Error creating activity:", error);
@@ -60,6 +61,7 @@ const ActivityForm = ({ onCreated, activityToEdit, onUpdated }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-2">
       <input
+        className="w-full border border-gray-300 rounded px-3 py-2"
         name="title"
         value={form.title}
         onChange={handleChange}
@@ -67,6 +69,7 @@ const ActivityForm = ({ onCreated, activityToEdit, onUpdated }) => {
         required
       />
       <textarea
+        className="w-full border border-gray-300 rounded px-3 py-2"
         name="description"
         value={form.description}
         onChange={handleChange}
@@ -87,12 +90,20 @@ const ActivityForm = ({ onCreated, activityToEdit, onUpdated }) => {
         onChange={handleChange}
         required
       />
-      <button
-        type="submit"
-        className="bg-[#1C4915]  text-white font-bold py-2 px-4 rounded"
-      >
-        <strong>Skapa aktivitet</strong>
-      </button>
+      <div className="flex justify-between">
+        <button
+          type="submit"
+          className="bg-[#1C4915]  text-white font-bold py-2 px-4 rounded"
+        >
+          <strong>Skapa aktivitet</strong>
+        </button>
+        <button
+          onClick={onClose}
+          className="text-sm text-gray-500 hover:underline"
+        >
+          Avbryta
+        </button>
+      </div>
     </form>
   );
 };
@@ -101,6 +112,7 @@ ActivityForm.propTypes = {
   onCreated: PropTypes.func,
   onUpdated: PropTypes.func,
   activityToEdit: PropTypes.object,
+  onClose: PropTypes.func,
 };
 
 export default ActivityForm;

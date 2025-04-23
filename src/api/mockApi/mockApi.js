@@ -7,7 +7,7 @@ import AxiosMockAdapter from "axios-mock-adapter";
 import { products } from "./products.js";
 import { getAvailableShelters } from "./getAvailableShelters"; // Import the function
 import { availableProducts } from "./caseworkerFrontPage.js";
-
+import { volunteers } from "./volunteers";
 
 export const axiosMockNoqApi = axios.create({
   headers: {
@@ -98,6 +98,15 @@ noqMockApi.onPost("api/login/").reply((config) => {
     login.first_name = "User";
     login.last_name = "Volunteer";
     return [200, JSON.stringify(login)];
+  } else if (
+    data.email == "user.admin@test.nu" &&
+    data.password == "P4ssw0rd_for_Te5t+User"
+  ) {
+    login.groups = ["admin"];
+    login.first_name = "User";
+    login.last_name = "Admin";
+    login.admin = true;
+    return [200, JSON.stringify(login)];
   }
   // Failed login
   else {
@@ -124,6 +133,16 @@ noqMockApi.onGet(pendingBookingsUrl).reply(() => {
     );
   });
   return [200, JSON.stringify(pendingBookings)];
+});
+
+noqMockApi.onGet("/api/admin/volunteers").reply(() => {
+  return [200, JSON.stringify(volunteers)];
+});
+
+noqMockApi.onGet("/api/admin/volunteer/tasks").reply(() => {
+  const volunteerId = 1;
+  const user = volunteers.find((v) => v.id === volunteerId);
+  return [200, JSON.stringify(user?.tasks || [])];
 });
 
 noqMockApi.onPatch("api/host/pending/batch/accept").reply((config) => {
@@ -325,7 +344,9 @@ noqMockApi.onPatch("api/caseworker/bookings/batch/accept").reply((config) => {
 });
 
 const caseworkerStatisticsUrl = "api/caseworker/guests/nights/count";
-const urlUserStatistics = new RegExp(`^${caseworkerStatisticsUrl}/\\d+/\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}$`);
+const urlUserStatistics = new RegExp(
+  `^${caseworkerStatisticsUrl}/\\d+/\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}$`
+);
 noqMockApi.onGet(urlUserStatistics).reply((config) => {
   const params = config.url.split("/");
   const stays = generateStays(params[5], params[6], params[7]);
@@ -333,7 +354,9 @@ noqMockApi.onGet(urlUserStatistics).reply((config) => {
   return [200, JSON.stringify(stays)]; //userId, startDate, endDate
 });
 
-const urlStatistics = new RegExp(`${caseworkerStatisticsUrl}/\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}`);
+const urlStatistics = new RegExp(
+  `${caseworkerStatisticsUrl}/\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}`
+);
 noqMockApi.onGet(urlStatistics).reply((config) => {
   const params = config.url.split("/");
   const stays = generateStaysMultipleUsers(params[5], params[6]);
@@ -498,7 +521,9 @@ noqMockApi.onDelete(urlBookingDelete).reply((config) => {
 const userConfirmUrl = "api/user/bookings/confirm";
 const urlBookingConfirm = new RegExp(`${userConfirmUrl}/\\d+`);
 noqMockApi.onGet(urlBookingConfirm).reply((config) => {
-  const bookingId = parseInt(config.url.match(/api\/user\/bookings\/confirm\/(\d+)/)[1]);
+  const bookingId = parseInt(
+    config.url.match(/api\/user\/bookings\/confirm\/(\d+)/)[1]
+  );
   const index = userBookings.findIndex((booking) => booking.id === bookingId);
   if (index !== -1) {
     userBookings[index].status.description = "confirmed";
@@ -511,64 +536,108 @@ noqMockApi.onGet("/api/caseworker/available_all").reply(() => {
   return [200, JSON.stringify(availableProducts)];
 });
 
-noqMockApi.onGet("/api/volunteer/available").reply(config => {
-  const { selected_date, host_id } = config.params || {}
+noqMockApi.onGet("/api/volunteer/available").reply((config) => {
+  const { selected_date, host_id } = config.params || {};
 
   // Fetch the full list of available shelters with products
-  let availableShelters = getAvailableShelters()
+  let availableShelters = getAvailableShelters();
 
   // Filter by host_id if provided
   if (host_id) {
-    availableShelters = availableShelters.filter(shelter => shelter.host.id === parseInt(host_id))
+    availableShelters = availableShelters.filter(
+      (shelter) => shelter.host.id === parseInt(host_id)
+    );
   }
 
   // Filter by selected_date if provided
   if (selected_date) {
-    availableShelters = availableShelters.map(shelter => ({
-      ...shelter,
-      products: shelter.products.map(product => {
-        // Set `places_left` based on mock availability for the date
-        // Assuming each product has a `dates` array with availability records
-        const availability = product.availability?.find(avail => avail.date === selected_date)
-        return {
-          ...product,
-          places_left: availability ? availability.places_left : product.total_places
-        }
-      }).filter(product => product.places_left > 0) // Exclude fully booked products for the date
-    })).filter(shelter => shelter.products.length > 0) // Exclude hosts with no available products
+    availableShelters = availableShelters
+      .map((shelter) => ({
+        ...shelter,
+        products: shelter.products
+          .map((product) => {
+            // Set `places_left` based on mock availability for the date
+            // Assuming each product has a `dates` array with availability records
+            const availability = product.availability?.find(
+              (avail) => avail.date === selected_date
+            );
+            return {
+              ...product,
+              places_left: availability
+                ? availability.places_left
+                : product.total_places,
+            };
+          })
+          .filter((product) => product.places_left > 0), // Exclude fully booked products for the date
+      }))
+      .filter((shelter) => shelter.products.length > 0); // Exclude hosts with no available products
   }
 
-  return [200, availableShelters]
+  return [200, availableShelters];
 });
 
-// Volunteer 
+// Volunteer
 const mockUser = [
-  { user: { id: 1, unokod: "UNO123", first_name: "Lars", last_name: "Andersson" } },
-  { user: { id: 2, unokod: "UNO456", first_name: "Karin", last_name: "Johansson" } },
-  { user: { id: 3, unokod: "UNO789", first_name: "Erik", last_name: "Nilsson" } },
-  { user: { id: 3, unokod: "UNO729", first_name: "Karin", last_name: "Nilsson" } },
+  {
+    user: {
+      id: 1,
+      unokod: "UNO123",
+      first_name: "Lars",
+      last_name: "Andersson",
+    },
+  },
+  {
+    user: {
+      id: 2,
+      unokod: "UNO456",
+      first_name: "Karin",
+      last_name: "Johansson",
+    },
+  },
+  {
+    user: { id: 3, unokod: "UNO789", first_name: "Erik", last_name: "Nilsson" },
+  },
+  {
+    user: {
+      id: 3,
+      unokod: "UNO729",
+      first_name: "Karin",
+      last_name: "Nilsson",
+    },
+  },
 ];
 
- let mockTest =[...mockUser];
+let mockTest = [...mockUser];
 noqMockApi.onGet("/api/volunteer/guest/search").reply((config) => {
   const { first_name = "", last_name = "", uno = "" } = config.params || {};
-  
+
   console.log("Search parameters:", { first_name, last_name, uno });
 
   // Check if at least one search parameter is provided
   if (!first_name.trim() && !last_name.trim() && !uno.trim()) {
-    return [400, { error: "At least one search parameter (name or uno) must be provided." }];
+    return [
+      400,
+      {
+        error: "At least one search parameter (name or uno) must be provided.",
+      },
+    ];
   }
 
   const matchingUsers = mockTest
-    .filter(userObj => {
-      const matchesFirstName = first_name ? userObj.user.first_name.toLowerCase() === first_name.toLowerCase() : true;
-      const matchesLastName = last_name ? userObj.user.last_name.toLowerCase() === last_name.toLowerCase() : true;
-      const matchesUno = uno ? userObj.user.uno.toLowerCase() === uno.toLowerCase() : true;
-    
+    .filter((userObj) => {
+      const matchesFirstName = first_name
+        ? userObj.user.first_name.toLowerCase() === first_name.toLowerCase()
+        : true;
+      const matchesLastName = last_name
+        ? userObj.user.last_name.toLowerCase() === last_name.toLowerCase()
+        : true;
+      const matchesUno = uno
+        ? userObj.user.uno.toLowerCase() === uno.toLowerCase()
+        : true;
+
       return matchesFirstName && matchesLastName && matchesUno;
     })
-    .map(userObj => ({
+    .map((userObj) => ({
       id: userObj.user.id,
       uno: userObj.user.uno,
       first_name: userObj.user.first_name,
@@ -582,13 +651,11 @@ noqMockApi.onGet("/api/volunteer/guest/search").reply((config) => {
   return [200, matchingUsers];
 });
 
-
 const Guestbookings = [];
 
 export const fetchUsers = () => {
-  return mockUser; 
+  return mockUser;
 };
-
 
 noqMockApi.onGet("/api/volunteer/guest/list").reply(() => {
   const users = mockTest.map((userObj) => ({
@@ -604,17 +671,17 @@ noqMockApi.onGet("/api/volunteer/guest/list").reply(() => {
 noqMockApi.onPost("/api/volunteer/guest/create").reply((config) => {
   const { first_name, last_name, uno } = JSON.parse(config.data);
 
- 
   if (!first_name || !last_name || !uno) {
-    return [400, { error: "All fields (first_name, last_name, uno) are required." }];
+    return [
+      400,
+      { error: "All fields (first_name, last_name, uno) are required." },
+    ];
   }
 
- 
   const existingUser = mockTest.find((userObj) => userObj.user.uno === uno);
   if (existingUser) {
     return [409, { error: "A user with this UNO code already exists." }];
   }
-
 
   const newUser = {
     user: {
@@ -633,7 +700,7 @@ noqMockApi.onPost("/api/volunteer/guest/create").reply((config) => {
 
 noqMockApi.onPost("/api/volunteer/booking/request").reply((config) => {
   const newBooking = JSON.parse(config.data);
-  
+
   // Check for duplicate bookings
   const duplicate = Guestbookings.find(
     (b) =>
@@ -663,10 +730,10 @@ noqMockApi.onPatch(/\/api\/volunteer\/confirm_booking\/\d+/).reply((config) => {
   // Find the booking in mock data
   const bookingIndex = Guestbookings.findIndex((b) => b.id === bookingId);
   console.log("Booking ID to Confirm:", bookingId);
-  
+
   if (bookingIndex !== -1) {
     const booking = Guestbookings[bookingIndex];
-    
+
     // Only allow confirmation if booking is "pending"
     if (booking.status.description !== "pending") {
       return [400, { error: "Only pending bookings can be confirmed." }];
@@ -688,31 +755,37 @@ noqMockApi.onPatch(/\/api\/volunteer\/confirm_booking\/\d+/).reply((config) => {
 });
 
 noqMockApi.onGet(/api\/user\/available_host\/\d+/).reply((config) => {
-  const hostId = parseInt(config.url.match(/api\/user\/available_host\/(\d+)/)[1]);
+  const hostId = parseInt(
+    config.url.match(/api\/user\/available_host\/(\d+)/)[1]
+  );
 
-  // all available 
+  // all available
   const availableShelters = getAvailableShelters();
 
   // Find the requested host by ID
-  const hostData = availableShelters.find(shelter => shelter.host.id === hostId);
+  const hostData = availableShelters.find(
+    (shelter) => shelter.host.id === hostId
+  );
 
   if (!hostData) {
     return [404, { error: "Host not found" }];
   }
 
   // match backend API structure
-  const response = [{
-    host: hostData.host,  
-    products: hostData.products.map(product => ({
-      id: product.id,
-      name: product.name,
-      description: product.description,
-      total_places: product.total_places,
-      places_left: product.places_left, //Added
-      type: product.type,
-      available_dates: product.available_dates || [] 
-    }))
-  }];
+  const response = [
+    {
+      host: hostData.host,
+      products: hostData.products.map((product) => ({
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        total_places: product.total_places,
+        places_left: product.places_left, //Added
+        type: product.type,
+        available_dates: product.available_dates || [],
+      })),
+    },
+  ];
 
   return [200, response];
 });

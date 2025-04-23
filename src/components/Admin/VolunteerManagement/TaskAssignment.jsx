@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../../api/AxiosNoqApi";
+import axiosNoqApi from "../../../api/AxiosNoqApi";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
@@ -8,7 +8,7 @@ const TaskAssignment = ({ onStatusChange }) => {
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get("/api/admin/volunteer/tasks");
+      const res = await axiosNoqApi.get("/api/admin/volunteer/tasks");
       setTasks(res.data);
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -21,7 +21,7 @@ const TaskAssignment = ({ onStatusChange }) => {
 
   const handleStatusChanges = async (taskId, newStatus) => {
     try {
-      await axios.patch(`/api/admin/volunteer/tasks/${taskId}`, {
+      await axiosNoqApi.patch(`/api/admin/volunteer/tasks/${taskId}`, {
         status: newStatus,
       });
       toast.success("Status uppdaterad!");
