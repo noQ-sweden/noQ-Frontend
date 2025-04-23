@@ -6,7 +6,7 @@ export default function FilterDropdown({ value, onChange }) {
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="border border-gray-300 rounded px-2 py-1 text-sm"
+      className="border border-gray-300 rounded px-2 py-2 text-sm w-full sm:w-auto"
     >
       <option value="all">Alla</option>
       <option value="ongoing">Pågående</option>

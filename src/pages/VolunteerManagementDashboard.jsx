@@ -10,6 +10,7 @@ import DropdownSort from "../components/Admin/VolunteerManagement/SortDropdown";
 import FilterDropdown from "../components/Admin/VolunteerManagement/FilterDropdown";
 import VolunteerOverviewList from "../components/Admin/VolunteerManagement/VolunteerOverviewList";
 import Modal from "../components/Common/Modal";
+import useHeader from "../hooks/useHeader";
 
 const VolunteerManagementDashboard = () => {
   const [activities, setActivities] = useState([]);
@@ -30,9 +31,11 @@ const VolunteerManagementDashboard = () => {
       setActivities([]);
     }
   };
+  const { setHeader } = useHeader();
 
   useEffect(() => {
     fetchActivities();
+    setHeader("Volontärer & aktiviteter");
   }, []);
 
   const handleDelete = async (id) => {
@@ -47,6 +50,7 @@ const VolunteerManagementDashboard = () => {
 
   const handleEdit = (activity) => {
     setActivityToEdit(activity);
+    setShowModal(true);
   };
   const now = new Date();
   const filterByStatus = (activity) => {
@@ -54,6 +58,8 @@ const VolunteerManagementDashboard = () => {
     if (filterStatus === "completed") return new Date(activity.end_time) < now;
     return true; // "all" case
   };
+
+  const showCalendar = false;
 
   const sortedActivities = [...activities].sort((a, b) => {
     if (sortOption === "title-asc") {
@@ -73,24 +79,44 @@ const VolunteerManagementDashboard = () => {
       activity.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
       filterByStatus(activity)
   );
+
+  const handleStatusChange = async (activity, newStatus) => {
+    try {
+      await axiosNoqApi.patch(`/api/admin/activities/${activity.id}`, {
+        title: activity.title,
+        description: activity.description,
+        start_time: activity.start_time,
+        end_time: activity.end_time,
+        is_approved: activity.is_approved ?? true,
+        status: newStatus,
+      });
+      fetchActivities();
+      toast.success("Status uppdaterad!");
+    } catch (error) {
+      console.error("Error updating status:", error);
+      console.log("💥 Error details:", error.response?.data);
+      toast.error("Kunde inte uppdatera status.");
+    }
+  };
+
   return (
     <AdminDashboardLayout>
       <div className="p-6 max-w-4xl mx-auto bg-white rounded-2xl shadow">
         <h2 className="text-2xl font-bold mb-4">
           Admin:📋 Management Volunteer Activities
         </h2>
-        <div className="flex flex-row md:flex-row md:items-center gap-2 mb-4">
+        <div className="flex flex-col sm:flex-row gap-4 mb-4 w-full overflow-hidden">
           <DropdownSort value={sortOption} onChange={setSortOption} />
           <FilterDropdown value={filterStatus} onChange={setFilterStatus} />
-          <VolunteerOverviewList />
           <input
             type="text"
             placeholder="Sök efter aktivitet..."
-            className="border border-gray-300 rounded w-full md:w-64 mb-4"
+            className="border border-gray-400 rounded w-full sm:w-64"
             onChange={(e) => setSearchTerm(e.target.value)}
             value={searchTerm}
           />
         </div>
+        <VolunteerOverviewList />
 
         {filteredActivities.length === 0 && (
           <p className="text-gray-500 italic m-4">
@@ -125,11 +151,12 @@ const VolunteerManagementDashboard = () => {
             activities={filteredActivities}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onStatusChange={handleStatusChange}
           />
           <div className="md:col-span-2">
             <TaskAssignment onStatusChange={fetchActivities} />
           </div>
-          <ActivitetyCalendar activities={activities} />
+          {showCalendar && <ActivitetyCalendar activities={activities} />}
         </div>
       </div>
     </AdminDashboardLayout>

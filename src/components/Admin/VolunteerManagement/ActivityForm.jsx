@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import axios from "../../../api/AxiosNoqApi";
+import axiosNoqApi from "../../../api/AxiosNoqApi";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
@@ -39,12 +39,15 @@ const ActivityForm = ({ onCreated, activityToEdit, onUpdated, onClose }) => {
     try {
       if (activityToEdit?.id) {
         // Edit Mode
-        await axios.patch(`/api/admin/activities/${activityToEdit.id}`, form);
+        await axiosNoqApi.patch(
+          `/api/admin/activities/${activityToEdit.id}`,
+          form
+        );
         toast.success("Aktivitet uppdaterad!");
         onUpdated?.(); //Refresh
       } else {
         // Create Mode
-        await axios.post("/api/admin/activities/", {
+        await axiosNoqApi.post("/api/admin/activities/", {
           ...form,
           is_approved: true,
         });

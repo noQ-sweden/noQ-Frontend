@@ -77,9 +77,10 @@ function App() {
 
           {/* Volunteer Management Dashboard */}
           <Route element={<RequireLogin allowedGroups={["admin", "host"]} />}>
+            <Route path="admin" element={<VolunteerManagementDashboard />} />
             {/* Volunteer Testing Page */}
             <Route
-              path="/admin/volunteers"
+              path="admin/volunteers"
               element={<VolunteerManagementDashboard />}
             />
           </Route>
