@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 export default function DropdownSort({ value, onChange }) {
   return (
     <select
-      className="border border-gray-300 rounded px-3 py-2 text-sm"
+      className="border border-gray-300 rounded px-2 py-2 text-sm w-full sm:w-auto"
       value={value}
       onChange={(e) => onChange(e.target.value)}
     >

@@ -19,27 +19,30 @@ export default function ActivityItem({
   activity,
   onEdit,
   onDelete,
-  volunteer,
+  onStatusChange,
 }) {
-  console.log("ActivityItem:", activity);
-
   return (
     <div className="bg-white rounded-xl p-4 shadow-sm border mb-4">
       <h3 className="text-lg font-bold text-gray-800 mb-1">{activity.title}</h3>
       <p className="text-sm text-gray-600 mb-1">{activity.description}</p>
       <p className="text-sm text-gray-500 mb-1">
-        📅 {formatDateTime(activity.start_time)} →{" "}
+        📅 {formatDateTime(activity.start_time)} →
         {formatDateTime(activity.end_time)}
       </p>
       {activity?.volunteer?.full_name ? (
-        <p className="text-sm text-gray-700">👤 {volunteer.full_name}</p>
+        <p className="text-sm text-gray-700">
+          👤 {activity.volunteer.full_name}
+        </p>
       ) : (
         <p className="text-sm italic text-gray-400">👤 Volontär saknas</p>
       )}
       <div className="flex items-center gap-4">
-        <span className="bg-green-100 text-green-800 text-sm font-semibold px-2.5 py-0.5 rounded">
+        <button
+          onClick={() => onStatusChange?.(activity, "completed")}
+          className="bg-green-100 text-green-800 text-sm font-semibold px-2.5 py-0.5 rounded hover:bg-green-200"
+        >
           Klar
-        </span>
+        </button>
         <button
           onClick={() => onEdit(activity)}
           className="text-sm font-medium"
@@ -61,8 +64,5 @@ ActivityItem.propTypes = {
   activity: PropTypes.object.isRequired,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
-  volunteer: PropTypes.shape({
-    id: PropTypes.number,
-    full_name: PropTypes.string,
-  }),
+  onStatusChange: PropTypes.func,
 };
