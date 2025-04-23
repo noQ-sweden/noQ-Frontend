@@ -58,7 +58,7 @@ export default function Navbar({ first_name, last_name }) {
   return (
     <nav className="lg:flex items-center justify-between p-10 lg:p-4 bg-[#255B57] lg:bg-white transition-transform duration-100 ">
       <PageTitle />
-      
+
       <div className="lg:flex items-center space-x-10 hidden">
         <div className="relative">
           <FaRegEnvelope className="text-2xl fill-almost-black" />{" "}
