@@ -14,6 +14,8 @@ import {
   FaShieldAlt,
 } from "react-icons/fa";
 import PropTypes from "prop-types";
+import noQiconWhiteOnGreen from "../../assets/images/NoqIconWhiteOnGreen.svg";
+
 
 export default function Navbar({ first_name, last_name }) {
   const navigate = useNavigate();
@@ -34,6 +36,9 @@ export default function Navbar({ first_name, last_name }) {
     navigate("/", { replace: true });
     window.location.reload();
   };
+
+  const viewerGroup =
+  login?.usergroups instanceof Array ? login?.usergroups[0] : null;
 
   const getInitials = (first_name = "", last_name = "") => {
     const firstInitial = first_name ? first_name[0].toUpperCase() : "";
@@ -57,6 +62,12 @@ export default function Navbar({ first_name, last_name }) {
 
   return (
     <nav className="lg:flex items-center justify-between p-10 lg:p-4 bg-[#255B57] lg:bg-white transition-transform duration-100 ">
+
+        {viewerGroup === "volunteer" && (
+      <div className="lg:hidden absolute left-4 top-4">
+        <img src={noQiconWhiteOnGreen} alt="noQ" className="w-24" />
+      </div>
+    )}
       <PageTitle />
       
       <div className="lg:flex items-center space-x-10 hidden">
