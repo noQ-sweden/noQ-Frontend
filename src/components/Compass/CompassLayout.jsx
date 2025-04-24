@@ -1,4 +1,3 @@
-import noQiconWhite from "../../assets/images/noQiconWhite.svg";
 
 function CompassLayout({ children }) {
   return (

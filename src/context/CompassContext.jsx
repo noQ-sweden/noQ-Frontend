@@ -1,4 +1,6 @@
 import { createContext, useContext, useState } from "react";
+import PropTypes from 'prop-types';
+
 
 const CompassContext = createContext();
 
@@ -19,6 +21,10 @@ export function CompassProvider ({children}) {
         </CompassContext.Provider>
     )
 }
+
+CompassProvider.propTypes = {
+    children: PropTypes.any,
+};
 
 export function useCompass() {
     return useContext(CompassContext)

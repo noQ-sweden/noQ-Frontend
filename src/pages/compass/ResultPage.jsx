@@ -12,7 +12,6 @@ function ResultPage () {
     const {serviceType, ageGroup, filterTags, openNow, setOpenNow, setFilterTags} = useCompass();
     const [resources, setResources] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
 
