@@ -59,4 +59,5 @@ export default function TaskAssignmentSection({ tasks, onStatusChange }) {
 TaskAssignmentSection.propTypes = {
   tasks: PropTypes.array.isRequired,
   handleStatusChanges: PropTypes.func.isRequired,
+  onStatusChange: PropTypes.func.isRequired,
 };
