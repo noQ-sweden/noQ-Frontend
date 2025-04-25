@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { axiosMockNoqApi } from "../../../api/mockApi/mockApi";
+import axiosNoqApi from "../../../api/AxiosNoqApi";
 import VolunteerOverviewItem from "./VolunteerOverviewItem";
 
 export default function VolunteerOverviewList() {
@@ -8,7 +8,7 @@ export default function VolunteerOverviewList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axiosMockNoqApi.get("/api/admin/volunteers");
+        const res = await axiosNoqApi.get("/api/admin/volunteers");
         if (Array.isArray(res.data) && res.data.length > 0) {
           setVolunteers(res.data);
         } else {

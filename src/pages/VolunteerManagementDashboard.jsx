@@ -123,16 +123,18 @@ const VolunteerManagementDashboard = () => {
             Inga aktiviteter matchade din sökning
           </p>
         )}
-        <button
-          onClick={() => {
-            setActivityToEdit(null);
-            setShowModal(true);
-          }}
-          className="bg-green-700 text-white font-bold py-2 px-4 rounded hover:bg-green-800"
-        >
-          <strong> + Skapa</strong>
-          aktivitet
-        </button>
+        <div className="flex justify-end my-6">
+          <button
+            onClick={() => {
+              setActivityToEdit(null);
+              setShowModal(true);
+            }}
+            className="bg-green-700 text-white font-bold py-2 px-4 rounded hover:bg-green-800"
+          >
+            <strong> + Skapa </strong>
+            aktivitet
+          </button>
+        </div>
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
           <ActivityForm
             onCreated={fetchActivities}
