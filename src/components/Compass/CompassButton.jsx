@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'; 
 
 function CompassButton({onClick, children}) {
 
@@ -9,5 +10,10 @@ function CompassButton({onClick, children}) {
     )
 
 }
+
+    CompassButton.propTypes = {
+        onClick: PropTypes.func.isRequired,
+        children: PropTypes.node.isRequired,
+    };
 
 export default CompassButton

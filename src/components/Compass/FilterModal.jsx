@@ -1,4 +1,5 @@
 import { useCompass} from "../../context/CompassContext";
+import PropTypes from 'prop-types'; 
 
 function FilterModal({onClose}) {
     const {filterTags, setFilterTags} = useCompass();
@@ -50,5 +51,9 @@ function FilterModal({onClose}) {
         </div>
     )
 }
+
+    FilterModal.propTypes = {
+        onClose: PropTypes.func.isRequired,
+    };
 
 export default FilterModal

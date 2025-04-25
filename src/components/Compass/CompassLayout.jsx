@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'; 
 
 function CompassLayout({ children }) {
   return (
@@ -9,5 +10,9 @@ function CompassLayout({ children }) {
     </div>
   );
 }
+
+  CompassLayout.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
 
 export default CompassLayout;
