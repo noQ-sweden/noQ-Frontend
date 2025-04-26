@@ -11,8 +11,10 @@ import FilterDropdown from "../components/Admin/VolunteerManagement/FilterDropdo
 import VolunteerOverviewList from "../components/Admin/VolunteerManagement/VolunteerOverviewList";
 import Modal from "../components/Common/Modal";
 import useHeader from "../hooks/useHeader";
+import useLogin from "../hooks/useLogin";
 
 const VolunteerManagementDashboard = () => {
+  const { login } = useLogin();
   const [activities, setActivities] = useState([]);
   const [sortOption, setSortOption] = useState("title-asc");
   const [searchTerm, setSearchTerm] = useState("");
