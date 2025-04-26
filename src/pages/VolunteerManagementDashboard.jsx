@@ -103,6 +103,8 @@ const VolunteerManagementDashboard = () => {
 
   return (
     <AdminDashboardLayout>
+      {/*Hidden Usage of Login*/}
+      {login && <div className="hidden">{login.email}</div>}
       <div className="p-6 max-w-4xl mx-auto bg-white rounded-2xl shadow">
         <h2 className="text-2xl font-bold mb-4">
           Admin:📋 Management Volunteer Activities
