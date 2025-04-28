@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { axiosMockNoqApi } from "../../../api/mockApi/mockApi";
+// import { axiosMockNoqApi } from "../../../api/mockApi/mockApi";
+import axios from "axios"; // Use axios for real API calls
 
 const formatDateTime = (dateString) => {
   const date = new Date(dateString);
@@ -26,7 +27,8 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
   const fetchActivityDetails = async (id) => {
     try {
       setLoading(true);
-      const response = await axiosMockNoqApi.get(`/api/admin/activities/${id}`); 
+      // const response = await axiosMockNoqApi.get(`/api/admin/activities/${id}`); 
+      const response = await axios.get(`/api/admin/activities/${id}`); 
       
       setActivityDetails(response.data);    
     } catch (error) {
@@ -53,6 +55,9 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
       <div className="bg-white rounded-xl p-4 shadow-sm border mb-4">
         
         <h3 className="text-lg font-bold text-gray-800 mb-1">{activity.title}</h3>
+        
+        
+
         <p
           onClick={handleOpenModal}
           className="text-sm text-green-800 underline cursor-pointer mb-1"
@@ -62,8 +67,8 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
         <p className="text-sm text-gray-500 mb-1">
           📅 {formatDateTime(activity.start_time)} → {formatDateTime(activity.end_time)}
         </p>
-        {activity?.volunteer?.full_name ? (
-          <p className="text-sm text-gray-700">👤 {activity.volunteer.full_name}</p>
+        {activity?.volunteers?.full_name ? (
+          <p className="text-sm text-gray-700">👤 {activity.volunteers.full_name}</p>
         ) : (
           <p className="text-sm italic text-gray-400">👤 Volontär saknas</p>
         )}
@@ -94,9 +99,14 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
             >
               ×
             </button>
-            <h2 className="text-xl font-bold pb-6 text-center text-black pt-4 border-b border-gray-300">
-              Matutdelning
-            </h2>
+            <div className="border-b-2 border-gray-300 pb-6 pt-4 mx-[-1.5rem]">
+  <h2 className="text-xl font-bold text-center text-black">
+    Matutdelning
+  </h2>
+</div>
+           
+     
+
 
             {loading ? (
               <p className="text-center py-10 text-gray-500">Laddar detaljer...</p>
@@ -104,8 +114,8 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
               <div className="space-y-2 text-sm text-gray-700">
                 
                 <div className="flex items-center justify-between mb-4 border-b border-gray-300 px-2 pb-4">
-                  <h2>Uppdrag detaljer</h2>
-                  <button className="px-6 pb-3 py-2 border-2 border-green-500 rounded-full hover:bg-green-100 w-[100px] text-green-800">
+                  <h2 className="font-semibold">Uppdrag detaljer</h2>
+                  <button className="px-6 pb-3 py-2 border-2 font-semibold border-green-500 rounded-full hover:bg-green-100 w-[100px] text-green-800">
                     Handla
                   </button>
                 </div>
@@ -121,7 +131,7 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
                 </div>
 
                 <div className="border-b border-gray-300 px-2 pb-4">
-                  <h2 className="mb-2">Samlingplats</h2>
+                  <h2 className="mb-2">Samlingsplats</h2>
                   <p className="text-gray-600">{activityDetails.samlingplats}</p>
                 </div>
 
@@ -131,20 +141,28 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
                 </div>
 
                 <div className="border-b border-gray-300 px-2 pb-4">
-                  <h2 className="mb-2">Samordnare</h2>
-                  <div>
-                    <p className="text-gray-600">{activityDetails.samordnare}</p>
-                    <h2>{activityDetails.tel}</h2>
-                  </div>
-                </div>
+  <div className="grid grid-cols-2 gap-4 mb-2">
+    <h2 className="mb-2">Samordnare</h2>
+    <h2 className="fmb-2">Tel</h2>
+  </div>
+
+  <div className="grid grid-cols-2 gap-4">
+    <p className="text-gray-600">{activityDetails.samordnare}</p>
+    <p className="text-gray-600">{activityDetails.tel}</p>
+  </div>
+</div>
+
+
+<div className="border-b-2 border-gray-300 pb-6 pt-4 mx-[-1.5rem]">
+  <div className="pl-6">
+    <h2 className="mb-2">Viktig info</h2>
+    <p className="text-gray-600">{activityDetails.viktigInfo}</p>
+  </div>
+</div>
+
 
                 <div className="border-b border-gray-300 px-2 pb-4">
-                  <h2 className="mb-2">Viktig info</h2>
-                  <p className="text-gray-600">{activityDetails.viktigInfo}</p>
-                </div>
-
-                <div className="border-b border-gray-300 px-2 pb-4">
-                  <h2 className="p-8">Volontärer</h2>
+                  <h2 className="p-8 font-semibold">Volontärer</h2>
                   <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden my-4">
                     <div className="h-full flex text-xs font-semibold pb-3">
                       <div
