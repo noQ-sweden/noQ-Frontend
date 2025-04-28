@@ -1,90 +1,88 @@
 import { useState } from "react";
-import { Link } from 'react-router-dom';
-import Panel from "./../components/Common/Panel";
-import axiosNoqApi from './../api/AxiosNoqApi'; 
-
+import { Link } from "react-router-dom";
+import axios from "./../api/AxiosNoqApi";
+import SEO from "../components/SEO";
 
 export default function ForgotPasswordPage() {
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("")
-    const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setError("");
 
-        if (!email) {
-            setMessage("Du måste ange en e-postadress!")
-            return
-        }
-        
-        setIsLoading(true);
-        setMessage("")
+    if (!email.trim()) {
+      setError("Du måste ange en e-postadress!");
+      return;
+    }
 
-        try {
-            const response = await axiosNoqApi.post('/forgot-password', {email});
+    setIsLoading(true);
 
-            if (await response.status === 200) {
-                setMessage("Instruktioner för återställning av lösenord har skickats till din e-post.")
-        }
+    try {
+      const response = await axios.post("api/forgot-password/", {
+        username: email,
+      });
+
+      if (response.status === 200) {
+        setMessage(
+          "Instruktioner för återställning av lösenord har skickats till din e-post."
+        );
+        setEmail("");
+      }
     } catch (error) {
-        console.error("Fel vid API-anrop", error)
-        setMessage("Kontrollera att din e-postadress är korrekt och försök igen.")
+      console.error("Fel vid API-anrop", error);
+      setError("Kontrollera att din e-postadress är korrekt och försök igen.");
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
-    }
-   
+  };
 
-    return(
-        <div className="flex flex-col items-center">
-             {/* Error message handling */}
-             <div className="mb-12 text-red-600 text-xl font-semibold">
-                {message && <p>{message}</p>}
+  return (
+    <>
+      <SEO title={`Glömt Lösenord | NoQ - Trygg Plats för att alla förtjänar det`} />
+      <div className="flex items-center justify-center bg-noq-gray-light">
+        <div className="flex items-center justify-center m-2 w-full max-w-xs lg:max-w-sm xl:max-w-md bg-white rounded-2xl sm:m-4 md:m-6">
+          <div className="w-full max-w-xs rounded-2xl p-6 m-2 sm:max-w-xs md:max-w-xs">
+            <h2 className="text-center text-2xl font-semibold text-noq-green mb-6">
+              Glömt ditt lösenord?
+            </h2>
+
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              {error && <p className="noq-red text-sm">{error}</p>}
+              {message && <p className="noq-green text-sm">{message}</p>}
+
+              <div>
+                <label className="block text-sm text-noq-gray-dark mb-4">
+                  E-postadress
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full border border-gray-400 rounded-2xl px-4 py-2 bg-noq-gray-light focus:outline-none mb-10"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="border border-gray-400 mt-10 w-48 mx-auto bg-green-600 text-white py-2 rounded-full hover:bg-noq-dark-green transition block"
+              >
+                {isLoading ? "Skickar..." : "Skicka instruktioner"}
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <Link to="/" className="text-sm text-noq-gray-dark hover:text-noq-green">
+                Tillbaka till inloggning
+              </Link>
             </div>
-            
-
-            <Panel>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label htmlFor="email" className="block text-left text-sm font-semibold">
-                            E-postadress
-                        </label>
-                        <input 
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)} 
-                        placeholder="Skriv in din e-postadress" 
-                        className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E04430] focus:border-[#E04430]"/>
-                        
-                    </div>
-
-
-                    <div className="flex justify-center mt-4">
-                        <button type="submit"
-                        disabled={isLoading}
-                        className="bg-[#E04430] hover:bg-[#C0392B] text-white font-semibold text-m w-48 h-14 rounded focus:outline-none focus:shadow-outline flex items-center justify-center px-4">
-                            {isLoading ? "Laddar..." : "Återställ lösenord"}
-                        </button>
-                    </div>
-                </form>
-            </Panel>
-
-            <div className="mt-6">
-                <p className="text-sm">
-                    <Link to="/" className="text-black hover:text-[#C0392B]">
-                        Tillbaka till inloggning
-                    </Link>
-
-                </p>
-          
-            </div>
-
-
-
-
-
+          </div>
         </div>
-    )
+      </div>
+    </>
+  );
 }

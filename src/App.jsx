@@ -18,6 +18,7 @@ import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
 import VolunteerPage from "./pages/VolunteerPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 
 export const VisitorContext = createContext();
@@ -32,6 +33,7 @@ function App() {
         <Route path="register" element={<RegistrationPage />} />
         <Route path="unauthorized" element={<UnauthorizedPage />} />
         <Route path="forgot-password" element={<ForgotPasswordPage/>}/>
+        <Route path="reset-password/:uidb64/:token" element={<ResetPasswordPage/>}/>
 
         {/* User Pages */}
         <Route element={<RequireLogin allowedGroups={["user"]} />}>
