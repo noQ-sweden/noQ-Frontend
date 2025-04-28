@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
+import { axiosMockNoqApi } from "../../../api/mockApi/mockApi";
+
 const formatDateTime = (dateString) => {
   const date = new Date(dateString);
   return date
@@ -18,9 +20,29 @@ const formatDateTime = (dateString) => {
 
 export default function ActivityItem({ activity, onEdit, onDelete, onStatusChange }) {
   const [showModal, setShowModal] = useState(false);
+  const [activityDetails, setActivityDetails] = useState(activity); 
+  const [loading, setLoading] = useState(false);
 
-  const bookedCount = activity.volunteers?.filter(v => v.status === "booked").length || 0;
-  const requestedCount = activity.volunteers?.filter(v => v.status === "requested").length || 0;
+  const fetchActivityDetails = async (id) => {
+    try {
+      setLoading(true);
+      const response = await axiosMockNoqApi.get(`/api/admin/activities/${id}`); 
+      
+      setActivityDetails(response.data);    
+    } catch (error) {
+      console.error("Failed to fetch activity details", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOpenModal = () => {
+    fetchActivityDetails(activity.id); 
+    setShowModal(true);
+  };
+
+  const bookedCount = activityDetails.volunteers?.filter(v => v.status === "booked").length || 0;
+  const requestedCount = activityDetails.volunteers?.filter(v => v.status === "requested").length || 0;
   const total = bookedCount + requestedCount;
 
   const bookedPercent = total ? (bookedCount / total) * 100 : 0;
@@ -29,9 +51,10 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
   return (
     <>
       <div className="bg-white rounded-xl p-4 shadow-sm border mb-4">
+        
         <h3 className="text-lg font-bold text-gray-800 mb-1">{activity.title}</h3>
         <p
-          onClick={() => setShowModal(true)}
+          onClick={handleOpenModal}
           className="text-sm text-green-800 underline cursor-pointer mb-1"
         >
           {activity.description}
@@ -63,6 +86,7 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          
           <div className="bg-white rounded-xl p-6 w-[90%] max-w-md shadow-xl relative space-y-4">
             <button
               onClick={() => setShowModal(false)}
@@ -74,88 +98,96 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
               Matutdelning
             </h2>
 
-            <div className="space-y-2 text-sm text-gray-700">
-              <div className="flex items-center justify-between mb-4 border-b border-gray-300 px-2 pb-4">
-                <h2>Uppdrag detaljer</h2>
-                <button className="px-6 pb-3 py-2 border-2 border-green-500 rounded-full hover:bg-green-100 w-[100px] text-green-800">
-                  Handla
-                </button>
-              </div>
+            {loading ? (
+              <p className="text-center py-10 text-gray-500">Laddar detaljer...</p>
+            ) : (
+              <div className="space-y-2 text-sm text-gray-700">
+                
+                <div className="flex items-center justify-between mb-4 border-b border-gray-300 px-2 pb-4">
+                  <h2>Uppdrag detaljer</h2>
+                  <button className="px-6 pb-3 py-2 border-2 border-green-500 rounded-full hover:bg-green-100 w-[100px] text-green-800">
+                    Handla
+                  </button>
+                </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <h2>Datum</h2>
-                <h2>Tid</h2>
-              </div>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <h2>Datum</h2>
+                  <h2>Tid</h2>
+                </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-4 border-b border-gray-300 px-2 pb-4">
-                <p>{formatDateTime(activity.start_time)}</p>
-                <p>{formatDateTime(activity.end_time)}</p>
-              </div>
+                <div className="grid grid-cols-2 gap-4 mb-4 border-b border-gray-300 px-2 pb-4">
+                  <p>{formatDateTime(activityDetails.start_time)}</p>
+                  <p>{formatDateTime(activityDetails.end_time)}</p>
+                </div>
 
-              <div className="border-b border-gray-300 px-2 pb-4">
-                <h2 className="mb-2">Samlingplats</h2>
-                <p className="text-gray-600">{activity.samlingplats}</p>
-              </div>
+                <div className="border-b border-gray-300 px-2 pb-4">
+                  <h2 className="mb-2">Samlingplats</h2>
+                  <p className="text-gray-600">{activityDetails.samlingplats}</p>
+                </div>
 
-              <div className="border-b border-gray-300 px-2 pb-4">
-                <h2 className="mb-2">Address</h2>
-                <p className="text-gray-600">{activity.address}</p>
-              </div>
+                <div className="border-b border-gray-300 px-2 pb-4">
+                  <h2 className="mb-2">Address</h2>
+                  <p className="text-gray-600">{activityDetails.address}</p>
+                </div>
 
-              <div className="border-b border-gray-300 px-2 pb-4">
-                <h2 className="mb-2">Samordnare</h2>
-                <p className="text-gray-600">{activity.samordnare}</p>
-              </div>
+                <div className="border-b border-gray-300 px-2 pb-4">
+                  <h2 className="mb-2">Samordnare</h2>
+                  <div>
+                    <p className="text-gray-600">{activityDetails.samordnare}</p>
+                    <h2>{activityDetails.tel}</h2>
+                  </div>
+                </div>
 
-              <div className="border-b border-gray-300 px-2 pb-4">
-                <h2 className="mb-2">Viktig info</h2>
-                <p className="text-gray-600">{activity.viktigInfo}</p>
-              </div>
+                <div className="border-b border-gray-300 px-2 pb-4">
+                  <h2 className="mb-2">Viktig info</h2>
+                  <p className="text-gray-600">{activityDetails.viktigInfo}</p>
+                </div>
 
-              <div className="border-b border-gray-300 px-2 pb-4">
-                <h2 className="p-8">Volontärer</h2>
-                <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden my-4">
-                  <div className="h-full flex text-xs font-semibold pb-3">
-                    <div
-                      className="bg-green-500 text-white flex items-center justify-center rounded-l-full"
-                      style={{ width: `${bookedPercent}%` }}
-                    >
-                      {bookedCount > 0 && `${bookedCount} Booked`}
-                    </div>
-                    <div
-                      className="bg-yellow-400 text-black flex items-center justify-center rounded-r-full"
-                      style={{ width: `${requestedPercent}%` }}
-                    >
-                      {requestedCount > 0 && `${requestedCount} Requested`}
+                <div className="border-b border-gray-300 px-2 pb-4">
+                  <h2 className="p-8">Volontärer</h2>
+                  <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden my-4">
+                    <div className="h-full flex text-xs font-semibold pb-3">
+                      <div
+                        className="bg-green-500 text-white flex items-center justify-center rounded-l-full"
+                        style={{ width: `${bookedPercent}%` }}
+                      >
+                        {bookedCount > 0 && `${bookedCount} Booked`}
+                      </div>
+                      <div
+                        className="bg-yellow-400 text-black flex items-center justify-center rounded-r-full"
+                        style={{ width: `${requestedPercent}%` }}
+                      >
+                        {requestedCount > 0 && `${requestedCount} Requested`}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-4 border-b border-gray-300 px-2 pb-4">
-                <div>
-                  <h2>Namn</h2>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <h2>Tel</h2>
-                  <h2>E-post</h2>
-                </div>
-              </div>
-
-              {activity.volunteers && activity.volunteers.length > 0 ? (
-                activity.volunteers.map((volunteer) => (
-                  <div key={volunteer.id} className="grid grid-cols-2 gap-4 mb-4 px-2">
-                    <p>{volunteer.full_name}</p>
-                    <div className="grid grid-cols-2 gap-4">
-                      <p>{volunteer.phone}</p>
-                      <p>{volunteer.email}</p>
-                    </div>
+                <div className="grid grid-cols-2 gap-4 mb-4 border-b border-gray-300 px-2 pb-4">
+                  <div>
+                    <h2>Namn</h2>
                   </div>
-                ))
-              ) : (
-                <p className="text-gray-500 italic">Inga volontärer tilldelade</p>
-              )}
-            </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <h2>Tel</h2>
+                    <h2>E-post</h2>
+                  </div>
+                </div>
+
+                {activityDetails.volunteers && activityDetails.volunteers.length > 0 ? (
+                  activityDetails.volunteers.map((volunteer) => (
+                    <div key={volunteer.id} className="grid grid-cols-2 gap-4 mb-4 px-2">
+                      <p>{volunteer.full_name}</p>
+                      <div className="grid grid-cols-2 gap-4">
+                        <p>{volunteer.phone}</p>
+                        <p>{volunteer.email}</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500 italic">Inga volontärer tilldelade</p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -169,3 +201,5 @@ ActivityItem.propTypes = {
   onDelete: PropTypes.func,
   onStatusChange: PropTypes.func,
 };
+
+

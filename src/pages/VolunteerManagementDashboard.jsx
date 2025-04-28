@@ -56,7 +56,7 @@ const VolunteerManagementDashboard = () => {
   const filterByStatus = (activity) => {
     if (filterStatus === "ongoing") return new Date(activity.end_time) >= now;
     if (filterStatus === "completed") return new Date(activity.end_time) < now;
-    return true; // "all" case
+    return true; 
   };
 
   const showCalendar = false;

@@ -64,7 +64,8 @@ export default function VolunteerOverviewList() {
             <h1 className="w-[390px] h-[84px] text-3xl flex justify-center items center text-black pt-4 border-b border-gray-300 "> {selectedVolunteer.name}</h1>
              <div>
              <h2 className="pb-6 pt-4 border-b border-gray-300">Volontär detaljer</h2>
-             <p className="pb-3 border-b border-gray-300 "><span className="mr-10">Registrerad sedan</span> {selectedVolunteer.datum}</p>
+             <p className="pb-3 border-b border-gray-300 "><span className="mr-10">Registrerad sedan</span> {selectedVolunteer.date_joined}</p>
+              
              <p className="pb-3 pt-4 border-b border-gray-300 "><span className="mr-10">Mobilnummer</span> {selectedVolunteer.phone}</p>
              <p className="pb-3 pt-4 border-b border-gray-300 "><span className="mr-10">E-post</span> {selectedVolunteer.email}</p>
              </div>
