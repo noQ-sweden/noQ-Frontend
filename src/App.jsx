@@ -19,6 +19,10 @@ import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
 import VolunteerPage from "./pages/VolunteerPage";
 import VolunteerManagementDashboard from "./pages/VolunteerManagementDashboard";
+import StartPage from "./pages/compass/StartPage";
+import ServiceTypePage from "./pages/compass/ServiceTypePage";
+import AgePage from "./pages/compass/AgePage";
+import ResultPage from "./pages/compass/ResultPage";
 export const VisitorContext = createContext();
 
 function App() {
@@ -73,6 +77,10 @@ function App() {
               path="volunteer/requests"
               element={<RequestPageView userGroup="volunteer" />}
             />
+            <Route path="volunteer/compass" element={<StartPage/>} />
+            <Route path="volunteer/compass/service-type" element={<ServiceTypePage />} />
+            <Route path="volunteer/compass/age" element={<AgePage />} />
+            <Route path="volunteer/compass/result" element={<ResultPage />} />
           </Route>
 
           {/* Volunteer Management Dashboard */}
