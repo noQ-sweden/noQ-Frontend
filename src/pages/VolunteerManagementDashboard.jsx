@@ -11,8 +11,10 @@ import FilterDropdown from "../components/Admin/VolunteerManagement/FilterDropdo
 import VolunteerOverviewList from "../components/Admin/VolunteerManagement/VolunteerOverviewList";
 import Modal from "../components/Common/Modal";
 import useHeader from "../hooks/useHeader";
+import useLogin from "../hooks/useLogin";
 
 const VolunteerManagementDashboard = () => {
+  const { login } = useLogin();
   const [activities, setActivities] = useState([]);
   const [sortOption, setSortOption] = useState("title-asc");
   const [searchTerm, setSearchTerm] = useState("");
@@ -101,6 +103,8 @@ const VolunteerManagementDashboard = () => {
 
   return (
     <AdminDashboardLayout>
+      {/*Hidden Usage of Login*/}
+      {login && <div className="hidden">{login.email}</div>}
       <div className="p-6 max-w-4xl mx-auto bg-white rounded-2xl shadow">
         <h2 className="text-2xl font-bold mb-4">
           Admin:📋 Management Volunteer Activities
@@ -123,16 +127,18 @@ const VolunteerManagementDashboard = () => {
             Inga aktiviteter matchade din sökning
           </p>
         )}
-        <button
-          onClick={() => {
-            setActivityToEdit(null);
-            setShowModal(true);
-          }}
-          className="bg-green-700 text-white font-bold py-2 px-4 rounded hover:bg-green-800"
-        >
-          <strong> + Skapa</strong>
-          aktivitet
-        </button>
+        <div className="flex justify-end my-6">
+          <button
+            onClick={() => {
+              setActivityToEdit(null);
+              setShowModal(true);
+            }}
+            className="bg-green-700 text-white font-bold py-2 px-4 rounded hover:bg-green-800"
+          >
+            <strong> + Skapa </strong>
+            aktivitet
+          </button>
+        </div>
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
           <ActivityForm
             onCreated={fetchActivities}
