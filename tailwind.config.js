@@ -8,6 +8,12 @@ export default {
         inter: ["Inter", "sans-serif"],
       },
       colors: {
+        'noq-green': '#1C4915',
+        'noq-dark-green': '#173b11',
+        'noq-red': '#B34A3C',
+        'noq-gray-light': '#EFEFEF',
+        'noq-gray': '#817E7E',
+        'noq-gray-dark': '#5B5959',
         "background-white": "#F7F7F7", // used as UI background
         white: "#FDFDFD", // used as white
         grey: "#AFAFAF", // used for navigation for non active elements

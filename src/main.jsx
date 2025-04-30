@@ -10,23 +10,27 @@ import { AccommodationProvider } from "./context/AccommodationProvider";
 import { HeaderProvider } from "./context/HeaderProvider";
 import App from "./App.jsx";
 import "./index.css";
+import "./i18n.js"
+import { CompassProvider } from "./context/CompassContext"; 
 
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        <BrowserRouter>
-            <LoginProvider>
-                <HeaderProvider>
-                    <HostProvider>
-                        <AccommodationProvider>
-                            <Routes>
-                                <Route path="/*" element={<App />} />
-                            </Routes>
-                        </AccommodationProvider>
-                    </HostProvider>
-                </HeaderProvider>
-            </LoginProvider>
-        </BrowserRouter>
+        <CompassProvider>
+            <BrowserRouter>
+                <LoginProvider>
+                    <HeaderProvider>
+                        <HostProvider>
+                            <AccommodationProvider>
+                                <Routes>
+                                    <Route path="/*" element={<App />} />
+                                </Routes>
+                            </AccommodationProvider>
+                        </HostProvider>
+                    </HeaderProvider>
+                </LoginProvider>
+            </BrowserRouter>
+        </CompassProvider>
     </React.StrictMode>
 );

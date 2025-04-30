@@ -14,12 +14,17 @@ import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
 import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
 import GetMenuItems from "./GetMenuItems";
 import useLogout from "../../hooks/useLogout";
+import { useTranslation } from "react-i18next";
+
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { login } = useLogin();
   const { logout } = useLogout();
+  const { t, i18n } = useTranslation();
+  const { login } = useLogin();
+  const viewerGroup = login?.usergroups instanceof Array ? login?.usergroups[0] : null;
+
 
   // Lisa
   /* const colorSchemeUser1 = {
@@ -71,12 +76,16 @@ export default function Sidebar() {
     window.location.reload();
   };
 
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+  };
+
   const sidebarItemsTop = GetMenuItems(login.usergroups[0]);
 
   const sidebarItemsBottom = [
-    { icon: FaCog, label: "Inställningar" },
-    { icon: FaUserAlt, label: "Användare" },
-    { icon: FaSignOutAlt, label: "Logga ut", action: handleLogout },
+    { icon: FaCog, label: t("sidebar.Settings") },
+    { icon: FaUserAlt, label: t("sidebar.User") },
+    { icon: FaSignOutAlt, label: t("sidebar.Logout"), action: handleLogout },
   ];
 
   return (
@@ -169,6 +178,22 @@ export default function Sidebar() {
                   </div>
                 )
               )}
+              {viewerGroup !== "user" ? (
+                null
+              ) : 
+                //Language Translation for "User/Guest"
+                <div className="relative text-right">
+                <select
+                  onChange={(e) => changeLanguage(e.target.value)}
+                  className="text-gray-700 rounded px-4 py-2"
+                >
+                  <option value="sv">Svenska</option>
+                  <option value="en">English</option>
+                  <option value="pl">Polski</option>
+                  <option value="ro">Română</option>
+                </select>
+                </div>
+              }
             </div>
           </ul>
         </div>

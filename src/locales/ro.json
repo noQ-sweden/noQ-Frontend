@@ -1,0 +1,54 @@
+{
+    "sidebar": {
+        "Logout": "Deconectare",
+        "User": "Utilizator",
+        "Settings": "Setări",
+        "Reservations": "Rezerve",
+        "Book": "Carte"
+    },
+
+    "AccommodationPanel": {
+        "Residence": "Alegeți reședința",
+        "About": "Despre reședință"
+    },
+
+    "AccommodationDetail": {
+        "Offer": "Ce oferim",
+        "Seats": "Locuri",
+        "Error": "Vă rugăm să selectați atât data de check-in, cât și data de check-out",
+        "Success": "Cererea dumneavoastră a fost trimisă!",
+        "SuccessMessage": "Vă vom contacta cu confirmarea imediat ce cererea dumneavoastră a fost procesată.",
+        "Back": "Înapoi la început"
+    },
+
+    "AccommodationBooking": {
+        "SelectDate": "Alegeți data",
+        "SelectDateLabel1": "Data check-in",
+        "SelectDateLabel2": "Data check-out",
+        "SelectDateLabel3": "Astăzi",
+        "SelectDateLabel4": "Mâine"
+
+    },
+
+    "ActionButtons": {
+        "Select": "Alege",
+        "MoreInformation": "Mai multe informații",
+        "Back": "Înapoi",
+        "Map": "Hartă",
+        "SendRequest": "Trimite cererea",
+        "Confirm": "Confirmă",
+        "Cancel": "Anulează",
+        "Remove": "Șterge"
+    },
+
+    "Reservations": {
+        "Reserved": "Rezervat",
+        "Confirmed": "Confirmat",
+        "In_Queue": "În așteptare",
+        "Checked_In": "Check-in",
+        "Checked_Out": "Check-out",
+        "Pending": "În așteptare",
+        "Declined": "Refuzat",
+        "Accepted": "Recomandat"
+    }
+}
