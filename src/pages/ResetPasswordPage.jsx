@@ -50,7 +50,7 @@ export default function ResetPasswordPage() {
     }
     return (
         <div className="flex flex-col items-center">
-            <div className="mb-6 text-red-600 text-xl font-semibold">
+            <div className="mb-6 text-black text-base">
                 {message && <p>{message}</p>}
             </div>
 
