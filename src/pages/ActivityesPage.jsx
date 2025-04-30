@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import axios from "./../api/AxiosNoqApi";
 import {
   FaCalendarAlt,
@@ -104,6 +104,19 @@ export default function Activities() {
     return myActivities.some((activity) => activity.id === activityId);
   };
 
+  const uniqueFlags = useMemo(() => {
+    const flagSet = new Set(); // ✅ no <string> here
+
+    availableActivities.forEach((activity) => {
+      const matches = activity.description.match(/#[\p{L}0-9_-]+/gu);
+      if (matches) {
+        matches.forEach((match) => flagSet.add(match.toLowerCase()));
+      }
+    });
+
+    return Array.from(flagSet);
+  }, [availableActivities]);
+
   useEffect(() => {
     if (selectedDate) {
       fetchMyActivities();
@@ -112,15 +125,27 @@ export default function Activities() {
   }, [selectedDate]);
 
   useEffect(() => {
-    if (search.trim() === "") {
-      setFilteredActivities(availableActivities);
-    } else {
-      const filtered = availableActivities.filter((activity) =>
+    let filtered = availableActivities;
+
+    // Filter by search term in the title
+    if (search.trim() !== "") {
+      filtered = filtered.filter((activity) =>
         activity.title.toLowerCase().includes(search.toLowerCase())
       );
-      setFilteredActivities(filtered);
     }
-  }, [search, availableActivities]);
+
+    // Filter by selected filters (hashtags) in the description
+    if (selectedFilters.length > 0) {
+      filtered = filtered.filter((activity) =>
+        selectedFilters.some((filter) =>
+          activity.description.toLowerCase().includes(filter.toLowerCase())
+        )
+      );
+    }
+
+    // Update the state with the filtered activities
+    setFilteredActivities(filtered);
+  }, [search, selectedFilters, availableActivities]);
 
   return (
     <div className="px-14 mb-8 bg-gray-50 min-h-screen">
@@ -237,17 +262,33 @@ export default function Activities() {
               <div className="flex items-center gap-1">
                 {activity.description}
               </div>
-              {/* Status */}
-              <div className="flex items-start gap-1">
+              {/* Status and Flags */}
+              <div className="flex flex-wrap items-center gap-2">
+                {/* Status */}
                 {activity.is_approved ? (
-                  <span className="flex items-center text-yellow-600">
+                  <span className="flex items-center text-yellow-600 text-sm font-medium">
                     <FaHandPaper className="mr-1" /> Anmält
                   </span>
                 ) : (
-                  <span className="flex items-center text-green-600">
+                  <span className="flex items-center text-green-600 text-sm font-medium">
                     <FaCheckCircle className="mr-1" /> Status
                   </span>
                 )}
+
+                {/* Flags */}
+                {uniqueFlags.map((flag) => (
+                  <button
+                    key={flag}
+                    onClick={() => toggleOption(flag)}
+                    className={`px-3 py-1 rounded-full text-sm border font-medium
+        ${selectedFilters.includes(flag)
+                        ? "bg-gray-300 text-gray-800 border-gray-400"
+                        : "bg-white text-blue-600 border-blue-400"
+                      }`}
+                  >
+                    {flag}
+                  </button>
+                ))}
               </div>
             </div>
             <hr />
