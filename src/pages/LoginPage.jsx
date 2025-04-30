@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import axios from "./../api/AxiosNoqApi";
 import PropTypes from "prop-types";
 import useLogin from "./../hooks/useLogin";
@@ -14,6 +14,8 @@ LoginPage.propTypes = {
 export default function LoginPage() {
   const { setLogin } = useLogin();
   const { setHeader } = useHeader();
+  const { uid, token } = useParams();
+  const hasActivated = useRef(false);
   const userRef = useRef();
   const errorRef = useRef();
   const navigate = useNavigate();
@@ -35,6 +37,17 @@ export default function LoginPage() {
     }
     return from;
   }
+
+  useEffect(() => {
+    if (uid && token && !hasActivated.current) {
+      hasActivated.current = true;
+      axios
+        .post(`/api/activate/${uid}/${token}/`)
+        .finally(() => {
+          navigate("/login", { replace: true }); 
+        });
+    }
+  }, []);
 
   useEffect(() => {
     // check if user is already logged in
