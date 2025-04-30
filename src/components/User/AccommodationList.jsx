@@ -4,15 +4,20 @@ import { Link } from "react-router-dom";
 import { AccommodationContext } from "../../context/AccommodationProvider";
 import shelter from "./../../assets/images/genericShelter.png";
 import { formatPostCode } from "../../utility/utilityFunctions";
+//import { FaChevronRight } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 import { FaBed } from "react-icons/fa";
 
 export default function AccommodationList() {
   const { accommodation, setAccommodation } = useContext(AccommodationContext);
+  const { t } = useTranslation();
   const [availablePlaces, setAvailablePlaces] = useState({});
   const [womensOnly, setWomensOnly] = useState({});
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+  // Fetch shelter data from the mock API
 
   useEffect(() => {
     const fetchAvailableShelters = async () => {
@@ -106,9 +111,9 @@ export default function AccommodationList() {
               : "mb-2 font-semibold md:text-start text-center"
           }`}
         >
-          Välj datum
+          {t('AccommodationBooking.SelectDate')}
         </p>
-        <p className="mb-1 md:text-start text-center">Incheckningsdatum</p>
+        <p className="mb-1 md:text-start text-center">{t('AccommodationBooking.SelectDateLabel1')}</p>
         <div className="flex flex-row justify-center md:justify-start md:items-end gap-6 md:max-w-[685px]">
           <div className="">
             <button
@@ -120,7 +125,7 @@ export default function AccommodationList() {
                   : "bg-[#fff] text-[#496D44]"
               }`}
             >
-              {startDate ? format(startDate, "yyyy-MM-dd") : "Idag"}
+              {startDate ? format(startDate, "yyyy-MM-dd") : t('AccommodationBooking.SelectDateLabel3')}
             </button>
           </div>
           <div className="">
@@ -134,7 +139,7 @@ export default function AccommodationList() {
               }`}
               disabled={!startDate}
             >
-              {endDate ? format(endDate, "yyyy-MM-dd") : "Imorgon"}
+              {endDate ? format(endDate, "yyyy-MM-dd") : t('AccommodationBooking.SelectDateLabel4')}
             </button>
           </div>
         </div>
@@ -158,14 +163,14 @@ export default function AccommodationList() {
               <div className="border border-[#1C4915] hover:bg-[#f9f9f9] rounded-full px-3 py-1">
                 <p className="text-sm text-[#496D44] font-light">
                   <Link to={`/accommodations/${request.host.id}`}>
-                    Mer information
+                    {t('ActionButtons.MoreInformation')}
                   </Link>
                 </p>
               </div>
 
               <div>
                 <button className="bg-[#D9D9D9] hover:bg-[#d2d2d2] text-[#496D44] font-light rounded-full px-3">
-                  Karta
+                  {t('ActionButtons.Map')}
                 </button>
               </div>
             </div>
@@ -194,7 +199,7 @@ export default function AccommodationList() {
               <div className="flex items-center gap-2 border border-[#1C4915] px-6 py-2 rounded-full">
                 <FaBed className="text-[#496D44]" />
                 <span className="font-light text-[#496D44]">
-                  {availablePlaces[request.host.id] || 0} platser
+                  {availablePlaces[request.host.id] || 0} {t('AccommodationDetail.Seats')}
                 </span>
               </div>
             </div>
@@ -206,7 +211,7 @@ export default function AccommodationList() {
                   state={{ startDate, endDate }}
                 >
                   <button className="bg-[#fff] text-[#496D44] border border-[#1C4915] hover:bg-[#f9f9f9] py-2 font-semibold text-normal rounded-full w-full sm:w-36">
-                    Välj
+                    {t('ActionButtons.Select')}
                   </button>
                 </Link>
               ) : (
@@ -214,7 +219,7 @@ export default function AccommodationList() {
                   className="bg-[#fff] text-[#496D44] border border-[#1C4915] py-2 font-semibold text-normal rounded-full w-full sm:w-36 opacity-50 cursor-not-allowed"
                   disabled
                 >
-                  Välj
+                  {t('ActionButtons.Select')}
                 </button>
               )}
             </div>
