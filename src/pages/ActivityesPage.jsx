@@ -5,19 +5,38 @@ import {
   FaCheckCircle,
   FaHandPaper,
   FaArrowRight,
+  FaMapMarkerAlt,
+  FaFilter,
+  FaTimes
 } from "react-icons/fa";
 
+const filterOptions = ["Anmält", "Bekräftade", "Convictus", "Frälsningsarmen", "Stadsmissionen"];
+
 import dayjs from "dayjs";
+import ActivityCalendar from "../components/User/ActivityCalendar";
 
 export default function Activities() {
   const [availableActivities, setAvailableActivities] = useState([]);
+  const [filteredActivities, setFilteredActivities] = useState([]);
   const [myActivities, setMyActivities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState("");
+  const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
-    return today.toISOString().split("T")[0]; // "2025-04-15"
+    return today.toISOString().split("T")[0]; // Ex.: "2025-04-15"
   });
+
+  //filter manegemet
+  const toggleOption = (option) => {
+    setSelectedFilters((prev) =>
+      prev.includes(option) ? prev.filter((o) => o !== option) : [...prev, option]
+    );
+  };
+  const removeOption = (option) => {
+    setSelectedFilters((prev) => prev.filter((o) => o !== option));
+  };
 
   const fetchMyActivities = async () => {
     setLoading(true);
@@ -28,11 +47,12 @@ export default function Activities() {
       setMyActivities(activities);
     } catch (err) {
       console.log(err);
-      setError("Failed to load volunteer activities");
+      setError("Misslyckades med att ladda volontäraktiviteter");//Failed to load volunteer activities
     } finally {
       setLoading(false);
     }
   };
+
   const fetchAllActivities = async (date) => {
     setLoading(true);
     try {
@@ -42,17 +62,11 @@ export default function Activities() {
       const activities = response.data;
       setAvailableActivities(activities);
     } catch (err) {
-      setError("Failed to load available activities");
+      setError("Misslyckades med att ladda tillgängliga aktiviteter");//Failed to load available activities
     } finally {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    if (selectedDate) {
-      fetchMyActivities();
-      fetchAllActivities(selectedDate);
-    }
-  }, [selectedDate]);
 
   const signupActivities = async (activity_id) => {
     setLoading(true);
@@ -61,11 +75,13 @@ export default function Activities() {
       const result = response.data;
       console.log(result);
     } catch (err) {
-      setError("Failed to sign up for the activity");
+      console.log(err);
+      setError("Misslyckades med att anmäla sig till aktiviteten");//Failed to sign up for the activity
     } finally {
       setLoading(false);
     }
     fetchMyActivities();
+    console.log(myActivities);
   };
 
   const cancelActivities = async (activity_id) => {
@@ -75,12 +91,36 @@ export default function Activities() {
       const result = response.data;
       console.log(result);
     } catch (err) {
-      setError("Failed to cancel up for the activity");
+      console.log(err);
+      setError("Misslyckades med att avboka aktiviteten");//Failed to cancel up for the activity
     } finally {
       setLoading(false);
     }
     fetchMyActivities();
   };
+
+  // Helper function to check if an activity is already in the user's activities
+  const isActivityRegistered = (activityId) => {
+    return myActivities.some((activity) => activity.id === activityId);
+  };
+
+  useEffect(() => {
+    if (selectedDate) {
+      fetchMyActivities();
+      fetchAllActivities(selectedDate);
+    }
+  }, [selectedDate]);
+
+  useEffect(() => {
+    if (search.trim() === "") {
+      setFilteredActivities(availableActivities);
+    } else {
+      const filtered = availableActivities.filter((activity) =>
+        activity.title.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredActivities(filtered);
+    }
+  }, [search, availableActivities]);
 
   return (
     <div className="px-14 mb-8 bg-gray-50 min-h-screen">
@@ -90,76 +130,131 @@ export default function Activities() {
       )}
       {error && <div className="text-center text-red-500 mt-4">{error}</div>}
 
-
-      {/* My Activity list */}
-      <h2 className="text-3xl font-bold my-4 text-left">
-        Mina Activities
-      </h2>
-      {myActivities.map((activity) => (
-        <div key={activity.id} className="border-t pt-4">
-          <h3 className="font-semibold">{activity.title}</h3>
-          <div className="text-sm text-gray-600 flex items-center gap-2 mt-1">
-            <FaCalendarAlt /> {dayjs(activity.start_time).format("MM/DD/YYYY HH:mm")} - {dayjs(activity.end_time).format("MM/DD/YYYY HH:mm")}
-            <FaCalendarAlt /> {dayjs(activity.registered_at).format("MM/DD/YYYY HH:mm")}
-          </div>
-          <div className="flex items-center gap-2 mt-2 text-sm">
-            {activity.description}
-          </div>
-          <button onClick={() => {cancelActivities(activity.id)}} className="mt-2 bg-red-600 text-white px-4 py-1 rounded-full text-sm flex items-center gap-2">
-            Cancel <FaArrowRight />
-          </button>
-        </div>
-      ))}
-
       {/* Calendar header (mocked) */}
       <h2 className="text-3xl font-bold my-4 text-left">
         Hitta Activities
       </h2>
-      <div className="flex items-center justify-between gap-2 my-10">
-        <div className="w-full max-w-xs">
-          <label className="block font-medium text-gray-700">
-            Välj Startdatum
-          </label>
+      <div className="border rounded-xl p-4 mb-4 shadow-sm bg-white">
+        {/* Calendar */}
+        <ActivityCalendar
+          activities={myActivities}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+        {/* Filters */}
+        <div className="bg-white border p-3 rounded-lg shadow-sm space-y-3">
+          {/* Dropdown */}
+          <div className="flex items-center gap-2">
+            {/* Filter options */}
+            {filterOptions.map((option) => (
+              <button
+                key={option}
+                onClick={() => toggleOption(option)}
+                className={`px-3 py-1 rounded-full text-sm border font-medium
+            ${selectedFilters.includes(option)
+                    ? "bg-gray-300 text-gray-800 border-gray-400"
+                    : "bg-white text-blue-600 border-blue-400"
+                  }`}
+              >
+                {option}
+              </button>
+            ))}
+            {/* Filter counter */}
+            <div className="flex items-center gap-1 px-3 py-1 bg-gray-300 rounded-full text-sm font-medium text-gray-700">
+              {selectedFilters.length} valda filter
+              <FaFilter className="text-xs ml-1" />
+            </div>
+          </div>
+
+          {/* Selected pills */}
+          <div className="flex flex-wrap gap-2">
+            {selectedFilters.map((option) => (
+              <span
+                key={option}
+                className="bg-gray-300 text-sm px-3 py-1 rounded-full flex items-center gap-1"
+              >
+                {option}
+                <button onClick={() => removeOption(option)}>
+                  <FaTimes className="text-xs" />
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2 text-xs">
           <input
-            type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 font-semibold"
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 font-semibold"
+            placeholder="Hitta"
           />
         </div>
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-wrap gap-2 text-xs">
-      </div>
-
-      {/* Available Activity list */}
-      <h2 className="text-3xl font-bold my-4 text-left">
-        Tillgänglig Activities lista
-      </h2>
-      {availableActivities.map((activity) => (
-        <div key={activity.id} className="border-t pt-4">
-          <h3 className="font-semibold">{activity.title}</h3>
-          <div className="text-sm text-gray-600 flex items-center gap-2 mt-1">
-            <FaCalendarAlt /> {dayjs(activity.start_time).format("MM/DD/YYYY HH:mm")} - {dayjs(activity.end_time).format("MM/DD/YYYY HH:mm")}
-            {activity.is_approved ? (
-              <span className="flex items-center text-yellow-600">
-                <FaHandPaper className="mr-1" /> Anmält
-              </span>
-            ) : (
-              <span className="flex items-center text-green-600">
-                <FaCheckCircle className="mr-1" /> Status
-              </span>
-            )}
+        {/* Available Activity list */}
+        <h2 className="text-3xl font-bold my-4 text-left">
+          Tillgänglig Activities lista
+        </h2>
+        {filteredActivities.map((activity) => (
+          <div key={activity.id} className="text-sm text-gray-600 flex flex-col gap-1 mt-2">
+            {/* Title */}
+            <h3 className="font-semibold text-base text-gray-800">{activity.title}</h3>
+            <div className="text-sm text-gray-600 flex flex-col gap-1 mt-2">
+              {/* DateTime, location, Boka/Avboka */}
+              <div className="flex items-center justify-between w-full gap-2">
+                {/* DateTime + location */}
+                <div className="flex items-center gap-4 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <FaCalendarAlt className="text-gray-500" />
+                    <span>
+                      {dayjs(activity.start_time).format("MM/DD/YYYY HH:mm")} - {dayjs(activity.end_time).format("MM/DD/YYYY HH:mm")}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FaMapMarkerAlt className="text-gray-500" />
+                    <span>{activity.location || "Plats saknas"}</span>
+                  </div>
+                </div>
+                {/* Boka/Avboka */}
+                <div className="flex items-center justify-end">
+                  {!isActivityRegistered(activity.id) ? (
+                    <button
+                      onClick={() => signupActivities(activity.id)}
+                      className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm flex items-center gap-2"
+                    >
+                      Boka <FaArrowRight />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => cancelActivities(activity.id)}
+                      className="bg-red-600 text-white px-4 py-1 rounded-full text-sm flex items-center gap-2"
+                    >
+                      Avboka <FaArrowRight />
+                    </button>
+                  )}
+                </div>
+              </div>
+              {/* Description */}
+              <div className="flex items-center gap-1">
+                {activity.description}
+              </div>
+              {/* Status */}
+              <div className="flex items-start gap-1">
+                {activity.is_approved ? (
+                  <span className="flex items-center text-yellow-600">
+                    <FaHandPaper className="mr-1" /> Anmält
+                  </span>
+                ) : (
+                  <span className="flex items-center text-green-600">
+                    <FaCheckCircle className="mr-1" /> Status
+                  </span>
+                )}
+              </div>
+            </div>
+            <hr />
           </div>
-          <div className="flex items-center gap-2 mt-2 text-sm">
-            {activity.description}
-          </div>
-          <button onClick={() => {signupActivities(activity.id)}} className="mt-2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm flex items-center gap-2">
-            Boka <FaArrowRight />
-          </button>
-        </div>
-      ))}
+        ))
+        }
+      </div>
     </div>
   );
 }
