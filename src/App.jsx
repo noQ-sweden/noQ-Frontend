@@ -19,6 +19,7 @@ import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
 import VolunteerPage from "./pages/VolunteerPage";
 import VolunteerManagementDashboard from "./pages/VolunteerManagementDashboard";
+import VolunteerDetails from "./components/Admin/VolunteerManagement/VolunteerDetails";
 export const VisitorContext = createContext();
 
 function App() {
@@ -83,6 +84,9 @@ function App() {
               path="admin/volunteers"
               element={<VolunteerManagementDashboard />}
             />
+             
+             {/* Volunteer details */}
+             <Route path="admin/volunteers/:id" element={<VolunteerDetails />} />
           </Route>
           {/* Invalid path */}
           <Route path="*" element={<ErrorPage />} />
