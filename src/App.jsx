@@ -37,6 +37,7 @@ function App() {
           {/* Public Pages */}
           <Route path="/" element={<LoginPage />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="/login/:uid/:token" element={<LoginPage />} />
           <Route path="register" element={<RegistrationPage />} />
           <Route path="unauthorized" element={<UnauthorizedPage />} />
           <Route path="forgot-password" element={<ForgotPasswordPage/>}/>
