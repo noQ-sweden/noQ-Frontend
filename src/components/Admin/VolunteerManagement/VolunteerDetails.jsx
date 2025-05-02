@@ -50,11 +50,14 @@ function VolunteerDetails() {
 
       {/* Upcoming assignments */}
       <div className="pb-6 pt-4 border-b border-gray-300">
-        <h2 className="text-black font-semibold">Kommande uppdrag</h2>
+        <h2 className="text-black  font-semibold   pb-6 pt-4 border-b border-gray-300">Kommande uppdrag</h2>
         {upcomingActivities.length > 0 ? (
-          <ul className="pt-2 list-disc list-inside text-gray-800">
+          <ul className="pt-2 flex justify-between list-inside text-gray-800">
             {upcomingActivities.map((activity) => (
-              <li key={activity.id}>{activity.title}</li>
+                <>
+                 <li className="text-green-700" key={activity.id}>{activity.title}</li>
+                 <li key={activity.id}>{activity.start_time}</li></>
+             
             ))}
           </ul>
         ) : (
@@ -63,7 +66,7 @@ function VolunteerDetails() {
       </div>
 
       <div className="px-6 pb-3 pt-6 border-b-4 border-gray-300 flex justify-center items-center">
-        <button className="text-center border-b-4 border-green-500 pb-1 hover:text-green-600">
+        <button className="text-center border-b-4 text-green-700 border-green-500 pb-1 hover:text-green-600">
           Visa mer
         </button>
       </div>

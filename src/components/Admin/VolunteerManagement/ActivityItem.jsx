@@ -186,7 +186,7 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
                           to={`/admin/volunteers/${volunteer.id}`}
                           state={{  volunteer: volunteer,
                             activities: activityDetails, }}
-                          className="text-blue-700 underline"
+                          className="text-green-700 "
                         >
                           {volunteer.first_name} {volunteer.last_name}
                         </Link>
