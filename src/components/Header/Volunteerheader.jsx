@@ -30,7 +30,7 @@ function VolunteerHeader() {
           <div onClick={toggleMenu}>
             <FaTimes className="text-black text-3xl cursor-pointer" />
           </div>
-          {/* You can add your mobile menu items here if needed */}
+         
         </div>
       )}
     </header>
