@@ -1,6 +1,21 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
+const formatDateTime = (dateString) => {
+  const date = new Date(dateString);
+  return date
+    .toLocaleString("sv-SE", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    })
+    .replace(/ kl(?= \d{2}:\d{2})/, "")
+    .replace(/(\d{1,2}) (\w{3}) (\d{4}), (\d{2}:\d{2})/, "$1 $2 $3 kl $4");
+};
+
 function VolunteerDetails() {
   const { state } = useLocation();
   const volunteer = state?.volunteer;
@@ -56,7 +71,7 @@ function VolunteerDetails() {
             {upcomingActivities.map((activity) => (
                 <>
                  <li className="text-green-700" key={activity.id}>{activity.title}</li>
-                 <li key={activity.id}>{activity.start_time}</li></>
+                 <li key={activity.id}>{formatDateTime(activity.start_time)}</li></>
              
             ))}
           </ul>
