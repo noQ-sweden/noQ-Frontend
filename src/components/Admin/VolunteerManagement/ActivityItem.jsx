@@ -100,7 +100,7 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
 
             <div className="border-b-2 border-gray-300 pb-6 pt-4 mx-[-1.5rem]">
               <h2 className="text-xl font-bold text-center text-black">
-                {activityDetails.title || "Matutdelning"}
+                {activityDetails.title || "Ingen tittle tillgänglig"}
               </h2>
             </div>
 
@@ -184,7 +184,8 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
                       <div key={volunteer.id} className="grid grid-cols-3 gap-4 text-sm">
                         <Link
                           to={`/admin/volunteers/${volunteer.id}`}
-                          state={{ volunteer }}
+                          state={{  volunteer: volunteer,
+                            activities: activityDetails, }}
                           className="text-blue-700 underline"
                         >
                           {volunteer.first_name} {volunteer.last_name}

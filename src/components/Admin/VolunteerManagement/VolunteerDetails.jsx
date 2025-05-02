@@ -4,7 +4,15 @@ import { useLocation } from "react-router-dom";
 function VolunteerDetails() {
   const { state } = useLocation();
   const volunteer = state?.volunteer;
-  const activities = state?.activities || [];
+  console.log("Volunteer Details:", volunteer);
+  const activities = state?.activities
+  ? Array.isArray(state.activities)
+    ? state.activities
+    : [state.activities]
+  : [];
+  console.log("Activities:", activities);
+  
+ 
 
   if (!volunteer) {
     return <div>No volunteer data available.</div>;
