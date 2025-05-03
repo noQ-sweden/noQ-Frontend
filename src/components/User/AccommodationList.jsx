@@ -88,17 +88,26 @@ export default function AccommodationList() {
   }, [accommodation]);
 
   const handleSelectToday = () => {
-    setStartDate(new Date());
+    const today = new Date();
+    const todayStr = format(today, "yyyy-MM-dd");
+
+    if (startDate && format(startDate, "yyyy-MM-dd") === todayStr) {
+      setStartDate(null);
+    } else {
+      setStartDate(today);
+    }
   };
 
   const handleSelectTomorrow = () => {
-    if (!startDate) {
-      alert("Vänligen välj incheckningsdatum först.");
-      return;
-    }
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    setEndDate(tomorrow);
+    const tomorrowStr = format(tomorrow, "yyyy-MM-dd");
+
+    if (endDate && format(endDate, "yyyy-MM-dd") === tomorrowStr) {
+      setEndDate(null);
+    } else {
+      setEndDate(tomorrow);
+    }
   };
 
   return (
@@ -106,40 +115,51 @@ export default function AccommodationList() {
       <div className="flex flex-col border border-gray-300 p-3 mt-2 rounded-xl gap-4 lg:gap-5 py-8 bg-[#FFFFFF] shadow-md">
         <p
           className={`px-4 py-1  ${
-            startDate
+            startDate && endDate
               ? "hidden"
               : "mb-2 font-semibold md:text-start text-center"
           }`}
         >
-          {t('AccommodationBooking.SelectDate')}
+          {t("AccommodationBooking.SelectDate")}
         </p>
-        <p className="mb-1 md:text-start text-center">{t('AccommodationBooking.SelectDateLabel1')}</p>
+        <p className="mb-1 md:text-start text-center"></p>
+
         <div className="flex flex-row justify-center md:justify-start md:items-end gap-6 md:max-w-[685px]">
-          <div className="">
+          <div>
+            <span className="flex justify-center text-xs font-medium">
+              {t("AccommodationBooking.SelectDateLabel1")}
+            </span>
             <button
+              id="checkin-date"
               type="button"
               onClick={handleSelectToday}
-              className={`px-4 py-1 border border-[#1C4915] rounded-full ${
+              className={`px-6 py-1 mt-1 border border-[#1C4915] rounded-full text-sm transition-colors ${
                 startDate
-                  ? "bg-[#496D44] text-[#fff]"
-                  : "bg-[#fff] text-[#496D44]"
+                  ? "bg-[#496D44] text-white"
+                  : "bg-white text-[#496D44]"
               }`}
             >
-              {startDate ? format(startDate, "yyyy-MM-dd") : t('AccommodationBooking.SelectDateLabel3')}
+              {startDate
+                ? format(startDate, "yyyy-MM-dd")
+                : t("AccommodationBooking.SelectDateLabel3")}{" "}
             </button>
           </div>
           <div className="">
+            <span className="flex justify-center text-xs font-medium">
+              {t("AccommodationBooking.SelectDateLabel2")}
+            </span>
             <button
               type="button"
               onClick={handleSelectTomorrow}
-              className={`px-4 py-1 border border-[#1C4915] rounded-full ${
+              className={`px-6 py-1 mt-1 border border-[#1C4915] rounded-full text-sm transition-colors ${
                 endDate
                   ? "bg-[#496D44] text-[#fff]"
                   : "bg-[#fff] text-[#496D44]"
               }`}
-              disabled={!startDate}
             >
-              {endDate ? format(endDate, "yyyy-MM-dd") : t('AccommodationBooking.SelectDateLabel4')}
+              {endDate
+                ? format(endDate, "yyyy-MM-dd")
+                : t("AccommodationBooking.SelectDateLabel4")}
             </button>
           </div>
         </div>
@@ -163,14 +183,14 @@ export default function AccommodationList() {
               <div className="border border-[#1C4915] hover:bg-[#f9f9f9] rounded-full px-3 py-1">
                 <p className="text-sm text-[#496D44] font-light">
                   <Link to={`/accommodations/${request.host.id}`}>
-                    {t('ActionButtons.MoreInformation')}
+                    {t("ActionButtons.MoreInformation")}
                   </Link>
                 </p>
               </div>
 
               <div>
                 <button className="bg-[#D9D9D9] hover:bg-[#d2d2d2] text-[#496D44] font-light rounded-full px-3">
-                  {t('ActionButtons.Map')}
+                  {t("ActionButtons.Map")}
                 </button>
               </div>
             </div>
@@ -199,7 +219,8 @@ export default function AccommodationList() {
               <div className="flex items-center gap-2 border border-[#1C4915] px-6 py-2 rounded-full">
                 <FaBed className="text-[#496D44]" />
                 <span className="font-light text-[#496D44]">
-                  {availablePlaces[request.host.id] || 0} {t('AccommodationDetail.Seats')}
+                  {availablePlaces[request.host.id] || 0}{" "}
+                  {t("AccommodationDetail.Seats")}
                 </span>
               </div>
             </div>
@@ -211,7 +232,7 @@ export default function AccommodationList() {
                   state={{ startDate, endDate }}
                 >
                   <button className="bg-[#fff] text-[#496D44] border border-[#1C4915] hover:bg-[#f9f9f9] py-2 font-semibold text-normal rounded-full w-full sm:w-36">
-                    {t('ActionButtons.Select')}
+                    {t("ActionButtons.Select")}
                   </button>
                 </Link>
               ) : (
@@ -219,7 +240,7 @@ export default function AccommodationList() {
                   className="bg-[#fff] text-[#496D44] border border-[#1C4915] py-2 font-semibold text-normal rounded-full w-full sm:w-36 opacity-50 cursor-not-allowed"
                   disabled
                 >
-                  {t('ActionButtons.Select')}
+                  {t("ActionButtons.Select")}
                 </button>
               )}
             </div>
