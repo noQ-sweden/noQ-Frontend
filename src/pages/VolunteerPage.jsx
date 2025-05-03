@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "./../api/AxiosNoqApi";
 import useLogin from "../hooks/useLogin";
+import { Link } from "react-router-dom";
 
 export default function VolunteerPage() {
   const { login } = useLogin();
@@ -266,6 +267,8 @@ export default function VolunteerPage() {
       <div className="text-center text-xl mt-4 font-semibold text-gray-800">
         Välkommen, {login?.first_name}
       </div>
+
+      <Link to="/volunteer/compass">Compass</Link>
 
       {/* Find Available Rooms */}
       <h2 className="text-3xl font-bold my-4 text-left">
