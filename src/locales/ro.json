@@ -14,6 +14,7 @@
 
     "AccommodationDetail": {
         "Offer": "Ce oferim",
+        "WomenOnly": "Doar femei",
         "Seats": "Locuri",
         "Error": "Vă rugăm să selectați atât data de check-in, cât și data de check-out",
         "Success": "Cererea dumneavoastră a fost trimisă!",
