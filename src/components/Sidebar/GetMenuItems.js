@@ -6,6 +6,7 @@ import {
     FaRandom,
     FaCalendarAlt,
     FaChartBar,
+    FaCalendarCheck
   } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
  
@@ -37,6 +38,11 @@ export default function GetMenuItems(userGroup) {
 
     const volunteerSidebarItemsTop = [
         { icon: FaChartPie, label: "Boka", sideBarLink: "volunteer" },
+        {
+            icon: FaCalendarCheck,
+            label: "Activities",
+            sideBarLink: "activities",
+          },
     ];
 
 
