@@ -1,6 +1,6 @@
 import {
     FaChartPie,
-    FaReceipt,
+    //FaReceipt,
     FaBell,
     FaUser,
     FaRandom,
