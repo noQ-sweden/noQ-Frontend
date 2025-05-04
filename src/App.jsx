@@ -18,20 +18,34 @@ import AccommodationDetail from "./components/User/AccommodationDetail";
 import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
 import VolunteerPage from "./pages/VolunteerPage";
+import Activityes from "./pages/ActivityesPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import VolunteerManagementDashboard from "./pages/VolunteerManagementDashboard";
+
 import VolunteerDetails from "./components/Admin/VolunteerManagement/VolunteerDetails";
+
+import StartPage from "./pages/compass/StartPage";
+import ServiceTypePage from "./pages/compass/ServiceTypePage";
+import AgePage from "./pages/compass/AgePage";
+import ResultPage from "./pages/compass/ResultPage";
+
 export const VisitorContext = createContext();
 
 function App() {
   return (
+
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* Public Pages */}
           <Route path="/" element={<LoginPage />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="/login/:uid/:token" element={<LoginPage />} />
           <Route path="register" element={<RegistrationPage />} />
           <Route path="unauthorized" element={<UnauthorizedPage />} />
+          <Route path="forgot-password" element={<ForgotPasswordPage/>}/>
+          <Route path="reset-password/:uidb64/:token" element={<ResetPasswordPage/>}/>
 
           {/* User Pages */}
           <Route element={<RequireLogin allowedGroups={["user"]} />}>
@@ -67,6 +81,11 @@ function App() {
             />
           </Route>
 
+          {/* Activities Pages */}
+          <Route element={<RequireLogin allowedGroups={["volunteer"]} />}>
+            <Route path="/activities" element={<Activityes />} />
+          </Route>
+
           {/* Volunteer Pages */}
           <Route element={<RequireLogin allowedGroups={["volunteer"]} />}>
             <Route path="volunteer" element={<VolunteerPage />} />
@@ -74,6 +93,10 @@ function App() {
               path="volunteer/requests"
               element={<RequestPageView userGroup="volunteer" />}
             />
+            <Route path="volunteer/compass" element={<StartPage />} />
+            <Route path="volunteer/compass/service-type" element={<ServiceTypePage />} />
+            <Route path="volunteer/compass/age" element={<AgePage />} />
+            <Route path="volunteer/compass/result" element={<ResultPage />} />
           </Route>
 
           {/* Volunteer Management Dashboard */}
@@ -91,8 +114,32 @@ function App() {
           {/* Invalid path */}
           <Route path="*" element={<ErrorPage />} />
         </Route>
-      </Routes>
-      <ToastContainer position="top-right" autoClose={3000} />;
+
+        {/* Host Pages */}
+        <Route element={<RequireLogin allowedGroups={["host"]} />}>
+          <Route path="host" element={<HostPage />} />
+          <Route path="host/requests" element={<RequestPageView userGroup="host" />} />
+          <Route path="host/products" element={<RoomPage />} />
+        </Route>
+
+        {/* Caseworker Pages */}
+        <Route element={<RequireLogin allowedGroups={["caseworker"]} />}>
+          <Route path="caseworker" element={<CaseworkerPage />} />
+          <Route path="caseworker/requests" element={<RequestPageView userGroup="caseworker" />} />
+          <Route path="caseworker/statistics" element={<CaseworkerStatisticsPage userGroup="caseworker" />} />
+        </Route>
+
+        {/* Volunteer Pages */}
+        <Route element={<RequireLogin allowedGroups={["volunteer"]} />}>
+          <Route path="volunteer" element={<VolunteerPage />} />
+          <Route path="volunteer/requests" element={<RequestPageView userGroup="volunteer" />} />
+        </Route>
+
+        {/* Invalid path */}
+        <Route path="*" element={<ErrorPage />}>
+        </Route>
+      </Routes >
+      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }
