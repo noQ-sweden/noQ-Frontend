@@ -24,8 +24,8 @@
 
     "AccommodationBooking": {
         "SelectDate": "Choose Date",
-        "SelectDateLabel1": "Check-in Date",
-        "SelectDateLabel2": "Check-out Date",
+        "SelectDateLabel1": "Check-in ",
+        "SelectDateLabel2": "Check-out",
         "SelectDateLabel3": "Today",
         "SelectDateLabel4": "Tomorrow"
 
