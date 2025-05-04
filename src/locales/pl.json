@@ -14,6 +14,7 @@
 
     "AccommodationDetail": {
         "Offer": "Co oferujemy",
+        "WomenOnly": "Tylko kobiety",
         "Seats": "Miejsca",
         "Error": "Prozę wybrać datę zameldowania i wymeldowania",
         "Success": "Twoje zaproszenie zostało wysłane!",

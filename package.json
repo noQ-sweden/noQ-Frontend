@@ -18,6 +18,7 @@
     "@headlessui/react": "^2.2.2",
     "axios": "^1.6.8",
     "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
     "i18next": "^24.2.3",
     "i18next-http-backend": "^3.0.2",
     "moment": "^2.30.1",

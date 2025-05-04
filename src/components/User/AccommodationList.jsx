@@ -206,22 +206,22 @@ export default function AccommodationList() {
             </div>
 
             {/* availability info */}
-            <div className="flex flex-col gap-2 items-end">
-              {womensOnly[request.host.id] && (
-                <div className="flex items-center  border border-[#1C4915] px-3 py-2 rounded-full">
+            <div className="flex flex-col items-end">
+              <div className="flex flex-col gap-2 items-stretch min-w-[200px]">
+                {womensOnly[request.host.id] && (
+                  <div className="flex items-center  border border-[#1C4915] px-6 py-2 rounded-full">
+                    <span className="font-light text-[#496D44]">
+                      {t('AccommodationDetail.WomenOnly')}
+                    </span>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-2 border border-[#1C4915] px-6 py-2 rounded-full">
+                  <FaBed className="text-[#496D44]" />
                   <span className="font-light text-[#496D44]">
-                    {" "}
-                    Womens Only{" "}
+                    {availablePlaces[request.host.id] || 0} {t('AccommodationDetail.Seats')}
                   </span>
                 </div>
-              )}
-
-              <div className="flex items-center gap-2 border border-[#1C4915] px-6 py-2 rounded-full">
-                <FaBed className="text-[#496D44]" />
-                <span className="font-light text-[#496D44]">
-                  {availablePlaces[request.host.id] || 0}{" "}
-                  {t("AccommodationDetail.Seats")}
-                </span>
               </div>
             </div>
 
