@@ -58,10 +58,11 @@ function App() {
           {/* Host Pages */}
           <Route element={<RequireLogin allowedGroups={["host"]} />}>
             <Route path="host" element={<HostPage />} />
-            <Route path="host/requests" element={<RequestPageView userGroup="host" />} />
+            <Route
+              path="host/requests"
+              element={<RequestPageView userGroup="host" />}
+            />
             <Route path="host/products" element={<RoomPage />} />
-            {/* Volunteer Management Dashboard */}
-            <Route path="host/volunteers" element={<VolunteerManagementDashboard />} />
           </Route>
 
           {/* Caseworker Pages */}
@@ -96,17 +97,40 @@ function App() {
           </Route>
 
           {/* Volunteer Management Dashboard */}
-          {/* <Route element={<RequireLogin allowedGroups={["admin", "host"]} />}> */}
-            {/* <Route path="admin" element={<VolunteerManagementDashboard />} /> */}
+          <Route element={<RequireLogin allowedGroups={["admin", "host"]} />}>
+            <Route path="admin" element={<VolunteerManagementDashboard />} />
             {/* Volunteer Testing Page */}
-            {/* <Route
+            <Route
               path="admin/volunteers"
               element={<VolunteerManagementDashboard />}
-            /> */}
-          {/* </Route> */}
-
+            />
+          </Route>
           {/* Invalid path */}
           <Route path="*" element={<ErrorPage />} />
+        </Route>
+
+        {/* Host Pages */}
+        <Route element={<RequireLogin allowedGroups={["host"]} />}>
+          <Route path="host" element={<HostPage />} />
+          <Route path="host/requests" element={<RequestPageView userGroup="host" />} />
+          <Route path="host/products" element={<RoomPage />} />
+        </Route>
+
+        {/* Caseworker Pages */}
+        <Route element={<RequireLogin allowedGroups={["caseworker"]} />}>
+          <Route path="caseworker" element={<CaseworkerPage />} />
+          <Route path="caseworker/requests" element={<RequestPageView userGroup="caseworker" />} />
+          <Route path="caseworker/statistics" element={<CaseworkerStatisticsPage userGroup="caseworker" />} />
+        </Route>
+
+        {/* Volunteer Pages */}
+        <Route element={<RequireLogin allowedGroups={["volunteer"]} />}>
+          <Route path="volunteer" element={<VolunteerPage />} />
+          <Route path="volunteer/requests" element={<RequestPageView userGroup="volunteer" />} />
+        </Route>
+
+        {/* Invalid path */}
+        <Route path="*" element={<ErrorPage />}>
         </Route>
       </Routes >
       <ToastContainer position="top-right" autoClose={3000} />

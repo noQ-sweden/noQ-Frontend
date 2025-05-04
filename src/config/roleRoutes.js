@@ -1,5 +1,5 @@
 export const roleToRouteMap = {
-  admin: "/host/volunteers",
+  admin: "/admin/volunteers",
   volunteer: "/volunteer",
   host: "/host",
   caseworker: "/caseworker",
