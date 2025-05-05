@@ -14,7 +14,7 @@ export default function Header() {
     <div>
 
       <div className="bg-[#245b56] p-8 h-10 flex items-center w-full top-0 left-0 z-10">
-        <img src="src/assets/images/NoqIconWhiteOnGreen.svg" alt="noQ" className="w-24" />
+        <img src={noQiconWhiteOnGreen} alt="noQ" className="w-24" />
       </div>
       {viewerGroup == "user" ? (
         <div className="bg-[#245b56] p-8 h-10 flex items-center w-full fixed top-0 left-0 z-10">
