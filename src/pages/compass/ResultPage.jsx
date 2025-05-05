@@ -29,7 +29,7 @@ function ResultPage () {
         setError(null);
 
         try {
-          const response = await fetch(`http://localhost:8000/api/resources/`);
+          const response = await fetch(`http://localhost:8000/api/volunteer/compass/`);
           if (!response.ok) throw new Error("Serverfel vid hämtning av resurser");
 
           const data = await response.json();
