@@ -1,12 +1,12 @@
 import { useCompass} from "../../context/CompassContext";
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types';
 
 function FilterModal({onClose}) {
     const {filterTags, setFilterTags} = useCompass();
     const allTags = [
-        "Konflikter", "Miljö", "Hälsa", "Våld", "Tunnelbana", 
+        "Konflikter", "Miljö", "Hälsa", "Våld", "Tunnelbana",
         "Otrygghet", "Ordningsstörning", "Sysselsättning",
-        "Hemlöshet", "Kriminalitet", "Människohandel", "Immigration", 
+        "Hemlöshet", "Kriminalitet", "Människohandel", "Immigration",
         "Psykisk ohälsa", "Missbruk", "Sjukvård", "Samverkan",
         "Över 18", "Under 18", "Alla åldrar", "Suicid"
         ];
@@ -17,7 +17,7 @@ function FilterModal({onClose}) {
         }else {
             setFilterTags([...filterTags, tag])
         }
-        
+
     }
 
     return(

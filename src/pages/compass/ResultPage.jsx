@@ -15,7 +15,6 @@ function ResultPage () {
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
-
     const getTitle = () => {
         if (serviceType === "direct") return "Direktinsatser"
         if (serviceType === "office") return "Mottagningar"
@@ -34,9 +33,14 @@ function ResultPage () {
 
           const data = await response.json();
 
+          const ageMapping = {
+            adult: "Över 18",
+            under18: "Under 18"
+          };
+
           const filtered = data.filter((res) => {
             const matchesService = serviceType === "all" || res.target_group === serviceType;
-            const matchesAge = res.applies_to.includes(ageGroup);
+            const matchesAge = res.target_group == ageMapping[ageGroup];
             const matchesTags =
               filterTags.length === 0 ||
               filterTags.some((tag) => res.other?.toLowerCase().includes(tag.toLowerCase()));
