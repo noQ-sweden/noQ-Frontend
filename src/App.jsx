@@ -30,7 +30,6 @@ import ServiceTypePage from "./pages/compass/ServiceTypePage";
 import AgePage from "./pages/compass/AgePage";
 import ResultPage from "./pages/compass/ResultPage";
 
-
 export const VisitorContext = createContext();
 
 function App() {
