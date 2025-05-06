@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from './../../api/AxiosNoqApi';
 import Panel from "../Common/Panel";
@@ -7,12 +6,12 @@ import { getStatus } from './../../utility/utilityFunctions';
 import {useTranslation} from "react-i18next";
 
 export default function IncomingGuests() {
-
     const [incomingBookings, setIncomingBookings] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false); 
+    const [selectedUser, setSelectedUser] = useState(null); 
     const { updateData, setUpdateData } = useUpdate();
     const { t } = useTranslation();
     
-
     useEffect(() => {
         axios.get('/api/host/bookings/incoming')
             .then((response) => {
@@ -23,7 +22,7 @@ export default function IncomingGuests() {
             .catch((error) => {
                 console.log("Error while fetching incoming bookings data.", error);
             });
-    }, []);
+    }, [updateData]); 
 
     const handleCheckIn = (bookingId) => {
         axios.patch(`/api/host/bookings/${bookingId}/checkin`)
@@ -47,7 +46,7 @@ export default function IncomingGuests() {
                                 } : booking
                         )
                     );
-                    setUpdateData(updateData + 1);
+                    setUpdateData(updateData + 1); 
                 }
             })
             .catch((error) => {
@@ -75,22 +74,15 @@ export default function IncomingGuests() {
                         <tbody className='border-b-2'>
                             {incomingBookings.map(booking => (
                                 <tr key={booking.id}>
-                                    <td className='tracking-tight '>{booking.user.first_name} {booking.user.last_name}</td>
+                                    <td className='tracking-tight '>
+                                        <button onClick={() => handleUserClick(booking.user)} className="text-blue-500">
+                                            {booking.user.first_name} {booking.user.last_name}
+                                        </button>
+                                    </td>
                                     <td className='tracking-tight '>{getStatus(booking.status.description, t)}</td>
                                     <td className='p-2 tracking-tight text-right'>
                                         {!booking.isChecked && (
-                                            <button className="
-                                            bg-green-600
-                                            hover:bg-green-700
-                                            text-white
-                                            font-semibold
-                                            text-m
-                                            align-middle
-                                            w-32
-                                            h-7
-                                            rounded
-                                            focus:outline-none
-                                            focus:shadow-outline"
+                                            <button className="bg-green-600 hover:bg-green-700 text-white font-semibold text-m align-middle w-32 h-7 rounded focus:outline-none focus:shadow-outline"
                                                 onClick={() => handleCheckIn(booking.id)}>
                                                 Incheckning
                                             </button>
@@ -100,8 +92,7 @@ export default function IncomingGuests() {
                             ))}
                             {incomingBookings.length === 0 && (
                                 <tr>
-                                    <td>Inga gäster ska checka-in idag.</td>
-                                    <td />
+                                    <td colSpan="3">Inga gäster ska checka-in idag.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -109,7 +100,7 @@ export default function IncomingGuests() {
                 </div>
             </div>
 
-            {/* Modal to show basic information */}
+            {/* Modal to show user details */}
             {modalOpen && selectedUser && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white p-5 rounded-lg shadow-lg w-96">
