@@ -14,6 +14,7 @@
 
     "AccommodationDetail": {
         "Offer": "Vad vi erbjuderr",
+        "WomenOnly": "Endast kvinnor",
         "Seats": "Platser",
         "Error": "Vänligen välj både inchecknings- och utcheckningsdatum",
         "Success": "Din förfrågan är skickad!",
@@ -23,8 +24,8 @@
 
     "AccommodationBooking": {
         "SelectDate": "Välj datum",
-        "SelectDateLabel1": "Incheckningsdatum",
-        "SelectDateLabel2": "Utcheckningsdatum",
+        "SelectDateLabel1": "Incheckning",
+        "SelectDateLabel2": "Utcheckning",
         "SelectDateLabel3": "Idag",
         "SelectDateLabel4": "Imorgon"
     },

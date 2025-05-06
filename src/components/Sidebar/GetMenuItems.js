@@ -1,11 +1,12 @@
 import {
     FaChartPie,
-    FaReceipt,
+    //FaReceipt,
     FaBell,
     FaUser,
     FaRandom,
     FaCalendarAlt,
     FaChartBar,
+    FaCalendarCheck
   } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
  
@@ -18,9 +19,10 @@ export default function GetMenuItems(userGroup) {
         { icon: FaBell, label: "Förfrågningar", sideBarLink: "host/requests" },
         { icon: FaCalendarAlt, label: "Kalender" },
         { icon: FaRandom, label: "Mina Rum", sideBarLink: "host/products" },
-        { icon: FaRandom, label: "Härberget" },
-        { icon: FaUser, label: "Gäster" },
-        { icon: FaReceipt, label: "Fakturering" },
+        { icon: FaUser, label: "Volontärhantering", sideBarLink: "host/volunteers" },
+        //{ icon: FaRandom, label: "Härberget" },
+        //{ icon: FaUser, label: "Gäster" },
+        //{ icon: FaReceipt, label: "Fakturering" },
     ];
 
     const caseworkerSidebarItemsTop = [
@@ -37,6 +39,11 @@ export default function GetMenuItems(userGroup) {
 
     const volunteerSidebarItemsTop = [
         { icon: FaChartPie, label: "Boka", sideBarLink: "volunteer" },
+        {
+            icon: FaCalendarCheck,
+            label: "Activities",
+            sideBarLink: "activities",
+          },
     ];
 
 

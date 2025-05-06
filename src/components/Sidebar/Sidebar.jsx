@@ -89,7 +89,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div>
+    <div className="mt-16">
       {/* Hamburger menu btn for Mobile */}
       <button
         className="fixed top-4 right-4 text-white focus:outline-none lg:hidden z-50"

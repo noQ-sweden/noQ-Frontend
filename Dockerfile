@@ -5,6 +5,9 @@ WORKDIR /frontend
 COPY package.json .
 COPY package-lock.json .
 RUN npm ci
+
 COPY . .
 
-CMD ["npm", "run", "build"]
+EXPOSE 5173
+
+CMD ["npm", "run", "dev", "--", "--host"]
