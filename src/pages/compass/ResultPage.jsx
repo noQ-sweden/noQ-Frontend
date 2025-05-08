@@ -38,7 +38,7 @@ function ResultPage () {
             const matchesAge = res.target_group === ageGroup;
             const matchesTags =
               filterTags.length === 0 ||
-              filterTags.some((tag) => res.other?.toLowerCase().includes(tag.toLowerCase()));
+              filterTags.some((tag) => res.applies_to?.map((item) => item.toLowerCase()).includes(tag.toLowerCase()));
             const matchesOpenNow = !openNow || res.is_open_now;
 
             return matchesService && matchesAge && matchesTags && matchesOpenNow;
@@ -133,15 +133,12 @@ function ResultPage () {
                             <span>{res.opening_time} - {res.closing_time}</span>
                         </div>
 
-
                         <div className="flex flex-wrap gap-2 mt-2">
-
-                            {res.other?.split(",").map((tag, index) => (
-                                <span key={`other-${index}`} className="px-2 py-1 text-xs rounded-full border text-blue-600 border-blue-400 bg-white-50 mb-2">
-                                    {tag.trim()}</span>
-
+                            {res.applies_to?.map((tag, index) => (
+                                <span key={`applies-to-${index}`} className="px-2 py-1 text-xs rounded-full border text-blue-600 border-blue-400 bg-white-50 mb-2">
+                                    {tag.trim()}
+                                </span>
                             ))}
-
                         </div>
                     </div>
                         )
