@@ -33,14 +33,9 @@ function ResultPage () {
 
           const data = await response.json();
 
-          const ageMapping = {
-            adult: "Över 18",
-            under18: "Under 18"
-          };
-
           const filtered = data.filter((res) => {
             const matchesService = serviceType === "all" || res.target_group === serviceType;
-            const matchesAge = res.target_group == ageMapping[ageGroup];
+            const matchesAge = res.target_group === ageGroup;
             const matchesTags =
               filterTags.length === 0 ||
               filterTags.some((tag) => res.other?.toLowerCase().includes(tag.toLowerCase()));
@@ -48,6 +43,8 @@ function ResultPage () {
 
             return matchesService && matchesAge && matchesTags && matchesOpenNow;
           });
+
+          console.log(filtered);
 
           setResources(filtered);
         } catch (err) {
