@@ -14,6 +14,7 @@ function ResultPage () {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [searchText, setSearchText] = useState('');
 
     const getTitle = () => {
         if (serviceType === "direct") return "Direktinsatser"
@@ -40,8 +41,13 @@ function ResultPage () {
               filterTags.length === 0 ||
               filterTags.some((tag) => res.applies_to?.map((item) => item.toLowerCase()).includes(tag.toLowerCase()));
             const matchesOpenNow = !openNow || res.is_open_now;
+            const normalize = (str) =>
+              str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-            return matchesService && matchesAge && matchesTags && matchesOpenNow;
+            const searchRegex = new RegExp(normalize(searchText), "i");
+            const matchesSearch = searchRegex.test(normalize(res.name));
+
+            return matchesService && matchesAge && matchesTags && matchesOpenNow && matchesSearch;
           });
 
           console.log(filtered);
@@ -57,7 +63,7 @@ function ResultPage () {
       if (serviceType && ageGroup) {
         fetchResources();
       }
-    }, [serviceType, ageGroup, filterTags, openNow]);
+    }, [serviceType, ageGroup, filterTags, openNow, searchText]);
 
 
 
@@ -98,7 +104,16 @@ function ResultPage () {
                               ? "bg-[#245b56] text-white border-[#245b56]"
                               : "bg-white text-[#245b56] border-[#245b56] hover:bg-[#245b56] hover:text-white"
                           }`}>
-                            Öppet just nu</button>
+                            Öppet just nu
+                    </button>
+
+                    <input
+                        type="text"
+                        placeholder="Sök"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        className="px-4 py-2 rounded-full border text-sm bg-white text-black border-[#245b56]"
+                      />
                 </div>
 
 

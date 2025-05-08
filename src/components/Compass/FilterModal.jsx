@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 function FilterModal({onClose}) {
     const {filterTags, setFilterTags} = useCompass();
     const allTags = [
-        "Konflikter", "Miljö", "Hälsa", "Våld", "Tunnelbana",
-        "Otrygghet", "Ordningsstörning", "Sysselsättning",
-        "Hemlöshet", "Kriminalitet", "Människohandel", "Immigration",
-        "Psykisk ohälsa", "Missbruk", "Sjukvård", "Samverkan",
-        "Över 18", "Under 18", "Alla åldrar", "Suicid"
-        ];
+      "Konflikter", "Miljö", "Hälsa", "Våld", "Tunnelbana", "Hemlöshet",
+      "Otrygghet", "Ordningsstörning", "Sysselsättning", "Kriminalitet",
+      "Människohandel", "Våldutsatthet", "Immigration", "Psykisk ohälsa",
+      "Missbruk", "Sjukvård", "Samverkan", "Studier", "Akut hjälp",
+      "Direktinsats", "Juridisk rådgivning", "Stöd till barn",
+      "Socialtjänstkontakt", "Bostadssökande"
+      ]
 
     const toggleTag = (tag) => {
         if (filterTags.includes(tag)) {
@@ -22,12 +23,9 @@ function FilterModal({onClose}) {
 
     return(
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl p-6 w-11/12 max-w-md shadow-lg flex flex-col items-center">
+          <div className="bg-white rounded-xl w-11/12 max-w-md shadow-lg flex flex-col items-center max-h-[90vh] overflow-y-auto p-6 relative">
+            <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
 
-            <div className="relative bg-white rounded-xl p-6 w-11/12 max-w-md flex flex-col items-center">
-                <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
-
-            </div>
                 <h2 className="text-xl font-semibold text-[#245b56] mb-6 text-center">Filtrera <br/> problemområde</h2>
 
                 <div className="flex flex-wrap justify-center gap-3 mb-6">
