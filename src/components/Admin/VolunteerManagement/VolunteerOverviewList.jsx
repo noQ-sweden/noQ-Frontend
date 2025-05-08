@@ -26,8 +26,11 @@ export default function VolunteerOverviewList() {
   return (
     <div className="mt-8">
       <h2 className="text-xl font-bold mb-4">Voluntärer</h2>
+
       {volunteers.map((volunteer) => (
-        <VolunteerOverviewItem key={volunteer.email} volunteer={volunteer} />
+        <div key={volunteer.email} className="cursor-pointer">
+          <VolunteerOverviewItem volunteer={volunteer} />
+        </div>
       ))}
     </div>
   );

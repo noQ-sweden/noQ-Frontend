@@ -22,6 +22,9 @@ import Activityes from "./pages/ActivityesPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import VolunteerManagementDashboard from "./pages/VolunteerManagementDashboard";
+
+import VolunteerDetails from "./components/Admin/VolunteerManagement/VolunteerDetails";
+
 import StartPage from "./pages/compass/StartPage";
 import ServiceTypePage from "./pages/compass/ServiceTypePage";
 import AgePage from "./pages/compass/AgePage";
@@ -103,6 +106,9 @@ function App() {
               path="host/volunteers"
               element={<VolunteerManagementDashboard />}
             />
+             
+             {/* Volunteer details */}
+             <Route path="admin/volunteers/:id" element={<VolunteerDetails />} />
           </Route>
           {/* Invalid path */}
           <Route path="*" element={<ErrorPage />} />
