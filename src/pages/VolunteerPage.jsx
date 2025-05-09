@@ -268,8 +268,6 @@ export default function VolunteerPage() {
         Välkommen, {login?.first_name}
       </div>
 
-      <Link to="/volunteer/compass">Compass</Link>
-
       {/* Find Available Rooms */}
       <h2 className="text-3xl font-bold my-4 text-left">
         Hitta Tillgängliga Rum

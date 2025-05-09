@@ -45,7 +45,19 @@ function ResultPage () {
               str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
             const searchRegex = new RegExp(normalize(searchText), "i");
-            const matchesSearch = searchRegex.test(normalize(res.name));
+            const fieldsToSearch = [
+              res.name,
+              res.address,
+              res.phone,
+              res.email,
+              res.target_group,
+              res.other,
+              ...(res.applies_to || []),
+            ];
+
+            const matchesSearch = fieldsToSearch.some((field) =>
+              searchRegex.test(normalize(String(field)))
+            );
 
             return matchesService && matchesAge && matchesTags && matchesOpenNow && matchesSearch;
           });
