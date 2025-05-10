@@ -117,7 +117,7 @@ const VolunteerManagementDashboard = () => {
           <input
             type="text"
             placeholder="Sök efter aktivitet..."
-            className="border border-gray-400 rounded w-full sm:w-64"
+            className="border border-gray-400 rounded w-full sm:w-64 px-3"
             onChange={(e) => setSearchTerm(e.target.value)}
             value={searchTerm}
           />

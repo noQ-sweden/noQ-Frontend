@@ -70,7 +70,7 @@ export default function BookingRow({
                 <div>{renderFlag(booking.user.flag)}</div>
             </div>
             <div className='grid grid-rows-2 gap-1 items-left text-left'>
-                <div>{booking.product.type}</div>
+                <div>{booking.product.type == "room" ? "För alla" : "Endast kvinnor"}</div>
             </div>
             <div className='grid grid-rows-1 justify-self-start'>
                 <div className='leading-3 items-center text-center'>

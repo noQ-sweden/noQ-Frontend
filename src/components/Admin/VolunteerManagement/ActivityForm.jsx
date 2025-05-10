@@ -68,7 +68,7 @@ const ActivityForm = ({ onCreated, activityToEdit, onUpdated, onClose }) => {
         name="title"
         value={form.title}
         onChange={handleChange}
-        placeholder="Title"
+        placeholder="Titel"
         required
       />
       <textarea
@@ -76,7 +76,7 @@ const ActivityForm = ({ onCreated, activityToEdit, onUpdated, onClose }) => {
         name="description"
         value={form.description}
         onChange={handleChange}
-        placeholder="Description"
+        placeholder="Beskrivning"
         required
       />
       <input
@@ -104,7 +104,7 @@ const ActivityForm = ({ onCreated, activityToEdit, onUpdated, onClose }) => {
           onClick={onClose}
           className="text-sm text-gray-500 hover:underline"
         >
-          Avbryta
+          Avbryt
         </button>
       </div>
     </form>
