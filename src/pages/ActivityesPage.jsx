@@ -151,7 +151,7 @@ export default function Activities() {
     <div className="px-14 mb-8 bg-gray-50 min-h-screen">
       {/* Loading and Error Messages */}
       {loading && (
-        <div className="text-center text-gray-600 mt-4">Laddar...</div>
+        <div className="text-gray-600 mt-6 absolute inset-x-2/4">Laddar...</div>
       )}
       {error && <div className="text-center text-red-500 mt-4">{error}</div>}
 
