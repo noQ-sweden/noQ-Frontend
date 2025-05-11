@@ -8,12 +8,12 @@ export default {
         inter: ["Inter", "sans-serif"],
       },
       colors: {
-        'noq-green': '#1C4915',
-        'noq-dark-green': '#173b11',
-        'noq-red': '#B34A3C',
-        'noq-gray-light': '#EFEFEF',
-        'noq-gray': '#817E7E',
-        'noq-gray-dark': '#5B5959',
+        "noq-green": "#1C4915",
+        "noq-dark-green": "#173b11",
+        "noq-red": "#B34A3C",
+        "noq-gray-light": "#EFEFEF",
+        "noq-gray": "#817E7E",
+        "noq-gray-dark": "#5B5959",
         "background-white": "#F7F7F7", // used as UI background
         white: "#FDFDFD", // used as white
         grey: "#AFAFAF", // used for navigation for non active elements
@@ -22,7 +22,7 @@ export default {
         "green-noQ": "#255B57", // used as contrast in navigation
         "green-noQ-comp": "#f7f6f4", //Complementary color to green-noQ
         "grey-button-border": "#64748B",
-        "secondary-soft":"#E5E7EB",
+        "secondary-soft": "#E5E7EB",
 
         //Overview component
         "overview-border": "f1f1f1",

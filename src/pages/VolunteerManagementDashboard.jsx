@@ -13,6 +13,7 @@ import Modal from "../components/Common/Modal";
 import useHeader from "../hooks/useHeader";
 import useLogin from "../hooks/useLogin";
 
+
 const VolunteerManagementDashboard = () => {
   const { login } = useLogin();
   const [activities, setActivities] = useState([]);
@@ -25,6 +26,7 @@ const VolunteerManagementDashboard = () => {
   const fetchActivities = async () => {
     try {
       const res = await axiosNoqApi.get("/api/admin/activities/");
+      
 
       setActivities(res.data);
     } catch (error) {
@@ -58,7 +60,7 @@ const VolunteerManagementDashboard = () => {
   const filterByStatus = (activity) => {
     if (filterStatus === "ongoing") return new Date(activity.end_time) >= now;
     if (filterStatus === "completed") return new Date(activity.end_time) < now;
-    return true; // "all" case
+    return true; 
   };
 
   const showCalendar = false;
