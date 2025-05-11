@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const ActivityList = ({ activities, onEdit, onDelete, onStatusChange }) => {
   if (!Array.isArray(activities)) {
     console.error("Activities is not an array:", activities);
-    return <p>⚠️ No activities available.</p>;
+    return <p>⚠️ Inga aktiviteter tillgängliga.</p>;
   }
   return (
     <ul>

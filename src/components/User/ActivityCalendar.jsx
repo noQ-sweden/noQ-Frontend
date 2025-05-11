@@ -28,7 +28,7 @@ function ActivityCalendar({ activities, selectedDate, setSelectedDate }) {
     }));
 
     const handleSelectSlot = ({ start }) => {
-        const formattedDate = moment(start).format('YYYY-MM-DD');
+        const formattedDate = moment(start).format('DD-MM-YYYY');
         setSelectedDate(formattedDate);
     };
 
@@ -50,6 +50,7 @@ function ActivityCalendar({ activities, selectedDate, setSelectedDate }) {
         <div>
             <Calendar
                 localizer={localizer}
+                culture="sv" // Swedish locale
                 selectable
                 events={event}
                 defaultView="month"
@@ -65,7 +66,7 @@ function ActivityCalendar({ activities, selectedDate, setSelectedDate }) {
     );
 }
 
-// Prop típusok validálása
+
 ActivityCalendar.propTypes = {
     activities: PropTypes.array.isRequired,
     selectedDate: PropTypes.string.isRequired,

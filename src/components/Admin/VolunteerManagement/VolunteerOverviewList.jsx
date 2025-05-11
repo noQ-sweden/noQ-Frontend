@@ -25,7 +25,7 @@ export default function VolunteerOverviewList() {
 
   return (
     <div className="mt-8">
-      <h2 className="text-xl font-bold mb-4">Voluntärer</h2>
+      <h2 className="text-xl font-bold mb-4">Volontärer</h2>
       {volunteers.map((volunteer) => (
         <VolunteerOverviewItem key={volunteer.email} volunteer={volunteer} />
       ))}
