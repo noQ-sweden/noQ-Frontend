@@ -66,6 +66,8 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
         {activity?.volunteers?.length > 0 ? (
           <p className="text-sm text-gray-700">
             👤 {activity.volunteers[0].first_name} {activity.volunteers[0].last_name}
+            {activity.volunteers.length > 1 &&
+                  ` + ${activity.volunteers.length - 1} more`}
           </p>
         ) : (
           <p className="text-sm italic text-gray-400">👤 Volontär saknas</p>
