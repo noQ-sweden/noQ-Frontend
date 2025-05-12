@@ -41,7 +41,7 @@ export default function GetMenuItems(userGroup) {
         { icon: FaChartPie, label: "Boka", sideBarLink: "volunteer" },
         {
             icon: FaCalendarCheck,
-            label: "Activities",
+            label: "Aktiviteter",
             sideBarLink: "activities",
           },
     ];
