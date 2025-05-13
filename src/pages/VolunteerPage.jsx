@@ -480,7 +480,7 @@ export default function VolunteerPage() {
                 searchUser();
                 clearSearchResults();
               }}
-              className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded w-full mt-4"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 rounded w-full mt-4"
             >
               Sök Användare
             </button>

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../../api/AxiosNoqApi";
+import axiosNoqApi from "../../../api/AxiosNoqApi";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
+import TaskAssignmentSection from "./TaskAssignmentSection";
 
 const TaskAssignment = ({ onStatusChange }) => {
   const [tasks, setTasks] = useState([]);
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get("/api/admin/volunteer/tasks");
+      const res = await axiosNoqApi.get("/api/admin/volunteer/tasks");
       setTasks(res.data);
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -21,46 +22,20 @@ const TaskAssignment = ({ onStatusChange }) => {
 
   const handleStatusChanges = async (taskId, newStatus) => {
     try {
-      await axios.patch(`/api/admin/volunteer/tasks/${taskId}`, {
+      await axiosNoqApi.patch(`/api/admin/volunteer/tasks/${taskId}`, {
         status: newStatus,
       });
       toast.success("Status uppdaterad!");
-      if (onStatusChange) {
-        onStatusChange();
-      }
+      fetchTasks(); // Refresh the task list
     } catch (error) {
       console.error("Error assigning task:", error);
+      toast.error("Kunde inte uppdatera status.");
+      console.log("💥 Error details:", error.response?.data);
     }
   };
 
   return (
-    <div>
-      <h2> 📋 Uppgiftstilldelning</h2>
-      {tasks.length === 0 ? (
-        <p>Inga uppgifter tilldelade ännu.</p>
-      ) : (
-        tasks.map((task) => (
-          <div key={task.id}>
-            <p>
-              <strong>{task.volunteer} - ✓</strong>
-              <strong>{task.activity_title}</strong>
-            </p>
-            <p>{task.status}</p>
-            <label>
-              Ändra Status:
-              <select
-                value={task.status}
-                onChange={(e) => handleStatusChanges(task.id, e.target.value)}
-              >
-                <option value="pending">Väntande</option>
-                <option value="accepted">Accepterad</option>
-                <option value="declined">Avslutad</option>
-              </select>
-            </label>
-          </div>
-        ))
-      )}
-    </div>
+    <TaskAssignmentSection tasks={tasks} onStatusChange={handleStatusChanges} />
   );
 };
 

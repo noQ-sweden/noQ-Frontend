@@ -48,6 +48,11 @@ Password: P4ssw0rd_for_Te5t+User
 Volunteer:
 email: user.volunteer@test.nu
 Password: P4ssw0rd_for_Te5t+User
+
+Admin:
+email:    user.admin@test.nu
+Password: P4ssw0rd_for_Te5t+User
+
 ```
 
 ## Wiki
@@ -81,7 +86,7 @@ server: {
 
 ## 🔐 Accessing the Volunteer Dashboard
 
-To access the Volunteer Management Dashboard at [http://localhost:5173/admin/volunteers], ensure you're logged in as a user belonging to the `admin` or `host` group.
+To access the Volunteer Management Dashboard at [http://localhost:5173/host/volunteers], ensure you're logged in as a user belonging to the `admin` or `host` group.
 
 You can create a superuser or assign a user to the correct group:
 

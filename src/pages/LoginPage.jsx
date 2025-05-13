@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link, useParams } from "react-router-dom";
 import axios from "./../api/AxiosNoqApi";
 import PropTypes from "prop-types";
 import useLogin from "./../hooks/useLogin";
 import useHeader from "./../hooks/useHeader";
 import SEO from "../components/SEO";
+import { roleToRouteMap } from "../config/roleRoutes";
 
 LoginPage.propTypes = {
   loginHandler: PropTypes.func,
@@ -13,6 +14,8 @@ LoginPage.propTypes = {
 export default function LoginPage() {
   const { setLogin } = useLogin();
   const { setHeader } = useHeader();
+  const { uid, token } = useParams();
+  const hasActivated = useRef(false);
   const userRef = useRef();
   const errorRef = useRef();
   const navigate = useNavigate();
@@ -22,6 +25,29 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  function getSafeRedirect(from, usergroups) {
+    // Centralized redirect logic based on user role
+    // Role-to-path mapping are defined in scr/config/roleRoutes.js
+    // This function will return the correct dashboard path to the user
+    // depending on their role and the route they came from.
+    const userRole = usergroups?.[0];
+    if (from === "/" || !roleToRouteMap[userRole]) {
+      return roleToRouteMap[userRole] || "/";
+    }
+    return from;
+  }
+
+  useEffect(() => {
+    if (uid && token && !hasActivated.current) {
+      hasActivated.current = true;
+      axios
+        .post(`/api/activate/${uid}/${token}/`)
+        .finally(() => {
+          navigate("/login", { replace: true }); 
+        });
+    }
+  }, []);
 
   useEffect(() => {
     // check if user is already logged in
@@ -47,13 +73,15 @@ export default function LoginPage() {
           setUsername("");
           setPassword("");
 
-          const returnUrl = from === "/" ? "/" + usergroups[0] : from;
-          navigate(returnUrl, { replace: true });
+          navigate(getSafeRedirect(from, usergroups), { replace: true });
         }
       })
       .catch((err) => {
-        // Better error handling here
-        console.log("Could not fetch user data");
+        if (err.response?.status === 401) {
+          console.log("No Active session - user not logged in");
+        } else {
+          console.warn("Unknown error during /self/auth check", err);
+        }
       });
   }, []);
 
@@ -69,10 +97,16 @@ export default function LoginPage() {
     e.preventDefault();
 
     axios
-      .post("api/login/", {
-        email: username,
-        password: password,
-      })
+      .post(
+        "/api/login/",
+        {
+          email: username,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         if (response.status === 200 && response.data.login_status === true) {
           const usergroups = response?.data?.groups;
@@ -85,8 +119,7 @@ export default function LoginPage() {
           setUsername("");
           setPassword("");
 
-          const returnUrl = from === "/" ? "/" + usergroups[0] : from;
-          navigate(returnUrl, { replace: true });
+          navigate(getSafeRedirect(from, usergroups), { replace: true });
         } else {
           setErrorMessage("Autentisering misslyckades.");
           setUsername("");
@@ -194,8 +227,10 @@ export default function LoginPage() {
                 />
               </label>
             </div>
-            <div>
-              <p className="text-sm">Glömt lösenordet?</p>
+            <div> 
+              <p className="text-sm"> 
+                <Link to="/forgot-password">Glömt lösenordet?</Link>
+                </p>
             </div>
             {/*
           // to be added when this functionality is in place

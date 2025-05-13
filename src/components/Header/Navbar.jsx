@@ -69,7 +69,7 @@ export default function Navbar({ first_name, last_name }) {
       </div>
     )}
       <PageTitle />
-      
+
       <div className="lg:flex items-center space-x-10 hidden">
         <div className="relative">
           <FaRegEnvelope className="text-2xl fill-almost-black" />{" "}
