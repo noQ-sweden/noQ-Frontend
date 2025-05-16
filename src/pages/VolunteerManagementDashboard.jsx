@@ -16,7 +16,7 @@ import useLogin from "../hooks/useLogin";
 const VolunteerManagementDashboard = () => {
   const { login } = useLogin();
   const [activities, setActivities] = useState([]);
-  const [sortOption, setSortOption] = useState("title-asc");
+  const [sortOption, setSortOption] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [activityToEdit, setActivityToEdit] = useState(null);
   const [filterStatus, setFilterStatus] = useState("all");
@@ -25,7 +25,7 @@ const VolunteerManagementDashboard = () => {
   const fetchActivities = async () => {
     try {
       const res = await axiosNoqApi.get("/api/admin/activities/");
-      
+
 
       setActivities(res.data);
     } catch (error) {
@@ -59,7 +59,7 @@ const VolunteerManagementDashboard = () => {
   const filterByStatus = (activity) => {
     if (filterStatus === "ongoing") return new Date(activity.end_time) >= now;
     if (filterStatus === "completed") return new Date(activity.end_time) < now;
-    return true; 
+    return true;
   };
 
   const showCalendar = false;
@@ -68,11 +68,17 @@ const VolunteerManagementDashboard = () => {
     if (sortOption === "title-asc") {
       return a.title.localeCompare(b.title);
     }
-    if (sortOption === "date-asc") {
+    if (sortOption === "startDate-asc") {
       return new Date(a.start_time) - new Date(b.start_time);
     }
-    if (sortOption === "date-desc") {
+    if (sortOption === "startDate-desc") {
       return new Date(b.start_time) - new Date(a.start_time);
+    }
+    if (sortOption === "endDate-asc") {
+      return new Date(a.end_time) - new Date(b.end_time);
+    }
+    if (sortOption === "endDate-desc") {
+      return new Date(b.end_time) - new Date(a.end_time);
     }
     return 0;
   });
