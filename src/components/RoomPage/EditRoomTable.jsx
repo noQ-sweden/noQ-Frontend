@@ -122,7 +122,7 @@ const EditRoomTable = () => {
                       <td className={`border-r px-4 py-2 text-center ${borderClass}`} style={{ verticalAlign: 'middle' }}>{row.name}</td>
                       <td className={`border-r px-4 py-2 text-center ${borderClass}`} style={{ verticalAlign: 'middle' }}>{row.description}</td>
                       <td className={`border-r px-4 py-2 text-center ${borderClass}`} style={{ verticalAlign: 'middle' }}>{row.total_places}</td>
-                      <td className={`border-r px-4 py-2 text-center ${borderClass}`} style={{ verticalAlign: 'middle' }}>{row.type}</td>
+                      <td className={`border-r px-4 py-2 text-center ${borderClass}`} style={{ verticalAlign: 'middle' }}>{row.type == "room" ? "För alla" : "Endast kvinnor"}</td>
                       <td className={`border-r px-4 py-2 text-center ${borderClass}`} style={{ verticalAlign: 'middle' }}>{row.requirements}</td>
                       <td className={`px-4 py-2 text-center ${borderClass}`} style={{ verticalAlign: 'middle' }}>
                         <div className="flex items-center justify-center space-x-2">
@@ -153,14 +153,14 @@ const EditRoomTable = () => {
               <textarea value={description} onChange={handleInputChange(setDescription)} className="w-[400px] h-[38px] px-3 py-2 border bg-[#D9D9D9BF]" />
             </div>
             <div className="mb-4 flex items-center">
-              <label className="block mr-1 w-32">Antal sovplatser</label>
+              <label className="block mr-2 w-32">Antal sovplatser</label>
               <input type="number" value={beds == null ? "" : beds.toString()} onChange={handleInputChange(setBeds)} className="w-[400px] h-[38px] px-3 py-2 border bg-[#D9D9D9BF]" />
             </div>
             <div className="mb-4 flex items-center">
               <label className="block mr-2 w-32">Typ</label>
               <select className="w-[400px] h-[38px] px-3 border bg-[#D9D9D9BF]" value={type} onChange={handleInputChange(setType)} >
-                <option value="room">Room</option>
-                <option value="woman-only">Women-only</option>
+                <option value="room">För alla</option>
+                <option value="woman-only">Endast kvinnor</option>
               </select>{/* options={roomOptions} value="" onChange={handleInputChange(setType)} className="w-[400px] h-[38px] px-3 py-2 border bg-[#D9D9D9BF]" />/*/}
             </div>
           </div>

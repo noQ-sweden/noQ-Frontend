@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import AdminDashboardLayout from "./AdminDashboardLayout";
 import DropdownSort from "../components/Admin/VolunteerManagement/SortDropdown";
 import FilterDropdown from "../components/Admin/VolunteerManagement/FilterDropdown";
-import VolunteerOverviewList from "../components/Admin/VolunteerManagement/VolunteerOverviewList";
 import Modal from "../components/Common/Modal";
 import useHeader from "../hooks/useHeader";
 import useLogin from "../hooks/useLogin";
@@ -117,12 +116,11 @@ const VolunteerManagementDashboard = () => {
           <input
             type="text"
             placeholder="Sök efter aktivitet..."
-            className="border border-gray-400 rounded w-full sm:w-64"
+            className="border border-gray-400 rounded w-full sm:w-64 px-3"
             onChange={(e) => setSearchTerm(e.target.value)}
             value={searchTerm}
           />
         </div>
-        <VolunteerOverviewList />
 
         {filteredActivities.length === 0 && (
           <p className="text-gray-500 italic m-4">
