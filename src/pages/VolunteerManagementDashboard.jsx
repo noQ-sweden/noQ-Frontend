@@ -108,7 +108,7 @@ const VolunteerManagementDashboard = () => {
       {login && <div className="hidden">{login.email}</div>}
       <div className="p-6 max-w-4xl mx-auto bg-white rounded-2xl shadow">
         <h2 className="text-2xl font-bold mb-4">
-          Admin:📋 Management Volunteer Activities
+        Admin:📋 Hantering av volontäraktiviteter
         </h2>
         <div className="flex flex-col sm:flex-row gap-4 mb-4 w-full overflow-hidden">
           <DropdownSort value={sortOption} onChange={setSortOption} />

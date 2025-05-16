@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from "react";
 import axios from "./../api/AxiosNoqApi";
 import {
   FaCalendarAlt,
@@ -7,10 +7,16 @@ import {
   FaArrowRight,
   FaMapMarkerAlt,
   FaFilter,
-  FaTimes
+  FaTimes,
 } from "react-icons/fa";
 
-const filterOptions = ["Anmält", "Bekräftade", "Convictus", "Frälsningsarmen", "Stadsmissionen"];
+const filterOptions = [
+  "Anmält",
+  "Bekräftade",
+  "Convictus",
+  "Frälsningsarmen",
+  "Stadsmissionen",
+];
 
 import dayjs from "dayjs";
 import ActivityCalendar from "../components/User/ActivityCalendar";
@@ -31,7 +37,9 @@ export default function Activities() {
   //filter manegemet
   const toggleOption = (option) => {
     setSelectedFilters((prev) =>
-      prev.includes(option) ? prev.filter((o) => o !== option) : [...prev, option]
+      prev.includes(option)
+        ? prev.filter((o) => o !== option)
+        : [...prev, option]
     );
   };
   const removeOption = (option) => {
@@ -41,13 +49,12 @@ export default function Activities() {
   const fetchMyActivities = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/volunteer/activities/list", {
-      });
+      const response = await axios.get("/api/volunteer/activities/list", {});
       const activities = response.data;
       setMyActivities(activities);
     } catch (err) {
       console.log(err);
-      setError("Misslyckades med att ladda volontäraktiviteter");//Failed to load volunteer activities
+      setError("Misslyckades med att ladda volontäraktiviteter"); //Failed to load volunteer activities
     } finally {
       setLoading(false);
     }
@@ -62,7 +69,7 @@ export default function Activities() {
       const activities = response.data;
       setAvailableActivities(activities);
     } catch (err) {
-      setError("Misslyckades med att ladda tillgängliga aktiviteter");//Failed to load available activities
+      setError("Misslyckades med att ladda tillgängliga aktiviteter"); //Failed to load available activities
     } finally {
       setLoading(false);
     }
@@ -71,12 +78,14 @@ export default function Activities() {
   const signupActivities = async (activity_id) => {
     setLoading(true);
     try {
-      const response = await axios.post(`api/volunteer/activities/signup/${activity_id}`);
+      const response = await axios.post(
+        `api/volunteer/activities/signup/${activity_id}`
+      );
       const result = response.data;
       console.log(result);
     } catch (err) {
       console.log(err);
-      setError("Misslyckades med att anmäla sig till aktiviteten");//Failed to sign up for the activity
+      setError("Misslyckades med att anmäla sig till aktiviteten"); //Failed to sign up for the activity
     } finally {
       setLoading(false);
     }
@@ -87,12 +96,14 @@ export default function Activities() {
   const cancelActivities = async (activity_id) => {
     setLoading(true);
     try {
-      const response = await axios.delete(`api/volunteer/activities/cancel/${activity_id}`);
+      const response = await axios.delete(
+        `api/volunteer/activities/cancel/${activity_id}`
+      );
       const result = response.data;
       console.log(result);
     } catch (err) {
       console.log(err);
-      setError("Misslyckades med att avboka aktiviteten");//Failed to cancel up for the activity
+      setError("Misslyckades med att avboka aktiviteten"); //Failed to cancel up for the activity
     } finally {
       setLoading(false);
     }
@@ -151,14 +162,12 @@ export default function Activities() {
     <div className="px-14 mb-8 bg-gray-50 min-h-screen">
       {/* Loading and Error Messages */}
       {loading && (
-        <div className="text-center text-gray-600 mt-4">Laddar...</div>
+        <div className="text-gray-600 mt-6 absolute inset-x-2/4">Laddar...</div>
       )}
       {error && <div className="text-center text-red-500 mt-4">{error}</div>}
 
       {/* Calendar header (mocked) */}
-      <h2 className="text-3xl font-bold my-4 text-left">
-        Hitta Activities
-      </h2>
+      <h2 className="text-3xl font-bold my-4 text-left">Hitta aktiviteter</h2>
       <div className="border rounded-xl p-4 mb-4 shadow-sm bg-white">
         {/* Calendar */}
         <ActivityCalendar
@@ -176,10 +185,11 @@ export default function Activities() {
                 key={option}
                 onClick={() => toggleOption(option)}
                 className={`px-3 py-1 rounded-full text-sm border font-medium
-            ${selectedFilters.includes(option)
-                    ? "bg-gray-300 text-gray-800 border-gray-400"
-                    : "bg-white text-blue-600 border-blue-400"
-                  }`}
+            ${
+              selectedFilters.includes(option)
+                ? "bg-gray-300 text-gray-800 border-gray-400"
+                : "bg-white text-blue-600 border-blue-400"
+            }`}
               >
                 {option}
               </button>
@@ -217,12 +227,17 @@ export default function Activities() {
         </div>
         {/* Available Activity list */}
         <h2 className="text-3xl font-bold my-4 text-left">
-          Tillgänglig Activities lista
+          Tillgängliga Aktiviteter
         </h2>
         {filteredActivities.map((activity) => (
-          <div key={activity.id} className="text-sm text-gray-600 flex flex-col gap-1 mt-2">
+          <div
+            key={activity.id}
+            className="text-sm text-gray-600 flex flex-col gap-1 mt-2"
+          >
             {/* Title */}
-            <h3 className="font-semibold text-base text-gray-800">{activity.title}</h3>
+            <h3 className="font-semibold text-base text-gray-800">
+              {activity.title}
+            </h3>
             <div className="text-sm text-gray-600 flex flex-col gap-1 mt-2">
               {/* DateTime, location, Boka/Avboka */}
               <div className="flex items-center justify-between w-full gap-2">
@@ -231,7 +246,8 @@ export default function Activities() {
                   <div className="flex items-center gap-2">
                     <FaCalendarAlt className="text-gray-500" />
                     <span>
-                      {dayjs(activity.start_time).format("MM/DD/YYYY HH:mm")} - {dayjs(activity.end_time).format("MM/DD/YYYY HH:mm")}
+                      {dayjs(activity.start_time).format("MM/DD/YYYY HH:mm")} -{" "}
+                      {dayjs(activity.end_time).format("MM/DD/YYYY HH:mm")}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -281,10 +297,11 @@ export default function Activities() {
                     key={flag}
                     onClick={() => toggleOption(flag)}
                     className={`px-3 py-1 rounded-full text-sm border font-medium
-        ${selectedFilters.includes(flag)
-                        ? "bg-gray-300 text-gray-800 border-gray-400"
-                        : "bg-white text-blue-600 border-blue-400"
-                      }`}
+        ${
+          selectedFilters.includes(flag)
+            ? "bg-gray-300 text-gray-800 border-gray-400"
+            : "bg-white text-blue-600 border-blue-400"
+        }`}
                   >
                     {flag}
                   </button>
@@ -293,8 +310,7 @@ export default function Activities() {
             </div>
             <hr />
           </div>
-        ))
-        }
+        ))}
       </div>
     </div>
   );
