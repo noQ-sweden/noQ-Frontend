@@ -122,7 +122,6 @@ const VolunteerManagementDashboard = () => {
             value={searchTerm}
           />
         </div>
-        <VolunteerOverviewList />
 
         {filteredActivities.length === 0 && (
           <p className="text-gray-500 italic m-4">
