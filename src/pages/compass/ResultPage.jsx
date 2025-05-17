@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 //import mockResources from "../../api/mockApi/compassResources"
 import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import FilterModal from "../../components/Compass/FilterModal"
+import axios from "./../../api/AxiosNoqApi";
 
 
 
@@ -29,12 +30,11 @@ function ResultPage () {
         setError(null);
 
         try {
-          const response = await fetch(`http://localhost:8000/api/volunteer/compass/`, {
-            credentials: 'include'
+          const response = await axios.get(`api/volunteer/compass/`, {
+            withCredentials: true
           });
-          if (!response.ok) throw new Error("Serverfel vid hämtning av resurser");
 
-          const data = await response.json();
+          const data = response.data;
 
           const filtered = data.filter((res) => {
             const matchesService = serviceType === "all" || res.target_group === serviceType;
