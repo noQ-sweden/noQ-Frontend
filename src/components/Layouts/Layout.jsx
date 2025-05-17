@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import useLogin from "./../../hooks/useLogin";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
@@ -13,6 +13,9 @@ export default function Layout() {
   const viewerGroup =
     login?.usergroups instanceof Array ? login?.usergroups[0] : null;
 
+  const location = useLocation();
+  const isVolunteersListPage = location.pathname === "/host/volunteerlist";
+
   return (
     <div className="App bg-background-white">
       <main>
@@ -22,7 +25,7 @@ export default function Layout() {
             viewerGroup
           ) && <Sidebar />}
           <div style={{ flex: 1 }}>
-            <Header />
+            {!isVolunteersListPage && <Header />}
             <Outlet />
           </div>
         </div>
