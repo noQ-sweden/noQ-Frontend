@@ -28,7 +28,7 @@ function ActivityCalendar({ activities, selectedDate, setSelectedDate }) {
     }));
 
     const handleSelectSlot = ({ start }) => {
-        const formattedDate = moment(start).format('DD-MM-YYYY');
+        const formattedDate = moment(start).format('YYYY-MM-DD');
         setSelectedDate(formattedDate);
     };
 
