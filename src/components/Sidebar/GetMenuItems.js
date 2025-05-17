@@ -6,14 +6,15 @@ import {
     FaRandom,
     FaCalendarAlt,
     FaChartBar,
+    FaCompass,
     FaCalendarCheck
   } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
- 
+
 
 export default function GetMenuItems(userGroup) {
     const { t } = useTranslation();
-    
+
     const hostSidebarItemsTop = [
         { icon: FaChartPie, label: "Överblick", sideBarLink: "host" },
         { icon: FaBell, label: "Förfrågningar", sideBarLink: "host/requests" },
@@ -39,6 +40,7 @@ export default function GetMenuItems(userGroup) {
 
     const volunteerSidebarItemsTop = [
         { icon: FaChartPie, label: "Boka", sideBarLink: "volunteer" },
+        { icon: FaCompass, label: "Kompass", sideBarLink: "volunteer/compass"},
         {
             icon: FaCalendarCheck,
             label: "Aktiviteter",
