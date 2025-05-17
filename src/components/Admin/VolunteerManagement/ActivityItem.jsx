@@ -196,10 +196,15 @@ export default function ActivityItem({ activity, onEdit, onDelete, onStatusChang
                           <BsTelephone className="mr-1 text-gray-600" />
                           {volunteer.phone}
                         </p>
-                        <p className="flex items-center text-gray-800">
-                          <CiMail className="mr-1 text-gray-600" />
+                        <p className="flex items-center text-gray-800 text-sm group relative max-w-[160px]">
+                       <CiMail className="mr-1 text-gray-600 flex-shrink-0" />
+                        <span className="truncate">
                           {volunteer.email}
-                        </p>
+                         </span>
+                          <span className="absolute left-0 top-full mt-1 z-10 w-max max-w-xs bg-white text-gray-900 text-xs px-2 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        {volunteer.email}
+                           </span>
+</p>
                       </div>
                     ))}
                   </div>
