@@ -2,9 +2,10 @@ import CompassLayout from "../../components/Compass/CompassLayout"
 import BackButton from "../../components/Compass/BackButton"
 import { useCompass } from "../../context/CompassContext"
 import { useEffect, useState } from "react"
-import mockResources from "../../api/mockApi/compassResources"
+//import mockResources from "../../api/mockApi/compassResources"
 import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import FilterModal from "../../components/Compass/FilterModal"
+import axios from "./../../api/AxiosNoqApi";
 
 
 
@@ -14,38 +15,73 @@ function ResultPage () {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
-
+    const [searchText, setSearchText] = useState('');
 
     const getTitle = () => {
-        if (serviceType === "direct") return "Direktinsatser"
-        if (serviceType === "office") return "Mottagningar"
+        if (serviceType === "direktinsats") return "Direktinsatser"
+        if (serviceType === "mottagning") return "Mottagningar"
         return "Alla insatser"
     };
 
 
     useEffect(() => {
-        const fetchMockResources = () => {
-          const filtered = mockResources.filter((res) => {
-            const matchesService = serviceType === "all" || res.target_group === serviceType;
-            const matchesAge = res.applies_to.includes(ageGroup);
-            const matchesTags = filterTags.length === 0 ||
-            filterTags.some(tag => res.other?.toLowerCase().includes(tag.toLowerCase()))
-            const matchesOpenNow = !openNow || res.is_open_now;
-            return matchesService && matchesAge && matchesTags && matchesOpenNow;
-          });
-      
-          setResources(filtered);
-          setLoading(false);
-          setError(false)
-        };
-  
-        if (serviceType && ageGroup) {
-          fetchMockResources();
-        }
-      }, [serviceType, ageGroup, filterTags, openNow]);
-      
+      const fetchResources = async () => {
+        setLoading(true);
+        setError(null);
 
- 
+        try {
+          const response = await axios.get(`api/volunteer/compass/`, {
+            withCredentials: true
+          });
+
+          const data = response.data;
+
+          const filtered = data.filter((res) => {
+            const matchesService = serviceType === "all" || res.type === serviceType;
+            const matchesAge = res.target_group === ageGroup;
+            const matchesTags =
+              filterTags.length === 0 ||
+              filterTags.some((tag) => res.applies_to?.map((item) => item.toLowerCase()).includes(tag.toLowerCase()));
+            const matchesOpenNow = !openNow || res.is_open_now;
+            const normalize = (str) =>
+              str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+            const searchRegex = new RegExp(normalize(searchText), "i");
+            const fieldsToSearch = [
+              res.name,
+              res.address,
+              res.phone,
+              res.email,
+              res.target_group,
+              res.other,
+              ...(res.applies_to || []),
+            ];
+
+            const matchesSearch = fieldsToSearch.some((field) =>
+              searchRegex.test(normalize(String(field)))
+            );
+
+            return matchesService && matchesAge && matchesTags && matchesOpenNow && matchesSearch;
+          });
+
+          console.log(filtered);
+
+          setResources(filtered);
+        } catch (err) {
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      if (serviceType && ageGroup) {
+        fetchResources();
+      }
+    }, [serviceType, ageGroup, filterTags, openNow, searchText]);
+
+
+
+
     return(
         <CompassLayout>
             <div className="relative w-full h-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -71,18 +107,27 @@ function ResultPage () {
 
                 <div className="flex flex-wrap gap-3 justify-center mb-6">
                     <button onClick={() => setShowModal(true)}
-                        className="px-4 py-2 rounded-full border text-sm font-semibold transition 
+                        className="px-4 py-2 rounded-full border text-sm font-semibold transition
                                 bg-white text-[#245b56] border-[#245b56] hover:bg-[#245b56] hover:text-white">
                             Filtrera
                         </button>
-            
+
                     <button onClick={() => setOpenNow(!openNow)}
                         className={`px-4 py-2 rounded-full border text-sm font-semibold transition ${
                             openNow
                               ? "bg-[#245b56] text-white border-[#245b56]"
                               : "bg-white text-[#245b56] border-[#245b56] hover:bg-[#245b56] hover:text-white"
                           }`}>
-                            Öppet just nu</button>
+                            Öppet just nu
+                    </button>
+
+                    <input
+                        type="text"
+                        placeholder="Sök"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        className="px-4 py-2 rounded-full border text-sm bg-white text-black border-[#245b56]"
+                      />
                 </div>
 
 
@@ -117,15 +162,12 @@ function ResultPage () {
                             <span>{res.opening_time} - {res.closing_time}</span>
                         </div>
 
-
                         <div className="flex flex-wrap gap-2 mt-2">
-
-                            {res.other?.split(",").map((tag, index) => (
-                                <span key={`other-${index}`} className="px-2 py-1 text-xs rounded-full border text-blue-600 border-blue-400 bg-white-50 mb-2">
-                                    {tag.trim()}</span>
-                            
+                            {res.applies_to?.map((tag, index) => (
+                                <span key={`applies-to-${index}`} className="px-2 py-1 text-xs rounded-full border text-blue-600 border-blue-400 bg-white-50 mb-2">
+                                    {tag.trim()}
+                                </span>
                             ))}
-                        
                         </div>
                     </div>
                         )

@@ -11,10 +11,10 @@ function ServiceTypePage() {
 
 
     return(
-        <CompassLayout>            
+        <CompassLayout>
             <div className="bg-white border rounded-xl p-8 shadow-md relative w-full h-auto min-h-[400px]">
             <div className="absolute top-2 left-2">
-            <BackButton/> 
+            <BackButton/>
             </div>
                 <h1 className="text-center text-2xl font-semibold text-green-900 mb-8">
                     Vad för service <br /> letar du efter?
@@ -22,18 +22,18 @@ function ServiceTypePage() {
 
 
                 <div className="flex flex-col gap-4">
-                    
-                <CompassButton onClick={() => {setServiceType("direct")
+
+                <CompassButton onClick={() => {setServiceType("direktinsats")
                     navigate("/volunteer/compass/age")
                 }}>
                     Direktinsats
                 </CompassButton>
 
-                <CompassButton onClick={() => {setServiceType("office")
+                <CompassButton onClick={() => {setServiceType("mottagning")
                     navigate("/volunteer/compass/age")
                 }}>
                     Mottagning
-                </CompassButton> 
+                </CompassButton>
 
                 <button onClick={() => {setServiceType("all")
                     navigate("/volunteer/compass/age")
@@ -44,7 +44,7 @@ function ServiceTypePage() {
                 </button>
 
                 </div>
-    
+
             </div>
         </CompassLayout>
     )
