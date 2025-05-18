@@ -18,8 +18,8 @@ function ResultPage () {
     const [searchText, setSearchText] = useState('');
 
     const getTitle = () => {
-        if (serviceType === "direct") return "Direktinsatser"
-        if (serviceType === "office") return "Mottagningar"
+        if (serviceType === "direktinsats") return "Direktinsatser"
+        if (serviceType === "mottagning") return "Mottagningar"
         return "Alla insatser"
     };
 
@@ -37,7 +37,7 @@ function ResultPage () {
           const data = response.data;
 
           const filtered = data.filter((res) => {
-            const matchesService = serviceType === "all" || res.target_group === serviceType;
+            const matchesService = serviceType === "all" || res.type === serviceType;
             const matchesAge = res.target_group === ageGroup;
             const matchesTags =
               filterTags.length === 0 ||
