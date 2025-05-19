@@ -9,6 +9,7 @@ import {
     FaCompass,
     FaCalendarCheck
   } from "react-icons/fa";
+import { HiOutlineUserGroup } from 'react-icons/hi';
 import { useTranslation } from "react-i18next";
 
 
@@ -17,6 +18,7 @@ export default function GetMenuItems(userGroup) {
 
     const hostSidebarItemsTop = [
         { icon: FaChartPie, label: "Överblick", sideBarLink: "host" },
+        { icon: HiOutlineUserGroup, label: "Volontärer", sideBarLink: "host/volunteerlist"},
         { icon: FaBell, label: "Förfrågningar", sideBarLink: "host/requests" },
         { icon: FaCalendarAlt, label: "Kalender" },
         { icon: FaRandom, label: "Mina Rum", sideBarLink: "host/products" },
