@@ -98,7 +98,7 @@ const ActivityForm = ({ onCreated, activityToEdit, onUpdated, onClose }) => {
           type="submit"
           className="bg-[#1C4915]  text-white font-bold py-2 px-4 rounded"
         >
-          <strong>Skapa aktivitet</strong>
+          <strong>{activityToEdit == null ? "Skapa" : "Uppdatera"} aktivitet</strong>
         </button>
         <button
           onClick={onClose}
