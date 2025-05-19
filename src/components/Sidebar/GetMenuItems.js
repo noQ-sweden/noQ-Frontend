@@ -6,6 +6,7 @@ import {
     FaRandom,
     FaCalendarAlt,
     FaChartBar,
+    FaCompass,
     FaCalendarCheck
   } from "react-icons/fa";
 import { HiOutlineUserGroup } from 'react-icons/hi';
@@ -41,6 +42,7 @@ export default function GetMenuItems(userGroup) {
 
     const volunteerSidebarItemsTop = [
         { icon: FaChartPie, label: "Boka", sideBarLink: "volunteer" },
+        { icon: FaCompass, label: "Kompass", sideBarLink: "volunteer/compass"},
         {
             icon: FaCalendarCheck,
             label: "Aktiviteter",

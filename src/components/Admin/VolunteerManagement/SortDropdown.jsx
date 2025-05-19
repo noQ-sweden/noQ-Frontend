@@ -8,10 +8,12 @@ export default function DropdownSort({ value, onChange }) {
       value={value}
       onChange={(e) => onChange(e.target.value)}
     >
-      <option value="date">Sortera efter...</option>
-      <option value="name">Title A-Ö</option>
-      <option value="status">Startdatum</option>
-      <option value="status">Slutdatum</option>
+      <option value="">Sortera efter...</option>
+      <option value="title-asc">Title A-Ö</option>
+      <option value="startDate-asc">Startdatum - Stigande</option>
+      <option value="startDate-desc">Startdatum - Fallande</option>
+      <option value="endDate-asc">Slutdatum - Stigande</option>
+      <option value="endDate-desc">Slutdatum - Fallande</option>
     </select>
   );
 }
