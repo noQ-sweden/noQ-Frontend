@@ -53,7 +53,7 @@ export default function VolunteersList() {
     }
 
     setVolunteers(sorted);
-  }, [sortOption]);
+  }, [sortOption, volunteers]);
 
   if (loading) return <p>Loading volunteers...</p>;
   if (error) return <p>{error}</p>;
