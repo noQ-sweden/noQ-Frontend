@@ -14,7 +14,7 @@ export default function UserPage() {
   return (
     <>
       <SEO title={`Gäst | NoQ - Trygg Plats för att alla förtjänar det`} />
-      <div className="mr-8 sm:mr-3 w-full pt-20" id="UserPage">
+      <div className="mr-8 sm:mr-3 w-full pt-1 mt-16" id="UserPage">
         <AccommodationPanel title={t('AccommodationPanel.Residence')}>
           <AccommodationList />
         </AccommodationPanel>
