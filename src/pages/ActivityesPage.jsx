@@ -10,14 +10,6 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
-const filterOptions = [
-  "Anmält",
-  "Bekräftade",
-  "Convictus",
-  "Frälsningsarmen",
-  "Stadsmissionen",
-];
-
 import dayjs from "dayjs";
 import ActivityCalendar from "../components/User/ActivityCalendar";
 
@@ -79,7 +71,7 @@ export default function Activities() {
     setLoading(true);
     try {
       const response = await axios.post(
-        `api/volunteer/activities/signup/${activity_id}`
+        `/api/volunteer/activities/signup/${activity_id}`
       );
       const result = response.data;
       console.log(result);
@@ -97,7 +89,7 @@ export default function Activities() {
     setLoading(true);
     try {
       const response = await axios.delete(
-        `api/volunteer/activities/cancel/${activity_id}`
+        `/api/volunteer/activities/cancel/${activity_id}`
       );
       const result = response.data;
       console.log(result);
@@ -113,6 +105,11 @@ export default function Activities() {
   // Helper function to check if an activity is already in the user's activities
   const isActivityRegistered = (activityId) => {
     return myActivities.some((activity) => activity.id === activityId);
+  };
+
+  const getFlagsForActivity = (activity) => {
+    const matches = activity.description.match(/#[\p{L}0-9_-]+/gu);
+    return matches ? matches.map((m) => m.toLowerCase()) : [];
   };
 
   const uniqueFlags = useMemo(() => {
@@ -180,16 +177,15 @@ export default function Activities() {
           {/* Dropdown */}
           <div className="flex items-center gap-2">
             {/* Filter options */}
-            {filterOptions.map((option) => (
+            {uniqueFlags.map((option) => (
               <button
                 key={option}
                 onClick={() => toggleOption(option)}
                 className={`px-3 py-1 rounded-full text-sm border font-medium
-            ${
-              selectedFilters.includes(option)
-                ? "bg-gray-300 text-gray-800 border-gray-400"
-                : "bg-white text-blue-600 border-blue-400"
-            }`}
+            ${selectedFilters.includes(option)
+                    ? "bg-gray-300 text-gray-800 border-gray-400"
+                    : "bg-white text-blue-600 border-blue-400"
+                  }`}
               >
                 {option}
               </button>
@@ -252,7 +248,13 @@ export default function Activities() {
                   </div>
                   <div className="flex items-center gap-2">
                     <FaMapMarkerAlt className="text-gray-500" />
-                    <span>{activity.location || "Plats saknas"}</span>
+                    <span>
+                      {activity.location?.trim() ||
+                        (() => {
+                          const matches = activity.description?.match(/@[\p{L}0-9_-]+/gu);
+                          return matches?.length ? matches[matches.length - 1].slice(1) : "Plats saknas";
+                        })()}
+                    </span>
                   </div>
                 </div>
                 {/* Boka/Avboka */}
@@ -292,16 +294,15 @@ export default function Activities() {
                 )}
 
                 {/* Flags */}
-                {uniqueFlags.map((flag) => (
+                {getFlagsForActivity(activity).map((flag) => (
                   <button
                     key={flag}
                     onClick={() => toggleOption(flag)}
                     className={`px-3 py-1 rounded-full text-sm border font-medium
-        ${
-          selectedFilters.includes(flag)
-            ? "bg-gray-300 text-gray-800 border-gray-400"
-            : "bg-white text-blue-600 border-blue-400"
-        }`}
+        ${selectedFilters.includes(flag)
+                        ? "bg-gray-300 text-gray-800 border-gray-400"
+                        : "bg-white text-blue-600 border-blue-400"
+                      }`}
                   >
                     {flag}
                   </button>

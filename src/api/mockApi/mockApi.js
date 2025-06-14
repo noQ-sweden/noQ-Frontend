@@ -8,6 +8,8 @@ import { products } from "./products.js";
 import { getAvailableShelters } from "./getAvailableShelters"; // Import the function
 import { availableProducts } from "./caseworkerFrontPage.js";
 import { volunteers } from "./volunteers";
+import { activities } from "./activities";
+import { volunteerActivities } from "./volunteer_activities";
 
 export const axiosMockNoqApi = axios.create({
   headers: {
@@ -600,6 +602,12 @@ noqMockApi.onGet("/api/caseworker/available_all").reply(() => {
   return [200, JSON.stringify(availableProducts)];
 });
 
+noqMockApi.onGet("/api/volunteer/region/list").reply(200, [
+  "Stockholm",
+  "Göteborg",
+  "Malmö",
+]);
+
 noqMockApi.onGet("/api/volunteer/available").reply((config) => {
   const { selected_date, host_id } = config.params || {};
 
@@ -852,4 +860,78 @@ noqMockApi.onGet(/api\/user\/available_host\/\d+/).reply((config) => {
   ];
 
   return [200, response];
+});
+
+noqMockApi.onGet("/api/activities/list").reply((config) => {
+  const searchParams = new URLSearchParams(config.params);
+  const date = searchParams.get("date"); // e.g., "2025-05-25"
+
+  if (!date) {
+    return [200, activities];
+  }
+
+  // Define the start and end of the selected day
+  const startOfDay = new Date(`${date}T00:00:00`);
+  const endOfDay = new Date(`${date}T23:59:59`);
+
+  const filteredActivities = activities.filter((a) => {
+    const activityStart = new Date(a.start_time);
+    const activityEnd = new Date(a.end_time);
+
+    // Check if activity overlaps with the selected day
+    return (
+      activityStart <= endOfDay &&
+      activityEnd >= startOfDay
+    );
+  });
+
+  return [200, filteredActivities];
+});
+
+noqMockApi.onPost(/\/api\/volunteer\/activities\/signup\/\d+/).reply((config) => {
+  const userId = 999; // Simulated logged-in user ID
+  const activityId = parseInt(config.url.split("/").pop(), 10);
+
+  if (!volunteerActivities[userId]) {
+    volunteerActivities[userId] = [];
+  }
+
+  // Avoid duplicate registration
+  if (!volunteerActivities[userId].includes(activityId)) {
+    volunteerActivities[userId].push(activityId);
+  }
+
+  return [200, { message: "Successfully signed up for activity." }];
+});
+
+noqMockApi.onDelete(/\/api\/volunteer\/activities\/cancel\/\d+/).reply((config) => {
+  const userId = 999;
+  const activityId = parseInt(config.url.split("/").pop(), 10);
+
+  if (volunteerActivities[userId]) {
+    volunteerActivities[userId] = volunteerActivities[userId].filter(
+      (id) => id !== activityId
+    );
+  }
+
+  return [200, { message: "Successfully cancelled activity." }];
+});
+
+noqMockApi.onGet("/api/volunteer/activities/list").reply(() => {
+  const userId = 999; // Simulated logged-in user ID
+  const userActivityIds = volunteerActivities[userId] || [];
+
+  // Filter activities the user is registered to
+  const result = activities
+    .filter((a) => userActivityIds.includes(a.id))
+    .map((a) => ({
+      id: a.id,
+      title: a.title,
+      description: a.description,
+      start_time: a.start_time,
+      end_time: a.end_time,
+      registered_at: new Date().toISOString(), // Mocked registration timestamp
+    }));
+
+  return [200, result];
 });
