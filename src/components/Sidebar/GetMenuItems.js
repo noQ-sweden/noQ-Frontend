@@ -5,7 +5,7 @@ export default function GetMenuItems(userGroup) {
 
   const host = [
     {
-      labelKeyKey: t("sidebar.Overview"),
+      labelKey: t("sidebar.Overview"),
       sideBarLink: "host",
     },
     {
