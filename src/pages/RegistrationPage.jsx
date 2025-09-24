@@ -1,4 +1,4 @@
-import React, { useState, useRef, } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "./../api/AxiosNoqApi";
 import SEO from "../components/SEO";
@@ -39,17 +39,18 @@ export default function RegistrationPage() {
       return;
     }
 
-    const payload = { first_name: firstName, last_name: lastName, email, password };
+    const payload = {
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      password,
+    };
 
     try {
-      const response = await axios.post(
-        "/api/register/",
-        payload,
-        {
-          headers: { "X-User-Role": ROLE_MAP[userType] },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post("/api/register/", payload, {
+        headers: { "X-User-Role": ROLE_MAP[userType] },
+        withCredentials: true,
+      });
 
       if (response.status === 201) {
         setSuccess(response.data.success);
@@ -72,7 +73,9 @@ export default function RegistrationPage() {
 
   return (
     <>
-      <SEO title={`Registrering | NoQ - Trygg Plats för att alla förtjänar det`} />
+      <SEO
+        title={`Registrering | NoQ - Trygg Plats för att alla förtjänar det`}
+      />
       <div className="flex items-center justify-center bg-noq-gray-light">
         <div className="flex items-center justify-center m-2 w-full max-w-xs lg:max-w-sm xl:max-w-md bg-white rounded-2xl sm:m-4 md:m-6">
           <div className="w-full max-w-xs rounded-2xl p-6 m-2 sm:max-w-xs md:max-w-xs">
