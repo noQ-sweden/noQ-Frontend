@@ -11,6 +11,7 @@ export default function RegistrationPage() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [telephone, setTelephone] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -23,7 +24,7 @@ export default function RegistrationPage() {
     setSuccess("");
 
     // Client-side validation
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !password) {
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !telephone.trim() || !password) {
       setError("Alla fält markerade med * måste fyllas i.");
       errorRef.current?.focus();
       return;
@@ -39,7 +40,7 @@ export default function RegistrationPage() {
       return;
     }
 
-    const payload = { first_name: firstName, last_name: lastName, email, password };
+  const payload = { first_name: firstName, last_name: lastName, email, telephone, password };
 
     try {
       const response = await axios.post(
@@ -56,8 +57,9 @@ export default function RegistrationPage() {
         setFirstName("");
         setLastName("");
         setEmail("");
-        setPassword("");
-        setConfirmPassword("");
+  setPassword("");
+  setConfirmPassword("");
+  setTelephone("");
         setTimeout(() => navigate("/login"), 3500);
       } else {
         setError(response.data.error);
@@ -108,6 +110,7 @@ export default function RegistrationPage() {
                 />
               </div>
 
+
               <div>
                 <label className="block text-sm text-noq-gray-dark mb-1">
                   E-post*
@@ -117,6 +120,19 @@ export default function RegistrationPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full rounded-3xl px-4 py-2 bg-noq-gray-light focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-noq-gray-dark mb-1">
+                  Telefon*
+                </label>
+                <input
+                  type="tel"
+                  value={telephone}
+                  onChange={(e) => setTelephone(e.target.value)}
+                  className="w-full rounded-3xl px-4 py-2 bg-noq-gray-light focus:outline-none"
+                  required
                 />
               </div>
 
@@ -144,7 +160,7 @@ export default function RegistrationPage() {
                 />
               </div>
 
-              <div className="">
+              {/* <div className="">
                 <label className="block text-sm text-noq-gray-dark mb-1">
                   Välj användartyp*
                 </label>
@@ -168,7 +184,7 @@ export default function RegistrationPage() {
                     </label>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               <button
                 type="submit"
