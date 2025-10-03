@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "./../api/AxiosNoqApi";
 import SEO from "../components/SEO";
 
-const ROLE_MAP = { guest: "user", volunteer: "volunteer" };
+
 
 export default function RegistrationPage() {
-  const [userType, setUserType] = useState("guest");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -47,7 +46,7 @@ export default function RegistrationPage() {
         "/api/register/",
         payload,
         {
-          headers: { "X-User-Role": ROLE_MAP[userType] },
+          // Removed X-User-Role header since userType is not used
           withCredentials: true,
         }
       );
@@ -57,9 +56,9 @@ export default function RegistrationPage() {
         setFirstName("");
         setLastName("");
         setEmail("");
-  setPassword("");
-  setConfirmPassword("");
-  setTelephone("");
+        setPassword("");
+        setConfirmPassword("");
+        setTelephone("");
         setTimeout(() => navigate("/login"), 3500);
       } else {
         setError(response.data.error);
@@ -160,31 +159,7 @@ export default function RegistrationPage() {
                 />
               </div>
 
-              {/* <div className="">
-                <label className="block text-sm text-noq-gray-dark mb-1">
-                  Välj användartyp*
-                </label>
-                <div className="flex space-x-4">
-                  {Object.entries(ROLE_MAP).map(([key, _]) => (
-                    <label
-                      key={key}
-                      className="flex items-center space-x-2 cursor-pointer"
-                    >
-                      <input
-                        type="radio"
-                        name="userType"
-                        value={key}
-                        checked={userType === key}
-                        onChange={() => setUserType(key)}
-                        className="accent-noq-green"
-                      />
-                      <span className="text-noq-gray-dark">
-                        {key === "guest" ? "Gäst" : "Volontär"}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div> */}
+              {/* User type selection removed as it's not used */}
 
               <button
                 type="submit"
