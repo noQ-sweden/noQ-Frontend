@@ -30,12 +30,12 @@ import ServiceTypePage from "./pages/compass/ServiceTypePage";
 import AgePage from "./pages/compass/AgePage";
 import ResultPage from "./pages/compass/ResultPage";
 import VolunteersList from "./pages/VolunteersList";
+import Profile from "./pages/Profile";
 
 export const VisitorContext = createContext();
 
 function App() {
   return (
-
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -45,8 +45,11 @@ function App() {
           <Route path="/login/:uid/:token" element={<LoginPage />} />
           <Route path="register" element={<RegistrationPage />} />
           <Route path="unauthorized" element={<UnauthorizedPage />} />
-          <Route path="forgot-password" element={<ForgotPasswordPage/>}/>
-          <Route path="reset-password/:uidb64/:token" element={<ResetPasswordPage/>}/>
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />
+          <Route
+            path="reset-password/:uidb64/:token"
+            element={<ResetPasswordPage />}
+          />
 
           {/* User Pages */}
           <Route element={<RequireLogin allowedGroups={["user"]} />}>
@@ -68,7 +71,6 @@ function App() {
             />
             <Route path="host/products" element={<RoomPage />} />
             <Route path="host/volunteerlist" element={<VolunteersList />} />
-
           </Route>
 
           {/* Caseworker Pages */}
@@ -96,8 +98,14 @@ function App() {
               path="volunteer/requests"
               element={<RequestPageView userGroup="volunteer" />}
             />
+            <Route path="volunteer">
+              <Route path="profile" element={<Profile />} />
+            </Route>
             <Route path="volunteer/compass" element={<StartPage />} />
-            <Route path="volunteer/compass/service-type" element={<ServiceTypePage />} />
+            <Route
+              path="volunteer/compass/service-type"
+              element={<ServiceTypePage />}
+            />
             <Route path="volunteer/compass/age" element={<AgePage />} />
             <Route path="volunteer/compass/result" element={<ResultPage />} />
           </Route>
@@ -110,13 +118,13 @@ function App() {
               element={<VolunteerManagementDashboard />}
             />
 
-             {/* Volunteer details */}
-             <Route path="admin/volunteers/:id" element={<VolunteerDetails />} />
+            {/* Volunteer details */}
+            <Route path="admin/volunteers/:id" element={<VolunteerDetails />} />
           </Route>
           {/* Invalid path */}
           <Route path="*" element={<ErrorPage />} />
         </Route>
-      </Routes >
+      </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
