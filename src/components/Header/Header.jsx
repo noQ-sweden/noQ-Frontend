@@ -5,36 +5,29 @@ import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
 
 export default function Header() {
   const { login } = useLogin();
-  const isLoggedIn = !!(login?.first_name || login?.last_name);
-  const viewerGroup = Array.isArray(login?.usergroups)
+  const userGroup = Array.isArray(login?.usergroups)
     ? login.usergroups[0]
     : null;
 
-  return isLoggedIn ? (
-    <div>
-      <div className="bg-[#245b56] p-8 h-10 flex items-center w-full top-0 left-0 z-10">
-        <img src={noQiconWhiteOnGreen} alt="noQ" className="w-24" />
-      </div>
-      {viewerGroup == "user" ? (
-        <div className="bg-[#245b56] p-8 h-10 flex items-center w-full fixed top-0 left-0 z-10">
-          <img src={noQiconWhiteOnGreen} alt="noQ" className="w-24" />
-        </div>
-      ) : null}
+  if (!login || (!login.first_name && !login.last_name)) return null;
 
-      {viewerGroup !== "user" ? (
-        <Navbar
-          first_name={
-            Array.isArray(login.first_name)
-              ? login.first_name[0]
-              : login.first_name
-          }
-          last_name={login.last_name}
-        />
-      ) : (
-        <div className="bg-[#245b56] p-8 h-10 flex items-center w-full fixed top-0 left-0">
-          <img src={noQiconWhiteOnGreen} alt="noQ" className="w-24" />
+  const firstName = Array.isArray(login.first_name)
+    ? login.first_name[0]
+    : login.first_name ?? "";
+  const lastName = login.last_name ?? "";
+
+  if (userGroup === "user") {
+    return (
+      <header>
+        <div className="fixed top-0 left-0 right-0 z-10 h-16 bg-[#245b56] flex items-center px-8">
+          <img
+            src={noQiconWhiteOnGreen}
+            alt="noQ"
+            className="w-24 mx-auto lg:mx-0"
+          />
         </div>
-      )}
-    </div>
-  ) : null;
+      </header>
+    );
+  }
+  return <Navbar first_name={firstName} last_name={lastName} />;
 }
