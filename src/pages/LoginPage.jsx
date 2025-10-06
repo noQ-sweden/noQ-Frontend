@@ -6,6 +6,7 @@ import useLogin from "./../hooks/useLogin";
 import useHeader from "./../hooks/useHeader";
 import SEO from "../components/SEO";
 import { roleToRouteMap } from "../config/roleRoutes";
+import noQicon from "../assets/images/noQiconNoQGreen.svg";
 
 LoginPage.propTypes = {
   loginHandler: PropTypes.func,
@@ -41,11 +42,9 @@ export default function LoginPage() {
   useEffect(() => {
     if (uid && token && !hasActivated.current) {
       hasActivated.current = true;
-      axios
-        .post(`/api/activate/${uid}/${token}/`)
-        .finally(() => {
-          navigate("/login", { replace: true }); 
-        });
+      axios.post(`/api/activate/${uid}/${token}/`).finally(() => {
+        navigate("/login", { replace: true });
+      });
     }
   }, []);
 
@@ -156,139 +155,109 @@ export default function LoginPage() {
       <SEO
         title={`Inloggning | NoQ - Trygg Plats för att alla förtjänar det`}
       />
-      <div className="flex flex-col items-center">
-        <div className="mb-12 text-red-600 text-xl font-semibold">
-          <p
-            ref={errorRef}
-            className={errorMessage ? "errorMessage" : "offScreen"}
-          >
-            {errorMessage}
-          </p>
-        </div>
-        <div className="bg-white rounded px-8 pt-6 pb-8 mb-4">
-          <form onSubmit={handleSubmit}>
-            <div className="flex flex-col items-center">
-              <h1 className="mb-8 text-2xl font-bold text-green-noQ tracking-normal">
-                Välkommen till noQ
-              </h1>
-            </div>
-            <div className="mb-6">
-              <label
-                className="block text-gray-700 text-base font-semibold mb-2"
-                htmlFor="username"
-              >
-                E-post
-                <input
-                  className="
-                  appearance-none
-                  border rounded
-                  w-full
-                  py-2
-                  px-3
-                  bg-slate-100
-                  text-gray-700
-                  leading-tight
-                  focus:outline-none
-                  focus:shadow-outline"
-                  type="text"
-                  id="username"
-                  ref={userRef}
-                  autoComplete="on"
-                  onChange={(e) => setUsername(e.target.value)}
-                  value={username}
-                  required
-                />
-              </label>
-            </div>
-            <div className="mb-1">
-              <label
-                className="block text-gray-700 text-base font-semibold mb-2"
-                htmlFor="password"
-              >
-                Lösenord
-                <input
-                  className="
-                  appearance-none
-                  border rounded
-                  w-full
-                  py-2
-                  px-3
-                  bg-slate-100
-                  text-gray-700
-                  leading-tight
-                  focus:outline-none
-                  focus:shadow-outline"
-                  type="password"
-                  id="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                  required
-                  autoComplete="current-password"
-                />
-              </label>
-            </div>
-            <div> 
-              <p className="text-sm"> 
-                <Link to="/forgot-password">Glömt lösenordet?</Link>
-                </p>
-            </div>
-            {/*
-          // to be added when this functionality is in place
-          <div className="mb-4 flex flex-row items-center">
-            <div>
-              <input type="checkbox" />
-            </div>
-            <div>
-              <p className="text-sm mx-2">Håll mig inloggad</p>
-            </div>
+      <div className="min-h-dvh flex items-center justify-center bg-white px-6">
+        <div className="w-full max-w-sm">
+          <div className="mb-12 text-red-600 text-xl font-semibold">
+            <p
+              ref={errorRef}
+              className={errorMessage ? "errorMessage" : "offScreen"}
+            >
+              {errorMessage}
+            </p>
           </div>
-          */}
-            <div className="flex flex-col items-center mt-10">
-              <button
-                type="submit"
-                className="
-                bg-green-600
-                hover:bg-green-700
-                text-white
-                font-bold
-                w-44
-                py-2
-                px-4
-                rounded
-                focus:outline-none
-                focus:shadow-outline"
-                id="login-button"
-              >
-                Logga in
-              </button>
-            </div>
-            <div className="flex flex-col items-center mt-10">
-              <div>
-                <p className="text-sm mb-1">Har du inget konto?</p>
+          <div className="bg-white rounded px-8 pt-6 pb-8 mb-4">
+            <img src={noQicon} alt="noQ" className="mx-auto mb-6 h-10" />
+            <form onSubmit={handleSubmit}>
+              <div className="flex flex-col items-center">
+                <h1 className="text-2xl font-bold text-emerald-600 text-center mb-8">
+                  Välkommen till noQ
+                </h1>
+              </div>
+              <div className="mb-6">
+                <label
+                  className="block text-gray-700 text-base font-semibold mb-2"
+                  htmlFor="username"
+                >
+                  E-post
+                  <input
+                    className="
+                  w-full
+                  rounded-full
+                  bg-gray-100
+                  px-4
+                  py-3
+                  outline-none
+                  focus:ring-emerald-500
+                  focus:ring-2"
+                    placeholder="E-post"
+                    type="text"
+                    id="username"
+                    ref={userRef}
+                    autoComplete="on"
+                    onChange={(e) => setUsername(e.target.value)}
+                    value={username}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="mb-1">
+                <label
+                  className="block text-gray-700 text-base font-semibold mb-2"
+                  htmlFor="password"
+                >
+                  Lösenord
+                  <input
+                    className="
+                  w-full
+                  rounded-full
+                  bg-gray-100
+                  px-4
+                  py-3
+                  outline-none
+                  focus:ring-emerald-500
+                  focus:ring-2"
+                    placeholder="Lösenord"
+                    type="password"
+                    id="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    required
+                    autoComplete="current-password"
+                  />
+                </label>
               </div>
               <div>
+                <p className="mt-2 text-right">
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-emerald-700 underline"
+                  >
+                    Glömt lösenordet?
+                  </Link>
+                </p>
+              </div>
+              <div className="flex flex-col items-center mt-10">
                 <button
-                  type="button"
-                  onClick={navigateToRegister}
-                  className="
-                  bg-gray-200
-                  hover:bg-gray-300
-                  border-slate-800
-                  text-gray-500
-                  font-bold
-                  w-44
-                  py-2
-                  px-4
-                  rounded
-                  focus:outline-none
-                  focus:shadow-outline"
-                  id="register-button"
+                  type="submit"
+                  className="w-full rounded-full bg-emerald-600 text-white font-semibold py-3"
+                  id="login-button"
                 >
-                  Skapa konto
+                  Logga in
                 </button>
               </div>
-            </div>
-          </form>
+              <div className="mt-6 space-y-2 text-center">
+                <p className="text-sm mb-1">Har du inget konto?</p>
+                <Link
+                  type="button"
+                  onClick={navigateToRegister}
+                  className="inline-flex w-full justify-center rounded-full border border-emerald-600 py-3 font-semibold text-emerald-600"
+                  id="register-button"
+                >
+                  Registrera dig
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </>
