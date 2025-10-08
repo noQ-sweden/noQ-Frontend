@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "./../api/AxiosNoqApi";
 import SEO from "../components/SEO";
 
-const ROLE_MAP = { guest: "user", volunteer: "volunteer" };
+
 
 export default function RegistrationPage() {
-  const [userType, setUserType] = useState("guest");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [telephone, setTelephone] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -23,7 +23,7 @@ export default function RegistrationPage() {
     setSuccess("");
 
     // Client-side validation
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !password) {
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !telephone.trim() || !password) {
       setError("Alla fält markerade med * måste fyllas i.");
       errorRef.current?.focus();
       return;
@@ -39,14 +39,14 @@ export default function RegistrationPage() {
       return;
     }
 
-    const payload = { first_name: firstName, last_name: lastName, email, password };
+  const payload = { first_name: firstName, last_name: lastName, email, telephone, password };
 
     try {
       const response = await axios.post(
         "/api/register/",
         payload,
         {
-          headers: { "X-User-Role": ROLE_MAP[userType] },
+          // Removed X-User-Role header since userType is not used
           withCredentials: true,
         }
       );
@@ -58,6 +58,7 @@ export default function RegistrationPage() {
         setEmail("");
         setPassword("");
         setConfirmPassword("");
+        setTelephone("");
         setTimeout(() => navigate("/login"), 3500);
       } else {
         setError(response.data.error);
@@ -108,6 +109,7 @@ export default function RegistrationPage() {
                 />
               </div>
 
+
               <div>
                 <label className="block text-sm text-noq-gray-dark mb-1">
                   E-post*
@@ -117,6 +119,19 @@ export default function RegistrationPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full rounded-3xl px-4 py-2 bg-noq-gray-light focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-noq-gray-dark mb-1">
+                  Telefon*
+                </label>
+                <input
+                  type="tel"
+                  value={telephone}
+                  onChange={(e) => setTelephone(e.target.value)}
+                  className="w-full rounded-3xl px-4 py-2 bg-noq-gray-light focus:outline-none"
+                  required
                 />
               </div>
 
@@ -144,31 +159,7 @@ export default function RegistrationPage() {
                 />
               </div>
 
-              <div className="">
-                <label className="block text-sm text-noq-gray-dark mb-1">
-                  Välj användartyp*
-                </label>
-                <div className="flex space-x-4">
-                  {Object.entries(ROLE_MAP).map(([key, _]) => (
-                    <label
-                      key={key}
-                      className="flex items-center space-x-2 cursor-pointer"
-                    >
-                      <input
-                        type="radio"
-                        name="userType"
-                        value={key}
-                        checked={userType === key}
-                        onChange={() => setUserType(key)}
-                        className="accent-noq-green"
-                      />
-                      <span className="text-noq-gray-dark">
-                        {key === "guest" ? "Gäst" : "Volontär"}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
+              {/* User type selection removed as it's not used */}
 
               <button
                 type="submit"
