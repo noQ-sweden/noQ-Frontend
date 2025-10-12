@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "./../api/AxiosNoqApi";
+import AxiosNoqApi from "../api/AxiosNoqApi";
 import useLogin from "../hooks/useLogin";
 //import { Link } from "react-router-dom";
 
@@ -30,7 +30,7 @@ export default function VolunteerPage() {
     const fetchAllShelters = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("/api/volunteer/available");
+        const response = await AxiosNoqApi.get("/api/volunteer/available");
         const shelters = response.data;
         setAvailableShelters(shelters);
 
@@ -54,7 +54,7 @@ export default function VolunteerPage() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("/api/volunteer/guest/list");
+      const response = await AxiosNoqApi.get("/api/volunteer/guest/list");
       console.log("Users:", response.data);
       if (response.data) {
         setMockApiUsers(response.data);
@@ -103,7 +103,7 @@ export default function VolunteerPage() {
     }
 
     try {
-      const response = await axios.post("/api/volunteer/guest/create", {
+      const response = await AxiosNoqApi.post("/api/volunteer/guest/create", {
         first_name: newFirstName,
         last_name: newLastName,
         uno: newUno,
@@ -166,7 +166,7 @@ export default function VolunteerPage() {
       };
 
       // Step 1: Create the booking
-      const bookingResponse = await axios.post(
+      const bookingResponse = await AxiosNoqApi.post(
         "/api/volunteer/booking/request",
         bookingData
       );
@@ -179,7 +179,7 @@ export default function VolunteerPage() {
       );
 
       // Step 2: Confirm the booking
-      await axios.patch(`/api/volunteer/confirm_booking/${bookingId}`);
+      await AxiosNoqApi.patch(`/api/volunteer/confirm_booking/${bookingId}`);
 
       alert("Plats bokat, Email med bokingsinformation har skickats ut");
       closePopover();

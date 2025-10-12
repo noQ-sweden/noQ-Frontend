@@ -30,7 +30,7 @@ import ServiceTypePage from "./pages/compass/ServiceTypePage";
 import AgePage from "./pages/compass/AgePage";
 import ResultPage from "./pages/compass/ResultPage";
 import VolunteersList from "./pages/VolunteersList";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/Profile";
 
 export const VisitorContext = createContext();
 
@@ -98,9 +98,7 @@ function App() {
               path="volunteer/requests"
               element={<RequestPageView userGroup="volunteer" />}
             />
-            <Route path="volunteer">
-              <Route path="profile" element={<Profile />} />
-            </Route>
+            <Route path="volunteer/profile" element={<Profile />} />
             <Route path="volunteer/compass" element={<StartPage />} />
             <Route
               path="volunteer/compass/service-type"
