@@ -17,7 +17,7 @@ import RoomPage from "./pages/RoomPage";
 import AccommodationDetail from "./components/User/AccommodationDetail";
 import Bookings from "./components/User/Bookings";
 import CaseworkerStatisticsPage from "./pages/CaseworkerStatisticsPage";
-import VolunteerPage from "./pages/VolunteerPage";
+import VolunteerPage from "./pages/Volunteer/VolunteerPage";
 import Activityes from "./pages/ActivityesPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";

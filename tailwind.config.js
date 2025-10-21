@@ -24,6 +24,7 @@ export default {
         "grey-button-border": "#64748B",
         "secondary-soft": "#E5E7EB",
         "bg-noq-green": "#530D03",
+        "newGreen" : "#1C4915",
 
         //Overview component
         "overview-border": "#f1f1f1",
