@@ -37,11 +37,15 @@ export default function Sidebar() {
     }
   };
 
-  const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang);
-  };
+  const itemsTop = GetMenuItems(userGroup); // should return {labelKey, sideBarLink}
 
-  const sidebarItemsTop = GetMenuItems(login.usergroups[0]);
+  const itemsBottom = [
+    { labelKey: "sidebar.HelpOrg" },
+    { labelKey: "sidebar.User" },
+    { labelKey: "sidebar.Logout", action: handleLogout },
+  ];
+
+  const actionEl = "block w-full text-center hover:underline";
 
   const renderItem = ({ labelKey, sideBarLink, action }) => (
     <li className={liStyle} key={sideBarLink ?? labelKey} role="none">
