@@ -23,9 +23,10 @@ export default {
         "green-noQ-comp": "#f7f6f4", //Complementary color to green-noQ
         "grey-button-border": "#64748B",
         "secondary-soft": "#E5E7EB",
+        "bg-noq-green": "#530D03",
 
         //Overview component
-        "overview-border": "f1f1f1",
+        "overview-border": "#f1f1f1",
 
         "Request-ButtonText-Green": "#255B57",
         "Request-ButtonColor-Green": "#255B57",

@@ -1,53 +1,62 @@
 {
-    "sidebar": {
-        "Logout": "Logga ut",
-        "User": "Användare",
-        "Settings": "Inställningar",
-        "Reservations": "Bokningar",
-        "Book": "Boka"
-    },
+  "sidebar": {
+    "Overview": "Överblick",
+    "Volunteers": "Volontärer",
+    "Requests": "Förfrågningar",
+    "Calendar": "Kalender",
+    "MyRooms": "Mina Rum",
+    "VolunteerMgmt": "Volontärhantering",
+    "FindAssig": "Hitta uppdrag",
+    "MyWork": "Mina uppdrag",
+    "Reservations": "Bokningar",
+    "Activities": "Aktiviteter",
+    "User": "Profil",
+    "Stats": "Statistik",
+    "Logout": "Loga ut",
+    "HelpOrg": "Hjälporganisation"
+  },
 
-    "AccommodationPanel": {
-        "Residence": "Välj boställe",
-        "About": "Om bostället"
-    },
+  "AccommodationPanel": {
+    "Residence": "Välj boställe",
+    "About": "Om bostället"
+  },
 
-    "AccommodationDetail": {
-        "Offer": "Vad vi erbjuderr",
-        "WomenOnly": "Endast kvinnor",
-        "Seats": "Platser",
-        "Error": "Vänligen välj både inchecknings- och utcheckningsdatum",
-        "Success": "Din förfrågan är skickad!",
-        "SuccessMessage": "Vi återkommer med bekräftelse så fort din förfrågan har behandlats.",
-        "Back": "Tillbaka till start"
-    },
+  "AccommodationDetail": {
+    "Offer": "Vad vi erbjuderr",
+    "WomenOnly": "Endast kvinnor",
+    "Seats": "Platser",
+    "Error": "Vänligen välj både inchecknings- och utcheckningsdatum",
+    "Success": "Din förfrågan är skickad!",
+    "SuccessMessage": "Vi återkommer med bekräftelse så fort din förfrågan har behandlats.",
+    "Back": "Tillbaka till start"
+  },
 
-    "AccommodationBooking": {
-        "SelectDate": "Välj datum",
-        "SelectDateLabel1": "Incheckning",
-        "SelectDateLabel2": "Utcheckning",
-        "SelectDateLabel3": "Idag",
-        "SelectDateLabel4": "Imorgon"
-    },
+  "AccommodationBooking": {
+    "SelectDate": "Välj datum",
+    "SelectDateLabel1": "Incheckning",
+    "SelectDateLabel2": "Utcheckning",
+    "SelectDateLabel3": "Idag",
+    "SelectDateLabel4": "Imorgon"
+  },
 
-    "ActionButtons": {
-        "Select": "Välj",
-        "MoreInformation": "Mer information",
-        "Back": "Tillbaka",
-        "Map": "Karta",
-        "SendRequest": "Skicka förfrågan",
-        "Confirm": "Bekräfta",
-        "Cancel": "Avboka",
-        "Remove": "Ta Bort"
-    },
-    "Reservations": {
-        "Reserved": "Tilldelad",
-        "Confirmed": "Bekräftad",
-        "In_Queue": "I kö",
-        "Checked_In": "Incheckad",
-        "Checked_Out": "Utcheckad",
-        "Pending": "Avvaktar",
-        "Declined": "Nekad",
-        "Accepted": "Rekommenderad"
-    }
+  "ActionButtons": {
+    "Select": "Välj",
+    "MoreInformation": "Mer information",
+    "Back": "Tillbaka",
+    "Map": "Karta",
+    "SendRequest": "Skicka förfrågan",
+    "Confirm": "Bekräfta",
+    "Cancel": "Avboka",
+    "Remove": "Ta Bort"
+  },
+  "Reservations": {
+    "Reserved": "Tilldelad",
+    "Confirmed": "Bekräftad",
+    "In_Queue": "I kö",
+    "Checked_In": "Incheckad",
+    "Checked_Out": "Utcheckad",
+    "Pending": "Avvaktar",
+    "Declined": "Nekad",
+    "Accepted": "Rekommenderad"
+  }
 }

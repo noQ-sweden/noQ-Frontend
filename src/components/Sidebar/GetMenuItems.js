@@ -1,64 +1,88 @@
-import {
-    FaChartPie,
-    //FaReceipt,
-    FaBell,
-    FaUser,
-    FaRandom,
-    FaCalendarAlt,
-    FaChartBar,
-    FaCompass,
-    FaCalendarCheck
-  } from "react-icons/fa";
-import { HiOutlineUserGroup } from 'react-icons/hi';
 import { useTranslation } from "react-i18next";
 
-
 export default function GetMenuItems(userGroup) {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    const hostSidebarItemsTop = [
-        { icon: FaChartPie, label: "Överblick", sideBarLink: "host" },
-        { icon: HiOutlineUserGroup, label: "Volontärer", sideBarLink: "host/volunteerlist"},
-        { icon: FaBell, label: "Förfrågningar", sideBarLink: "host/requests" },
-        { icon: FaCalendarAlt, label: "Kalender" },
-        { icon: FaRandom, label: "Mina Rum", sideBarLink: "host/products" },
-        { icon: FaUser, label: "Volontärhantering", sideBarLink: "host/volunteers" },
-        //{ icon: FaRandom, label: "Härberget" },
-        //{ icon: FaUser, label: "Gäster" },
-        //{ icon: FaReceipt, label: "Fakturering" },
-    ];
+  const host = [
+    {
+      labelKey: t("sidebar.Overview"),
+      sideBarLink: "host",
+    },
+    {
+      labelKey: t("sidebar.Volunteers"),
+      sideBarLink: "host/volunteerlist",
+    },
+    {
+      labelKey: t("sidebar.Requests"),
+      sideBarLink: "host/requests",
+    },
+    {
+      labelKey: t("sidebar.Calendar"),
+      sideBarLink: "host/calendar",
+    },
+    {
+      labelKey: t("sidebar.MyRooms"),
+      sideBarLink: "host/products",
+    },
+    {
+      labelKey: t("sidebar.VolunteerMgmt"),
+      sideBarLink: "host/volunteers",
+    },
+  ];
 
-    const caseworkerSidebarItemsTop = [
-        { icon: FaChartPie, label: "Överblick", sideBarLink: "caseworker" },
-        { icon: FaBell, label: "Förfrågningar", sideBarLink: "caseworker/requests" },
-        { icon: FaUser, label: "Användare", sideBarLink: "caseworker/users" },
-        { icon: FaChartBar, label: "Statistik", sideBarLink: "caseworker/statistics" },
-    ];
+  const caseworker = [
+    {
+      labelKey: t("sidebar.Overview"),
+      sideBarLink: "caseworker",
+    },
+    {
+      labelKey: t("sidebar.Requests"),
+      sideBarLink: "caseworker/requests",
+    },
+    {
+      labelKey: t("sidebar.Users"),
+      sideBarLink: "caseworker/users",
+    },
+    {
+      labelKey: t("sidebar.Stats"),
+      sideBarLink: "caseworker/statistics",
+    },
+  ];
 
-    const userSidebarItemsTop = [
-        { icon: FaChartPie, label: t("sidebar.Book"), sideBarLink: "user" },
-        { icon: FaBell, label: t("sidebar.Reservations"), sideBarLink: "user/requests" },
-    ];
+  const user = [
+    {
+      labelKey: t("sidebar.FindAssig"),
+      sideBarLink: "user",
+    },
+    {
+      labelKey: t("sidebar.Reservations"),
+      sideBarLink: "user/requests",
+    },
+  ];
 
-    const volunteerSidebarItemsTop = [
-        { icon: FaChartPie, label: "Boka", sideBarLink: "volunteer" },
-        { icon: FaCompass, label: "Kompass", sideBarLink: "volunteer/compass"},
-        {
-            icon: FaCalendarCheck,
-            label: "Aktiviteter",
-            sideBarLink: "activities",
-          },
-    ];
+  const volunteer = [
+    {
+      labelKey: t("sidebar.FindAssig"),
+      sideBarLink: "volunteer",
+    },
+    {
+      labelKey: t("sidebar.MyWork"),
+      sideBarLink: "volunteer/compass", // this route need to be changed to it's new destination
+    },
+    {
+      labelKey: t("sidebar.Activities"),
+      sideBarLink: "activities",
+    },
+  ];
 
-
-
-    if (userGroup == "caseworker") {
-        return caseworkerSidebarItemsTop;
-    } else if (userGroup == "host") {
-        return hostSidebarItemsTop;
-    } else if(userGroup == "volunteer") {
-        return volunteerSidebarItemsTop;
-    } else {
-        return userSidebarItemsTop
-    }
+  switch (userGroup) {
+    case "host":
+      return host;
+    case "caseworker":
+      return caseworker;
+    case "volunteer":
+      return volunteer;
+    default:
+      return user;
+  }
 }
