@@ -55,7 +55,7 @@ export default function VolunteerPage() {
   const fetchUsers = async () => {
     try {
       const response = await AxiosNoqApi.get("/api/volunteer/guest/list");
-      console.log("Users:", response.data);
+      //console.log("Users:", response.data);
       if (response.data) {
         setMockApiUsers(response.data);
       }
