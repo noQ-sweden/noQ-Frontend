@@ -26,3 +26,4 @@ dist-ssr
 *.sw?
 # Local proxy fix — do not commit
 vite.config.local.js
+.env

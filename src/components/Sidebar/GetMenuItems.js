@@ -67,11 +67,15 @@ export default function GetMenuItems(userGroup) {
     },
     {
       labelKey: t("sidebar.MyWork"),
-      sideBarLink: "volunteer/compass", // this route need to be changed to it's new destination
+      sideBarLink: "volunteer/compass",
     },
     {
       labelKey: t("sidebar.Activities"),
       sideBarLink: "activities",
+    },
+    {
+      labelKey: t("sidebar.User"),
+      sideBarLink: "volunteer/profile",
     },
   ];
 

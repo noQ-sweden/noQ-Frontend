@@ -1,9 +1,7 @@
-import React, { useState, useRef, } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "./../api/AxiosNoqApi";
 import SEO from "../components/SEO";
-
-
 
 export default function RegistrationPage() {
   const [firstName, setFirstName] = useState("");
@@ -23,7 +21,13 @@ export default function RegistrationPage() {
     setSuccess("");
 
     // Client-side validation
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !telephone.trim() || !password) {
+    if (
+      !firstName.trim() ||
+      !lastName.trim() ||
+      !email.trim() ||
+      !telephone.trim() ||
+      !password
+    ) {
       setError("Alla fält markerade med * måste fyllas i.");
       errorRef.current?.focus();
       return;
@@ -39,17 +43,19 @@ export default function RegistrationPage() {
       return;
     }
 
-  const payload = { first_name: firstName, last_name: lastName, email, telephone, password };
+    const payload = {
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      telephone,
+      password,
+    };
 
     try {
-      const response = await axios.post(
-        "/api/register/",
-        payload,
-        {
-          // Removed X-User-Role header since userType is not used
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post("/api/register/", payload, {
+        // Removed X-User-Role header since userType is not used
+        withCredentials: true,
+      });
 
       if (response.status === 201) {
         setSuccess(response.data.success);
@@ -73,7 +79,9 @@ export default function RegistrationPage() {
 
   return (
     <>
-      <SEO title={`Registrering | NoQ - Trygg Plats för att alla förtjänar det`} />
+      <SEO
+        title={`Registrering | NoQ - Trygg Plats för att alla förtjänar det`}
+      />
       <div className="flex items-center justify-center bg-noq-gray-light">
         <div className="flex items-center justify-center m-2 w-full max-w-xs lg:max-w-sm xl:max-w-md bg-white rounded-2xl sm:m-4 md:m-6">
           <div className="w-full max-w-xs rounded-2xl p-6 m-2 sm:max-w-xs md:max-w-xs">
@@ -108,7 +116,6 @@ export default function RegistrationPage() {
                   className="w-full rounded-3xl px-4 py-2 bg-noq-gray-light focus:outline-none"
                 />
               </div>
-
 
               <div>
                 <label className="block text-sm text-noq-gray-dark mb-1">

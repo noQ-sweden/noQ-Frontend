@@ -40,8 +40,8 @@ export default function Sidebar() {
   const itemsTop = GetMenuItems(userGroup); // should return {labelKey, sideBarLink}
 
   const itemsBottom = [
-    { labelKey: "sidebar.HelpOrg" },
-    { labelKey: "sidebar.User" },
+    /* { labelKey: "sidebar.HelpOrg" },
+    { labelKey: "sidebar.User" }, */
     { labelKey: "sidebar.Logout", action: handleLogout },
   ];
 
