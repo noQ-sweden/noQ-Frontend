@@ -1,25 +1,20 @@
 import React, { useEffect, useState, useMemo } from "react";
 import axios from "./../api/AxiosNoqApi";
 import {
-  FaCalendarAlt,
-  FaCheckCircle,
-  FaHandPaper,
-  FaArrowRight,
   FaMapMarkerAlt,
   FaFilter,
-  FaTimes,
+  FaArrowRight,
+  FaCheck,
+  FaCalendarAlt,
+  FaRegClock,
 } from "react-icons/fa";
-
-const filterOptions = [
-  "Anmält",
-  "Bekräftade",
-  "Convictus",
-  "Frälsningsarmen",
-  "Stadsmissionen",
-];
+import { HiOutlineSortAscending } from "react-icons/hi";
 
 import dayjs from "dayjs";
-import ActivityCalendar from "../components/User/ActivityCalendar";
+import "dayjs/locale/sv";
+import MiniCalendar from "../components/User/MiniCalendar";
+
+dayjs.locale("sv");
 
 export default function Activities() {
   const [availableActivities, setAvailableActivities] = useState([]);
@@ -27,24 +22,10 @@ export default function Activities() {
   const [myActivities, setMyActivities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState("");
-  const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
     return today.toISOString().split("T")[0]; // Ex.: "2025-04-15"
   });
-
-  //filter manegemet
-  const toggleOption = (option) => {
-    setSelectedFilters((prev) =>
-      prev.includes(option)
-        ? prev.filter((o) => o !== option)
-        : [...prev, option]
-    );
-  };
-  const removeOption = (option) => {
-    setSelectedFilters((prev) => prev.filter((o) => o !== option));
-  };
 
   const fetchMyActivities = async () => {
     setLoading(true);
@@ -54,22 +35,20 @@ export default function Activities() {
       setMyActivities(activities);
     } catch (err) {
       console.log(err);
-      setError("Misslyckades med att ladda volontäraktiviteter"); //Failed to load volunteer activities
+      setError("Misslyckades med att ladda volontäraktiviteter");
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchAllActivities = async (date) => {
+  const fetchAllActivities = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/activities/list", {
-        params: { date }, // rövidítés: date: date
-      });
+      const response = await axios.get("/api/activities/list");
       const activities = response.data;
       setAvailableActivities(activities);
     } catch (err) {
-      setError("Misslyckades med att ladda tillgängliga aktiviteter"); //Failed to load available activities
+      setError("Misslyckades med att ladda tillgängliga aktiviteter");
     } finally {
       setLoading(false);
     }
@@ -78,239 +57,175 @@ export default function Activities() {
   const signupActivities = async (activity_id) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        `api/volunteer/activities/signup/${activity_id}`
-      );
-      const result = response.data;
-      console.log(result);
+      await axios.post(`/api/volunteer/activities/signup/${activity_id}`);
+      fetchMyActivities();
     } catch (err) {
       console.log(err);
-      setError("Misslyckades med att anmäla sig till aktiviteten"); //Failed to sign up for the activity
+      setError("Misslyckades med att anmäla sig till aktiviteten");
     } finally {
       setLoading(false);
     }
-    fetchMyActivities();
-    console.log(myActivities);
   };
 
   const cancelActivities = async (activity_id) => {
     setLoading(true);
     try {
-      const response = await axios.delete(
-        `api/volunteer/activities/cancel/${activity_id}`
-      );
-      const result = response.data;
-      console.log(result);
+      await axios.delete(`/api/volunteer/activities/cancel/${activity_id}`);
+      fetchMyActivities();
     } catch (err) {
       console.log(err);
-      setError("Misslyckades med att avboka aktiviteten"); //Failed to cancel up for the activity
+      setError("Misslyckades med att avboka aktiviteten");
     } finally {
       setLoading(false);
     }
-    fetchMyActivities();
   };
 
-  // Helper function to check if an activity is already in the user's activities
   const isActivityRegistered = (activityId) => {
     return myActivities.some((activity) => activity.id === activityId);
   };
 
-  const uniqueFlags = useMemo(() => {
-    const flagSet = new Set(); // ✅ no <string> here
-
-    availableActivities.forEach((activity) => {
-      const matches = activity.description.match(/#[\p{L}0-9_-]+/gu);
-      if (matches) {
-        matches.forEach((match) => flagSet.add(match.toLowerCase()));
-      }
-    });
-
-    return Array.from(flagSet);
-  }, [availableActivities]);
-
   useEffect(() => {
-    if (selectedDate) {
-      fetchMyActivities();
-      fetchAllActivities(selectedDate);
-    }
-  }, [selectedDate]);
+    fetchMyActivities();
+    fetchAllActivities();
+  }, []);
 
   useEffect(() => {
     let filtered = availableActivities;
 
-    // Filter by search term in the title
-    if (search.trim() !== "") {
+    // Filter by selected date (show activities ending on or after selected date)
+    if (selectedDate) {
       filtered = filtered.filter((activity) =>
-        activity.title.toLowerCase().includes(search.toLowerCase())
+        !dayjs(activity.end_time).isBefore(selectedDate, "day")
       );
     }
 
-    // Filter by selected filters (hashtags) in the description
-    if (selectedFilters.length > 0) {
-      filtered = filtered.filter((activity) =>
-        selectedFilters.some((filter) =>
-          activity.description.toLowerCase().includes(filter.toLowerCase())
-        )
-      );
-    }
-
-    // Update the state with the filtered activities
     setFilteredActivities(filtered);
-  }, [search, selectedFilters, availableActivities]);
+  }, [availableActivities, selectedDate]);
 
   return (
-    <div className="px-14 mb-8 bg-gray-50 min-h-screen">
+    <div className="px-4 md:px-14 mb-8 bg-white min-h-screen font-sans">
       {/* Loading and Error Messages */}
       {loading && (
-        <div className="text-gray-600 mt-6 absolute inset-x-2/4">Laddar...</div>
+        <div className="fixed top-4 right-4 bg-blue-100 text-blue-800 px-4 py-2 rounded shadow z-50">
+          Laddar...
+        </div>
       )}
-      {error && <div className="text-center text-red-500 mt-4">{error}</div>}
+      {error && (
+        <div className="fixed top-4 right-4 bg-red-100 text-red-800 px-4 py-2 rounded shadow z-50">
+          {error}
+        </div>
+      )}
 
-      {/* Calendar header (mocked) */}
-      <h2 className="text-3xl font-bold my-4 text-left">Hitta aktiviteter</h2>
-      <div className="border rounded-xl p-4 mb-4 shadow-sm bg-white">
-        {/* Calendar */}
-        <ActivityCalendar
-          activities={myActivities}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-        />
-        {/* Filters */}
-        <div className="bg-white border p-3 rounded-lg shadow-sm space-y-3">
-          {/* Dropdown */}
-          <div className="flex items-center gap-2">
-            {/* Filter options */}
-            {filterOptions.map((option) => (
-              <button
-                key={option}
-                onClick={() => toggleOption(option)}
-                className={`px-3 py-1 rounded-full text-sm border font-medium
-            ${
-              selectedFilters.includes(option)
-                ? "bg-gray-300 text-gray-800 border-gray-400"
-                : "bg-white text-blue-600 border-blue-400"
-            }`}
-              >
-                {option}
-              </button>
-            ))}
-            {/* Filter counter */}
-            <div className="flex items-center gap-1 px-3 py-1 bg-gray-300 rounded-full text-sm font-medium text-gray-700">
-              {selectedFilters.length} valda filter
-              <FaFilter className="text-xs ml-1" />
-            </div>
-          </div>
+      {/* Header */}
+      <h2 className="text-2xl font-bold my-6 text-left text-gray-900">
+        Hitta uppdrag
+      </h2>
 
-          {/* Selected pills */}
-          <div className="flex flex-wrap gap-2">
-            {selectedFilters.map((option) => (
-              <span
-                key={option}
-                className="bg-gray-300 text-sm px-3 py-1 rounded-full flex items-center gap-1"
-              >
-                {option}
-                <button onClick={() => removeOption(option)}>
-                  <FaTimes className="text-xs" />
-                </button>
-              </span>
-            ))}
+      <div className="flex flex-col md:flex-row gap-8 items-start">
+        {/* Left Column: Calendar */}
+        <div className="w-full md:w-96 md:flex-shrink-0">
+          <div className="sticky top-4">
+            <MiniCalendar
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              activities={myActivities}
+            />
           </div>
         </div>
-        <div className="flex flex-wrap gap-2 text-xs">
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 font-semibold"
-            placeholder="Hitta"
-          />
-        </div>
-        {/* Available Activity list */}
-        <h2 className="text-3xl font-bold my-4 text-left">
-          Tillgängliga Aktiviteter
-        </h2>
-        {filteredActivities.map((activity) => (
-          <div
-            key={activity.id}
-            className="text-sm text-gray-600 flex flex-col gap-1 mt-2"
-          >
-            {/* Title */}
-            <h3 className="font-semibold text-base text-gray-800">
-              {activity.title}
-            </h3>
-            <div className="text-sm text-gray-600 flex flex-col gap-1 mt-2">
-              {/* DateTime, location, Boka/Avboka */}
-              <div className="flex items-center justify-between w-full gap-2">
-                {/* DateTime + location */}
-                <div className="flex items-center gap-4 flex-wrap">
-                  <div className="flex items-center gap-2">
-                    <FaCalendarAlt className="text-gray-500" />
-                    <span>
-                      {dayjs(activity.start_time).format("MM/DD/YYYY HH:mm")} -{" "}
-                      {dayjs(activity.end_time).format("MM/DD/YYYY HH:mm")}
+
+        {/* Right Column: Filters and List */}
+        <div className="flex-grow w-full">
+          {/* Filter and Sort Buttons */}
+          <div className="flex justify-start items-center gap-4 mb-6">
+            <button className="flex items-center gap-2 px-6 py-2 border border-green-800 text-green-900 rounded-full font-semibold text-sm hover:bg-green-50">
+              Filtrera <FaFilter className="text-xs" />
+            </button>
+            <button className="flex items-center gap-2 px-6 py-2 border border-green-800 text-green-900 rounded-full font-semibold text-sm hover:bg-green-50">
+              Sortera <HiOutlineSortAscending className="text-lg" />
+            </button>
+          </div>
+
+          {/* Activity List */}
+          <div className="space-y-4">
+            {filteredActivities.map((activity) => {
+              const registered = isActivityRegistered(activity.id);
+              // Helper to extract tag from description or use default
+              const tagMatch = activity.description.match(/#([\p{L}0-9_-]+)/u);
+              const tag = tagMatch ? tagMatch[1] : "Volontär";
+              // Clean description by removing tags
+              const cleanDescription = activity.description
+                .replace(/#[\p{L}0-9_-]+/gu, "")
+                .trim();
+
+              // Determine tag color (mock logic based on image examples)
+              const isDistribution = tag.toLowerCase().includes("distribution");
+              const tagBgColor = isDistribution
+                ? "bg-yellow-100 text-yellow-800"
+                : "bg-green-100 text-green-800";
+
+              return (
+                <div
+                  key={activity.id}
+                  className="border border-gray-200 rounded-xl p-5 shadow-sm bg-white"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-bold text-lg text-gray-900">
+                      {activity.title}
+                    </h3>
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-medium ${tagBgColor}`}
+                    >
+                      {tag}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <FaMapMarkerAlt className="text-gray-500" />
-                    <span>{activity.location || "Plats saknas"}</span>
+
+                  <div className="space-y-2 text-sm text-gray-600 mb-4">
+                    <div className="flex flex-wrap gap-x-6 gap-y-2 items-center">
+                      <div className="flex items-center gap-2">
+                        <FaCalendarAlt className="text-gray-500" />
+                        <span>
+                          {dayjs(activity.start_time).format("DD/MM/YYYY")}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <FaRegClock className="text-gray-500" />
+                        <span>
+                          {dayjs(activity.start_time).format("HH:mm")} -{" "}
+                          {dayjs(activity.end_time).format("HH:mm")}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FaMapMarkerAlt className="text-gray-500" />
+                      <span>{activity.location || "Plats saknas"}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center mt-4">
+                    {!registered ? (
+                      <button
+                        onClick={() => signupActivities(activity.id)}
+                        className="bg-green-900 text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-green-800 transition-colors"
+                      >
+                        Boka
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => cancelActivities(activity.id)}
+                        className="bg-red-700 text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-red-800 transition-colors"
+                      >
+                        Avboka
+                      </button>
+                    )}
+                    <button className="border border-green-900 text-green-900 px-6 py-2 rounded-full font-medium text-sm flex items-center gap-1 hover:bg-green-50 transition-colors">
+                      Mer information <FaArrowRight className="text-xs" />
+                    </button>
                   </div>
                 </div>
-                {/* Boka/Avboka */}
-                <div className="flex items-center justify-end">
-                  {!isActivityRegistered(activity.id) ? (
-                    <button
-                      onClick={() => signupActivities(activity.id)}
-                      className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm flex items-center gap-2"
-                    >
-                      Boka <FaArrowRight />
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => cancelActivities(activity.id)}
-                      className="bg-red-600 text-white px-4 py-1 rounded-full text-sm flex items-center gap-2"
-                    >
-                      Avboka <FaArrowRight />
-                    </button>
-                  )}
-                </div>
-              </div>
-              {/* Description */}
-              <div className="flex items-center gap-1">
-                {activity.description}
-              </div>
-              {/* Status and Flags */}
-              <div className="flex flex-wrap items-center gap-2">
-                {/* Status */}
-                {activity.is_approved ? (
-                  <span className="flex items-center text-yellow-600 text-sm font-medium">
-                    <FaHandPaper className="mr-1" /> Anmält
-                  </span>
-                ) : (
-                  <span className="flex items-center text-green-600 text-sm font-medium">
-                    <FaCheckCircle className="mr-1" /> Status
-                  </span>
-                )}
-
-                {/* Flags */}
-                {uniqueFlags.map((flag) => (
-                  <button
-                    key={flag}
-                    onClick={() => toggleOption(flag)}
-                    className={`px-3 py-1 rounded-full text-sm border font-medium
-        ${
-          selectedFilters.includes(flag)
-            ? "bg-gray-300 text-gray-800 border-gray-400"
-            : "bg-white text-blue-600 border-blue-400"
-        }`}
-                  >
-                    {flag}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <hr />
+              );
+            })}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
