@@ -12,9 +12,9 @@ import { HiOutlineSortAscending } from "react-icons/hi";
 
 import dayjs from "dayjs";
 import "dayjs/locale/sv";
+import ActivityModal from "../components/User/ActivityModal";
+import BookingConfirmationModal from "../components/User/BookingConfirmationModal";
 import MiniCalendar from "../components/User/MiniCalendar";
-
-dayjs.locale("sv");
 
 export default function Activities() {
   const [availableActivities, setAvailableActivities] = useState([]);
@@ -26,6 +26,11 @@ export default function Activities() {
     const today = new Date();
     return today.toISOString().split("T")[0]; // Ex.: "2025-04-15"
   });
+
+  // Modal State
+  const [selectedActivity, setSelectedActivity] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
   const fetchMyActivities = async () => {
     setLoading(true);
@@ -59,6 +64,10 @@ export default function Activities() {
     try {
       await axios.post(`/api/volunteer/activities/signup/${activity_id}`);
       fetchMyActivities();
+      // Close details modal if open
+      setIsModalOpen(false);
+      // Open confirmation modal
+      setIsConfirmationOpen(true);
     } catch (err) {
       console.log(err);
       setError("Misslyckades med att anmäla sig till aktiviteten");
@@ -72,11 +81,31 @@ export default function Activities() {
     try {
       await axios.delete(`/api/volunteer/activities/cancel/${activity_id}`);
       fetchMyActivities();
+      // Close modal if open
+      setIsModalOpen(false);
     } catch (err) {
       console.log(err);
       setError("Misslyckades med att avboka aktiviteten");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleOpenModal = (activity) => {
+    setSelectedActivity(activity);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedActivity(null);
+  };
+
+  const handleModalAction = (activityId) => {
+    if (isActivityRegistered(activityId)) {
+      cancelActivities(activityId);
+    } else {
+      signupActivities(activityId);
     }
   };
 
@@ -217,7 +246,10 @@ export default function Activities() {
                         Avboka
                       </button>
                     )}
-                    <button className="border border-green-900 text-green-900 px-6 py-2 rounded-full font-medium text-sm flex items-center gap-1 hover:bg-green-50 transition-colors">
+                    <button
+                      onClick={() => handleOpenModal(activity)}
+                      className="border border-green-900 text-green-900 px-6 py-2 rounded-full font-medium text-sm flex items-center gap-1 hover:bg-green-50 transition-colors"
+                    >
                       Mer information <FaArrowRight className="text-xs" />
                     </button>
                   </div>
@@ -227,6 +259,23 @@ export default function Activities() {
           </div>
         </div>
       </div>
+
+      {/* Activity Details Modal */}
+      <ActivityModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        activity={selectedActivity}
+        onBook={handleModalAction}
+        isRegistered={
+          selectedActivity ? isActivityRegistered(selectedActivity.id) : false
+        }
+      />
+
+      {/* Booking Confirmation Modal */}
+      <BookingConfirmationModal
+        isOpen={isConfirmationOpen}
+        onClose={() => setIsConfirmationOpen(false)}
+      />
     </div>
   );
 }
