@@ -8,7 +8,7 @@ import {
     FaChartBar,
     FaCompass,
     FaCalendarCheck
-  } from "react-icons/fa";
+} from "react-icons/fa";
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { useTranslation } from "react-i18next";
 
@@ -18,7 +18,7 @@ export default function GetMenuItems(userGroup) {
 
     const hostSidebarItemsTop = [
         { icon: FaChartPie, label: "Överblick", sideBarLink: "host" },
-        { icon: HiOutlineUserGroup, label: "Volontärer", sideBarLink: "host/volunteerlist"},
+        { icon: HiOutlineUserGroup, label: "Volontärer", sideBarLink: "host/volunteerlist" },
         { icon: FaBell, label: "Förfrågningar", sideBarLink: "host/requests" },
         { icon: FaCalendarAlt, label: "Kalender" },
         { icon: FaRandom, label: "Mina Rum", sideBarLink: "host/products" },
@@ -41,13 +41,14 @@ export default function GetMenuItems(userGroup) {
     ];
 
     const volunteerSidebarItemsTop = [
-        { icon: FaChartPie, label: "Boka", sideBarLink: "volunteer" },
-        { icon: FaCompass, label: "Kompass", sideBarLink: "volunteer/compass"},
+        { icon: FaCalendarCheck, label: "Mina uppdrag", sideBarLink: "volunteer" },
         {
-            icon: FaCalendarCheck,
-            label: "Aktiviteter",
+            icon: FaCompass,
+            label: "Hitta uppdrag",
             sideBarLink: "activities",
-          },
+        },
+        { icon: HiOutlineUserGroup, label: "Hjälporganisation", sideBarLink: "volunteer/organizations" },
+        { icon: FaUser, label: "Profil", sideBarLink: "volunteer/profile" },
     ];
 
 
@@ -56,7 +57,7 @@ export default function GetMenuItems(userGroup) {
         return caseworkerSidebarItemsTop;
     } else if (userGroup == "host") {
         return hostSidebarItemsTop;
-    } else if(userGroup == "volunteer") {
+    } else if (userGroup == "volunteer") {
         return volunteerSidebarItemsTop;
     } else {
         return userSidebarItemsTop

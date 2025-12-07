@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import {
   FaBars,
-  FaCog,
-  FaUserAlt,
-  FaSignOutAlt,
   FaTimes,
 } from "react-icons/fa";
 import useLogin from "./../../hooks/useLogin";
-import { useNavigate } from "react-router-dom";
-//import noQiconNoQRed from "./../../assets/images/noQiconNoQRed.svg";
-//import noQiconNoQRedWhite from "./../../assets/images/noQiconNoQRedWhite.svg";
+import { useNavigate, useLocation } from "react-router-dom";
 import noQiconWhiteOnGreen from "./../../assets/images/NoqIconWhiteOnGreen.svg";
-import noQiconGreen from "./../../assets/images/noQiconNoQGreen.svg";
 import GetMenuItems from "./GetMenuItems";
 import useLogout from "../../hooks/useLogout";
 import { useTranslation } from "react-i18next";
@@ -20,54 +14,13 @@ import { useTranslation } from "react-i18next";
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { logout } = useLogout();
   const { t, i18n } = useTranslation();
   const { login } = useLogin();
   const viewerGroup = login?.usergroups instanceof Array ? login?.usergroups[0] : null;
 
 
-  // Lisa
-  /* const colorSchemeUser1 = {
-    liStyle:
-      "py-5 text-gray-500 hover:bg-[#E04430] cursor-pointer hover:text-white transition-colors duration-200 rounded-2xl",
-    logoSrc: noQiconNoQRed,
-  };
-/*
-  // Tommy
-  /*const colorSchemeUser2 = {
-    liStyle:
-      "py-5 text-gray-500 hover:bg-[#E04430] cursor-pointer hover:text-white transition-colors duration-200 rounded-2xl",
-    logoSrc: noQiconNoQRedWhite,
-  };
-  */
-
-  const colorSchemeHost = {
-    liStyle:
-      "py-5 text-gray-500 hover:bg-green-noQ hover:text-white cursor-pointer transition-colors duration-200 rounded-2xl",
-    logoSrc: noQiconWhiteOnGreen,
-  };
-
-  const colorSchemeCaseworker = {
-    liStyle:
-      "py-5 text-gray-500 hover:bg-green-noQ hover:text-white cursor-pointer transition-colors duration-200 rounded-2xl",
-    logoSrc: noQiconGreen,
-  };
-  // Select the correct color scheme based on user type and name
-  let colors = null;
-  const isUserLisa =
-    typeof login?.first_name === "string" &&
-    login.first_name.toLowerCase() === "lisa";
-  if (login.usergroups[0] == "user") {
-    colors = isUserLisa ? colorSchemeHost : colorSchemeHost;
-  } else if (login.usergroups[0] == "volunteer") {
-    colors = colorSchemeHost;
-  } else if (login.usergroups[0] == "host") {
-    colors = colorSchemeHost;
-  } else {
-    colors = colorSchemeCaseworker;
-  }
-
-  const liTextStyle = "flex gap-4 pl-5 pr-5 text-l";
 
   const handleLogout = () => {
     logout();
@@ -82,130 +35,104 @@ export default function Sidebar() {
 
   const sidebarItemsTop = GetMenuItems(login.usergroups[0]);
 
-  const sidebarItemsBottom = [
-    { icon: FaCog, label: t("sidebar.Settings") },
-    { icon: FaUserAlt, label: t("sidebar.User") },
-    { icon: FaSignOutAlt, label: t("sidebar.Logout"), action: handleLogout },
-  ];
+  // Check if a menu item is active
+  const isActive = (sideBarLink) => {
+    if (!sideBarLink) return false;
+    const currentPath = location.pathname;
+    // Exact match or starts with the link path
+    return currentPath === `/${sideBarLink}` || currentPath.startsWith(`/${sideBarLink}/`);
+  };
 
   return (
-    <div className="mt-16">
+    <div className="mt-16 lg:mt-0">
       {/* Hamburger menu btn for Mobile */}
       <button
-        className="fixed top-4 right-4 text-white focus:outline-none lg:hidden z-50"
+        className="fixed top-4 right-4 text-white focus:outline-none lg:hidden z-[60]"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <FaTimes size="30" /> : <FaBars size="25" />}
       </button>
 
-      {/*<img
-        className="absolute top-2 left-4 lg:hidden cursor-pointer"
-        src={colors.logoSrc}
-        onClick={() => {
-          navigate(login.usergroups[0], { replace: false });
-        }}
-        alt="noQ Logo"
-        width="100"
-      />
-      */}
-
-      {/* Sidebar */}
+      {/* Sidebar - Full screen on mobile, sidebar on desktop */}
       <div
-        className={`flex flex-col text-white bg-white m-0 shadow-xl rounded-md select-none w-64 fixed top-20 right-0 z-40 sm:z-40 lg:z-0 transform ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        } lg:top-16 lg:h-100 lg:translate-x-0 lg:flex lg:sticky transition-transform duration-200 `}
+        className={`flex flex-col text-white bg-[#255B57] m-0 shadow-xl select-none fixed z-50 transform transition-transform duration-300 
+          ${isOpen ? "translate-x-0" : "translate-x-full"}
+           inset-0 pt-20 lg:pt-0 lg:inset-auto lg:w-64 lg:top-0 lg:left-0 lg:h-screen lg:translate-x-0 lg:flex lg:sticky`}
       >
-        <div className="items-center mt-2 mb-5">
-          {/*<img
-            src={colors.logoSrc}
+        {/* Logo */}
+        <div className="hidden lg:flex items-center justify-center mt-8 mb-12">
+          <img
+            src={noQiconWhiteOnGreen}
             alt="noQ Logo"
-            className="h-20 mx-auto w-auto cursor-pointer"
+            className="w-32 cursor-pointer"
             onClick={() => {
               navigate(login.usergroups[0], { replace: false });
             }}
-          />*/}
+          />
         </div>
-        <div className="align-top p-8">
-          <ul>
-            <div>
-              {sidebarItemsTop.map(
-                ({ icon: Icon, label, sideBarLink, action }) => (
-                  <div
+
+        {/* Menu Items */}
+        <div className="flex-1 px-6 flex flex-col items-center justify-center lg:block">
+          <ul className="space-y-2">
+            {sidebarItemsTop.map(
+              ({ label, sideBarLink, action }) => {
+                const active = isActive(sideBarLink);
+                return (
+                  <li
                     onClick={() => {
                       if (action) {
                         action();
                       } else if (sideBarLink) {
                         navigate(sideBarLink, { replace: false });
                       }
-                      setIsOpen(false); // close menu after selection
+                      setIsOpen(false);
                     }}
                     key={label}
+                    className={`py-3 px-4 text-white cursor-pointer transition-all duration-200 ${active ? "border-b-2 border-white font-semibold" : "hover:bg-[#1e4a46]"
+                      }`}
                   >
-                    <li className={colors.liStyle}>
-                      <span className={liTextStyle}>
-                        <Icon size="25" />
-                        {label}
-                      </span>
-                    </li>
-                  </div>
-                )
-              )}
-            </div>
-          </ul>
-        </div>
-        <div className="align-bottom p-8">
-          <ul>
-            <div>
-              {sidebarItemsBottom.map(
-                ({ icon: Icon, label, sideBarLink, action }) => (
-                  <div
-                    onClick={() => {
-                      if (action) {
-                        action();
-                      } else if (sideBarLink) {
-                        navigate(sideBarLink, { replace: false });
-                      }
-                      setIsOpen(false); // close menu after selection
-                    }}
-                    key={label}
-                  >
-                    <li className={colors.liStyle}>
-                      <span className={liTextStyle}>
-                        <Icon size="25" />
-                        {label}
-                      </span>
-                    </li>
-                  </div>
-                )
-              )}
-              {viewerGroup !== "user" ? (
-                null
-              ) : 
-                //Language Translation for "User/Guest"
-                <div className="relative text-right">
-                <select
-                  onChange={(e) => changeLanguage(e.target.value)}
-                  className="text-gray-700 rounded px-4 py-2"
-                >
-                  <option value="sv">Svenska</option>
-                  <option value="en">English</option>
-                  <option value="pl">Polski</option>
-                  <option value="ro">Română</option>
-                </select>
-                </div>
+                    <span className="text-xl">{label}</span>
+                  </li>
+                );
               }
-            </div>
+            )}
+            {/* Mobile-only Logout under Profil */}
+            {isOpen && (
+              <li
+                onClick={handleLogout}
+                className="py-3 px-4 text-white cursor-pointer transition-all duration-200 hover:bg-[#1e4a46] lg:hidden"
+              >
+                <span className="text-xl">Logga ut</span>
+              </li>
+            )}
           </ul>
+        </div>
+        {/* Logout Button at Bottom */}
+        <div className="px-6 pb-8">
+          <div
+            onClick={handleLogout}
+            className="py-3 px-4 text-white cursor-pointer hover:bg-[#1e4a46] transition-all duration-200 hidden lg:block"
+          >
+
+            <span className="text-base">Logga ut</span>
+          </div>
+
+          {/* Language selector for users */}
+          {viewerGroup === "user" && (
+            <div className="mt-4">
+              <select
+                onChange={(e) => changeLanguage(e.target.value)}
+                className="w-full text-gray-700 rounded px-4 py-2"
+              >
+                <option value="sv">Svenska</option>
+                <option value="en">English</option>
+                <option value="pl">Polski</option>
+                <option value="ro">Română</option>
+              </select>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Overlay for Mobile menu */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-30 lg:hidden"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
     </div>
   );
 }

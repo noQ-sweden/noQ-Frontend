@@ -22,13 +22,7 @@ export default function PageTitle() {
   };
   return (
     <div className="hidden lg:flex items-center justify-between bg-white">
-      <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold">
-        {getName(login.first_name, login.last_name)}
-      </div>
-      <div className="my-6 text-3xl sm:mb-0 lg:flex justify-center font-bold mx-2">
-        {header && typeof header === "string" && header !== "" ? " - " : ""}
-      </div>
-      <div className="my-6 text-3xl sm:mb-0 lg:flex justify-left font-bold">
+      <div className="my-6 text-3xl sm:mb-0 lg:flex justify-left">
         {header && typeof header === "string" ? header : ""}
       </div>
     </div>

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const HeaderContext = createContext({});
 
 export const HeaderProvider = ({ children }) => {
-    const [header, setHeader] = useState({});
+    const [header, setHeader] = useState("");
 
     return (
         <HeaderContext.Provider value={{ header, setHeader }}>
